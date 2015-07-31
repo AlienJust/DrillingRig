@@ -1,8 +1,30 @@
 ﻿<Window x:Class="DrillingRig.ConfigApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Конфигурация БС-Ethernet " Height="350" Width="525">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Label Grid.Column="0" Margin="2,2,2,2" Width="90" Content="COM порт №:" />
+			<Grid Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<ComboBox Grid.Column="0" Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
+				<Button Grid.Column="1" Margin="2,2,2,2" VerticalContentAlignment="Center" Command="{Binding RefreshComPortsCmd}" Content="⟳" FontSize="20" Padding="0,-6,0,0" />
+			</Grid>
+			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding DisconnectFromComCmd}" Content="Отключиться" />
+			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding ConnectToComCmd}" Content="Подключиться" />
+		</Grid>
+	</Grid>
 </Window>
