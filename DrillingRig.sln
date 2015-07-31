@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands.Contracts", "DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj", "{C812C14E-BBDB-445A-BEC7-5703CBBD094E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.ConfigApp", "DrillingRig.ConfigApp\DrillingRig.ConfigApp.csproj", "{00CCAD16-B013-4DDB-BD55-6900664603A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.Contracts", "DrillingRig.CommandSenders.Contracts\DrillingRig.CommandSenders.Contracts.csproj", "{B78FCE5F-5D75-40C0-B0B9-64F33B86CE0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.SerialPortBased", "DrillingRig.CommandSenders.SerialPortBased\DrillingRig.CommandSenders.SerialPortBased.csproj", "{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C812C14E-BBDB-445A-BEC7-5703CBBD094E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C812C14E-BBDB-445A-BEC7-5703CBBD094E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C812C14E-BBDB-445A-BEC7-5703CBBD094E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C812C14E-BBDB-445A-BEC7-5703CBBD094E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00CCAD16-B013-4DDB-BD55-6900664603A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00CCAD16-B013-4DDB-BD55-6900664603A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00CCAD16-B013-4DDB-BD55-6900664603A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00CCAD16-B013-4DDB-BD55-6900664603A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B78FCE5F-5D75-40C0-B0B9-64F33B86CE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B78FCE5F-5D75-40C0-B0B9-64F33B86CE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B78FCE5F-5D75-40C0-B0B9-64F33B86CE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B78FCE5F-5D75-40C0-B0B9-64F33B86CE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
