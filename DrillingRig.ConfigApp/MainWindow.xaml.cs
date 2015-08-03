@@ -23,6 +23,7 @@ namespace DrillingRig.ConfigApp
 		public MainWindow()
 		{
 			InitializeComponent();
+			DataContext = new MainViewModel();
 		}
 	}
 }

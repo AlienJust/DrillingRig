@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlienJust.Support.ModelViewViewModel">
+      <HintPath>..\References\AlienJust.Support.ModelViewViewModel.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.UserInterface.Contracts">
+      <HintPath>..\References\AlienJust.Support.UserInterface.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -62,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,6 +100,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj">
+      <Project>{c812c14e-bbdb-445a-bec7-5703cbbd094e}</Project>
+      <Name>DrillingRig.Commands.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DrillingRig.CommandSenders.Contracts\DrillingRig.CommandSenders.Contracts.csproj">
+      <Project>{b78fce5f-5d75-40c0-b0b9-64f33b86ce0d}</Project>
+      <Name>DrillingRig.CommandSenders.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DrillingRig.CommandSenders.SerialPortBased\DrillingRig.CommandSenders.SerialPortBased.csproj">
+      <Project>{f4deada9-e3c6-4fd4-bad0-d9472394928a}</Project>
+      <Name>DrillingRig.CommandSenders.SerialPortBased</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,17 +14,17 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Label Grid.Column="0" Margin="2,2,2,2" Width="90" Content="COM порт №:" />
+			<Label Grid.Column="0" Margin="2,2,2,2" Width="90" Content="COM порт:" />
 			<Grid Grid.Column="1">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="3*"/>
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<ComboBox Grid.Column="0" Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
-				<Button Grid.Column="1" Margin="2,2,2,2" VerticalContentAlignment="Center" Command="{Binding RefreshComPortsCmd}" Content="⟳" FontSize="20" Padding="0,-6,0,0" />
+				<Button Grid.Column="1" Margin="2,2,2,2" VerticalContentAlignment="Center" Command="{Binding GetPortsAvailableCommand}" Content="⟳" FontSize="20" Padding="0,-6,0,0" />
 			</Grid>
-			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding DisconnectFromComCmd}" Content="Отключиться" />
-			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding ConnectToComCmd}" Content="Подключиться" />
+			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding ClosePortCommand}" Content="Отключиться" />
+			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding OpenPortCommand}" Content="Подключиться" />
 		</Grid>
 	</Grid>
 </Window>
