@@ -36,8 +36,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlienJust.Adaptation.WindowsPresentation">
+      <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Concurrent.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Loggers">
+      <HintPath>..\References\AlienJust.Support.Loggers.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Loggers.Contracts">
+      <HintPath>..\References\AlienJust.Support.Loggers.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.ModelViewViewModel">
       <HintPath>..\References\AlienJust.Support.ModelViewViewModel.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Text, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Text.Contracts">
+      <HintPath>..\References\AlienJust.Support.Text.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.UserInterface.Contracts">
       <HintPath>..\References\AlienJust.Support.UserInterface.Contracts.dll</HintPath>
@@ -64,7 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="BsEthernetSettings.xaml">
+    <Page Include="BsEthernetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -76,16 +96,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BsEthernetSettings.xaml.cs">
-      <DependentUpon>BsEthernetSettings.xaml</DependentUpon>
+    <Compile Include="BsEthernetSettingsExporterXml.cs" />
+    <Compile Include="BsEthernetSettingsSimple.cs" />
+    <Compile Include="BsEthernetSettingsView.xaml.cs">
+      <DependentUpon>BsEthernetSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BsEthernetSettingsViewModel.cs" />
+    <Compile Include="IBsEthernetSettings.cs" />
+    <Compile Include="IBsEthernetSettingsExporter.cs" />
+    <Compile Include="IBsEthernetSettingsImporter.cs" />
+    <Compile Include="ICommandSenderHost.cs" />
+    <Compile Include="ITargetAddressHost.cs" />
+    <Compile Include="IUserInterfaceRoot.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ProgramLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProgramLogView.xaml.cs">
+      <DependentUpon>ProgramLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProgramLogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,6 +161,10 @@
     <ProjectReference Include="..\DrillingRig.CommandSenders.SerialPortBased\DrillingRig.CommandSenders.SerialPortBased.csproj">
       <Project>{f4deada9-e3c6-4fd4-bad0-d9472394928a}</Project>
       <Name>DrillingRig.CommandSenders.SerialPortBased</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DrillingRig.Commands\DrillingRig.Commands.csproj">
+      <Project>{316042fc-f3d0-491f-8998-8acfcbffa908}</Project>
+      <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace DrillingRig.ConfigApp
 {
 	/// <summary>
-	/// Interaction logic for BsEthernetSettings.xaml
+	/// Interaction logic for ProgramLogView.xaml
 	/// </summary>
-	public partial class BsEthernetSettings : UserControl
+	public partial class ProgramLogView : UserControl
 	{
-		public BsEthernetSettings()
+		public ProgramLogView()
 		{
 			InitializeComponent();
 		}

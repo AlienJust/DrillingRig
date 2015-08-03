@@ -2,11 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
-        Title="Конфигурация БС-Ethernet " Height="450" Width="525">
+        Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
+			<RowDefinition Height="2*"/>
+			<RowDefinition Height="1*"/>
 		</Grid.RowDefinitions>
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -24,13 +25,14 @@
 				<ComboBox Grid.Column="0" Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
 				<Button Grid.Column="1" Margin="2,2,2,2" VerticalContentAlignment="Center" Command="{Binding GetPortsAvailableCommand}" Content="⟳" FontSize="20" Padding="0,-6,0,0" />
 			</Grid>
-			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding ClosePortCommand}" Content="Отключиться" />
-			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding OpenPortCommand}" Content="Подключиться" />
+			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Отключиться" />
+			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подключиться" />
 		</Grid>
 		<TabControl Grid.Row="1">
 			<TabItem Header="Настройка БС-Ethernet">
-				<configApp:BsEthernetSettings DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
+				<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
 			</TabItem>
 		</TabControl>
+		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
 	</Grid>
 </Window>
