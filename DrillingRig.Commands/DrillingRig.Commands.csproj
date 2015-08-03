@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F4DEADA9-E3C6-4FD4-BAD0-D9472394928A}</ProjectGuid>
+    <ProjectGuid>{316042FC-F3D0-491F-8998-8ACFCBFFA908}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DrillingRig.CommandSenders.SerialPortBased</RootNamespace>
-    <AssemblyName>DrillingRig.CommandSenders.SerialPortBased</AssemblyName>
+    <RootNamespace>DrillingRig.Commands</RootNamespace>
+    <AssemblyName>DrillingRig.Commands</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,24 +24,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlienJust.Support.Concurrent">
-      <HintPath>..\References\AlienJust.Support.Concurrent.dll</HintPath>
-    </Reference>
-    <Reference Include="AlienJust.Support.Concurrent.Contracts">
-      <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlienJust.Support.Serial">
-      <HintPath>..\References\AlienJust.Support.Serial.dll</HintPath>
-    </Reference>
-    <Reference Include="DataAbstractionLevel.Low">
-      <HintPath>..\References\DataAbstractionLevel.Low.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,17 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SerialPortBasedCommandSender.cs" />
+    <Compile Include="IWriteBsEthernetSettingsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WriteBsEthernetSettingsCommand.cs" />
+    <Compile Include="WriteBsEthernetSettingsResultSimple.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj">
       <Project>{c812c14e-bbdb-445a-bec7-5703cbbd094e}</Project>
       <Name>DrillingRig.Commands.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DrillingRig.CommandSenders.Contracts\DrillingRig.CommandSenders.Contracts.csproj">
-      <Project>{b78fce5f-5d75-40c0-b0b9-64f33b86ce0d}</Project>
-      <Name>DrillingRig.CommandSenders.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

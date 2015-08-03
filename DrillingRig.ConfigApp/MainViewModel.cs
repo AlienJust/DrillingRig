@@ -18,7 +18,7 @@ namespace DrillingRig.ConfigApp {
 		private SerialPort _serialPort;
 
 		private readonly RelayCommand _openPortCommand;
-		private readonly RelayCommand _closePortComand;
+		private readonly RelayCommand _closePortCommand;
 		private readonly RelayCommand _getPortsAvailableCommand;
 
 		private bool _isPortOpened;
@@ -27,7 +27,7 @@ namespace DrillingRig.ConfigApp {
 		public MainViewModel() {
 			_commandSender = null;
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
-			_closePortComand = new RelayCommand(ClosePort, () => _isPortOpened);
+			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
 			_getPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 			GetPortsAvailable();
 			_isPortOpened = false;
@@ -38,15 +38,15 @@ namespace DrillingRig.ConfigApp {
 			_commandSender = null;
 			_isPortOpened = false;
 			_openPortCommand.RaiseCanExecuteChanged();
-			_closePortComand.RaiseCanExecuteChanged();
+			_closePortCommand.RaiseCanExecuteChanged();
 		}
 
 		private void OpenPort() {
-			_serialPort = new SerialPort("portName", 115200);
+			_serialPort = new SerialPort(SelectedComName, 115200);
 			_commandSender = new SerialPortBasedCommandSender(_serialPort);
 			_isPortOpened = true;
 			_openPortCommand.RaiseCanExecuteChanged();
-			_closePortComand.RaiseCanExecuteChanged();
+			_closePortCommand.RaiseCanExecuteChanged();
 		}
 
 		private void GetPortsAvailable() {
@@ -78,8 +78,8 @@ namespace DrillingRig.ConfigApp {
 			get { return _openPortCommand; }
 		}
 
-		public RelayCommand ClosePortComand {
-			get { return _closePortComand; }
+		public RelayCommand ClosePortCommand {
+			get { return _closePortCommand; }
 		}
 
 		public RelayCommand GetPortsAvailableCommand {
