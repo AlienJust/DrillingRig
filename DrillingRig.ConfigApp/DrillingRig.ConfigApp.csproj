@@ -84,7 +84,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="BsEthernetSettingsView.xaml">
+    <Page Include="BsEthernetNominals\BsEthernetNominalsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BsEthernetSettings\BsEthernetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,15 +100,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BsEthernetSettingsExporterXml.cs" />
-    <Compile Include="BsEthernetSettingsSimple.cs" />
-    <Compile Include="BsEthernetSettingsView.xaml.cs">
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsView.xaml.cs">
+      <DependentUpon>BsEthernetNominalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsExporterXml.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsSimple.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsView.xaml.cs">
       <DependentUpon>BsEthernetSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BsEthernetSettingsViewModel.cs" />
-    <Compile Include="IBsEthernetSettings.cs" />
-    <Compile Include="IBsEthernetSettingsExporter.cs" />
-    <Compile Include="IBsEthernetSettingsImporter.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsViewModel.cs" />
+    <Compile Include="BsEthernetSettings\IBsEthernetSettings.cs" />
+    <Compile Include="BsEthernetSettings\IBsEthernetSettingsExporter.cs" />
+    <Compile Include="BsEthernetSettings\IBsEthernetSettingsImporter.cs" />
     <Compile Include="ICommandSenderHost.cs" />
     <Compile Include="ITargetAddressHost.cs" />
     <Compile Include="IUserInterfaceRoot.cs" />
@@ -167,6 +174,7 @@
       <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
