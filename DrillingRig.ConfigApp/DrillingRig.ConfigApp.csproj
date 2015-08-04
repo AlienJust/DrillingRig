@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>intelecon x gray.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlienJust.Adaptation.WindowsPresentation">
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
@@ -177,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AikTelemetry\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="intelecon x gray.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

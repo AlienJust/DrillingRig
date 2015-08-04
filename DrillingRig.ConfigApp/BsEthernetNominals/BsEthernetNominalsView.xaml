@@ -6,15 +6,17 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="500">
-    <Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+    <Grid Grid.Row="0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*"/>
 			<ColumnDefinition Width="1*"/>
 		</Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
@@ -72,11 +74,18 @@
 
 		<TextBlock Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Задание тока возбуждения номинальное"/>
 		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="13" Value="{Binding Path=RatedSettingExcitationCurrent, Mode=TwoWay}"/>
-
-		<TextBlock Grid.Column="0" Grid.Row="14" VerticalAlignment="Center" Text="Текущий режим работы номинальный"/>
-		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="14" Value="{Binding Path=RatedCurrentOperationMode, Mode=TwoWay}"/>
-
-		<TextBlock Grid.Column="0" Grid.Row="15" VerticalAlignment="Center" Text="Текущий режим работы номинальный"/>
-		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="15" Value="{Binding Path=RatedCurrentOperationMode, Mode=TwoWay}"/>
+	</Grid>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0" Content="Импорт..." Command="{Binding Path=ImportNominalsCommand, Mode=OneTime}"/>
+			<Button Grid.Column="1" Content="Экспорт..." Command="{Binding Path=ExportNominalsCommand, Mode=OneTime}"/>
+			<Button Grid.Column="2" Content="Прочитать" Command="{Binding Path=ReadNominalsCommand, Mode=OneTime}"/>
+			<Button Grid.Column="3" Content="Записать" Command="{Binding Path=WriteNominalsCommand, Mode=OneTime}"/>
+		</Grid>
 	</Grid>
 </UserControl>
