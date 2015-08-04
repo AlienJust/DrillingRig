@@ -54,5 +54,29 @@
 
 		<TextBlock Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Выход регулятора тока Q номинальный"/>
 		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="7" Value="{Binding Path=RatedRegulatorCurrentQoutput, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Выход задатчика интенсивности частоты (электрической) номинальный"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="8" Value="{Binding Path=RatedFriquencyIntensitySetpointOutput, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Уставка потока номинальная"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="9" Value="{Binding Path=RatedFlowSetting, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Измеренный момент номинальный"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="10" Value="{Binding Path=RatedMeasuredMoment, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="11" VerticalAlignment="Center" Text="Выход регулятора скорости номинальный или уставка момента номинальная"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="11" Value="{Binding Path=RatedSpeedRegulatorOutputOrMomentSetting, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="12" VerticalAlignment="Center" Text="Измеренный поток номинальный"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="12" Value="{Binding Path=RatedMeasuredFlow, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Задание тока возбуждения номинальное"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="13" Value="{Binding Path=RatedSettingExcitationCurrent, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="14" VerticalAlignment="Center" Text="Текущий режим работы номинальный"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="14" Value="{Binding Path=RatedCurrentOperationMode, Mode=TwoWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="15" VerticalAlignment="Center" Text="Текущий режим работы номинальный"/>
+		<xctk:IntegerUpDown Grid.Column="1" Grid.Row="15" Value="{Binding Path=RatedCurrentOperationMode, Mode=TwoWay}"/>
 	</Grid>
 </UserControl>

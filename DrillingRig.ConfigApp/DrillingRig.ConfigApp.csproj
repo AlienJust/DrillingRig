@@ -103,6 +103,7 @@
     <Compile Include="BsEthernetNominals\BsEthernetNominalsView.xaml.cs">
       <DependentUpon>BsEthernetNominalsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsViewModel.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsExporterXml.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsSimple.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsView.xaml.cs">
@@ -174,7 +175,9 @@
       <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AikTelemetry\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

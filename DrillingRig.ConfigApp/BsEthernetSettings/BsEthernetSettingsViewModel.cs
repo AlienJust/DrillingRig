@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands;
 
-namespace DrillingRig.ConfigApp
+namespace DrillingRig.ConfigApp.BsEthernetSettings
 {
 	class BsEthernetSettingsViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
