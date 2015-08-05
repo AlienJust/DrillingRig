@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands", "DrillingRig.Commands\DrillingRig.Commands.csproj", "{316042FC-F3D0-491F-8998-8ACFCBFFA908}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.TestCommandSender", "DrillingRig.CommandSenders.TestCommandSender\DrillingRig.CommandSenders.TestCommandSender.csproj", "{490F02E4-3826-4FE8-8E98-405271E18C5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{316042FC-F3D0-491F-8998-8ACFCBFFA908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{316042FC-F3D0-491F-8998-8ACFCBFFA908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{316042FC-F3D0-491F-8998-8ACFCBFFA908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

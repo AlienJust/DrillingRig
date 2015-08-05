@@ -12,12 +12,16 @@ using DrillingRig.CommandSenders.Contracts;
 namespace DrillingRig.CommandSenders.SerialPortBased
 {
     public class SerialPortBasedCommandSender: IRrModbusCommandSender {
+		private readonly SerialPort _serialPort;
 	    private readonly SerialPortExtender _portExtender;
 	    private readonly IWorker<Action> _backWorker;
 	    private readonly IWorker<Action> _notifyWorker;
 
-	    public SerialPortBasedCommandSender(SerialPort port) {
-		    _portExtender = new SerialPortExtender(port);
+	    public SerialPortBasedCommandSender(string portName) {
+			_serialPort = new SerialPort(portName, 115200);
+			_serialPort.Open();
+		    _portExtender = new SerialPortExtender(_serialPort);
+			
 		    _backWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);
 			_notifyWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);
 	    }
@@ -59,6 +63,16 @@ namespace DrillingRig.CommandSenders.SerialPortBased
 					_notifyWorker.AddWork(() => onComplete(backgroundException, resultBytes));
 			    }
 		    });
+	    }
+
+	    public void Dispose() {
+			_backWorker.StopSynchronously();
+			_notifyWorker.StopSynchronously();
+			_serialPort.Close();
+	    }
+
+	    public override string ToString() {
+		    return _serialPort.PortName;
 	    }
     }
 }

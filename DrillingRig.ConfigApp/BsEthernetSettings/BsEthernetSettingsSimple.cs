@@ -1,4 +1,4 @@
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	class BsEthernetSettingsSimple : IBsEthernetSettings {
 		private readonly string _ipAddress;
 		private readonly string _mask;

@@ -1,4 +1,4 @@
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	public interface IBsEthernetSettingsExporter {
 		void ExportSettings(IBsEthernetSettings settings);
 	}

@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	class BsEthernetSettingsExporterXml : IBsEthernetSettingsExporter {
 		private readonly string _filename;
 		public BsEthernetSettingsExporterXml(string filename) {

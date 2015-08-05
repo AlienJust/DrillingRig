@@ -6,8 +6,4 @@
 		string Name { get; }
 	    byte[] Serialize();
     }
-
-	public interface IRrModbusCommandWithReply : IRrModbusCommand {
-		int ReplyLength { get; }
-	}
 }

@@ -1,4 +1,4 @@
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	public interface IBsEthernetSettings {
 		string IpAddress { get; }
 		string Mask { get; }

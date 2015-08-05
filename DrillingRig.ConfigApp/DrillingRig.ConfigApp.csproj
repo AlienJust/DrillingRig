@@ -173,6 +173,10 @@
       <Project>{f4deada9-e3c6-4fd4-bad0-d9472394928a}</Project>
       <Name>DrillingRig.CommandSenders.SerialPortBased</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DrillingRig.CommandSenders.TestCommandSender\DrillingRig.CommandSenders.TestCommandSender.csproj">
+      <Project>{490f02e4-3826-4fe8-8e98-405271e18c5e}</Project>
+      <Name>DrillingRig.CommandSenders.TestCommandSender</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DrillingRig.Commands\DrillingRig.Commands.csproj">
       <Project>{316042fc-f3d0-491f-8998-8acfcbffa908}</Project>
       <Name>DrillingRig.Commands</Name>

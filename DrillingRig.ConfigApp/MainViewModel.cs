@@ -14,6 +14,7 @@ using AlienJust.Support.Text;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
+using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp {
@@ -22,7 +23,6 @@ namespace DrillingRig.ConfigApp {
 		private string _selectedComName;
 
 		private IRrModbusCommandSender _commandSender;
-		private SerialPort _serialPort;
 
 		private readonly IThreadNotifier _notifier;
 		private readonly IWindowSystem _windowSystem;
@@ -63,16 +63,16 @@ namespace DrillingRig.ConfigApp {
 
 		private void ClosePort() {
 			try {
-				_logger.Log("Закрытие порта " + _serialPort.PortName + "...");
-				_serialPort.Close();
+				_logger.Log("Закрытие ранее открытого порта " + _commandSender + "...");
+				_commandSender.Dispose();
 				_commandSender = null;
 				_isPortOpened = false;
 				_openPortCommand.RaiseCanExecuteChanged();
 				_closePortCommand.RaiseCanExecuteChanged();
-				_logger.Log("Порт " + _serialPort.PortName + " закрыт");
+				_logger.Log("Ранее открытый порт " + _commandSender + " закрыт");
 			}
 			catch (Exception ex) {
-				_logger.Log("Не удалось закрыть порт " + _serialPort.PortName + ". " + ex.Message);
+				_logger.Log("Не удалось закрыть открытый ранее порт " + _commandSender + ". " + ex.Message);
 			}
 		}
 
@@ -80,21 +80,26 @@ namespace DrillingRig.ConfigApp {
 			try {
 				if (_isPortOpened) ClosePort();
 				_logger.Log("Открытие порта " + _selectedComName + "...");
-				_serialPort = new SerialPort(SelectedComName, 115200);
-				_serialPort.Open();
-				_commandSender = new SerialPortBasedCommandSender(_serialPort);
+				
+				if (_selectedComName == "Test") // TODO: extract constant
+					_commandSender = new NothingBasedCommandSender();
+				else 
+					_commandSender = new SerialPortBasedCommandSender(SelectedComName);
+
 				_isPortOpened = true;
 				_openPortCommand.RaiseCanExecuteChanged();
 				_closePortCommand.RaiseCanExecuteChanged();
-				_logger.Log("Порт " + _serialPort.PortName + " открыт");
+				_logger.Log("Порт " + _selectedComName + " открыт");
 			}
 			catch (Exception ex) {
-				_logger.Log("Не удалось открыть порт " + _serialPort.PortName + ". " + ex.Message);
+				_logger.Log("Не удалось открыть порт " + _selectedComName + ". " + ex.Message);
 			}
 		}
 
 		private void GetPortsAvailable() {
-			ComPortsAvailable = SerialPort.GetPortNames().ToList();
+			var ports = new List<string> { "Test" }; // TODO: extract constant
+			ports.AddRange(SerialPort.GetPortNames());
+			ComPortsAvailable = ports;
 			if (ComPortsAvailable.Count > 0) SelectedComName = ComPortsAvailable[0];
 		}
 

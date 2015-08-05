@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="IRrModbusCommand.cs" />
     <Compile Include="IRrModbusCommandResultGetter.cs" />
+    <Compile Include="IRrModbusCommandWithReply.cs" />
+    <Compile Include="IRrModbusCommandWithTestReply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

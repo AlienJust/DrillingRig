@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Linq;
 
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	public interface IBsEthernetSettingsImporter {
 		IBsEthernetSettings ImportSettings();
 	}

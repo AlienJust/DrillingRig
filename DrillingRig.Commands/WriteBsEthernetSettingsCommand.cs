@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Security.Cryptography;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands {
-	public class WriteBsEthernetSettingsCommand: IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IWriteBsEthernetSettingsResult> {
+	public class WriteBsEthernetSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IWriteBsEthernetSettingsResult>, IRrModbusCommandWithTestReply
+	{
 		private readonly IPAddress _ip;
 		private readonly IPAddress _mask;
 		private readonly IPAddress _gateway;
@@ -31,7 +31,7 @@ namespace DrillingRig.Commands {
 		}
 
 		public string Name {
-			get { return "Чтение настроек БС-Ethernet"; }
+			get { return "Запись настроек БС-Ethernet"; }
 		}
 
 		public byte[] Serialize() {
@@ -55,6 +55,10 @@ namespace DrillingRig.Commands {
 
 		public int ReplyLength {
 			get { return 0; }
+		}
+
+		public byte[] GetTestReply() {
+			return new byte[0];
 		}
 	}
 }

@@ -120,7 +120,8 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 							}
 
 							try {
-								var result = cmd.GetResult(bytes);
+								var result = cmd.GetResult(bytes); // result is unused but GetResult can throw exception
+								_logger.Log("Настройки успешно записаны в БС-Ethernet");
 							}
 							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
@@ -138,7 +139,58 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		}
 
 		private void ReadSettings() {
-			throw new NotImplementedException();
+			try
+			{
+				_logger.Log("Подготовка к чтению настроек БС-Ethernet");
+
+				var cmd = new ReadBsEthernetSettingsCommand();
+
+				_logger.Log("Команда чтения настроек БС-Ethernet поставлена в очередь");
+				_commandSenderHost.Sender.SendCommandAsync(
+					_targerAddressHost.TargetAddress
+					, cmd
+					, TimeSpan.FromSeconds(5)
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
+					{
+						try
+						{
+							if (exception != null)
+							{
+								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+							}
+
+							try {
+								var result = cmd.GetResult(bytes);
+								var mac = string.Empty;
+								mac = result.MacAddress.GetAddressBytes().Aggregate(mac, (current, b) => current + b.ToString("X2") + ".");
+								mac = mac.Substring(0, mac.Length - 1);
+								_userInterfaceRoot.Notifier.Notify(() => {
+									IpAddress = result.IpAddress.ToString();
+									Mask = result.Mask.ToString();
+									Gateway = result.Gateway.ToString();
+									DnsServer = result.DnsServer.ToString();
+									MacAddress = mac;
+									ModbusAddress = result.ModbusAddress;
+									DriveNumber = result.DriveNumber;
+								});
+								_logger.Log("Настройки БС-Ethernet успешно прочитаны");
+							}
+							catch (Exception exx)
+							{
+								// TODO: log exception about error on answer parsing
+								throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
+							}
+						}
+						catch (Exception ex)
+						{
+							_logger.Log(ex.Message);
+						}
+					}));
+			}
+			catch (Exception ex)
+			{
+				_logger.Log("Не удалось поставить команду чтения настроек БС-Ethernet в очередь: " + ex.Message);
+			}
 		}
 
 		public string IpAddress {
