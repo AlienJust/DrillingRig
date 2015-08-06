@@ -107,6 +107,7 @@
       <DependentUpon>BsEthernetNominalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BsEthernetNominals\BsEthernetNominalsViewModel.cs" />
+    <Compile Include="BsEthernetNominals\IBsEthernetRatedSettings.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsExporterXml.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsSimple.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsView.xaml.cs">

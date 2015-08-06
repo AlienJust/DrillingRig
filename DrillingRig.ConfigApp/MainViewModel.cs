@@ -15,6 +15,7 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
+using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp {
@@ -27,7 +28,9 @@ namespace DrillingRig.ConfigApp {
 		private readonly IThreadNotifier _notifier;
 		private readonly IWindowSystem _windowSystem;
 		private readonly ProgramLogViewModel _programLogVm;
+
 		private readonly BsEthernetSettingsViewModel _bsEthernetSettingsVm;
+		private readonly BsEthernetNominalsViewModel _bsEthernetNominalsVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -39,6 +42,7 @@ namespace DrillingRig.ConfigApp {
 		private readonly ILogger _logger;
 
 
+
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_commandSender = null;
 			_isPortOpened = false;
@@ -48,11 +52,11 @@ namespace DrillingRig.ConfigApp {
 			GetPortsAvailable();
 
 			_programLogVm = new ProgramLogViewModel(this);
-			
+
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
-			
+
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem);
-			
+			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -64,7 +68,7 @@ namespace DrillingRig.ConfigApp {
 		private void ClosePort() {
 			try {
 				_logger.Log("Закрытие ранее открытого порта " + _commandSender + "...");
-				_commandSender.Dispose();
+				_commandSender.Dispose(); // TODO: make async
 				_commandSender = null;
 				_isPortOpened = false;
 				_openPortCommand.RaiseCanExecuteChanged();
@@ -80,10 +84,10 @@ namespace DrillingRig.ConfigApp {
 			try {
 				if (_isPortOpened) ClosePort();
 				_logger.Log("Открытие порта " + _selectedComName + "...");
-				
+
 				if (_selectedComName == "Test") // TODO: extract constant
 					_commandSender = new NothingBasedCommandSender();
-				else 
+				else
 					_commandSender = new SerialPortBasedCommandSender(SelectedComName);
 
 				_isPortOpened = true;
@@ -97,7 +101,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		private void GetPortsAvailable() {
-			var ports = new List<string> { "Test" }; // TODO: extract constant
+			var ports = new List<string> {"Test"}; // TODO: extract constant
 			ports.AddRange(SerialPort.GetPortNames());
 			ComPortsAvailable = ports;
 			if (ComPortsAvailable.Count > 0) SelectedComName = ComPortsAvailable[0];
@@ -139,8 +143,6 @@ namespace DrillingRig.ConfigApp {
 			get { return _commandSender; }
 		}
 
-		public BsEthernetSettingsViewModel BsEthernetSettingsVm { get { return _bsEthernetSettingsVm; } }
-
 		public byte TargetAddress {
 			get { return _targetAddress; }
 			set {
@@ -157,6 +159,14 @@ namespace DrillingRig.ConfigApp {
 
 		public ProgramLogViewModel ProgramLogVm {
 			get { return _programLogVm; }
+		}
+
+		public BsEthernetSettingsViewModel BsEthernetSettingsVm {
+			get { return _bsEthernetSettingsVm; }
+		}
+
+		public BsEthernetNominalsViewModel BsEthernetNominalsVm {
+			get { return _bsEthernetNominalsVm; }
 		}
 	}
 }
