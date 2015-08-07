@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AikTelemetry\IAikTelemetry.cs" />
+    <Compile Include="AikTelemetry\ReadAiksTelemetryCommand.cs" />
     <Compile Include="ReadBsEthernetSettingsResultSimple.cs" />
     <Compile Include="IReadBsEthernetSettingsResult.cs" />
     <Compile Include="IWriteBsEthernetSettingsResult.cs" />

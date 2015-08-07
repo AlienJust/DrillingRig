@@ -15,6 +15,7 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
+using DrillingRig.ConfigApp.AikTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 
@@ -27,10 +28,12 @@ namespace DrillingRig.ConfigApp {
 
 		private readonly IThreadNotifier _notifier;
 		private readonly IWindowSystem _windowSystem;
-		private readonly ProgramLogViewModel _programLogVm;
 
+
+		private readonly ProgramLogViewModel _programLogVm;
 		private readonly BsEthernetSettingsViewModel _bsEthernetSettingsVm;
 		private readonly BsEthernetNominalsViewModel _bsEthernetNominalsVm;
+		private readonly AikTelemetriesViewModel _aikTelemetriesVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -40,8 +43,6 @@ namespace DrillingRig.ConfigApp {
 		private byte _targetAddress;
 
 		private readonly ILogger _logger;
-
-
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_commandSender = null;
@@ -57,6 +58,7 @@ namespace DrillingRig.ConfigApp {
 
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem);
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem);
+			_aikTelemetriesVm = new AikTelemetriesViewModel(this, this, this, _logger, _windowSystem);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -167,6 +169,10 @@ namespace DrillingRig.ConfigApp {
 
 		public BsEthernetNominalsViewModel BsEthernetNominalsVm {
 			get { return _bsEthernetNominalsVm; }
+		}
+
+		public AikTelemetriesViewModel AikTelemetriesVm {
+			get { return _aikTelemetriesVm; }
 		}
 	}
 }

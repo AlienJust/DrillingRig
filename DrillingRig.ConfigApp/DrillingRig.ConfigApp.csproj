@@ -87,6 +87,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AikTelemetry\AikTelemetriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AikTelemetry\AikTelemetryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BsEthernetNominals\BsEthernetNominalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +107,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AikTelemetry\AikTelemetriesView.xaml.cs">
+      <DependentUpon>AikTelemetriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AikTelemetry\AikTelemetryView.xaml.cs">
+      <DependentUpon>AikTelemetryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AikTelemetry\AikTelemetriesViewModel.cs" />
+    <Compile Include="AikTelemetry\AikTelemetryViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -183,9 +199,7 @@
       <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AikTelemetry\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="intelecon x gray.ico" />
   </ItemGroup>

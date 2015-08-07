@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
         xmlns:bsEthernetNominals="clr-namespace:DrillingRig.ConfigApp.BsEthernetNominals"
+        xmlns:aikTelemetry="clr-namespace:DrillingRig.ConfigApp.AikTelemetry"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -35,6 +36,9 @@
 			</TabItem>
 			<TabItem Header="Номинальные значения БС-Ethernet">
 				<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
+			</TabItem>
+			<TabItem Header="Телеметрия АИК">
+				<aikTelemetry:AikTelemetriesView DataContext="{Binding Path=AikTelemetriesVm}"/>
 			</TabItem>
 		</TabControl>
 		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
