@@ -1,10 +1,8 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AikTelemetry;
 
-namespace DrillingRig.ConfigApp.AikTelemetry
-{
-	class AikTelemetryViewModel :ViewModelBase
-	{
+namespace DrillingRig.ConfigApp.AikTelemetry {
+	internal class AikTelemetryViewModel : ViewModelBase {
 		private readonly string _aikName;
 		private IAikTelemetry _telemetry;
 
@@ -13,106 +11,292 @@ namespace DrillingRig.ConfigApp.AikTelemetry
 			_telemetry = null;
 		}
 
-		public double? RotationFriquencyCalculated
-		{
+		public double? RotationFriquencyCalculated {
 			get {
 				if (_telemetry == null) return null;
 				return _telemetry.RotationFriquencyCalculated;
 			}
 		}
 
-		public double? PwmModulationCoefficient
-		{
-			get { if (_telemetry == null) return null;
+		public double? PwmModulationCoefficient {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.PwmModulationCoefficient;
-				}
 			}
+		}
 
-		public double? MomentumCurrentSetting
-		{
-			get { if (_telemetry == null) return null;
+		public double? MomentumCurrentSetting {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.MomentumCurrentSetting;
 			}
 		}
 
-		public double? RadiatorTemperature
-		{
-			get { if (_telemetry == null) return null;
+		public double? RadiatorTemperature {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.RadiatorTemperature;
 			}
 		}
 
-		public double? DcBusVoltage
-		{
-			get { if (_telemetry == null) return null;
+		public double? DcBusVoltage {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.DcBusVoltage;
 			}
 		}
 
-		public double? AllPhasesCurrentAmplitudeEnvelopeCurve
-		{
-			get { if (_telemetry == null) return null;
+		public double? AllPhasesCurrentAmplitudeEnvelopeCurve {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.AllPhasesCurrentAmplitudeEnvelopeCurve;
 			}
 		}
 
-		public double? RegulatorCurrentDoutput
-		{
-			get { if (_telemetry == null) return null;
+		public double? RegulatorCurrentDoutput {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.RegulatorCurrentDoutput;
 			}
 		}
 
-		public double? RegulatorCurrentQoutput
-		{
-			get { if (_telemetry == null) return null;
+		public double? RegulatorCurrentQoutput {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.RegulatorCurrentQoutput;
 			}
 		}
 
-		public double? FriquencyIntensitySetpointOutput
-		{
-			get { if (_telemetry == null) return null;
+		public double? FriquencyIntensitySetpointOutput {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.FriquencyIntensitySetpointOutput;
 			}
 		}
 
-		public double? FlowSetting
-		{
-			get { if (_telemetry == null) return null;
+		public double? FlowSetting {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.FlowSetting;
 			}
 		}
 
-		public double? MeasuredMoment
-		{
-			get { if (_telemetry == null) return null;
+		public double? MeasuredMoment {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.MeasuredMoment;
 			}
 		}
 
-		public double? SpeedRegulatorOutputOrMomentSetting
-		{
-			get { if (_telemetry == null) return null;
+		public double? SpeedRegulatorOutputOrMomentSetting {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.SpeedRegulatorOutputOrMomentSetting;
 			}
 		}
 
-		public double? MeasuredFlow
-		{
-			get { if (_telemetry == null) return null;
+		public double? MeasuredFlow {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.MeasuredFlow;
 			}
 		}
 
-		public double? SettingExcitationCurrent
-		{
-			get { if (_telemetry == null) return null;
+		public double? SettingExcitationCurrent {
+			get {
+				if (_telemetry == null) return null;
 				return _telemetry.SettingExcitationCurrent;
 			}
 		}
 
+		public bool? RunModeFreewheel {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.RunModeFreewheel;
+			}
+		}
 
+		public bool? RunModeTraction {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.RunModeTraction;
+			}
+		}
+
+		public bool? RunModeRotationDirection {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.RunModeRotationDirection;
+			}
+		}
+
+		public bool? Driver1HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver1HasErrors;
+			}
+		}
+
+		public bool? Driver2HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver2HasErrors;
+			}
+		}
+
+		public bool? Driver3HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver3HasErrors;
+			}
+		}
+
+		public bool? Driver4HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver4HasErrors;
+			}
+		}
+
+		public bool? Driver5HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver5HasErrors;
+			}
+		}
+
+		public bool? Driver6HasErrors {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.Driver6HasErrors;
+			}
+		}
+
+		public bool? SomePhaseMaximumAlowedCurrentExcess {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.SomePhaseMaximumAlowedCurrentExcess;
+			}
+		}
+
+		public bool? RadiatorKeysTemperatureRiseTo85DegreesExcess {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.RadiatorKeysTemperatureRiseTo85DegreesExcess;
+			}
+		}
+
+		public bool? AllowedDcVoltageExcess {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.AllowedDcVoltageExcess;
+			}
+		}
+
+		public bool? EepromI2CErrorDefaultParamsAreLoaded {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.EepromI2CErrorDefaultParamsAreLoaded;
+			}
+		}
+
+		public bool? EepromCrcErrorDefaultParamsAreLoaded {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.EepromCrcErrorDefaultParamsAreLoaded;
+			}
+		}
+
+		public double? RotationFriquencyMeasuredDcv {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.RotationFriquencyMeasuredDcv;
+			}
+		}
+
+		public double? AfterFilterSpeedControllerFeedbackFriquency {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.AfterFilterSpeedControllerFeedbackFriquency;
+			}
+		}
+
+		public double? AfterFilterFimag {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.AfterFilterFimag;
+			}
+		}
+
+		public double? CurrentDpartMeasured {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.CurrentDpartMeasured;
+			}
+		}
+
+		public double? CurrentQpartMeasured {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.CurrentQpartMeasured;
+			}
+		}
+
+		public double? AfterFilterFset {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.AfterFilterFset;
+			}
+		}
+
+		public double? AfterFilterTorq {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.AfterFilterTorq;
+			}
+		}
+
+		public double? DCurrentRegulatorProportionalPart {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.DCurrentRegulatorProportionalPart;
+			}
+		}
+
+		public double? QcurrentRegulatorProportionalPart {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.QcurrentRegulatorProportionalPart;
+			}
+		}
+
+		public double? SpeedRegulatorProportionalPart {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.SpeedRegulatorProportionalPart;
+			}
+		}
+
+		public double? FlowRegulatorProportionalPart {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.FlowRegulatorProportionalPart;
+			}
+		}
+
+		public double? CalculatorDflowRegulatorOutput {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.CalculatorDflowRegulatorOutput;
+			}
+		}
+
+		public double? CalculatorQflowRegulatorOutput {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.CalculatorQflowRegulatorOutput;
+			}
+		}
 
 		public string AikName {
 			get { return _aikName; }
@@ -124,7 +308,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry
 
 		public void UpdateTelemetry(IAikTelemetry telemetry) {
 			_telemetry = telemetry;
-			// TODO: a tons of RaisePropertyChanged();
+			
 			RaisePropertyChanged(() => RotationFriquencyCalculated);
 			RaisePropertyChanged(() => PwmModulationCoefficient);
 			RaisePropertyChanged(() => MomentumCurrentSetting);
@@ -139,6 +323,40 @@ namespace DrillingRig.ConfigApp.AikTelemetry
 			RaisePropertyChanged(() => SpeedRegulatorOutputOrMomentSetting);
 			RaisePropertyChanged(() => MeasuredFlow);
 			RaisePropertyChanged(() => SettingExcitationCurrent);
+
+			RaisePropertyChanged(() => RunModeFreewheel);
+			RaisePropertyChanged(() => RunModeTraction);
+			RaisePropertyChanged(() => RunModeRotationDirection);
+
+			RaisePropertyChanged(() => Driver1HasErrors);
+			RaisePropertyChanged(() => Driver2HasErrors);
+			RaisePropertyChanged(() => Driver3HasErrors);
+			RaisePropertyChanged(() => Driver4HasErrors);
+			RaisePropertyChanged(() => Driver5HasErrors);
+			RaisePropertyChanged(() => Driver6HasErrors);
+
+			RaisePropertyChanged(() => SomePhaseMaximumAlowedCurrentExcess);
+			RaisePropertyChanged(() => RadiatorKeysTemperatureRiseTo85DegreesExcess);
+
+			RaisePropertyChanged(() => AllowedDcVoltageExcess);
+			RaisePropertyChanged(() => EepromI2CErrorDefaultParamsAreLoaded);
+			RaisePropertyChanged(() => EepromCrcErrorDefaultParamsAreLoaded);
+
+			RaisePropertyChanged(() => RotationFriquencyMeasuredDcv);
+			RaisePropertyChanged(() => AfterFilterSpeedControllerFeedbackFriquency);
+			RaisePropertyChanged(() => AfterFilterFimag);
+			RaisePropertyChanged(() => CurrentDpartMeasured);
+			RaisePropertyChanged(() => CurrentQpartMeasured);
+			RaisePropertyChanged(() => AfterFilterFset);
+			RaisePropertyChanged(() => AfterFilterTorq);
+
+			RaisePropertyChanged(() => DCurrentRegulatorProportionalPart);
+			RaisePropertyChanged(() => QcurrentRegulatorProportionalPart);
+			RaisePropertyChanged(() => SpeedRegulatorProportionalPart);
+			RaisePropertyChanged(() => FlowRegulatorProportionalPart);
+
+			RaisePropertyChanged(() => CalculatorDflowRegulatorOutput);
+			RaisePropertyChanged(() => CalculatorQflowRegulatorOutput);
 		}
 	}
 }

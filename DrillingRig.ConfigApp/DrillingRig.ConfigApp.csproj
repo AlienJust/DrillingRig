@@ -42,6 +42,10 @@
     <Reference Include="AlienJust.Adaptation.WindowsPresentation">
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Concurrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Concurrent.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.Concurrent.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>

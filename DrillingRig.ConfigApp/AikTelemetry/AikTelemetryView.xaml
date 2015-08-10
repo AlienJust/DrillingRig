@@ -91,9 +91,9 @@
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-						<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег"/>
-						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга"/>
-						<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения"/>
+						<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
+						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга" IsChecked="{Binding Path=RunModeTraction, Mode=OneWay}"/>
+						<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения" IsChecked="{Binding Path=RunModeRotationDirection, Mode=OneWay}"/>
 					</Grid>
 				</Grid>
 			</Border>
@@ -112,22 +112,24 @@
 							<RowDefinition/>
 							<RowDefinition/>
 							<RowDefinition/>
+							<RowDefinition/>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-						<CheckBox Grid.Row="0" Grid.Column="0" Content="Ошибки драйвера 1"/>
-						<CheckBox Grid.Row="0" Grid.Column="1" Content="Ошибки драйвера 2"/>
-						<CheckBox Grid.Row="0" Grid.Column="2" Content="Ошибки драйвера 3"/>
-						<CheckBox Grid.Row="1" Grid.Column="0" Content="Ошибки драйвера 4"/>
-						<CheckBox Grid.Row="1" Grid.Column="1" Content="Ошибки драйвера 5"/>
-						<CheckBox Grid.Row="1" Grid.Column="2" Content="Ошибки драйвера 6"/>
-						<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение допустимого тока по любой из фаз"/>
-						<CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение температуры радиатора ключей +85 градусов"/>
-						<CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка I2C/EEPROM, загружены параметры по умолчанию"/>
-						<CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка CRC EEPROM, загружены параметры по умолчанию"/>
+						<CheckBox Grid.Row="0" Grid.Column="0" Content="Ошибки драйвера 1" IsChecked="{Binding Path=Driver1HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="0" Grid.Column="1" Content="Ошибки драйвера 2" IsChecked="{Binding Path=Driver2HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="0" Grid.Column="2" Content="Ошибки драйвера 3" IsChecked="{Binding Path=Driver3HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="1" Grid.Column="0" Content="Ошибки драйвера 4" IsChecked="{Binding Path=Driver4HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="1" Grid.Column="1" Content="Ошибки драйвера 5" IsChecked="{Binding Path=Driver5HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="1" Grid.Column="2" Content="Ошибки драйвера 6" IsChecked="{Binding Path=Driver6HasErrors, Mode=OneWay}"/>
+						<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение допустимого тока по любой из фаз" IsChecked="{Binding Path=SomePhaseMaximumAlowedCurrentExcess, Mode=OneWay}"/>
+						<CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение температуры радиатора ключей +85 градусов" IsChecked="{Binding Path=RadiatorKeysTemperatureRiseTo85DegreesExcess, Mode=OneWay}"/>
+						<CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение напряжения DC" IsChecked="{Binding Path=AllowedDcVoltageExcess, Mode=OneWay}"/>
+						<CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка I2C/EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromI2CErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
+						<CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка CRC EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromCrcErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
 					</Grid>
 				</Grid>
 			</Border>

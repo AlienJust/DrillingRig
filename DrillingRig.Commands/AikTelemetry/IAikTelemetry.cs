@@ -28,6 +28,8 @@
 
 		bool SomePhaseMaximumAlowedCurrentExcess { get; }
 		bool RadiatorKeysTemperatureRiseTo85DegreesExcess { get; }
+
+		bool AllowedDcVoltageExcess { get; }
 		bool EepromI2CErrorDefaultParamsAreLoaded { get; }
 		bool EepromCrcErrorDefaultParamsAreLoaded { get; }
 
@@ -46,11 +48,5 @@
 
 		double CalculatorDflowRegulatorOutput { get; }
 		double CalculatorQflowRegulatorOutput { get; }
-	}
-
-	public interface IAiksTelemetry {
-		IAikTelemetry Aik1 { get; }
-		IAikTelemetry Aik2 { get; }
-		IAikTelemetry Aik3 { get; }
 	}
 }
