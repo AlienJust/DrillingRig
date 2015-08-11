@@ -4,6 +4,7 @@
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
         xmlns:bsEthernetNominals="clr-namespace:DrillingRig.ConfigApp.BsEthernetNominals"
         xmlns:aikTelemetry="clr-namespace:DrillingRig.ConfigApp.AikTelemetry"
+        xmlns:aiksSettings="clr-namespace:DrillingRig.ConfigApp.AiksSettings"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -38,7 +39,22 @@
 				<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Телеметрия АИК">
-				<aikTelemetry:AikTelemetriesView DataContext="{Binding Path=AikTelemetriesVm}"/>
+				<aikTelemetry:AikTelemetriesView DataContext="{Binding Path=AikTelemetriesVm, Mode=OneTime}"/>
+			</TabItem>
+			<TabItem Header="Настройки АИК1">
+				<ScrollViewer>
+					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik1SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Настройки АИК2">
+				<ScrollViewer>
+					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik2SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Настройки АИК3">
+				<ScrollViewer>
+					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
 			</TabItem>
 		</TabControl>
 		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
