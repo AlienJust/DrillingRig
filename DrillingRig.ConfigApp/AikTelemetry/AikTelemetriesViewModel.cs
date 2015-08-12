@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.Concurrent;
@@ -67,47 +66,54 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 
 			var cmd = new ReadAiksTelemetryCommand();
 			_backWorker.AddWork(() => {
-				var w8er = new ManualResetEvent(false);
-				while (!Cancel) {
-					_commandSenderHost.Sender.SendCommandAsync(0x01,
-						cmd, TimeSpan.FromSeconds(1.0),
-						(exception, bytes) => {
-							IAikTelemetry aik1 = null;
-							IAikTelemetry aik2 = null;
-							IAikTelemetry aik3 = null;
-							try {
-								if (exception != null) {
-									throw new Exception("Произошла ошибка во время обмена", exception);
+				try {
+					var w8er = new ManualResetEvent(false);
+					while (!Cancel) {
+						_commandSenderHost.Sender.SendCommandAsync(0x01,
+							cmd, TimeSpan.FromSeconds(1.0),
+							(exception, bytes) => {
+								IAikTelemetry aik1 = null;
+								IAikTelemetry aik2 = null;
+								IAikTelemetry aik3 = null;
+								try {
+									if (exception != null) {
+										throw new Exception("Произошла ошибка во время обмена", exception);
+									}
+									var result = cmd.GetResult(bytes);
+									aik1 = result.Aik1;
+									aik2 = result.Aik2;
+									aik3 = result.Aik3;
 								}
-								var result = cmd.GetResult(bytes);
-								aik1 = result.Aik1;
-								aik2 = result.Aik2;
-								aik3 = result.Aik3;
-							}
-							catch (Exception ex) {
-								// TODO: log exception, null values
-								_logger.Log("Ошибка: " + ex.Message);
-							}
-							finally {
-								_userInterfaceRoot.Notifier.Notify(() => {
-									_aikTelemetryVms[0].UpdateTelemetry(aik1);
-									_aikTelemetryVms[1].UpdateTelemetry(aik2);
-									_aikTelemetryVms[2].UpdateTelemetry(aik3);
-								});
-								w8er.Set();
-							}
-						});
-					w8er.WaitOne();
-					w8er.Reset();
-					Thread.Sleep(500); // TODO: interval must be setted by user
+								catch (Exception ex) {
+									// TODO: log exception, null values
+									_logger.Log("Ошибка: " + ex.Message);
+								}
+								finally {
+									_userInterfaceRoot.Notifier.Notify(() => {
+										_aikTelemetryVms[0].UpdateTelemetry(aik1);
+										_aikTelemetryVms[1].UpdateTelemetry(aik2);
+										_aikTelemetryVms[2].UpdateTelemetry(aik3);
+									});
+									w8er.Set();
+								}
+							});
+						w8er.WaitOne();
+						w8er.Reset();
+						Thread.Sleep(500); // TODO: interval must be setted by user
+					}
 				}
-				
-				_logger.Log("Циклический опрос окончен");
-				_userInterfaceRoot.Notifier.Notify(() => {
-					_readingInProgress = false;
-					_readCycleCommand.RaiseCanExecuteChanged();
-					_stopReadingCommand.RaiseCanExecuteChanged();
-				});
+				catch (Exception ex) {
+					_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);
+				}
+				finally {
+					_logger.Log("Циклический опрос окончен");
+					_userInterfaceRoot.Notifier.Notify(() =>
+					{
+						_readingInProgress = false;
+						_readCycleCommand.RaiseCanExecuteChanged();
+						_stopReadingCommand.RaiseCanExecuteChanged();
+					});
+				}
 			});
 		}
 

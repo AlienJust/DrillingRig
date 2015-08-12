@@ -44,13 +44,17 @@
     <Compile Include="AikTelemetry\IAiksTelemetry.cs" />
     <Compile Include="AikTelemetry\IAikTelemetry.cs" />
     <Compile Include="AikTelemetry\ReadAiksTelemetryCommand.cs" />
-    <Compile Include="ReadBsEthernetSettingsResultSimple.cs" />
-    <Compile Include="IReadBsEthernetSettingsResult.cs" />
-    <Compile Include="IWriteBsEthernetSettingsResult.cs" />
+    <Compile Include="BsEthernetNominals\IBsEthernetNominals.cs" />
+    <Compile Include="BsEthernetNominals\ReadBsEthernetNominalsCommand.cs" />
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />
+    <Compile Include="BsEthernetNominals\WriteBsEthernetNominalsCommand.cs" />
+    <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsResultSimple.cs" />
+    <Compile Include="BsEthernetSettings\IReadBsEthernetSettingsResult.cs" />
+    <Compile Include="BsEthernetSettings\IWriteBsEthernetSettingsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadBsEthernetSettingsCommand.cs" />
-    <Compile Include="WriteBsEthernetSettingsCommand.cs" />
-    <Compile Include="WriteBsEthernetSettingsResultSimple.cs" />
+    <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsCommand.cs" />
+    <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsCommand.cs" />
+    <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsResultSimple.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj">

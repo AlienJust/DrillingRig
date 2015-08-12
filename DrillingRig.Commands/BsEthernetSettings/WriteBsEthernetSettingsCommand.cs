@@ -42,8 +42,8 @@ namespace DrillingRig.Commands {
 			result.AddRange(_dns.GetAddressBytes());
 			result.AddRange(_mac.GetAddressBytes());
 			result.Add(_modbusAddress);
+			result.Add((byte)(_driveNumber & 0x00FF));
 			result.Add((byte) ((_driveNumber & 0xFF00) >> 8));
-			result.Add((byte) (_driveNumber & 0x00FF));
 			return result.ToArray();
 		}
 

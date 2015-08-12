@@ -33,7 +33,7 @@ namespace DrillingRig.Commands {
 				new IPAddress(new[] {reply[12], reply[13], reply[14], reply[15]}),
 				new PhysicalAddress(new[] {reply[16], reply[17], reply[18], reply[19], reply[20], reply[21]}),
 				reply[22],
-				(ushort) (reply[23]*256 + reply[24]));
+				(ushort)(reply[23] + reply[24] * 256));
 		}
 
 		public int ReplyLength
