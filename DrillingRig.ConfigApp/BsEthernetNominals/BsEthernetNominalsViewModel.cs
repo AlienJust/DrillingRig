@@ -5,6 +5,7 @@ using System.Text;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
+using DrillingRig.Commands.BsEthernetNominals;
 
 namespace DrillingRig.ConfigApp.BsEthernetNominals
 {
@@ -72,7 +73,47 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals
 		}
 
 		private void WriteNominals() {
-			throw new NotImplementedException();
+			try
+			{
+				_logger.Log("Подготовка к записи настроек БС-Ethernet");
+
+				var cmd = new WriteBsEthernetNominalsCommand(_nominals);
+
+				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
+				_commandSenderHost.Sender.SendCommandAsync(
+					_targerAddressHost.TargetAddress
+					, cmd
+					, TimeSpan.FromSeconds(5)
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
+					{
+						try
+						{
+							if (exception != null)
+							{
+								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+							}
+
+							try
+							{
+								var result = cmd.GetResult(bytes); // result is unused but GetResult can throw exception
+								_logger.Log("Настройки успешно записаны в БС-Ethernet");
+							}
+							catch (Exception exx)
+							{
+								// TODO: log exception about error on answer parsing
+								throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
+							}
+						}
+						catch (Exception ex)
+						{
+							_logger.Log(ex.Message);
+						}
+					}));
+			}
+			catch (Exception ex)
+			{
+				_logger.Log("Не удалось поставить команду записи настроек БС-Ethernet в очередь: " + ex.Message);
+			}
 		}
 
 		private void ReadNominals() {
