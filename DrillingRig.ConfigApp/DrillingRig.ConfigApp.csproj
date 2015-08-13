@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="INotifySendingEnabled.cs" />
+    <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Page Include="AiksSettings\AikSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

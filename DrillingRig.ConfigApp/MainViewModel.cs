@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using AlienJust.Adaptation.WindowsPresentation;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
@@ -20,7 +15,7 @@ using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot {
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled {
 		private List<string> _comPortsAvailable;
 		private string _selectedComName;
 
@@ -43,6 +38,7 @@ namespace DrillingRig.ConfigApp {
 		private byte _targetAddress;
 
 		private readonly ILogger _logger;
+		private bool _isSendingEnabled;
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_commandSender = null;
@@ -69,6 +65,9 @@ namespace DrillingRig.ConfigApp {
 
 		private void ClosePort() {
 			try {
+				IsSendingEnabled = false;
+				RaiseSendingEnabledChanged(IsSendingEnabled);
+
 				_logger.Log("Закрытие ранее открытого порта " + _commandSender + "...");
 				_commandSender.Dispose(); // TODO: make async
 				_commandSender = null;
@@ -76,6 +75,7 @@ namespace DrillingRig.ConfigApp {
 				_openPortCommand.RaiseCanExecuteChanged();
 				_closePortCommand.RaiseCanExecuteChanged();
 				_logger.Log("Ранее открытый порт " + _commandSender + " закрыт");
+
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось закрыть открытый ранее порт " + _commandSender + ". " + ex.Message);
@@ -96,6 +96,9 @@ namespace DrillingRig.ConfigApp {
 				_openPortCommand.RaiseCanExecuteChanged();
 				_closePortCommand.RaiseCanExecuteChanged();
 				_logger.Log("Порт " + _selectedComName + " открыт");
+
+				IsSendingEnabled = true;
+				RaiseSendingEnabledChanged(IsSendingEnabled);
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось открыть порт " + _selectedComName + ". " + ex.Message);
@@ -108,6 +111,23 @@ namespace DrillingRig.ConfigApp {
 			ComPortsAvailable = ports;
 			if (ComPortsAvailable.Count > 0) SelectedComName = ComPortsAvailable[0];
 		}
+
+		public event SendingEnabledChangedDelegate SendingEnabledChanged;
+
+		// TODO: thread safity
+		public bool IsSendingEnabled {
+			get { return _isSendingEnabled; }
+			set { _isSendingEnabled = value; }
+		}
+
+		private void RaiseSendingEnabledChanged(bool isSendingEnabled)
+		{
+			var eve = SendingEnabledChanged;
+			if (eve != null)
+				eve.Invoke(isSendingEnabled);
+		}
+
+
 
 		public List<string> ComPortsAvailable {
 			get { return _comPortsAvailable; }

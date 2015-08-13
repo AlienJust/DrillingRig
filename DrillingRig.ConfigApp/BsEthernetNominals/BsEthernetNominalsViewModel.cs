@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals
 			{
 				_logger.Log("Подготовка к записи настроек БС-Ethernet");
 
-				var cmd = new WriteBsEthernetNominalsCommand(_nominals);
+				var cmd = new WriteBsEthernetNominalsCommand(null); // TODO: do be done
 
 				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
