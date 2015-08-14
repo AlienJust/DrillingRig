@@ -40,8 +40,10 @@ namespace DrillingRig.CommandSenders.TestCommandSender
 	    }
 
 		public void Dispose() {
-		    _backWorker.StopSynchronously();
+			// Порядок завершения потоков имеет значение, в противном случае не вызывается onComplete (особенности замыканий)?
+			// Тогда почему бы не сделать исключение доступа к уничтоженному объекту (в данном случае Action onComplete)?
 			_notifyWorker.StopSynchronously();
+			_backWorker.StopSynchronously();
 	    }
 
 	    public override string ToString() {

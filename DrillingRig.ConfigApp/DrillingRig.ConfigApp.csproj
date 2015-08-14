@@ -38,6 +38,9 @@
   <PropertyGroup>
     <ApplicationIcon>intelecon x gray.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlienJust.Adaptation.WindowsPresentation">
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
