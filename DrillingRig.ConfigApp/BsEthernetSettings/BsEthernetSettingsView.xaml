@@ -51,7 +51,7 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="0" Content="Прочитать" Command="{Binding Path=ReadSettingCommand, Mode=OneTime}"/>
+			<Button Grid.Column="0" Content="Прочитать" Command="{Binding Path=ReadSettingsCommand, Mode=OneTime}"/>
 			<Button Grid.Column="1" Content="Записать" Command="{Binding Path=WriteSettingCommand, Mode=OneTime}"/>
 		</Grid>
 		

@@ -17,9 +17,10 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
 		private readonly IWindowSystem _windowSystem;
+		private readonly INotifySendingEnabled _sendingEnabledControl;
 
-		private readonly ICommand _readSettingCommand;
-		private readonly ICommand _writeSettingsCommand;
+		private readonly RelayCommand _readSettingsCommand;
+		private readonly RelayCommand _writeSettingsCommand;
 		private readonly ICommand _importSettingCommand;
 		private readonly ICommand _exportSettingsCommand;
 
@@ -32,12 +33,14 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		private byte _modbusAddress;
 		private ushort _driveNumber;
 
-		public BsEthernetSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem) {
+		public BsEthernetSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
+		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_windowSystem = windowSystem;
+			_sendingEnabledControl = sendingEnabledControl;
 
 			_ipAddress = string.Empty;
 			_mask = string.Empty;
@@ -47,11 +50,18 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			_modbusAddress = 1;
 			_driveNumber = 0;
 
-			_readSettingCommand = new RelayCommand(ReadSettings);
-			_writeSettingsCommand = new RelayCommand(WriteSettings);
+			_readSettingsCommand = new RelayCommand(ReadSettings, () => _sendingEnabledControl.IsSendingEnabled);
+			_writeSettingsCommand = new RelayCommand(WriteSettings, () => _sendingEnabledControl.IsSendingEnabled);
 
 			_importSettingCommand = new RelayCommand(ImportSettings);
 			_exportSettingsCommand = new RelayCommand(ExportSettings);
+			
+			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
+		}
+
+		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled) {
+			_readSettingsCommand.RaiseCanExecuteChanged();
+			_writeSettingsCommand.RaiseCanExecuteChanged();
 		}
 
 		private void ImportSettings() {
@@ -259,8 +269,8 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			}
 		}
 
-		public ICommand ReadSettingCommand {
-			get { return _readSettingCommand; }
+		public ICommand ReadSettingsCommand {
+			get { return _readSettingsCommand; }
 		}
 
 		public ICommand WriteSettingCommand {
