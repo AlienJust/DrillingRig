@@ -53,7 +53,7 @@ namespace DrillingRig.ConfigApp {
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
 
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem);
-			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem);
+			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
 			_aikTelemetriesVm = new AikTelemetriesViewModel(this, this, this, _logger, _windowSystem);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);

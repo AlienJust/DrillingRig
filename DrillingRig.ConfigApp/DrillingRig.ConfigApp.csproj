@@ -91,6 +91,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsSerializationConstants.cs" />
+    <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />
+    <Compile Include="BsEthernetNominals\IBsEthernetNominalsExporter.cs" />
+    <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsImporter.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Page Include="AiksSettings\AikSettings.xaml">
