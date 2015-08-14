@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals
 			{
 				_logger.Log("Подготовка к записи настроек БС-Ethernet");
 
-				var cmd = new WriteBsEthernetNominalsCommand(null); // TODO: do be done
+				var cmd = new WriteBsEthernetNominalsCommand(); // TODO: do be done
 
 				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
@@ -284,6 +284,79 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals
 					RaisePropertyChanged(() => RatedSettingExcitationCurrent);
 				}
 			}
+		}
+	}
+
+	public class BsEthernetNominals : IBsEthernetNominals {
+		private short _ratedRotationFriquencyCalculated;
+		private short _ratedPwmModulationCoefficient;
+		private short _ratedMomentumCurrentSetting;
+		private short _ratedRadiatorTemperature;
+		private short _ratedDcBusVoltage;
+		private short _ratedAllPhasesCurrentAmplitudeEnvelopeCurve;
+		private short _ratedRegulatorCurrentDoutput;
+		private short _ratedRegulatorCurrentQoutput;
+		private short _ratedFriquencyIntensitySetpointOutput;
+		private short _ratedFlowSetting;
+		private short _ratedMeasuredMoment;
+		private short _ratedSpeedRegulatorOutputOrMomentSetting;
+		private short _ratedMeasuredFlow;
+		private short _ratedSettingExcitationCurrent;
+
+		public short RatedRotationFriquencyCalculated {
+			get { return _ratedRotationFriquencyCalculated; }
+		}
+
+		public short RatedPwmModulationCoefficient {
+			get { return _ratedPwmModulationCoefficient; }
+		}
+
+		public short RatedMomentumCurrentSetting {
+			get { return _ratedMomentumCurrentSetting; }
+		}
+
+		public short RatedRadiatorTemperature {
+			get { return _ratedRadiatorTemperature; }
+		}
+
+		public short RatedDcBusVoltage {
+			get { return _ratedDcBusVoltage; }
+		}
+
+		public short RatedAllPhasesCurrentAmplitudeEnvelopeCurve {
+			get { return _ratedAllPhasesCurrentAmplitudeEnvelopeCurve; }
+		}
+
+		public short RatedRegulatorCurrentDoutput {
+			get { return _ratedRegulatorCurrentDoutput; }
+		}
+
+		public short RatedRegulatorCurrentQoutput {
+			get { return _ratedRegulatorCurrentQoutput; }
+		}
+
+		public short RatedFriquencyIntensitySetpointOutput {
+			get { return _ratedFriquencyIntensitySetpointOutput; }
+		}
+
+		public short RatedFlowSetting {
+			get { return _ratedFlowSetting; }
+		}
+
+		public short RatedMeasuredMoment {
+			get { return _ratedMeasuredMoment; }
+		}
+
+		public short RatedSpeedRegulatorOutputOrMomentSetting {
+			get { return _ratedSpeedRegulatorOutputOrMomentSetting; }
+		}
+
+		public short RatedMeasuredFlow {
+			get { return _ratedMeasuredFlow; }
+		}
+
+		public short RatedSettingExcitationCurrent {
+			get { return _ratedSettingExcitationCurrent; }
 		}
 	}
 }
