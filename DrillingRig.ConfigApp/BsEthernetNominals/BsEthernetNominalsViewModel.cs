@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands;
 using DrillingRig.Commands.BsEthernetNominals;
 
 namespace DrillingRig.ConfigApp.BsEthernetNominals {
