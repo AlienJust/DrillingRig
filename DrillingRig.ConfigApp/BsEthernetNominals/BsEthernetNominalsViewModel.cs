@@ -77,34 +77,17 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals {
 		private void ExportNominals() {
 			_logger.Log("Начало экспорта номинальных значений БС-Ethernet");
 			var dialogResult = _windowSystem.ShowSaveFileDialog("Выберите файл для сохранения номинальных значений БС-Ethernet", "XML files|*.xml|All files|*.*");
-			if (!string.IsNullOrEmpty(dialogResult))
-			{
-				try
-				{
+			if (!string.IsNullOrEmpty(dialogResult)) {
+				try {
 					var exporter = new BsEthernetNominalsExporterXml(dialogResult);
-					exporter.ExportSettings(new BsEthernetNominalsSimple(_ratedRotationFriquencyCalculated,
-						_ratedPwmModulationCoefficient,
-						_ratedMomentumCurrentSetting,
-						_ratedRadiatorTemperature,
-						_ratedDcBusVoltage,
-						_ratedAllPhasesCurrentAmplitudeEnvelopeCurve,
-						_ratedRegulatorCurrentDoutput,
-						_ratedRegulatorCurrentQoutput,
-						_ratedFriquencyIntensitySetpointOutput,
-						_ratedFlowSetting,
-						_ratedMeasuredMoment,
-						_ratedSpeedRegulatorOutputOrMomentSetting,
-						_ratedMeasuredFlow,
-						_ratedSettingExcitationCurrent));
+					exporter.ExportSettings(PropsToNominals());
 					_logger.Log("Номинальные значения успешно экспортированы");
 				}
-				catch (Exception ex)
-				{
+				catch (Exception ex) {
 					_logger.Log("Произошла ошибка во время экспорта номинальных значений. " + ex.Message);
 				}
 			}
-			else
-			{
+			else {
 				_logger.Log("Экспорт отменен пользователем");
 			}
 		}
@@ -112,35 +95,18 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals {
 		private void ImportNominals() {
 			_logger.Log("Начало импорта номинальных значений БС-Ethernet");
 			var dialogResult = _windowSystem.ShowOpenFileDialog("Выберите файл с номинальными значениями БС-Ethernet", "XML files|*.xml|All files|*.*");
-			if (!string.IsNullOrEmpty(dialogResult))
-			{
-				try
-				{
+			if (!string.IsNullOrEmpty(dialogResult)) {
+				try {
 					var importer = new BsEthernetNominalsImporterXml(dialogResult);
 					var result = importer.ImportSettings();
-					RatedRotationFriquencyCalculated = result.RatedRotationFriquencyCalculated;
-					RatedPwmModulationCoefficient = result.RatedPwmModulationCoefficient;
-					RatedMomentumCurrentSetting = result.RatedMomentumCurrentSetting;
-					RatedRadiatorTemperature = result.RatedRadiatorTemperature;
-					RatedDcBusVoltage = result.RatedDcBusVoltage;
-					RatedAllPhasesCurrentAmplitudeEnvelopeCurve = result.RatedAllPhasesCurrentAmplitudeEnvelopeCurve;
-					RatedRegulatorCurrentDoutput = result.RatedRegulatorCurrentDoutput;
-					RatedRegulatorCurrentQoutput = result.RatedRegulatorCurrentQoutput;
-					RatedFriquencyIntensitySetpointOutput = result.RatedFriquencyIntensitySetpointOutput;
-					RatedFlowSetting = result.RatedFlowSetting;
-					RatedMeasuredMoment = result.RatedMeasuredMoment;
-					RatedSpeedRegulatorOutputOrMomentSetting = result.RatedSpeedRegulatorOutputOrMomentSetting;
-					RatedMeasuredFlow = result.RatedMeasuredFlow;
-					RatedSettingExcitationCurrent = result.RatedSettingExcitationCurrent;
+					SetPropsFromNominals(result);
 					_logger.Log("Номинальные значения успешно импортированы");
 				}
-				catch (Exception ex)
-				{
+				catch (Exception ex) {
 					_logger.Log("Произошла ошибка во время импорта номинальных значений. " + ex.Message);
 				}
 			}
-			else
-			{
+			else {
 				_logger.Log("Импорт отменен пользователем");
 			}
 		}
@@ -149,22 +115,7 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals {
 			try {
 				_logger.Log("Подготовка к записи номинальных значений БС-Ethernet");
 
-				var cmd = new WriteBsEthernetNominalsCommand(
-					new BsEthernetNominalsSimple(
-						_ratedRotationFriquencyCalculated,
-						_ratedPwmModulationCoefficient,
-						_ratedMomentumCurrentSetting,
-						_ratedRadiatorTemperature,
-						_ratedDcBusVoltage,
-						_ratedAllPhasesCurrentAmplitudeEnvelopeCurve,
-						_ratedRegulatorCurrentDoutput,
-						_ratedRegulatorCurrentQoutput,
-						_ratedFriquencyIntensitySetpointOutput,
-						_ratedFlowSetting,
-						_ratedMeasuredMoment,
-						_ratedSpeedRegulatorOutputOrMomentSetting,
-						_ratedMeasuredFlow,
-						_ratedSettingExcitationCurrent));
+				var cmd = new WriteBsEthernetNominalsCommand(PropsToNominals());
 				_logger.Log("Команда записи номинальных значений БС-Ethernet поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
@@ -196,8 +147,7 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals {
 		}
 
 		private void ReadNominals() {
-			try
-			{
+			try {
 				_logger.Log("Подготовка к чтению номинальных значений БС-Ethernet");
 
 				var cmd = new ReadBsEthernetNominalsCommand();
@@ -206,53 +156,66 @@ namespace DrillingRig.ConfigApp.BsEthernetNominals {
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(5)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
 							}
 
-							try
-							{
+							try {
 								// TODO: do be done
 								var result = cmd.GetResult(bytes); // result is unused but GetResult can throw exception
-								_userInterfaceRoot.Notifier.Notify(() => {
-									RatedRotationFriquencyCalculated = result.RatedRotationFriquencyCalculated;
-									RatedPwmModulationCoefficient = result.RatedPwmModulationCoefficient;
-									RatedMomentumCurrentSetting = result.RatedMomentumCurrentSetting;
-									RatedRadiatorTemperature = result.RatedRadiatorTemperature;
-									RatedDcBusVoltage = result.RatedDcBusVoltage;
-									RatedAllPhasesCurrentAmplitudeEnvelopeCurve = result.RatedAllPhasesCurrentAmplitudeEnvelopeCurve;
-									RatedRegulatorCurrentDoutput = result.RatedRegulatorCurrentDoutput;
-									RatedRegulatorCurrentQoutput = result.RatedRegulatorCurrentQoutput;
-									RatedFriquencyIntensitySetpointOutput = result.RatedFriquencyIntensitySetpointOutput;
-									RatedFlowSetting = result.RatedFlowSetting;
-									RatedMeasuredMoment = result.RatedMeasuredMoment;
-									RatedSpeedRegulatorOutputOrMomentSetting = result.RatedSpeedRegulatorOutputOrMomentSetting;
-									RatedMeasuredFlow = result.RatedMeasuredFlow;
-									RatedSettingExcitationCurrent = result.RatedSettingExcitationCurrent;
-								});
+								_userInterfaceRoot.Notifier.Notify(() => SetPropsFromNominals(result));
 								_logger.Log("Номинальные значения успешно прочитаны из БС-Ethernet");
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("Ошибка при разборе ответа команды чтения номинальных значений: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду чтения номинальных значений БС-Ethernet в очередь: " + ex.Message);
 			}
+		}
+
+		private void SetPropsFromNominals(IBsEthernetNominals result) {
+			RatedRotationFriquencyCalculated = result.RatedRotationFriquencyCalculated;
+			RatedPwmModulationCoefficient = result.RatedPwmModulationCoefficient;
+			RatedMomentumCurrentSetting = result.RatedMomentumCurrentSetting;
+			RatedRadiatorTemperature = result.RatedRadiatorTemperature;
+			RatedDcBusVoltage = result.RatedDcBusVoltage;
+			RatedAllPhasesCurrentAmplitudeEnvelopeCurve = result.RatedAllPhasesCurrentAmplitudeEnvelopeCurve;
+			RatedRegulatorCurrentDoutput = result.RatedRegulatorCurrentDoutput;
+			RatedRegulatorCurrentQoutput = result.RatedRegulatorCurrentQoutput;
+			RatedFriquencyIntensitySetpointOutput = result.RatedFriquencyIntensitySetpointOutput;
+			RatedFlowSetting = result.RatedFlowSetting;
+			RatedMeasuredMoment = result.RatedMeasuredMoment;
+			RatedSpeedRegulatorOutputOrMomentSetting = result.RatedSpeedRegulatorOutputOrMomentSetting;
+			RatedMeasuredFlow = result.RatedMeasuredFlow;
+			RatedSettingExcitationCurrent = result.RatedSettingExcitationCurrent;
+		}
+
+		private IBsEthernetNominals PropsToNominals() {
+			return new BsEthernetNominalsSimple(
+				_ratedRotationFriquencyCalculated,
+				_ratedPwmModulationCoefficient,
+				_ratedMomentumCurrentSetting,
+				_ratedRadiatorTemperature,
+				_ratedDcBusVoltage,
+				_ratedAllPhasesCurrentAmplitudeEnvelopeCurve,
+				_ratedRegulatorCurrentDoutput,
+				_ratedRegulatorCurrentQoutput,
+				_ratedFriquencyIntensitySetpointOutput,
+				_ratedFlowSetting,
+				_ratedMeasuredMoment,
+				_ratedSpeedRegulatorOutputOrMomentSetting,
+				_ratedMeasuredFlow,
+				_ratedSettingExcitationCurrent);
 		}
 
 		public short RatedRotationFriquencyCalculated {
