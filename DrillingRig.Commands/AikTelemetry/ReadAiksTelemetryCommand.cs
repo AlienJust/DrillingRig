@@ -41,9 +41,9 @@ namespace DrillingRig.Commands.AikTelemetry {
 						((short) (reply[offset + 22] + (reply[offset + 23] << 8)))*1.0,
 						((short) (reply[offset + 24] + (reply[offset + 25] << 8)))*1.0,
 						((short) (reply[offset + 26] + (reply[offset + 27] << 8)))*1.0,
-						
-						((reply[offset + 28] & 0x01) == 0x01),
-						((reply[offset + 28] & 0x02) == 0x02),
+
+						ModeSetRunModeBits12Extensions.FromInt((reply[offset + 28] & 0x03)),
+
 						((reply[offset + 28] & 0x04) == 0x04),
 
 						((reply[offset + 30] & 0x01) == 0x01),

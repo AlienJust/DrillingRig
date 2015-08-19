@@ -43,6 +43,8 @@
     <Compile Include="AikTelemetry\AikTelemetrySimple.cs" />
     <Compile Include="AikTelemetry\IAiksTelemetry.cs" />
     <Compile Include="AikTelemetry\IAikTelemetry.cs" />
+    <Compile Include="AikTelemetry\ModeSetRunModeBits12.cs" />
+    <Compile Include="AikTelemetry\ModeSetRunModeBits12Extensions.cs" />
     <Compile Include="AikTelemetry\ReadAiksTelemetryCommand.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominals.cs" />
     <Compile Include="BsEthernetNominals\ReadBsEthernetNominalsCommand.cs" />

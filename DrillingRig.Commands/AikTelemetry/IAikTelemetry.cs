@@ -15,8 +15,7 @@
 		double MeasuredFlow { get; }
 		double SettingExcitationCurrent { get; }
 
-		bool RunModeFreewheel { get; }
-		bool RunModeTraction { get; }
+		ModeSetRunModeBits12 RunModeBits12 { get; }
 		bool RunModeRotationDirection { get; }
 
 		bool Driver1HasErrors { get; }
@@ -48,5 +47,6 @@
 
 		double CalculatorDflowRegulatorOutput { get; }
 		double CalculatorQflowRegulatorOutput { get; }
+		
 	}
 }

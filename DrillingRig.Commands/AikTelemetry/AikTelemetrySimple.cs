@@ -15,8 +15,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 		private readonly double _measuredFlow;
 		private readonly double _settingExcitationCurrent;
 
-		private readonly bool _runModeFreewheel;
-		private readonly bool _runModeTraction;
+		private readonly ModeSetRunModeBits12 _runModeBits12;
 		private readonly bool _runModeRotationDirection;
 
 		private readonly bool _driver1HasErrors;
@@ -46,7 +45,6 @@ namespace DrillingRig.Commands.AikTelemetry {
 		private readonly double _flowRegulatorProportionalPart;
 		private readonly double _calculatorDflowRegulatorOutput;
 		private readonly double _calculatorQflowRegulatorOutput;
-		
 
 		public AikTelemetrySimple(
 			double rotationFriquencyCalculated, 
@@ -64,8 +62,8 @@ namespace DrillingRig.Commands.AikTelemetry {
 			double measuredFlow, 
 			double settingExcitationCurrent, 
 
-			bool runModeFreewheel, 
-			bool runModeTraction, 
+			ModeSetRunModeBits12 runModeBits12,
+
 			bool runModeRotationDirection, 
 			bool driver1HasErrors, 
 			bool driver2HasErrors, 
@@ -107,8 +105,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 			_measuredFlow = measuredFlow;
 			_settingExcitationCurrent = settingExcitationCurrent;
 
-			_runModeFreewheel = runModeFreewheel;
-			_runModeTraction = runModeTraction;
+			_runModeBits12 = runModeBits12;
 			_runModeRotationDirection = runModeRotationDirection;
 
 			_driver1HasErrors = driver1HasErrors;
@@ -196,12 +193,8 @@ namespace DrillingRig.Commands.AikTelemetry {
 			get { return _settingExcitationCurrent; }
 		}
 
-		public bool RunModeFreewheel {
-			get { return _runModeFreewheel; }
-		}
-
-		public bool RunModeTraction {
-			get { return _runModeTraction; }
+		public ModeSetRunModeBits12 RunModeBits12 {
+			get { return _runModeBits12; }
 		}
 
 		public bool RunModeRotationDirection {

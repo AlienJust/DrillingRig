@@ -109,17 +109,22 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 			}
 		}
 
-		public bool? RunModeFreewheel {
+		public string RunModeBits12 {
 			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RunModeFreewheel;
-			}
-		}
-
-		public bool? RunModeTraction {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RunModeTraction;
+				if (_telemetry == null) return string.Empty;
+				switch (_telemetry.RunModeBits12)
+				{
+					case ModeSetRunModeBits12.Freewell: 
+						return "Выбег";
+					case ModeSetRunModeBits12.Traction: 
+						return "Тяга";
+					case ModeSetRunModeBits12.Unknown2:
+						return "Х.З. 02";
+					case ModeSetRunModeBits12.Unknown3:
+						return "Х.З. 03";
+					default:
+						return "WTF?";
+				}
 			}
 		}
 
@@ -324,8 +329,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 			RaisePropertyChanged(() => MeasuredFlow);
 			RaisePropertyChanged(() => SettingExcitationCurrent);
 
-			RaisePropertyChanged(() => RunModeFreewheel);
-			RaisePropertyChanged(() => RunModeTraction);
+			RaisePropertyChanged(() => RunModeBits12);
 			RaisePropertyChanged(() => RunModeRotationDirection);
 
 			RaisePropertyChanged(() => Driver1HasErrors);

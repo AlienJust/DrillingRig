@@ -91,8 +91,12 @@
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-						<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
-						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга" IsChecked="{Binding Path=RunModeTraction, Mode=OneWay}"/>
+						<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+							<TextBlock Text="Биты [0-1]:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+							<TextBlock Text="{Binding Path=RunModeBits12, Mode=OneWay}" VerticalAlignment="Center"/>
+						</StackPanel>
+						<!--<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
+						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга" IsChecked="{Binding Path=RunModeTraction, Mode=OneWay}"/>-->
 						<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения" IsChecked="{Binding Path=RunModeRotationDirection, Mode=OneWay}"/>
 					</Grid>
 				</Grid>
