@@ -12,7 +12,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 
 		public byte CommandCode
 		{
-			get { return (byte)(0x85 + _zeroBasedAinNumber); }
+			get { return 0x85; }
 		}
 
 		public string Name
