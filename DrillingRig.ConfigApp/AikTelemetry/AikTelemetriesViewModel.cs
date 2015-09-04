@@ -87,6 +87,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 										catch (Exception ex) {
 											// TODO: log exception, null values
 											_logger.Log("Ошибка: " + ex.Message);
+											Console.WriteLine(ex);
 										}
 										finally {
 											byte number = ainNumber;
