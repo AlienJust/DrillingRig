@@ -78,7 +78,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 		public int ReplyLength
 		{
 			get {
-				return 58; // three Aiks each 29 2 bytes params = 29 * 2 * 3 = 174 total
+				return 65; // three Aiks each 32 * 2 bytes + 1 byte of Marat's status (flags)
 			}
 		}
 
