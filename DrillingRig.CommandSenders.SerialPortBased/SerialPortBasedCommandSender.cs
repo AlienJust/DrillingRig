@@ -32,7 +32,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased
 			    byte[] resultBytes = null;
 			    try {
 				    var cmdBytes = command.Serialize();
-				    var sendBytes = new byte[cmdBytes.Length + 3]; // 1 byte address + 2 bytes CRC16
+				    var sendBytes = new byte[cmdBytes.Length + 4]; // 1 byte address + 2 bytes CRC16
 				    sendBytes[0] = address;
 				    sendBytes[1] = command.CommandCode;
 					cmdBytes.CopyTo(sendBytes, 2);
