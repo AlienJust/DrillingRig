@@ -22,63 +22,63 @@ namespace DrillingRig.Commands.AikTelemetry {
 
 		public byte[] Serialize()
 		{
-			return new[] {_zeroBasedAinNumber};
+			return new[] {(byte)(_zeroBasedAinNumber + 1)};
 		}
 
 		public IAinTelemetry GetResult(byte[] reply) {
 			return new AinTelemetrySimple(
-				((short) (reply[0] + (reply[1] << 8)))*0.1,
-				((short) (reply[2] + (reply[3] << 8)))*1.0,
-				((short) (reply[4] + (reply[5] << 8)))*1.0,
-				((short) (reply[6] + (reply[7] << 8)))*1.0,
-				((short) (reply[8] + (reply[9] << 8)))*1.0,
-				((short) (reply[10] + (reply[11] << 8)))*1.0,
-				((short) (reply[12] + (reply[13] << 8)))*1.0/256.0,
-				((short) (reply[14] + (reply[15] << 8)))*1.0/256.0,
-				((short) (reply[16] + (reply[17] << 8)))*0.1,
-				((short) (reply[18] + (reply[19] << 8)))*1.0,
-				((short) (reply[20] + (reply[21] << 8)))*1.0,
-				((short) (reply[22] + (reply[23] << 8)))*1.0,
-				((short) (reply[24] + (reply[25] << 8)))*1.0,
-				((short) (reply[26] + (reply[27] << 8)))*1.0,
+				((short) (reply[1] + (reply[2] << 8)))*0.1,
+				((short) (reply[3] + (reply[4] << 8)))*1.0,
+				((short) (reply[5] + (reply[6] << 8)))*1.0,
+				((short) (reply[7] + (reply[8] << 8)))*1.0,
+				((short) (reply[9] + (reply[10] << 8)))*1.0,
+				((short) (reply[11] + (reply[12] << 8)))*1.0,
+				((short) (reply[13] + (reply[14] << 8)))*1.0/256.0,
+				((short) (reply[15] + (reply[16] << 8)))*1.0/256.0,
+				((short) (reply[17] + (reply[18] << 8)))*0.1,
+				((short) (reply[19] + (reply[20] << 8)))*1.0,
+				((short) (reply[21] + (reply[22] << 8)))*1.0,
+				((short) (reply[23] + (reply[24] << 8)))*1.0,
+				((short) (reply[25] + (reply[26] << 8)))*1.0,
+				((short) (reply[27] + (reply[28] << 8)))*1.0,
 
-				ModeSetRunModeBits12Extensions.FromInt((reply[28] & 0x03)),
+				ModeSetRunModeBits12Extensions.FromInt((reply[29] & 0x03)),
 
-				((reply[28] & 0x04) == 0x04),
-
-				((reply[30] & 0x01) == 0x01),
-				((reply[30] & 0x02) == 0x02),
-				((reply[30] & 0x04) == 0x04),
-				((reply[30] & 0x08) == 0x08),
-				((reply[30] & 0x10) == 0x10),
-				((reply[30] & 0x20) == 0x20),
-
-				((reply[30] & 0x40) == 0x40),
-				((reply[30] & 0x80) == 0x80),
+				((reply[29] & 0x04) == 0x04),
 
 				((reply[31] & 0x01) == 0x01),
+				((reply[31] & 0x02) == 0x02),
+				((reply[31] & 0x04) == 0x04),
+				((reply[31] & 0x08) == 0x08),
 				((reply[31] & 0x10) == 0x10),
 				((reply[31] & 0x20) == 0x20),
 
-				((short) (reply[32] + (reply[33] << 8)))*1.0,
-				((short) (reply[34] + (reply[35] << 8)))*1.0,
-				((short) (reply[36] + (reply[37] << 8)))*1.0,
-				((short) (reply[38] + (reply[39] << 8)))*1.0,
-				((short) (reply[40] + (reply[41] << 8)))*1.0,
-				((short) (reply[42] + (reply[43] << 8)))*1.0,
-				((short) (reply[44] + (reply[45] << 8)))*1.0,
-				((short) (reply[46] + (reply[47] << 8)))*1.0,
-				((short) (reply[48] + (reply[49] << 8)))*1.0,
-				((short) (reply[50] + (reply[51] << 8)))*1.0,
-				((short) (reply[52] + (reply[53] << 8)))*1.0,
-				((short) (reply[54] + (reply[55] << 8)))*1.0,
-				((short) (reply[56] + (reply[57] << 8)))*1.0);
+				((reply[31] & 0x40) == 0x40),
+				((reply[31] & 0x80) == 0x80),
+
+				((reply[32] & 0x01) == 0x01),
+				((reply[32] & 0x10) == 0x10),
+				((reply[32] & 0x20) == 0x20),
+
+				((short) (reply[33] + (reply[34] << 8)))*1.0,
+				((short) (reply[35] + (reply[36] << 8)))*1.0,
+				((short) (reply[37] + (reply[38] << 8)))*1.0,
+				((short) (reply[39] + (reply[40] << 8)))*1.0,
+				((short) (reply[41] + (reply[42] << 8)))*1.0,
+				((short) (reply[43] + (reply[44] << 8)))*1.0,
+				((short) (reply[45] + (reply[46] << 8)))*1.0,
+				((short) (reply[47] + (reply[48] << 8)))*1.0,
+				((short) (reply[49] + (reply[50] << 8)))*1.0,
+				((short) (reply[51] + (reply[52] << 8)))*1.0,
+				((short) (reply[53] + (reply[54] << 8)))*1.0,
+				((short) (reply[55] + (reply[56] << 8)))*1.0,
+				((short) (reply[57] + (reply[58] << 8)))*1.0);
 		}
 
 		public int ReplyLength
 		{
 			get {
-				return 65; // three Aiks each 32 * 2 bytes + 1 byte of Marat's status (flags)
+				return 66; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
 			}
 		}
 
