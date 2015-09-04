@@ -64,42 +64,40 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 			_readCycleCommand.RaiseCanExecuteChanged();
 			_stopReadingCommand.RaiseCanExecuteChanged();
 
-			var cmd = new ReadAiksTelemetryCommand();
+			
 			_backWorker.AddWork(() => {
 				try {
-					var w8er = new ManualResetEvent(false);
-					while (!Cancel) {
-						_commandSenderHost.Sender.SendCommandAsync(0x01,
-							cmd, TimeSpan.FromSeconds(1.0),
-							(exception, bytes) => {
-								IAikTelemetry aik1 = null;
-								IAikTelemetry aik2 = null;
-								IAikTelemetry aik3 = null;
-								try {
-									if (exception != null) {
-										throw new Exception("Произошла ошибка во время обмена", exception);
-									}
-									var result = cmd.GetResult(bytes);
-									aik1 = result.Aik1;
-									aik2 = result.Aik2;
-									aik3 = result.Aik3;
-								}
-								catch (Exception ex) {
-									// TODO: log exception, null values
-									_logger.Log("Ошибка: " + ex.Message);
-								}
-								finally {
-									_userInterfaceRoot.Notifier.Notify(() => {
-										_aikTelemetryVms[0].UpdateTelemetry(aik1);
-										_aikTelemetryVms[1].UpdateTelemetry(aik2);
-										_aikTelemetryVms[2].UpdateTelemetry(aik3);
+						
+						var w8er = new ManualResetEvent(false);
+						while (!Cancel) {
+							for (byte zbAinNumber = 0; zbAinNumber < 3; ++zbAinNumber) {
+								var cmd = new ReadAinTelemetryCommand(zbAinNumber);
+								byte ainNumber = zbAinNumber;
+								_commandSenderHost.Sender.SendCommandAsync(0x01,
+									cmd, TimeSpan.FromSeconds(1.0),
+									(exception, bytes) => {
+										IAinTelemetry ainTelemetry = null;
+										try {
+											if (exception != null) {
+												throw new Exception("Произошла ошибка во время обмена", exception);
+											}
+											var result = cmd.GetResult(bytes);
+											ainTelemetry = result;
+										}
+										catch (Exception ex) {
+											// TODO: log exception, null values
+											_logger.Log("Ошибка: " + ex.Message);
+										}
+										finally {
+											byte number = ainNumber;
+											_userInterfaceRoot.Notifier.Notify(() => _aikTelemetryVms[number].UpdateTelemetry(ainTelemetry));
+											w8er.Set();
+										}
 									});
-									w8er.Set();
-								}
-							});
-						w8er.WaitOne();
-						w8er.Reset();
-						Thread.Sleep(500); // TODO: interval must be setted by user
+							w8er.WaitOne();
+							w8er.Reset();
+							Thread.Sleep(100); // TODO: interval must be setted by user
+						}
 					}
 				}
 				catch (Exception ex) {

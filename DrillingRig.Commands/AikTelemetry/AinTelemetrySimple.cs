@@ -1,5 +1,5 @@
 namespace DrillingRig.Commands.AikTelemetry {
-	class AikTelemetrySimple : IAikTelemetry {
+	class AinTelemetrySimple : IAinTelemetry {
 		private readonly double _rotationFriquencyCalculated;
 		private readonly double _pwmModulationCoefficient;
 		private readonly double _momentumCurrentSetting;
@@ -46,7 +46,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 		private readonly double _calculatorDflowRegulatorOutput;
 		private readonly double _calculatorQflowRegulatorOutput;
 
-		public AikTelemetrySimple(
+		public AinTelemetrySimple(
 			double rotationFriquencyCalculated, 
 			double pwmModulationCoefficient, 
 			double momentumCurrentSetting, 

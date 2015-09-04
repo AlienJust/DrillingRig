@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using DrillingRid.Commands.Contracts;
 
-namespace DrillingRig.Commands {
+namespace DrillingRig.Commands.BsEthernetSettings {
 	public class ReadBsEthernetSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IReadBsEthernetSettingsResult>, IRrModbusCommandWithTestReply
 	{
 

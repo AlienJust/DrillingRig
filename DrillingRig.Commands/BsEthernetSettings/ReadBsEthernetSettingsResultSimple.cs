@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.NetworkInformation;
 
-namespace DrillingRig.Commands {
+namespace DrillingRig.Commands.BsEthernetSettings {
 	class ReadBsEthernetSettingsResultSimple : IReadBsEthernetSettingsResult
 	{
 		private readonly IPAddress _ipAddress;

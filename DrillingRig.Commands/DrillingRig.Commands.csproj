@@ -40,12 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AikTelemetry\AiksTelemetrySimple.cs" />
-    <Compile Include="AikTelemetry\AikTelemetrySimple.cs" />
+    <Compile Include="AikTelemetry\AinTelemetrySimple.cs" />
     <Compile Include="AikTelemetry\IAiksTelemetry.cs" />
-    <Compile Include="AikTelemetry\IAikTelemetry.cs" />
+    <Compile Include="AikTelemetry\IAinTelemetry.cs" />
     <Compile Include="AikTelemetry\ModeSetRunModeBits12.cs" />
     <Compile Include="AikTelemetry\ModeSetRunModeBits12Extensions.cs" />
-    <Compile Include="AikTelemetry\ReadAiksTelemetryCommand.cs" />
+    <Compile Include="AikTelemetry\ReadAinTelemetryCommand.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominals.cs" />
     <Compile Include="BsEthernetNominals\ReadBsEthernetNominalsCommand.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />

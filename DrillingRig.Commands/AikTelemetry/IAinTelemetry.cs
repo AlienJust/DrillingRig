@@ -1,5 +1,5 @@
 ﻿namespace DrillingRig.Commands.AikTelemetry {
-	public interface IAikTelemetry {
+	public interface IAinTelemetry {
 		double RotationFriquencyCalculated { get; }
 		double PwmModulationCoefficient { get; }
 		double MomentumCurrentSetting { get; }

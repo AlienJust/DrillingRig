@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-
-namespace DrillingRig.Commands
+﻿namespace DrillingRig.Commands.BsEthernetSettings
 {
 	public interface IWriteBsEthernetSettingsResult {
 		

@@ -8,6 +8,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands;
+using DrillingRig.Commands.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp.BsEthernetSettings
 {

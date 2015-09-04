@@ -4,7 +4,7 @@ using DrillingRig.Commands.AikTelemetry;
 namespace DrillingRig.ConfigApp.AikTelemetry {
 	internal class AikTelemetryViewModel : ViewModelBase {
 		private readonly string _aikName;
-		private IAikTelemetry _telemetry;
+		private IAinTelemetry _telemetry;
 
 		public AikTelemetryViewModel(string aikName) {
 			_aikName = aikName;
@@ -311,7 +311,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 
 		// TODO: other props
 
-		public void UpdateTelemetry(IAikTelemetry telemetry) {
+		public void UpdateTelemetry(IAinTelemetry telemetry) {
 			_telemetry = telemetry;
 			
 			RaisePropertyChanged(() => RotationFriquencyCalculated);

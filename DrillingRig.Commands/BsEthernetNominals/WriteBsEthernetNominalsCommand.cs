@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DrillingRid.Commands.Contracts;
+using DrillingRig.Commands.BsEthernetSettings;
 
 namespace DrillingRig.Commands.BsEthernetNominals {
 	public class WriteBsEthernetNominalsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IWriteBsEthernetSettingsResult>, IRrModbusCommandWithTestReply {
@@ -11,11 +12,11 @@ namespace DrillingRig.Commands.BsEthernetNominals {
 		}
 
 		public byte CommandCode {
-			get { return 0x81; }
+			get { return 0x83; }
 		}
 
 		public string Name {
-			get { return "Запись настроек БС-Ethernet"; }
+			get { return "Запись номинальных значений БС-Ethernet"; }
 		}
 
 		public byte[] Serialize() {

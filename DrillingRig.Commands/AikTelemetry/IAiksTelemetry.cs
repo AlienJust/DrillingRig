@@ -1,7 +1,7 @@
 ﻿namespace DrillingRig.Commands.AikTelemetry {
 	public interface IAiksTelemetry {
-		IAikTelemetry Aik1 { get; }
-		IAikTelemetry Aik2 { get; }
-		IAikTelemetry Aik3 { get; }
+		IAinTelemetry Aik1 { get; }
+		IAinTelemetry Aik2 { get; }
+		IAinTelemetry Aik3 { get; }
 	}
 }
