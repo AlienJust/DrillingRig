@@ -54,9 +54,9 @@ namespace DrillingRig.CommandSenders.SerialPortBased
 					}
 				    var crc = MathExtensions.Crc16(replyBytes.ToList(), 0, replyBytes.Length - 2);
 					if (crc.Low != replyBytes[replyBytes.Length - 2])
-						throw new Exception("Crc Lo byte is wrong, assumed to be 0x" + crc.High.ToString("x2") + " (" + crc.High +" dec)");
+						throw new Exception("Crc Low byte is wrong, assumed to be 0x" + crc.Low.ToString("x2") + " (" + crc.Low + " dec)");
 					if (crc.High != replyBytes[replyBytes.Length - 1])
-						throw new Exception("Crc Hi byte is wrong, assumed to be 0x" + crc.Low.ToString("x2") + " (" + crc.Low + " dec)");
+						throw new Exception("Crc High byte is wrong, assumed to be 0x" + crc.High.ToString("x2") + " (" + crc.High + " dec)");
 
 				    resultBytes = new byte[replyBytes.Length - 4];
 				    for (int i = 2; i < replyBytes.Length - 2; ++i)
