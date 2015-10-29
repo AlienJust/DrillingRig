@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace DrillingRig.ConfigApp.AiksSettings
+namespace DrillingRig.ConfigApp.AinTelemetry
 {
 	/// <summary>
 	/// Interaction logic for BsEthernetNominalsView.xaml
 	/// </summary>
-	public partial class AikSettings : UserControl
+	public partial class AinTelemetryView : UserControl
 	{
-		public AikSettings()
+		public AinTelemetryView()
 		{
 			InitializeComponent();
 		}

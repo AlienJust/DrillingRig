@@ -7,10 +7,10 @@ using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands.AikTelemetry;
+using DrillingRig.Commands.AinTelemetry;
 
-namespace DrillingRig.ConfigApp.AikTelemetry {
-	internal class AikTelemetriesViewModel : ViewModelBase {
+namespace DrillingRig.ConfigApp.AinTelemetry {
+	internal class AinTelemetriesViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -20,7 +20,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 		private readonly RelayCommand _readCycleCommand;
 		private readonly RelayCommand _stopReadingCommand;
 
-		private readonly List<AikTelemetryViewModel> _aikTelemetryVms;
+		private readonly List<AinTelemetryViewModel> _aikTelemetryVms;
 
 		private readonly IWorker<Action> _backWorker;
 
@@ -30,7 +30,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 		private bool _readingInProgress;
 		
 
-		public AikTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem) {
+		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -40,10 +40,10 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 			_readCycleCommand = new RelayCommand(ReadCycle, ()=>!_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
 
-			_aikTelemetryVms = new List<AikTelemetryViewModel> {
-				new AikTelemetryViewModel("АИК №1"),
-				new AikTelemetryViewModel("АИК №2"),
-				new AikTelemetryViewModel("АИК №3")
+			_aikTelemetryVms = new List<AinTelemetryViewModel> {
+				new AinTelemetryViewModel("АИК №1"),
+				new AinTelemetryViewModel("АИК №2"),
+				new AinTelemetryViewModel("АИК №3")
 			};
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>(a=>a(), ThreadPriority.BelowNormal, true, null);
@@ -116,7 +116,7 @@ namespace DrillingRig.ConfigApp.AikTelemetry {
 			});
 		}
 
-		public IEnumerable<AikTelemetryViewModel> AikTelemetryVms {
+		public IEnumerable<AinTelemetryViewModel> AikTelemetryVms {
 			get { return _aikTelemetryVms; }
 		}
 

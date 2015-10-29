@@ -1,4 +1,4 @@
-namespace DrillingRig.Commands.AikTelemetry {
+namespace DrillingRig.Commands.AinTelemetry {
 	class AinTelemetrySimple : IAinTelemetry {
 		private readonly double _rotationFriquencyCalculated;
 		private readonly double _pwmModulationCoefficient;

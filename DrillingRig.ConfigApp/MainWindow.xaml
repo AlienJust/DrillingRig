@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
         xmlns:bsEthernetNominals="clr-namespace:DrillingRig.ConfigApp.BsEthernetNominals"
-        xmlns:aikTelemetry="clr-namespace:DrillingRig.ConfigApp.AikTelemetry"
-        xmlns:aiksSettings="clr-namespace:DrillingRig.ConfigApp.AiksSettings"
+        xmlns:aikTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
+        xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
+        xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -38,22 +39,38 @@
 			<TabItem Header="Номинальные значения БС-Ethernet">
 				<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Телеметрия АИК">
-				<aikTelemetry:AikTelemetriesView DataContext="{Binding Path=AikTelemetriesVm, Mode=OneTime}"/>
+			<TabItem Header="Телеметрия АИН">
+				<aikTelemetry:AinTelemetriesView DataContext="{Binding Path=AikTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Настройки АИК1">
+			<TabItem Header="Настройки АИН1">
 				<ScrollViewer>
-					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik1SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik1SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
-			<TabItem Header="Настройки АИК2">
+			<TabItem Header="Настройки АИН2">
 				<ScrollViewer>
-					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik2SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik2SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
-			<TabItem Header="Настройки АИК3">
+			<TabItem Header="Настройки АИН3">
 				<ScrollViewer>
-					<aiksSettings:AikSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			
+			<TabItem Header="Команда АИН1">
+				<ScrollViewer>
+					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Команда АИН2">
+				<ScrollViewer>
+					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Команда АИН3">
+				<ScrollViewer>
+					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 		</TabControl>

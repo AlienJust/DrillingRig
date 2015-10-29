@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace DrillingRig.Commands.AikTelemetry {
+﻿namespace DrillingRig.Commands.AinTelemetry {
 	public enum ModeSetRunModeBits12 {
 		Freewell,
 		Traction,

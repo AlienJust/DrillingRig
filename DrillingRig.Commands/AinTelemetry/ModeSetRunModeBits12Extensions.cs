@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DrillingRig.Commands.AikTelemetry {
+namespace DrillingRig.Commands.AinTelemetry {
 	public static class ModeSetRunModeBits12Extensions {
 		public static ModeSetRunModeBits12 FromInt(int value) {
 			switch (value) {

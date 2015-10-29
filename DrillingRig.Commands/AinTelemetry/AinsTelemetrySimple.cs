@@ -1,9 +1,9 @@
-﻿namespace DrillingRig.Commands.AikTelemetry {
-	class AiksTelemetrySimple : IAiksTelemetry {
+﻿namespace DrillingRig.Commands.AinTelemetry {
+	class AinsTelemetrySimple : IAinsTelemetry {
 		private readonly IAinTelemetry _aik1;
 		private readonly IAinTelemetry _aik2;
 		private readonly IAinTelemetry _aik3;
-		public AiksTelemetrySimple(IAinTelemetry aik1, IAinTelemetry aik2, IAinTelemetry aik3) {
+		public AinsTelemetrySimple(IAinTelemetry aik1, IAinTelemetry aik2, IAinTelemetry aik3) {
 			_aik1 = aik1;
 			_aik2 = aik2;
 			_aik3 = aik3;

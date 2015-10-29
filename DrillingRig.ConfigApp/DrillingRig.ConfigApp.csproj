@@ -94,6 +94,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AinCommand\AinCommandView.xaml.cs">
+      <DependentUpon>AinCommandView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AinCommand\AinCommandViewModel.cs" />
+    <Compile Include="AinCommand\IModeSetVariantForAinCommandViewModel.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSerializationConstants.cs" />
@@ -103,15 +108,19 @@
     <Compile Include="BsEthernetSettings\BsEthernetSettingsImporter.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
     <Compile Include="SendingEnabledChangedDelegate.cs" />
-    <Page Include="AiksSettings\AikSettings.xaml">
+    <Page Include="AinCommand\AinCommandView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AikTelemetry\AikTelemetriesView.xaml">
+    <Page Include="AinsSettings\AinSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AinTelemetry\AinTelemetriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AikTelemetry\AikTelemetryView.xaml">
+    <Page Include="AinTelemetry\AinTelemetryView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -127,17 +136,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AiksSettings\AikSettings.xaml.cs">
-      <DependentUpon>AikSettings.xaml</DependentUpon>
+    <Compile Include="AinsSettings\AinSettings.xaml.cs">
+      <DependentUpon>AinSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AikTelemetry\AikTelemetriesView.xaml.cs">
-      <DependentUpon>AikTelemetriesView.xaml</DependentUpon>
+    <Compile Include="AinTelemetry\AinTelemetriesView.xaml.cs">
+      <DependentUpon>AinTelemetriesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AikTelemetry\AikTelemetryView.xaml.cs">
-      <DependentUpon>AikTelemetryView.xaml</DependentUpon>
+    <Compile Include="AinTelemetry\AinTelemetryView.xaml.cs">
+      <DependentUpon>AinTelemetryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AikTelemetry\AikTelemetriesViewModel.cs" />
-    <Compile Include="AikTelemetry\AikTelemetryViewModel.cs" />
+    <Compile Include="AinTelemetry\AinTelemetriesViewModel.cs" />
+    <Compile Include="AinTelemetry\AinTelemetryViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

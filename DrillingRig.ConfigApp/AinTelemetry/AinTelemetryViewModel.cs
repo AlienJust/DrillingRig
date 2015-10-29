@@ -1,12 +1,12 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.Commands.AikTelemetry;
+using DrillingRig.Commands.AinTelemetry;
 
-namespace DrillingRig.ConfigApp.AikTelemetry {
-	internal class AikTelemetryViewModel : ViewModelBase {
+namespace DrillingRig.ConfigApp.AinTelemetry {
+	internal class AinTelemetryViewModel : ViewModelBase {
 		private readonly string _aikName;
 		private IAinTelemetry _telemetry;
 
-		public AikTelemetryViewModel(string aikName) {
+		public AinTelemetryViewModel(string aikName) {
 			_aikName = aikName;
 			_telemetry = null;
 		}

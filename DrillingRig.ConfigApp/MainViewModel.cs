@@ -10,7 +10,8 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
-using DrillingRig.ConfigApp.AikTelemetry;
+using DrillingRig.ConfigApp.AinCommand;
+using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 
@@ -28,7 +29,10 @@ namespace DrillingRig.ConfigApp {
 		private readonly ProgramLogViewModel _programLogVm;
 		private readonly BsEthernetSettingsViewModel _bsEthernetSettingsVm;
 		private readonly BsEthernetNominalsViewModel _bsEthernetNominalsVm;
-		private readonly AikTelemetriesViewModel _aikTelemetriesVm;
+		private readonly AinTelemetriesViewModel _ainTelemetriesVm;
+		private readonly AinCommandViewModel _ain1CommandVm;
+		private readonly AinCommandViewModel _ain2CommandVm;
+		private readonly AinCommandViewModel _ain3CommandVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -54,7 +58,12 @@ namespace DrillingRig.ConfigApp {
 
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
-			_aikTelemetriesVm = new AikTelemetriesViewModel(this, this, this, _logger, _windowSystem);
+			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem);
+			
+			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0);
+			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1);
+			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2);
+
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -191,8 +200,20 @@ namespace DrillingRig.ConfigApp {
 			get { return _bsEthernetNominalsVm; }
 		}
 
-		public AikTelemetriesViewModel AikTelemetriesVm {
-			get { return _aikTelemetriesVm; }
+		public AinTelemetriesViewModel AinTelemetriesVm {
+			get { return _ainTelemetriesVm; }
+		}
+
+		public AinCommandViewModel Ain1CommandVm {
+			get { return _ain1CommandVm; }
+		}
+
+		public AinCommandViewModel Ain2CommandVm {
+			get { return _ain2CommandVm; }
+		}
+
+		public AinCommandViewModel Ain3CommandVm {
+			get { return _ain3CommandVm; }
 		}
 	}
 }

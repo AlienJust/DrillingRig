@@ -39,13 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AikTelemetry\AiksTelemetrySimple.cs" />
-    <Compile Include="AikTelemetry\AinTelemetrySimple.cs" />
-    <Compile Include="AikTelemetry\IAiksTelemetry.cs" />
-    <Compile Include="AikTelemetry\IAinTelemetry.cs" />
-    <Compile Include="AikTelemetry\ModeSetRunModeBits12.cs" />
-    <Compile Include="AikTelemetry\ModeSetRunModeBits12Extensions.cs" />
-    <Compile Include="AikTelemetry\ReadAinTelemetryCommand.cs" />
+    <Compile Include="AinCommand\FirstAinCommand.cs" />
+    <Compile Include="AinTelemetry\AinsTelemetrySimple.cs" />
+    <Compile Include="AinTelemetry\AinTelemetrySimple.cs" />
+    <Compile Include="AinTelemetry\IAinsTelemetry.cs" />
+    <Compile Include="AinTelemetry\IAinTelemetry.cs" />
+    <Compile Include="AinTelemetry\ModeSetRunModeBits12.cs" />
+    <Compile Include="AinTelemetry\ModeSetRunModeBits12Extensions.cs" />
+    <Compile Include="AinTelemetry\ReadAinTelemetryCommand.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominals.cs" />
     <Compile Include="BsEthernetNominals\ReadBsEthernetNominalsCommand.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />

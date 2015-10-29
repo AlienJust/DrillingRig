@@ -1,7 +1,7 @@
 ﻿using System;
 using DrillingRid.Commands.Contracts;
 
-namespace DrillingRig.Commands.AikTelemetry {
+namespace DrillingRig.Commands.AinTelemetry {
 	public class ReadAinTelemetryCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IAinTelemetry>, IRrModbusCommandWithTestReply
 	{
 		private readonly byte _zeroBasedAinNumber;
@@ -26,6 +26,7 @@ namespace DrillingRig.Commands.AikTelemetry {
 		}
 
 		public IAinTelemetry GetResult(byte[] reply) {
+			// TODO: check if reply[0] is equal _zbAinNumber
 			return new AinTelemetrySimple(
 				((short) (reply[1] + (reply[2] << 8)))*0.1,
 				((short) (reply[3] + (reply[4] << 8)))*1.0,
