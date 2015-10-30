@@ -79,7 +79,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public int ReplyLength
 		{
 			get {
-				return 66; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
+				return 70; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
 			}
 		}
 
