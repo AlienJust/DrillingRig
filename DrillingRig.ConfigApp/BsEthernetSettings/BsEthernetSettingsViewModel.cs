@@ -123,7 +123,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(5)
+					, TimeSpan.FromSeconds(1)
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -160,7 +160,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(5)
+					, TimeSpan.FromSeconds(1)
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
 					{
 						try

@@ -3,11 +3,11 @@ using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal class AinTelemetryViewModel : ViewModelBase {
-		private readonly string _aikName;
+		private readonly string _ainName;
 		private IAinTelemetry _telemetry;
 
-		public AinTelemetryViewModel(string aikName) {
-			_aikName = aikName;
+		public AinTelemetryViewModel(string ainName) {
+			_ainName = ainName;
 			_telemetry = null;
 		}
 
@@ -303,8 +303,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
-		public string AikName {
-			get { return _aikName; }
+		public string AinName {
+			get { return _ainName; }
 		}
 
 

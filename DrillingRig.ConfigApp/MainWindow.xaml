@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
         xmlns:bsEthernetNominals="clr-namespace:DrillingRig.ConfigApp.BsEthernetNominals"
-        xmlns:aikTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
+        xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
         xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
@@ -40,7 +40,7 @@
 				<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Телеметрия АИН">
-				<aikTelemetry:AinTelemetriesView DataContext="{Binding Path=AikTelemetriesVm, Mode=OneTime}"/>
+				<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Настройки АИН1">
 				<ScrollViewer>

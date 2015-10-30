@@ -20,7 +20,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private readonly RelayCommand _readCycleCommand;
 		private readonly RelayCommand _stopReadingCommand;
 
-		private readonly List<AinTelemetryViewModel> _aikTelemetryVms;
+		private readonly List<AinTelemetryViewModel> _ainTelemetryVms;
 
 		private readonly IWorker<Action> _backWorker;
 
@@ -40,10 +40,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_readCycleCommand = new RelayCommand(ReadCycle, ()=>!_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
 
-			_aikTelemetryVms = new List<AinTelemetryViewModel> {
-				new AinTelemetryViewModel("АИК №1"),
-				new AinTelemetryViewModel("АИК №2"),
-				new AinTelemetryViewModel("АИК №3")
+			_ainTelemetryVms = new List<AinTelemetryViewModel> {
+				new AinTelemetryViewModel("АИН №1"),
+				new AinTelemetryViewModel("АИН №2"),
+				new AinTelemetryViewModel("АИН №3")
 			};
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>(a=>a(), ThreadPriority.BelowNormal, true, null);
@@ -91,7 +91,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 										}
 										finally {
 											byte number = ainNumber;
-											_userInterfaceRoot.Notifier.Notify(() => _aikTelemetryVms[number].UpdateTelemetry(ainTelemetry));
+											_userInterfaceRoot.Notifier.Notify(() => _ainTelemetryVms[number].UpdateTelemetry(ainTelemetry));
 											w8er.Set();
 										}
 									});
@@ -116,8 +116,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			});
 		}
 
-		public IEnumerable<AinTelemetryViewModel> AikTelemetryVms {
-			get { return _aikTelemetryVms; }
+		public IEnumerable<AinTelemetryViewModel> AinTelemetryVms {
+			get { return _ainTelemetryVms; }
 		}
 
 		public ICommand ReadCycleCommand {
