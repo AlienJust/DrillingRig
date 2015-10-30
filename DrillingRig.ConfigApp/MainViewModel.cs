@@ -45,6 +45,8 @@ namespace DrillingRig.ConfigApp {
 		private bool _isSendingEnabled;
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
+			_targetAddress = 1;
+
 			_commandSender = null;
 			_isPortOpened = false;
 			_notifier = notifier;
