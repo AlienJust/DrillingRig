@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -7,7 +8,6 @@ using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands;
 using DrillingRig.Commands.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp.BsEthernetSettings
@@ -25,15 +25,18 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		private readonly ICommand _importSettingCommand;
 		private readonly ICommand _exportSettingsCommand;
 
-		
 		private string _ipAddress;
 		private string _mask;
 		private string _gateway;
 		private string _dnsServer;
 		private string _macAddress;
 		private byte _modbusAddress;
-		private ushort _driveNumber;
+		private byte _driveNumber;
+		private byte _addressCan;
 
+		private readonly List<FtRoleViewModel> _ftRoles;
+		private FtRoleViewModel _selectedFtRole;
+		
 		public BsEthernetSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
 		{
 			_commandSenderHost = commandSenderHost;
@@ -50,6 +53,13 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			_macAddress = string.Empty;
 			_modbusAddress = 1;
 			_driveNumber = 0;
+			_addressCan = 0;
+			_ftRoles = new List<FtRoleViewModel> {
+				new FtRoleViewModel(FriquencyTransformerRole.Single), 
+				new FtRoleViewModel(FriquencyTransformerRole.Master), 
+				new FtRoleViewModel(FriquencyTransformerRole.Slave)
+			};
+			_selectedFtRole = _ftRoles.First();
 
 			_readSettingsCommand = new RelayCommand(ReadSettings, () => _sendingEnabledControl.IsSendingEnabled);
 			_writeSettingsCommand = new RelayCommand(WriteSettings, () => _sendingEnabledControl.IsSendingEnabled);
@@ -70,15 +80,24 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			var dialogResult = _windowSystem.ShowOpenFileDialog("Выберите файл с настройками БС-Ethernet", "XML files|*.xml|All files|*.*");
 			if (!string.IsNullOrEmpty(dialogResult)) {
 				try {
-					var importer = new BsEthernetSettingsImporter(dialogResult);
+					var importer = new BsEthernetSettingsXmlWorker(dialogResult);
 					var settings = importer.ImportSettings();
-					IpAddress = settings.IpAddress;
-					Mask = settings.Mask;
-					Gateway = settings.Gateway;
-					DnsServer = settings.DnsServer;
-					MacAddress = settings.MacAddress;
+					
+					IpAddress = settings.IpAddress.ToString();
+					Mask = settings.Mask.ToString();
+					Gateway = settings.Gateway.ToString();
+					DnsServer = settings.DnsServer.ToString();
+					
+					var mac = settings.MacAddress.GetAddressBytes().Aggregate(string.Empty, (current, b) => current + (b.ToString("X2") + "."));
+					mac = mac.Substring(0, mac.Length - 1);
+					MacAddress = mac;
+
 					ModbusAddress = settings.ModbusAddress;
 					DriveNumber = settings.DriveNumber;
+					AddressCan = settings.AddressCan;
+					SelectedFtRole = _ftRoles.First(r => r.Role == settings.FtRole);
+
+
 					_logger.Log("Настройки успешно импортированы");
 				}
 				catch (Exception ex) {
@@ -95,8 +114,15 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			var dialogResult = _windowSystem.ShowSaveFileDialog("Выберите файл для сохранения настроек БС-Ethernet", "XML files|*.xml|All files|*.*");
 			if (!string.IsNullOrEmpty(dialogResult)) {
 				try {
-					var exporter = new BsEthernetSettingsExporterXml(dialogResult);
-					exporter.ExportSettings(new BsEthernetSettingsSimple(IpAddress, Mask, Gateway, DnsServer, MacAddress, ModbusAddress, DriveNumber));
+					var exporter = new BsEthernetSettingsXmlWorker(dialogResult);
+					var mac = new PhysicalAddress(MacAddress.Split('.').Select(s => byte.Parse(s, NumberStyles.HexNumber)).ToArray());
+					var ip = new IPAddress(IpAddress.Split('.').Select(byte.Parse).ToArray());
+					var mask = new IPAddress(Mask.Split('.').Select(byte.Parse).ToArray());
+					var gate = new IPAddress(Gateway.Split('.').Select(byte.Parse).ToArray());
+					var dns = new IPAddress(DnsServer.Split('.').Select(byte.Parse).ToArray());
+					var ftRole = SelectedFtRole.Role;
+
+					exporter.ExportSettings(new BsEthernetSettingsSimple(mac, ip, mask, gate, dns, _modbusAddress, _driveNumber, _addressCan, ftRole));
 					_logger.Log("Настройки успешно экспортированы");
 				}
 				catch (Exception ex) {
@@ -111,13 +137,15 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		private void WriteSettings() {
 			try {
 				_logger.Log("Подготовка к записи настроек БС-Ethernet");
+				var mac = new PhysicalAddress(MacAddress.Split('.').Select(s => byte.Parse(s, NumberStyles.HexNumber)).ToArray());
 				var ip = new IPAddress(IpAddress.Split('.').Select(byte.Parse).ToArray());
 				var mask = new IPAddress(Mask.Split('.').Select(byte.Parse).ToArray());
 				var gate = new IPAddress(Gateway.Split('.').Select(byte.Parse).ToArray());
 				var dns = new IPAddress(DnsServer.Split('.').Select(byte.Parse).ToArray());
-				var mac = new PhysicalAddress(MacAddress.Split('.').Select(s => byte.Parse(s, NumberStyles.HexNumber)).ToArray());
+				var ftRole = SelectedFtRole.Role;
 
-				var cmd = new WriteBsEthernetSettingsCommand(ip, mask, gate, dns, mac, ModbusAddress, DriveNumber);
+
+				var cmd = new WriteBsEthernetSettingsCommand(new BsEthernetSettingsSimple(mac, ip, mask, gate, dns, ModbusAddress, DriveNumber, AddressCan, ftRole));
 
 				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
@@ -176,13 +204,15 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 								mac = result.MacAddress.GetAddressBytes().Aggregate(mac, (current, b) => current + b.ToString("X2") + ".");
 								mac = mac.Substring(0, mac.Length - 1);
 								_userInterfaceRoot.Notifier.Notify(() => {
+									MacAddress = mac;
 									IpAddress = result.IpAddress.ToString();
 									Mask = result.Mask.ToString();
 									Gateway = result.Gateway.ToString();
 									DnsServer = result.DnsServer.ToString();
-									MacAddress = mac;
 									ModbusAddress = result.ModbusAddress;
 									DriveNumber = result.DriveNumber;
+									AddressCan = result.AddressCan;
+									SelectedFtRole = FtRoles.First(ftr => ftr.Role == result.FtRole);
 								});
 								_logger.Log("Настройки БС-Ethernet успешно прочитаны");
 							}
@@ -260,7 +290,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				} }
 		}
 
-		public ushort DriveNumber {
+		public byte DriveNumber {
 			get { return _driveNumber; }
 			set {
 				if (_driveNumber != value) {
@@ -285,6 +315,33 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		public ICommand ExportSettingCommand
 		{
 			get { return _exportSettingsCommand; }
+		}
+
+		public byte AddressCan {
+			get { return _addressCan; }
+			set {
+				if (_addressCan != value) {
+					_addressCan = value;
+					RaisePropertyChanged(()=>AddressCan);
+				}
+			}
+		}
+
+		public IEnumerable<FtRoleViewModel> FtRoles {
+			get {
+				return _ftRoles; 
+			}
+		}
+
+		public FtRoleViewModel SelectedFtRole {
+			get { return _selectedFtRole; }
+			set {
+				if (_selectedFtRole != value) {
+					_selectedFtRole = value;
+					RaisePropertyChanged(()=>SelectedFtRole);
+					//Console.WriteLine("Selected role changed, now: " + _selectedFtRole.Text);
+				}
+			}
 		}
 	}
 }

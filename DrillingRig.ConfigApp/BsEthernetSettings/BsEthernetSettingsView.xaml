@@ -15,6 +15,8 @@
 			<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>   
 		<Grid.ColumnDefinitions>
@@ -28,16 +30,26 @@
 		<TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="MAC address:"/>
 		<TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Text="Modbus address:"/>
 		<TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Text="Drive number:"/>
-
+		<TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Text="Address CAN:"/>
+		<TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Text="Роль ПЧ:"/>
+		
 		<xctk:WatermarkTextBox Grid.Row="0" Grid.Column="1" Watermark="Example: 192.168.0.123" Text="{Binding Path=IpAddress, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 		<xctk:WatermarkTextBox Grid.Row="1" Grid.Column="1" Watermark="Example: 255.255.255.0" Text="{Binding Path=Mask, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 		<xctk:WatermarkTextBox Grid.Row="2" Grid.Column="1" Watermark="Example: 192.168.0.1" Text="{Binding Path=Gateway, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 		<xctk:WatermarkTextBox Grid.Row="3" Grid.Column="1" Watermark="Example: 8.8.8.8" Text="{Binding Path=DnsServer, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 		<xctk:WatermarkTextBox Grid.Row="4" Grid.Column="1" Watermark="Example: AB.BC.CD.01.02.03" Text="{Binding Path=MacAddress, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 		<xctk:ByteUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Path=ModbusAddress, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-		<xctk:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Path=DriveNumber, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+		<xctk:ByteUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Path=DriveNumber, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+		<xctk:ByteUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Path=AddressCan, Mode=TwoWay}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+		<ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding Path=FtRoles, Mode=OneTime}" SelectedItem="{Binding Path=SelectedFtRole, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Path=Text, Mode=OneTime}" VerticalAlignment="Center"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
-		<Grid Grid.Row="7" Grid.Column="0">
+		<Grid Grid.Row="9" Grid.Column="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>
@@ -46,7 +58,7 @@
 			<Button Grid.Column="1" Content="Экспорт..." Command="{Binding Path=ExportSettingCommand, Mode=OneTime}"/>
 		</Grid>
 
-		<Grid Grid.Row="7" Grid.Column="1">
+		<Grid Grid.Row="9" Grid.Column="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>

@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Windows.Documents;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinCommand;
-using DrillingRig.Commands.BsEthernetSettings;
-using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandViewModel : ViewModelBase {

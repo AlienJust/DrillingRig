@@ -105,7 +105,7 @@
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsExporter.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
-    <Compile Include="BsEthernetSettings\BsEthernetSettingsImporter.cs" />
+    <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Page Include="AinCommand\AinCommandView.xaml">
@@ -156,13 +156,11 @@
     </Compile>
     <Compile Include="BsEthernetNominals\BsEthernetNominalsViewModel.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetRatedSettings.cs" />
-    <Compile Include="BsEthernetSettings\BsEthernetSettingsExporterXml.cs" />
-    <Compile Include="BsEthernetSettings\BsEthernetSettingsSimple.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsXmlWorker.cs" />
     <Compile Include="BsEthernetSettings\BsEthernetSettingsView.xaml.cs">
       <DependentUpon>BsEthernetSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BsEthernetSettings\BsEthernetSettingsViewModel.cs" />
-    <Compile Include="BsEthernetSettings\IBsEthernetSettings.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsExporter.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsImporter.cs" />
     <Compile Include="ICommandSenderHost.cs" />

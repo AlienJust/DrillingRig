@@ -20,7 +20,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased
 	    public SerialPortBasedCommandSender(string portName) {
 			_serialPort = new SerialPort(portName, 115200);
 			_serialPort.Open();
-		    _portExtender = new SerialPortExtender(_serialPort);
+		    _portExtender = new SerialPortExtender(_serialPort, text=> Console.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " > " + text));
 			
 		    _backWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);
 			_notifyWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);

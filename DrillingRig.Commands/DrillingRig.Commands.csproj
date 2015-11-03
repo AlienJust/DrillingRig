@@ -51,8 +51,8 @@
     <Compile Include="BsEthernetNominals\ReadBsEthernetNominalsCommand.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSimple.cs" />
     <Compile Include="BsEthernetNominals\WriteBsEthernetNominalsCommand.cs" />
-    <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsResultSimple.cs" />
-    <Compile Include="BsEthernetSettings\IReadBsEthernetSettingsResult.cs" />
+    <Compile Include="BsEthernetSettings\BsEthernetSettingsSimple.cs" />
+    <Compile Include="BsEthernetSettings\IBsEthernetSettings.cs" />
     <Compile Include="BsEthernetSettings\IWriteBsEthernetSettingsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsCommand.cs" />
