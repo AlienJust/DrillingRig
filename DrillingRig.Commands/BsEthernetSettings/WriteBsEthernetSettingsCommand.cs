@@ -23,11 +23,13 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 
 		public byte[] Serialize() {
 			var result = new List<byte>();
+			result.AddRange(_bsEthernetSettings.MacAddress.GetAddressBytes());
+			
 			result.AddRange(_bsEthernetSettings.IpAddress.GetAddressBytes());
 			result.AddRange(_bsEthernetSettings.Mask.GetAddressBytes());
 			result.AddRange(_bsEthernetSettings.Gateway.GetAddressBytes());
 			result.AddRange(_bsEthernetSettings.DnsServer.GetAddressBytes());
-			result.AddRange(_bsEthernetSettings.MacAddress.GetAddressBytes());
+
 			result.Add(_bsEthernetSettings.ModbusAddress);
 			result.Add(_bsEthernetSettings.DriveNumber);
 			result.Add(_bsEthernetSettings.AddressCan);
