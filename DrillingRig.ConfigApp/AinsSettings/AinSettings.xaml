@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="500">
+             d:DesignHeight="1500" d:DesignWidth="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -17,56 +17,58 @@
 				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
 
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
+				<RowDefinition Height="Auto" MinHeight="20"/>
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора скорости"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=SpeedRegulatorProportionalCoefficient, Mode=TwoWay}"/>
@@ -92,11 +94,11 @@
 			<TextBlock Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Максимальная частота (электрическая)"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="7" Value="{Binding Path=MaximumElectricFriquency, Mode=TwoWay}"/>
 
-			<TextBlock Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="8" Value="{Binding Path=MinimalMomentum, Mode=TwoWay}"/>
+			<TextBlock Grid.Column="0" Grid.Row="49" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="49" Value="{Binding Path=MinimalMomentum, Mode=TwoWay}"/>
 
-			<TextBlock Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="9" Value="{Binding Path=MaximumMomentum, Mode=TwoWay}"/>
+			<TextBlock Grid.Column="0" Grid.Row="50" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="50" Value="{Binding Path=MaximumMomentum, Mode=TwoWay}"/>
 
 			<TextBlock Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Ограничение тока (амплитуда)"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="10" Value="{Binding Path=CurrentAmplitudeLimitation, Mode=TwoWay}"/>
