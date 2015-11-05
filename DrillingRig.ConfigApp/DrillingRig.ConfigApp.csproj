@@ -99,6 +99,13 @@
     </Compile>
     <Compile Include="AinCommand\AinCommandViewModel.cs" />
     <Compile Include="AinCommand\IModeSetVariantForAinCommandViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandInching1ViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandInching2ViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandOff1ViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandOff2ViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandOff3ViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandResetViewModel.cs" />
+    <Compile Include="AinCommand\ModeSetVariantForAinCommandRunViewModel.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSerializationConstants.cs" />
