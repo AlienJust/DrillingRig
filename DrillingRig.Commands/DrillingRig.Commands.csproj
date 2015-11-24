@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AinCommand\FirstAinCommand.cs" />
+    <Compile Include="AinSettings\IAinTelemetry.cs" />
     <Compile Include="AinTelemetry\AinsTelemetrySimple.cs" />
     <Compile Include="AinTelemetry\AinTelemetrySimple.cs" />
     <Compile Include="AinTelemetry\IAinsTelemetry.cs" />

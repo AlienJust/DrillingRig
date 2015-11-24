@@ -94,12 +94,6 @@
 			<TextBlock Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Максимальная частота (электрическая)"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="7" Value="{Binding Path=MaximumElectricFriquency, Mode=TwoWay}"/>
 
-			<TextBlock Grid.Column="0" Grid.Row="49" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="49" Value="{Binding Path=MinimalMomentum, Mode=TwoWay}"/>
-
-			<TextBlock Grid.Column="0" Grid.Row="50" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="50" Value="{Binding Path=MaximumMomentum, Mode=TwoWay}"/>
-
 			<TextBlock Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Ограничение тока (амплитуда)"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="10" Value="{Binding Path=CurrentAmplitudeLimitation, Mode=TwoWay}"/>
 
@@ -231,6 +225,12 @@
 
 			<TextBlock Grid.Column="0" Grid.Row="48" VerticalAlignment="Center" Text="Резерв (уставка 3) "/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="48" Value="{Binding Path=Set3, Mode=TwoWay}"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="49" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="49" Value="{Binding Path=MinimalMomentum, Mode=TwoWay}"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="50" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="50" Value="{Binding Path=MaximumMomentum, Mode=TwoWay}"/>
 		</Grid>
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
