@@ -59,6 +59,7 @@
     <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsResultSimple.cs" />
+    <Compile Include="SystemControl\SetBootloaderCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj">

@@ -115,6 +115,10 @@
     <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
     <Compile Include="SendingEnabledChangedDelegate.cs" />
+    <Compile Include="SystemControl\BsEthernetSettingsViewModel.cs" />
+    <Compile Include="SystemControl\SystemControlView.xaml.cs">
+      <DependentUpon>SystemControlView.xaml</DependentUpon>
+    </Compile>
     <Page Include="AinCommand\AinCommandView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -179,6 +183,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProgramLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemControl\SystemControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

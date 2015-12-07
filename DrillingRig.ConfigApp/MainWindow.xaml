@@ -6,6 +6,7 @@
         xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
         xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
+        xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -57,7 +58,7 @@
 					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
-			
+
 			<TabItem Header="Команда АИН1">
 				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
@@ -72,6 +73,14 @@
 				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
 				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Система">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"></RowDefinition>
+					</Grid.RowDefinitions>
+				<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}" Margin="4,4,4,4"/>
+				</Grid>
 			</TabItem>
 		</TabControl>
 		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
