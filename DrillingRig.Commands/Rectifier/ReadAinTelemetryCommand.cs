@@ -10,6 +10,7 @@ namespace DrillingRig.Commands.Rectifier
 	public class ReadRectifierTelemetriesCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IList<IRectifierTelemetry>>, IRrModbusCommandWithTestReply
 	{
 		const int RectifiersCount = 6;
+		private const int BytesPerSingleRecifier = 16;
 
 		public byte CommandCode
 		{
@@ -33,14 +34,14 @@ namespace DrillingRig.Commands.Rectifier
 			for (int i = 0; i < RectifiersCount; ++i) {
 				result.Add(
 					new RectifierTelemetrySimple(
-						(short) (reply[0] + (reply[1] << 8)),
-						(short) (reply[2] + (reply[3] << 8)),
-						(short) (reply[4] + (reply[5] << 8)),
-						(short) (reply[6] + (reply[7] << 8)),
-						(short) (reply[8] + (reply[9] << 8)),
-						(short) (reply[10] + (reply[11] << 8)),
-						(short) (reply[12] + (reply[13] << 8)),
-						(short) (reply[14] + (reply[15] << 8))
+						(short)(reply[i * BytesPerSingleRecifier + 0] + (reply[i * BytesPerSingleRecifier + 1] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 2] + (reply[i * BytesPerSingleRecifier + 3] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 4] + (reply[i * BytesPerSingleRecifier + 5] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 6] + (reply[i * BytesPerSingleRecifier + 7] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 8] + (reply[i * BytesPerSingleRecifier + 9] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 10] + (reply[i * BytesPerSingleRecifier + 11] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 12] + (reply[i * BytesPerSingleRecifier + 13] << 8)),
+						(short)(reply[i * BytesPerSingleRecifier + 14] + (reply[i * BytesPerSingleRecifier + 15] << 8))
 						));
 			}
 			return result;
@@ -49,7 +50,7 @@ namespace DrillingRig.Commands.Rectifier
 		public int ReplyLength
 		{
 			get {
-				return RectifiersCount * 16; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
+				return RectifiersCount * BytesPerSingleRecifier; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
 			}
 		}
 

@@ -22,24 +22,25 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<TextBlock Text="{Binding Path=RectifierName, Mode=OneTime}" Grid.Row="0" Grid.Column="0" TextAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2"/>
-			<TextBlock Text="U1 вх" Grid.Row="1" Grid.Column="0"/>
-			<TextBlock Text="U2 вх" Grid.Row="2" Grid.Column="0"/>
-			<TextBlock Text="U3 вх" Grid.Row="3" Grid.Column="0"/>
-			<TextBlock Text="Udc вых" Grid.Row="4" Grid.Column="0"/>
-			<TextBlock Text="I1" Grid.Row="5" Grid.Column="0"/>
-			<TextBlock Text="I2" Grid.Row="6" Grid.Column="0"/>
-			<TextBlock Text="I3" Grid.Row="7" Grid.Column="0"/>
-			<TextBlock Text="T, C" Grid.Row="8" Grid.Column="0"/>
 
-			<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=VoltageInput1, Mode=OneWay}"/>
-			<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=VoltageInput2, Mode=OneWay}"/>
-			<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=VoltageInput3, Mode=OneWay}"/>
-			<TextBlock Text="{Binding Path=VoltageOutputDc, Mode=OneWay}" Grid.Row="4" Grid.Column="1"/>
-			<TextBlock Text="{Binding Path=Current1, Mode=OneWay}" Grid.Row="5" Grid.Column="1"/>
-			<TextBlock Text="{Binding Path=Current2, Mode=OneWay}" Grid.Row="6" Grid.Column="1"/>
-			<TextBlock Text="{Binding Path=Current3, Mode=OneWay}" Grid.Row="7" Grid.Column="1"/>
-			<TextBlock Text="{Binding Path=Temperature, Mode=OneWay}" Grid.Row="8" Grid.Column="1"/>
+			<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextAlignment="Center" FontWeight="Bold" Text="{Binding Path=RectifierName, Mode=OneTime}"/>
+			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2,2,2,2" Text="U1 вх"/>
+			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2,2,2,2" Text="U2 вх"/>
+			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2,2,2,2" Text="U3 вх"/>
+			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2,2,2,2" Text="Udc вых"/>
+			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2,2,2,2" Text="I1"/>
+			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2,2,2,2" Text="I2"/>
+			<TextBlock Grid.Row="7" Grid.Column="0" Margin="2,2,2,2" Text="I3"/>
+			<TextBlock Grid.Row="8" Grid.Column="0" Margin="2,2,2,2" Text="T, C"/>
+
+			<TextBlock Grid.Row="1" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=VoltageInput1, Mode=OneWay}"/>
+			<TextBlock Grid.Row="2" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=VoltageInput2, Mode=OneWay}"/>
+			<TextBlock Grid.Row="3" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=VoltageInput3, Mode=OneWay}"/>
+			<TextBlock Grid.Row="4" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=VoltageOutputDc, Mode=OneWay}"/>
+			<TextBlock Grid.Row="5" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=Current1, Mode=OneWay}"/>
+			<TextBlock Grid.Row="6" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=Current2, Mode=OneWay}"/>
+			<TextBlock Grid.Row="7" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=Current3, Mode=OneWay}"/>
+			<TextBlock Grid.Row="8" Grid.Column="1" Margin="2,2,2,2" HorizontalAlignment="Right" Text="{Binding Path=Temperature, Mode=OneWay}"/>
 		</Grid>
 	</Border>
 </UserControl>
