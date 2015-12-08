@@ -20,18 +20,18 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<TextBlock Text="Модуль охлаждения" Grid.Row="0" Grid.Column="0" TextAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2"/>
-			<TextBlock Text="Диагностика" Grid.Row="1" Grid.Column="0"/>
-			<TextBlock Text="Давление охлаждающей жидкости, кПа" Grid.Row="2" Grid.Column="0"/>
-			<TextBlock Text="Скорость вращения вентилятора, об/мин" Grid.Row="3" Grid.Column="0"/>
-			<TextBlock Text="Температура, С" Grid.Row="4" Grid.Column="0"/>
-			<TextBlock Text="Резерв 1" Grid.Row="5" Grid.Column="0"/>
-			<TextBlock Text="Резерв 2" Grid.Row="6" Grid.Column="0"/>
+			<TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2" Text="Модуль охлаждения" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Диагностика"/>
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Давление охлаждающей жидкости, кПа"/>
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Скорость вращения вентилятора, об/мин"/>
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Температура, С"/>
+			<TextBlock Grid.Row="5" Grid.Column="0" Text="Резерв 1"/>
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="Резерв 2"/>
 
 			<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=Diagnostic, Mode=OneWay}" />
-			<TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=CoolingLiquidPressure, Mode=OneWay, StringFormat=f2}"/>
-			<TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=FanSpeed, Mode=OneWay, StringFormat=f2}"/>
-			<TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=CoolingLiquidTemperature, Mode=OneWay, StringFormat=f2}"/>
+			<TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=CoolingLiquidPressure, Mode=OneWay}"/>
+			<TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=FanSpeed, Mode=OneWay}"/>
+			<TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=CoolingLiquidTemperature, Mode=OneWay}"/>
 			<TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=Reserve1, Mode=OneWay}"/>
 			<TextBlock Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=Reserve2, Mode=OneWay}"/>
 		</Grid>

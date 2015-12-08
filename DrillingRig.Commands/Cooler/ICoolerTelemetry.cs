@@ -2,9 +2,9 @@
 {
 	public interface ICoolerTelemetry {
 		ushort Diagnostic { get; }
-		double CoolingLiquidPressure { get; }
-		double FanSpeed { get; }
-		double CoolingLiquidTemperature { get; }
+		short CoolingLiquidPressure { get; }
+		short FanSpeed { get; }
+		short CoolingLiquidTemperature { get; }
 		ushort Reserve1 { get; }
 		ushort Reserve2 { get; }
 	}

@@ -31,9 +31,9 @@ namespace DrillingRig.Commands.Cooler
 			if (reply.Length != ReplyLength) throw new Exception("неверная длина ответа");
 			var result = new CoolerTelemetrySimple(
 				(ushort) (reply[0] + (reply[1] << 8)),
-				((short) (reply[2] + (reply[3] << 8)))*4.0,
-				((short) (reply[4] + (reply[5] << 8)))*10.0,
-				((short) (reply[6] + (reply[7] << 8)))*2.0,
+				(short) (reply[2] + (reply[3] << 8)),
+				(short) (reply[4] + (reply[5] << 8)),
+				(short) (reply[6] + (reply[7] << 8)),
 				(ushort) (reply[8] + (reply[9] << 8)),
 				(ushort) (reply[10] + (reply[11] << 8)));
 			return result;

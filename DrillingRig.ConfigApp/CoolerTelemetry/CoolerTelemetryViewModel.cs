@@ -18,7 +18,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry {
 			}
 		}
 
-		public double? CoolingLiquidPressure
+		public short? CoolingLiquidPressure
 		{
 			get {
 				if (_telemetry == null) return null;
@@ -26,7 +26,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry {
 			}
 		}
 
-		public double? FanSpeed
+		public short? FanSpeed
 		{
 			get {
 				if (_telemetry == null) return null;
@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry {
 			}
 		}
 
-		public double? CoolingLiquidTemperature
+		public short? CoolingLiquidTemperature
 		{
 			get {
 				if (_telemetry == null) return null;

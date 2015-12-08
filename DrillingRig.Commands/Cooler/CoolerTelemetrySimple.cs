@@ -1,13 +1,14 @@
 ﻿namespace DrillingRig.Commands.Cooler {
 	class CoolerTelemetrySimple : ICoolerTelemetry {
 		private readonly ushort _diagnostic;
-		private readonly double _coolingLiquidPressure;
-		private readonly double _fanSpeed;
-		private readonly double _coolingLiquidTemperature;
+		private readonly short _coolingLiquidPressure;
+		private readonly short _fanSpeed;
+		private readonly short _coolingLiquidTemperature;
 		private readonly ushort _reserve1;
 		private readonly ushort _reserve2;
 
-		public CoolerTelemetrySimple(ushort diagnostic, double coolingLiquidPressure, double fanSpeed, double coolingLiquidTemperature, ushort reserve1, ushort reserve2) {
+		public CoolerTelemetrySimple(ushort diagnostic, short coolingLiquidPressure, short fanSpeed, short coolingLiquidTemperature, ushort reserve1, ushort reserve2)
+		{
 			_diagnostic = diagnostic;
 			_coolingLiquidPressure = coolingLiquidPressure;
 			_fanSpeed = fanSpeed;
@@ -20,15 +21,18 @@
 			get { return _diagnostic; }
 		}
 
-		public double CoolingLiquidPressure {
+		public short CoolingLiquidPressure
+		{
 			get { return _coolingLiquidPressure; }
 		}
 
-		public double FanSpeed {
+		public short FanSpeed
+		{
 			get { return _fanSpeed; }
 		}
 
-		public double CoolingLiquidTemperature {
+		public short CoolingLiquidTemperature
+		{
 			get { return _coolingLiquidTemperature; }
 		}
 
