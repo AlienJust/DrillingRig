@@ -8,6 +8,7 @@
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
         xmlns:rectifierTelemetry="clr-namespace:DrillingRig.ConfigApp.RectifierTelemetry"
+        xmlns:coolerTelemetry="clr-namespace:DrillingRig.ConfigApp.CoolerTelemetry"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -85,6 +86,9 @@
 			</TabItem>
 			<TabItem Header="Выпрямители">
 				<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
+			</TabItem>
+			<TabItem Header="Модуль охлаждения">
+				<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
 		</TabControl>
 		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>

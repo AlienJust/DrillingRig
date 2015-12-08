@@ -27,9 +27,9 @@
 			<TextBlock Text="U2 вх" Grid.Row="2" Grid.Column="0"/>
 			<TextBlock Text="U3 вх" Grid.Row="3" Grid.Column="0"/>
 			<TextBlock Text="Udc вых" Grid.Row="4" Grid.Column="0"/>
-			<TextBlock Text="I1 вх" Grid.Row="5" Grid.Column="0"/>
-			<TextBlock Text="I2 вх" Grid.Row="6" Grid.Column="0"/>
-			<TextBlock Text="I3 вх" Grid.Row="7" Grid.Column="0"/>
+			<TextBlock Text="I1" Grid.Row="5" Grid.Column="0"/>
+			<TextBlock Text="I2" Grid.Row="6" Grid.Column="0"/>
+			<TextBlock Text="I3" Grid.Row="7" Grid.Column="0"/>
 			<TextBlock Text="T, C" Grid.Row="8" Grid.Column="0"/>
 
 			<TextBlock Text="{Binding Path=VoltageInput1, Mode=OneWay}" Grid.Row="1" Grid.Column="1"/>

@@ -14,6 +14,7 @@ using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
+using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
@@ -39,6 +40,7 @@ namespace DrillingRig.ConfigApp
 		private readonly AinCommandViewModel _ain3CommandVm;
 		private readonly SystemControlViewModel _systemControlVm;
 		private readonly RectifierTelemetriesViewModel _rectifierTelemetriesVm;
+		private readonly CoolerTelemetriesViewModel _coolerTelemetriesVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -67,14 +69,15 @@ namespace DrillingRig.ConfigApp
 
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
-			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem);
+			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
 
 			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0);
 			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1);
 			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2);
 
 			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this);
-			_rectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem);
+			_rectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
+			_coolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -262,6 +265,10 @@ namespace DrillingRig.ConfigApp
 
 		public RectifierTelemetriesViewModel RectifierTelemetriesVm {
 			get { return _rectifierTelemetriesVm; }
+		}
+
+		public CoolerTelemetriesViewModel CoolerTelemetriesVm {
+			get { return _coolerTelemetriesVm; }
 		}
 	}
 }

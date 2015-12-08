@@ -60,6 +60,9 @@
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsResultSimple.cs" />
     <Compile Include="Rectifier\IRectifierTelemetry.cs" />
+    <Compile Include="Cooler\ReadCoolerTelemetryCommand.cs" />
+    <Compile Include="Cooler\CoolerTelemetrySimple.cs" />
+    <Compile Include="Cooler\ICoolerTelemetry.cs" />
     <Compile Include="Rectifier\ReadAinTelemetryCommand.cs" />
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
     <Compile Include="SystemControl\SetBootloaderCommand.cs" />
