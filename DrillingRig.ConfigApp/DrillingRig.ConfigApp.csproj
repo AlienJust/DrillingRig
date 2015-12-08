@@ -114,6 +114,14 @@
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
     <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
+    <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
+    <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
+    <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
+      <DependentUpon>RectifierTelemetriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RectifierTelemetry\RectifierTelemetryView.xaml.cs">
+      <DependentUpon>RectifierTelemetryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Compile Include="SystemControl\BsEthernetSettingsViewModel.cs" />
     <Compile Include="SystemControl\SystemControlView.xaml.cs">
@@ -183,6 +191,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProgramLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RectifierTelemetry\RectifierTelemetriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RectifierTelemetry\RectifierTelemetryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

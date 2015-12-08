@@ -14,7 +14,8 @@ using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp.SystemControl
 {
-	class SystemControlViewModel : ViewModelBase {
+	class SystemControlViewModel : ViewModelBase
+	{
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -23,6 +24,7 @@ namespace DrillingRig.ConfigApp.SystemControl
 		private readonly INotifySendingEnabled _sendingEnabledControl;
 
 		private readonly RelayCommand _cmdSetBootloader;
+		private readonly RelayCommand _cmdRestart;
 
 		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
 		{
@@ -33,16 +35,19 @@ namespace DrillingRig.ConfigApp.SystemControl
 			_windowSystem = windowSystem;
 			_sendingEnabledControl = sendingEnabledControl;
 
-			_cmdSetBootloader = new RelayCommand(ReadSettings, () => _sendingEnabledControl.IsSendingEnabled);
-			
+			_cmdSetBootloader = new RelayCommand(SetBootloader, () => _sendingEnabledControl.IsSendingEnabled);
+			_cmdRestart = new RelayCommand(Restart, () => _sendingEnabledControl.IsSendingEnabled);
+
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 		}
 
-		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled) {
+		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled)
+		{
 			_cmdSetBootloader.RaiseCanExecuteChanged();
 		}
 
-		private void ReadSettings() {
+		private void SetBootloader()
+		{
 			try
 			{
 				_logger.Log("Переход в режим bootloader");
@@ -76,9 +81,47 @@ namespace DrillingRig.ConfigApp.SystemControl
 			}
 		}
 
+		private void Restart()
+		{
+			var cmd = new RestartCommand();
+			try
+			{
+				_logger.Log(cmd.Name);
+				_logger.Log("Команда <" + cmd.Name + "> поставлена в очередь");
+				_commandSenderHost.Sender.SendCommandAsync(
+					_targerAddressHost.TargetAddress
+					, cmd
+					, TimeSpan.FromSeconds(1)
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
+					{
+						try
+						{
+							if (exception != null)
+							{
+								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+							}
+							_logger.Log("Команда <" + cmd.Name + "> была отправлена");
+						}
+						catch (Exception ex)
+						{
+							_logger.Log(ex.Message);
+						}
+					}));
+			}
+			catch (Exception ex)
+			{
+				_logger.Log("Не удалось поставить команду <" + cmd.Name + "> в очередь: " + ex.Message);
+			}
+		}
 
-		public ICommand CmdSetBootloader {
+
+		public ICommand CmdSetBootloader
+		{
 			get { return _cmdSetBootloader; }
+		}
+
+		public RelayCommand CmdRestart {
+			get { return _cmdRestart; }
 		}
 	}
 }

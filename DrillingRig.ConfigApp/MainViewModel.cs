@@ -14,6 +14,7 @@ using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
+using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp
@@ -37,6 +38,7 @@ namespace DrillingRig.ConfigApp
 		private readonly AinCommandViewModel _ain2CommandVm;
 		private readonly AinCommandViewModel _ain3CommandVm;
 		private readonly SystemControlViewModel _systemControlVm;
+		private readonly RectifierTelemetriesViewModel _rectifierTelemetriesVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -72,6 +74,7 @@ namespace DrillingRig.ConfigApp
 			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2);
 
 			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this);
+			_rectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -255,6 +258,10 @@ namespace DrillingRig.ConfigApp
 
 		public SystemControlViewModel SystemControlVm {
 			get { return _systemControlVm; }
+		}
+
+		public RectifierTelemetriesViewModel RectifierTelemetriesVm {
+			get { return _rectifierTelemetriesVm; }
 		}
 	}
 }

@@ -1,14 +1,13 @@
 ﻿using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.SystemControl {
-	public class SetBootloaderCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply
-	{
+	public class RestartCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply {
 		public byte CommandCode {
-			get { return 0x88; }
+			get { return 0x89; }
 		}
 
 		public string Name {
-			get { return "Режим загрузчика (bootloader)"; }
+			get { return "Рестарт контроллера"; }
 		}
 
 		public byte[] Serialize() {

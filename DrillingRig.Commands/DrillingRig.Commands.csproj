@@ -59,7 +59,11 @@
     <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsResultSimple.cs" />
+    <Compile Include="Rectifier\IRectifierTelemetry.cs" />
+    <Compile Include="Rectifier\ReadAinTelemetryCommand.cs" />
+    <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
     <Compile Include="SystemControl\SetBootloaderCommand.cs" />
+    <Compile Include="SystemControl\RestartCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj">
@@ -67,6 +71,7 @@
       <Name>DrillingRig.Commands.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

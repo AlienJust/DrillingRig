@@ -7,6 +7,7 @@
         xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
+        xmlns:rectifierTelemetry="clr-namespace:DrillingRig.ConfigApp.RectifierTelemetry"
         Title="Конфигурация БС-Ethernet " Height="600" Width="525">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -79,8 +80,11 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"></RowDefinition>
 					</Grid.RowDefinitions>
-				<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}" Margin="4,4,4,4"/>
+				<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
 				</Grid>
+			</TabItem>
+			<TabItem Header="Выпрямители">
+				<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
 		</TabControl>
 		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
