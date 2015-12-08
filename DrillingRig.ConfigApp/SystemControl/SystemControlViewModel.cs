@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands.BsEthernetSettings;
 using DrillingRig.Commands.SystemControl;
-using DrillingRig.ConfigApp.BsEthernetSettings;
 
 namespace DrillingRig.ConfigApp.SystemControl
 {
@@ -44,6 +37,7 @@ namespace DrillingRig.ConfigApp.SystemControl
 		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled)
 		{
 			_cmdSetBootloader.RaiseCanExecuteChanged();
+			_cmdRestart.RaiseCanExecuteChanged();
 		}
 
 		private void SetBootloader()
