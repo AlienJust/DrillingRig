@@ -47,17 +47,17 @@
 			</TabItem>
 			<TabItem Header="Настройки АИН1">
 				<ScrollViewer>
-					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik1SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik1SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Настройки АИН2">
 				<ScrollViewer>
-					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik2SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik2SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Настройки АИН3">
 				<ScrollViewer>
-					<ainsSettings:AinSettings ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Aik3SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 
@@ -74,6 +74,21 @@
 			<TabItem Header="Команда АИН3">
 				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Настройки АИН1">
+				<ScrollViewer>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Настройки АИН2">
+				<ScrollViewer>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Настройки АИН3">
+				<ScrollViewer>
+					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Система">

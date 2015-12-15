@@ -17,7 +17,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 		public string Name
 		{
-			get { return "Чтение настроек АИН #" + (_zeroBasedAinNumber + 1); }
+			get { return "Чтение телеметрии АИН #" + (_zeroBasedAinNumber + 1); }
 		}
 
 		public byte[] Serialize()
@@ -79,7 +79,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public int ReplyLength
 		{
 			get {
-				return 70; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
+				return 70;
 			}
 		}
 

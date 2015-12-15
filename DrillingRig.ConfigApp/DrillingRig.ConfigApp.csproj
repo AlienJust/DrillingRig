@@ -106,6 +106,7 @@
     <Compile Include="AinCommand\ModeSetVariantForAinCommandOff3ViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandResetViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandRunViewModel.cs" />
+    <Compile Include="AinsSettings\AinSettingsViewModel.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSerializationConstants.cs" />
@@ -139,7 +140,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AinsSettings\AinSettings.xaml">
+    <Page Include="AinsSettings\AinSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -163,8 +164,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AinsSettings\AinSettings.xaml.cs">
-      <DependentUpon>AinSettings.xaml</DependentUpon>
+    <Compile Include="AinsSettings\AinSettingsView.xaml.cs">
+      <DependentUpon>AinSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\AinTelemetriesView.xaml.cs">
       <DependentUpon>AinTelemetriesView.xaml</DependentUpon>

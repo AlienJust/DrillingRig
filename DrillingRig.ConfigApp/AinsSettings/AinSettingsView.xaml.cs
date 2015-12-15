@@ -5,9 +5,9 @@ namespace DrillingRig.ConfigApp.AinsSettings
 	/// <summary>
 	/// Interaction logic for BsEthernetNominalsView.xaml
 	/// </summary>
-	public partial class AinSettings : UserControl
+	public partial class AinSettingsView : UserControl
 	{
-		public AinSettings()
+		public AinSettingsView()
 		{
 			InitializeComponent();
 		}
