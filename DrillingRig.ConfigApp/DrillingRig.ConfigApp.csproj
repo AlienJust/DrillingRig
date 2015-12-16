@@ -277,7 +277,9 @@
       <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AnySettingsView\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="intelecon x gray.ico" />
   </ItemGroup>
