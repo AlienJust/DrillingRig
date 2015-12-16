@@ -69,39 +69,40 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		private void SendAinCmdOff1() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandOff1ViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off1);
 		}
 
 		private void SendAinCmdOff2() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandOff2ViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off2);
 		}
 
 		private void SendAinCmdOff3() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandOff3ViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off3);
 		}
 
 		private void SendAinCmdRun() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandRunViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Run);
 		}
 
 		private void SendAinCmdInching1() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandInching1ViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching1);
 		}
 
 		private void SendAinCmdInching2() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandInching2ViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching2);
 		}
 
 		private void SendAinCmdReset() {
-			SendCmdWithCommandMode(new ModeSetVariantForAinCommandResetViewModel());
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Reset);
 		}
 
-		private void SendCmdWithCommandMode(IModeSetVariantForAinCommandViewModel commandMode) {
+		private void SendCmdWithCommandMode(ModeSetVariantForAinCommand commandMode)
+		{
 			try {
 				_logger.Log("Подготовка к отправке команды для АИН");
-				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode.Value, _fset, _mset, _set3, _mmin, _mmax);
+				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode.ToUshort(), _fset, _mset, _set3, _mmin, _mmax);
 
-				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + commandMode.Name);
+				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + commandMode.ToText());
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
