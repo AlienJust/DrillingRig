@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
+using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
@@ -44,7 +45,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 
 			_coolerTelemetryVm = new CoolerTelemetryViewModel();
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CoolerTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayLogger(null));
 			_syncCancel = new object();
 			_cancel = false;
 			_readingInProgress = false;

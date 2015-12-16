@@ -202,6 +202,8 @@
 
 			<TextBlock Grid.Column="0" Grid.Row="41" VerticalAlignment="Center" Text="Порог защиты по внешней температуре"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="41" Value="{Binding Path=TextMax , Mode=TwoWay}"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="42" VerticalAlignment="Center" Text="Таймаут по системной линии связи"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="42" Value="{Binding Path=ToHl , Mode=TwoWay}"/>
 		</Grid>
 		<Grid Grid.Row="1">

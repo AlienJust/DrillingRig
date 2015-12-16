@@ -84,9 +84,10 @@ namespace DrillingRig.Commands.AinSettings {
 				(int)(replyWithoutAinNumber[100] + (replyWithoutAinNumber[101] <<8) + (replyWithoutAinNumber[102] << 16) + (replyWithoutAinNumber[103] << 24)),
 
 				(short)(replyWithoutAinNumber[104] + (replyWithoutAinNumber[105] <<8)),
-				(short)(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] <<8)),
 				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
-				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8))
+				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
+				0
+				//(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8))
 				);
 				
 		}

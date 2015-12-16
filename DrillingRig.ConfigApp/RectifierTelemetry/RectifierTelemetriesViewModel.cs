@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
+using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
@@ -53,7 +54,7 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 				new RectifierTelemetryViewModel("Выпрямитель 6"),
 			};
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>(a => a(), ThreadPriority.BelowNormal, true, null);
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("RectifierTelemetryWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayLogger(null));
 			_syncCancel = new object();
 			_cancel = false;
 			_readingInProgress = false;
