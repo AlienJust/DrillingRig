@@ -5,17 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="500">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="3*"/>
-				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Уставка скорости"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=Fset, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Уставка момента"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding Path=Mset, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="Резерв (уставка 3)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Path=Set3, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" Value="{Binding Path=Mmin, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+
+			<TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mmax, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+		</Grid>
+		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
@@ -25,39 +48,76 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Режим работы"/>
-			<ComboBox Grid.Column="1" Grid.Row =" 0" ItemsSource="{Binding Path=AvailableModesetVariants, Mode=OneTime}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding Path=SelectedModesetVariant, Mode=TwoWay}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock VerticalAlignment="Center" Text="{Binding Path=Name, Mode=OneTime}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Уставка скорости"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding Path=Fset, Mode=TwoWay}"/>
-
-			<TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="Уставка момента"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Path=Mset, Mode=TwoWay}"/>
-
-			<TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Резерв (уставка 3)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" Value="{Binding Path=Set3, Mode=TwoWay}"/>
-
-			<TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Минимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mmin, Mode=TwoWay}"/>
-
-			<TextBlock Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="5" Value="{Binding Path=Mmax, Mode=TwoWay}"/>
-			
-			<Button Grid.Row="6" Grid.Column="1" Content="Записать" Command="{Binding Path=SendAinCommand, Mode=OneTime}"/>
-		</Grid>
-		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			
+			<Button Grid.Row="0" Grid.Column="0" Command="{Binding Path=SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Сброс аварий (RESET)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="1" Grid.Column="0" Command="{Binding Path=SendAinCommandRun, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Тяга (RUN)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="2" Grid.Column="0" Command="{Binding Path=SendAinCommandOff1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Останов 1 (OFF 1)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="3" Grid.Column="0" Command="{Binding Path=SendAinCommandOff2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Останов 2 (OFF 2)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="4" Grid.Column="0" Command="{Binding Path=SendAinCommandOff3, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Останов 3 (OFF 3)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="5" Grid.Column="0" Command="{Binding Path=SendAinCommandInching1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Толчок 1 (INCHING 1)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
+			<Button Grid.Row="6" Grid.Column="0" Command="{Binding Path=SendAinCommandInching2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Режим работы" Grid.Column="0"/>
+					<TextBlock Text="Толчок 2 (INCHING 2)" Grid.Column="1" HorizontalAlignment="Right"/>
+				</Grid>
+			</Button>
 		</Grid>
 	</Grid>
 </UserControl>

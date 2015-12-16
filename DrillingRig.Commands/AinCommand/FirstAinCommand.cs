@@ -6,13 +6,13 @@ namespace DrillingRig.Commands.AinCommand {
 	{
 		private readonly byte _zeroBasedAinNumber;
 		private readonly ushort _modeset;
-		private readonly ushort _fset;
-		private readonly ushort _mset;
-		private readonly ushort _set3;
-		private readonly ushort _mmin;
-		private readonly ushort _mmax;
+		private readonly short _fset;
+		private readonly short _mset;
+		private readonly short _set3;
+		private readonly short _mmin;
+		private readonly short _mmax;
 
-		public FirstAinCommand(byte zeroBasedAinNumber, ushort modeset, ushort fset, ushort mset, ushort set3, ushort mmin, ushort mmax) {
+		public FirstAinCommand(byte zeroBasedAinNumber, ushort modeset, short fset, short mset, short set3, short mmin, short mmax) {
 			_zeroBasedAinNumber = zeroBasedAinNumber;
 			_modeset = modeset;
 			_fset = fset;
