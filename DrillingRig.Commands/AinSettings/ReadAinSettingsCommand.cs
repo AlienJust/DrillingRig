@@ -86,8 +86,7 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[104] + (replyWithoutAinNumber[105] <<8)),
 				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
 				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
-				0
-				//(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8))
+				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8))
 				);
 				
 		}
@@ -95,7 +94,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public int ReplyLength
 		{
 			get {
-				return 1 + 112; // ain number + settings
+				return 1 + 114; // ain number + settings
 			}
 		}
 
