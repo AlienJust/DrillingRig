@@ -48,7 +48,7 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<Button Grid.Row="0" Grid.Column="0" Command="{Binding Path=SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="6" Grid.Column="0" Command="{Binding Path=SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -58,7 +58,7 @@
 					<TextBlock Text="Сброс аварий (RESET)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="1" Grid.Column="0" Command="{Binding Path=SendAinCommandRun, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="3" Grid.Column="0" Command="{Binding Path=SendAinCommandRun, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -68,7 +68,7 @@
 					<TextBlock Text="Тяга (RUN)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="2" Grid.Column="0" Command="{Binding Path=SendAinCommandOff1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="0" Grid.Column="0" Command="{Binding Path=SendAinCommandOff1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -78,7 +78,7 @@
 					<TextBlock Text="Останов 1 (OFF 1)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="3" Grid.Column="0" Command="{Binding Path=SendAinCommandOff2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="1" Grid.Column="0" Command="{Binding Path=SendAinCommandOff2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -88,7 +88,7 @@
 					<TextBlock Text="Останов 2 (OFF 2)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="4" Grid.Column="0" Command="{Binding Path=SendAinCommandOff3, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="2" Grid.Column="0" Command="{Binding Path=SendAinCommandOff3, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -98,7 +98,7 @@
 					<TextBlock Text="Останов 3 (OFF 3)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="5" Grid.Column="0" Command="{Binding Path=SendAinCommandInching1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="4" Grid.Column="0" Command="{Binding Path=SendAinCommandInching1, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
@@ -108,7 +108,7 @@
 					<TextBlock Text="Толчок 1 (INCHING 1)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
-			<Button Grid.Row="6" Grid.Column="0" Command="{Binding Path=SendAinCommandInching2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
+			<Button Grid.Row="5" Grid.Column="0" Command="{Binding Path=SendAinCommandInching2, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
