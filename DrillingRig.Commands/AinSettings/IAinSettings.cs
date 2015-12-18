@@ -9,6 +9,10 @@ namespace DrillingRig.Commands.AinSettings {
 		short UdcMin { get; }
 		short Fnom { get; }
 		short Fmax { get; }
+
+		short Empty10 { get; }
+		short Empty11 { get; }
+		
 		short IoutMax { get; }
 		short FiMin { get; }
 		short DacCh { get; }
@@ -39,6 +43,8 @@ namespace DrillingRig.Commands.AinSettings {
 
 		short Unom { get; }
 
+		short Empty39 { get; }
+
 		short Rs { get; }
 		short Fmin { get; }
 
@@ -54,6 +60,9 @@ namespace DrillingRig.Commands.AinSettings {
 		int KiFe { get; }
 
 		short Np { get; }
+
+		short Empty53 { get; }
+
 		short EmdecDfdt { get; }
 		short TextMax { get; }
 		short ToHl { get; }

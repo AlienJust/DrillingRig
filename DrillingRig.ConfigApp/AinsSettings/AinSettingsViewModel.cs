@@ -28,6 +28,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _udcMin;
 		private short? _fnom;
 		private short? _fmax;
+		private short? _empty10;
+		private short? _empty11;
 		private short? _ioutMax;
 		private short? _fiMin;
 		private short? _dacCh;
@@ -49,6 +51,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _accDfDt;
 		private short? _decDfDt;
 		private short? _unom;
+		private short? _empty39;
 		private short? _rs;
 		private short? _fmin;
 		private short? _tauM;
@@ -60,6 +63,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private int? _kpFe;
 		private int? _kiFe;
 		private short? _np;
+		private short? _empty53;
 		private short? _emdecDfdt;
 		private short? _textMax;
 		private short? _toHl;
@@ -147,7 +151,99 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private void WriteSettings() {
 			try {
-				throw new NotImplementedException("Not implemented yet");
+				_logger.Log("Подготовка к чтению настроек АИН");
+				IAinSettings ainSettings;
+				try {
+				ainSettings = new AinSettingsSimple(
+					KpW.Value,
+					KiW.Value,
+					FiNom.Value,
+					Imax.Value,
+					UdcMax.Value,
+					UdcMin.Value,
+					Fnom.Value,
+					Fmax.Value,
+					Empty10.Value,
+					Empty11.Value,
+					IoutMax.Value,
+					FiMin.Value,
+					DacCh.Value,
+					Imcw.Value,
+					Ia0.Value,
+					Ib0.Value,
+					Ic0.Value,
+					Udc0.Value,
+					TauR.Value,
+					Lm.Value,
+					Lsl.Value,
+					Lrl.Value,
+					KpFi.Value,
+					KiFi.Value,
+					KpId.Value,
+					KiId.Value,
+					KpIq.Value,
+					KiIq.Value,
+					AccDfDt.Value,
+					DecDfDt.Value,
+					Unom.Value,
+					Empty39.Value,
+					Rs.Value,
+					Fmin.Value,
+					TauM.Value,
+					TauF.Value,
+					TauFSet.Value,
+					TauFi.Value,
+					IdSetMin.Value,
+					IdSetMax.Value,
+					KpFe.Value,
+					KiFe.Value,
+					Np.Value,
+					Empty53.Value,
+					EmdecDfdt.Value,
+					TextMax.Value,
+					ToHl.Value);
+				}
+				catch (Exception ex)
+				{
+					throw new Exception("убедитесь, что все значения настроек заполнены", ex);
+				}
+				var cmd = new WriteAinSettingsCommand(_zeroBasedAinNumber, ainSettings);
+
+				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
+				_commandSenderHost.Sender.SendCommandAsync(
+					_targerAddressHost.TargetAddress
+					, cmd
+					, TimeSpan.FromSeconds(1)
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
+					{
+						try
+						{
+							if (exception != null)
+							{
+								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
+							}
+
+							try
+							{
+								var result = cmd.GetResult(bytes);
+								if (result) {
+									_logger.Log("Настройки БС-Ethernet успешно прочитаны");
+								}
+								else {
+									throw new Exception("странно, флаг записи результата = False");
+								}
+							}
+							catch (Exception exx)
+							{
+								// TODO: log exception about error on answer parsing
+								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
+							}
+						}
+						catch (Exception ex)
+						{
+							_logger.Log(ex.Message);
+						}
+					}));
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду записи настроек БС-Ethernet в очередь: " + ex.Message);
@@ -172,7 +268,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 						{
 							if (exception != null)
 							{
-								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
 							}
 
 							try {
@@ -186,6 +282,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									UdcMin = result.UdcMin;
 									Fnom = result.Fnom;
 									Fmax = result.Fmax;
+									Empty10 = result.Empty10;
+									Empty11 = result.Empty11;
 									IoutMax = result.IoutMax;
 									FiMin = result.FiMin;
 									DacCh = result.DacCh;
@@ -207,6 +305,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									AccDfDt = result.AccDfDt;
 									DecDfDt = result.DecDfDt;
 									Unom = result.Unom;
+									Empty39 = result.Empty39;
 									Rs = result.Rs;
 									Fmin = result.Fmin;
 									TauM = result.TauM;
@@ -218,6 +317,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									KpFe = result.KpFe;
 									KiFe = result.KiFe;
 									Np = result.Np;
+									Empty53 = result.Empty53;
 									EmdecDfdt = result.EmdecDfdt;
 									TextMax = result.TextMax;
 									ToHl = result.ToHl;
@@ -227,7 +327,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 							catch (Exception exx)
 							{
 								// TODO: log exception about error on answer parsing
-								throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
+								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
 						catch (Exception ex)
@@ -300,6 +400,18 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		public short? Fmax {
 			get { return _fmax; }
 			set { if (_fmax != value) { _fmax = value; RaisePropertyChanged(() => Fmax); } }
+		}
+
+		public short? Empty10
+		{
+			get { return _empty10; }
+			set { if (_empty10 != value) { _empty10 = value; RaisePropertyChanged(() => Empty10); } }
+		}
+
+		public short? Empty11
+		{
+			get { return _empty11; }
+			set { if (_empty11 != value) { _empty11 = value; RaisePropertyChanged(() => Empty11); } }
 		}
 
 		public short? IoutMax {
@@ -407,6 +519,12 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_unom != value) { _unom = value; RaisePropertyChanged(() => Unom); } }
 		}
 
+		public short? Empty39
+		{
+			get { return _empty39; }
+			set { if (_empty39 != value) { _empty39 = value; RaisePropertyChanged(() => Empty39); } }
+		}
+
 		public short? Rs {
 			get { return _rs; }
 			set { if (_rs != value) { _rs = value; RaisePropertyChanged(() => Rs); } }
@@ -460,6 +578,12 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		public short? Np {
 			get { return _np; }
 			set { if (_np != value) { _np = value; RaisePropertyChanged(() => Np); } }
+		}
+
+		public short? Empty53
+		{
+			get { return _empty53; }
+			set { if (_empty53 != value) { _empty53 = value; RaisePropertyChanged(() => Empty53); } }
 		}
 
 		public short? EmdecDfdt {

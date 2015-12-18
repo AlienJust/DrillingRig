@@ -42,6 +42,7 @@
     <Compile Include="AinCommand\FirstAinCommand.cs" />
     <Compile Include="AinSettings\AinSettingsSimple.cs" />
     <Compile Include="AinSettings\IAinSettings.cs" />
+    <Compile Include="AinSettings\WriteAinSettingsCommand.cs" />
     <Compile Include="AinSettings\ReadAinSettingsCommand.cs" />
     <Compile Include="AinTelemetry\AinsTelemetrySimple.cs" />
     <Compile Include="AinTelemetry\AinTelemetrySimple.cs" />

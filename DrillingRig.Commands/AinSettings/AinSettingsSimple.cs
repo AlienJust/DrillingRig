@@ -1,5 +1,5 @@
 ﻿namespace DrillingRig.Commands.AinSettings {
-	class AinSettingsSimple : IAinSettings {
+	public class AinSettingsSimple : IAinSettings {
 		private readonly int _kpW;
 		private readonly int _kiW;
 		private readonly short _fiNom;
@@ -8,6 +8,10 @@
 		private readonly short _udcMin;
 		private readonly short _fnom;
 		private readonly short _fmax;
+
+		private readonly short _empty10;
+		private readonly short _empty11;
+		
 		private readonly short _ioutMax;
 		private readonly short _fiMin;
 		private readonly short _dacCh;
@@ -29,6 +33,9 @@
 		private readonly short _accDfDt;
 		private readonly short _decDfDt;
 		private readonly short _unom;
+
+		private readonly short _empty39;
+		
 		private readonly short _rs;
 		private readonly short _fmin;
 		private readonly short _tauM;
@@ -40,6 +47,9 @@
 		private readonly int _kpFe;
 		private readonly int _kiFe;
 		private readonly short _np;
+
+		private readonly short _empty53;
+
 		private readonly short _emdecDfdt;
 		private readonly short _textMax;
 		private readonly short _toHl;
@@ -51,7 +61,11 @@
 			short udcMax, 
 			short udcMin, 
 			short fnom, 
-			short fmax, 
+			short fmax,
+
+			short empty10,
+			short empty11,
+
 			short ioutMax, 
 			short fiMin, 
 			short dacCh, 
@@ -72,7 +86,10 @@
 			int kiIq, 
 			short accDfDt, 
 			short decDfDt, 
-			short unom, 
+			short unom,
+
+			short empty39,
+
 			short rs, 
 			short fmin, 
 			short tauM, 
@@ -83,7 +100,10 @@
 			short idSetMax, 
 			int kpFe, 
 			int kiFe, 
-			short np, 
+			short np,
+
+			short empty53,
+
 			short emdecDfdt, 
 			short textMax, 
 			short toHl) {
@@ -95,6 +115,10 @@
 			_udcMin = udcMin;
 			_fnom = fnom;
 			_fmax = fmax;
+			
+			_empty10 = empty10;
+			_empty11 = empty11;
+
 			_ioutMax = ioutMax;
 			_fiMin = fiMin;
 			_dacCh = dacCh;
@@ -116,6 +140,9 @@
 			_accDfDt = accDfDt;
 			_decDfDt = decDfDt;
 			_unom = unom;
+
+			_empty39 = empty39;
+
 			_rs = rs;
 			_fmin = fmin;
 			_tauM = tauM;
@@ -126,7 +153,11 @@
 			_idSetMax = idSetMax;
 			_kpFe = kpFe;
 			_kiFe = kiFe;
+			
 			_np = np;
+
+			_empty53 = empty53;
+
 			_emdecDfdt = emdecDfdt;
 			_textMax = textMax;
 			_toHl = toHl;
@@ -162,6 +193,15 @@
 
 		public short Fmax {
 			get { return _fmax; }
+		}
+
+		public short Empty10 {
+			get { return _empty10; }
+		}
+
+		public short Empty11
+		{
+			get { return _empty11; }
 		}
 
 		public short IoutMax {
@@ -248,6 +288,11 @@
 			get { return _unom; }
 		}
 
+		public short Empty39
+		{
+			get { return _empty39; }
+		}
+
 		public short Rs {
 			get { return _rs; }
 		}
@@ -290,6 +335,11 @@
 
 		public short Np {
 			get { return _np; }
+		}
+
+		public short Empty53
+		{
+			get { return _empty53; }
 		}
 
 		public short EmdecDfdt {

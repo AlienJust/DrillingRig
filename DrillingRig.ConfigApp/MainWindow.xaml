@@ -77,19 +77,13 @@
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Настройки АИН1">
-				<ScrollViewer>
-					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
-				</ScrollViewer>
+					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Настройки АИН2">
-				<ScrollViewer>
-					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
-				</ScrollViewer>
+					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Настройки АИН3">
-				<ScrollViewer>
-					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
-				</ScrollViewer>
+					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
 			</TabItem>
 			<TabItem Header="Система">
 				<Grid>

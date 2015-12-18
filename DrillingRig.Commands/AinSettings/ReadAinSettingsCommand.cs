@@ -14,7 +14,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public byte CommandCode
 		{
-			get { return 0x8F; } // TODO: 0x8E - write settings
+			get { return 0x8F; }
 		}
 
 		public string Name
@@ -24,7 +24,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public byte[] Serialize()
 		{
-			return new[] {(byte)(_zeroBasedAinNumber + 1)};
+			return new[] { OneBasedAinNumber };
 		}
 
 		private byte OneBasedAinNumber {
@@ -46,6 +46,9 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
 				(short)(replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)),
 				(short)(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)),
+
+				(short)(replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)),
+				(short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
 
 				(short)(replyWithoutAinNumber[24] + (replyWithoutAinNumber[25] <<8)),
 				(short)(replyWithoutAinNumber[26] + (replyWithoutAinNumber[27] <<8)),
@@ -71,6 +74,8 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),
 				(short)(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)),
 
+				(short)(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)),
+
 				(short)(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)),
 				(short)(replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)),
 				(short)(replyWithoutAinNumber[84] + (replyWithoutAinNumber[85] <<8)),
@@ -84,6 +89,9 @@ namespace DrillingRig.Commands.AinSettings {
 				(int)(replyWithoutAinNumber[100] + (replyWithoutAinNumber[101] <<8) + (replyWithoutAinNumber[102] << 16) + (replyWithoutAinNumber[103] << 24)),
 
 				(short)(replyWithoutAinNumber[104] + (replyWithoutAinNumber[105] <<8)),
+
+				(short)(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)),
+
 				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
 				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
 				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8))
