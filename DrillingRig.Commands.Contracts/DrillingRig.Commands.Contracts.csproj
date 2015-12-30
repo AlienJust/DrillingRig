@@ -45,6 +45,8 @@
     <Compile Include="IRrModbusCommandWithReply.cs" />
     <Compile Include="IRrModbusCommandWithTestReply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtuModbus\TwoBytes.cs" />
+    <Compile Include="RtuModbus\IRtuModbusCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
