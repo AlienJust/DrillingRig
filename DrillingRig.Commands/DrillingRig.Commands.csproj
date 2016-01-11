@@ -68,6 +68,8 @@
     <Compile Include="Cooler\ICoolerTelemetry.cs" />
     <Compile Include="Rectifier\ReadRectifierTelemetriesCommand.cs" />
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
+    <Compile Include="RtuModbus\RtuModbusPresetSingleRegisterCommand.cs" />
+    <Compile Include="RtuModbus\RtuModbusReadHoldingRegistersCommand.cs" />
     <Compile Include="SystemControl\SetBootloaderCommand.cs" />
     <Compile Include="SystemControl\RestartCommand.cs" />
   </ItemGroup>
