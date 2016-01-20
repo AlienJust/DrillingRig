@@ -4,10 +4,12 @@ using DrillingRig.Commands.AinTelemetry;
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal class AinTelemetryViewModel : ViewModelBase {
 		private readonly string _ainName;
+		private readonly ICommonAinTelemetryVm _commonAinTelemetryVm;
 		private IAinTelemetry _telemetry;
 
-		public AinTelemetryViewModel(string ainName) {
+		public AinTelemetryViewModel(string ainName, ICommonAinTelemetryVm commonAinTelemetryVm) {
 			_ainName = ainName;
+			_commonAinTelemetryVm = commonAinTelemetryVm;
 			_telemetry = null;
 		}
 
@@ -261,6 +263,15 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
+		public double? ExternalTemperature
+		{
+			get
+			{
+				if (_telemetry == null) return null;
+				return _telemetry.ExternalTemperature;
+			}
+		}
+
 		public double? DCurrentRegulatorProportionalPart {
 			get {
 				if (_telemetry == null) return null;
@@ -354,6 +365,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			RaisePropertyChanged(() => AfterFilterFset);
 			RaisePropertyChanged(() => AfterFilterTorq);
 
+			RaisePropertyChanged(() => ExternalTemperature);
+
 			RaisePropertyChanged(() => DCurrentRegulatorProportionalPart);
 			RaisePropertyChanged(() => QcurrentRegulatorProportionalPart);
 			RaisePropertyChanged(() => SpeedRegulatorProportionalPart);
@@ -361,6 +374,14 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			RaisePropertyChanged(() => CalculatorDflowRegulatorOutput);
 			RaisePropertyChanged(() => CalculatorQflowRegulatorOutput);
+
+			//EngineState? commonEngineState = 
+			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (EngineState?)_telemetry.CommonEngineState);
+			_commonAinTelemetryVm.UpdateCommonFaultState(_telemetry == null ? null :(FaultState?) _telemetry.CommonFaultState);
+			_commonAinTelemetryVm.UpdateAinsLinkState(
+				_telemetry == null ? null : (bool?) _telemetry.Ain1LinkFault,
+				_telemetry == null ? null : (bool?) _telemetry.Ain2LinkFault,
+				_telemetry == null ? null : (bool?) _telemetry.Ain3LinkFault);
 		}
 	}
 }

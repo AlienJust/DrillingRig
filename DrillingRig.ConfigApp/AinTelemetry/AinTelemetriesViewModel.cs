@@ -45,9 +45,9 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
 
 			_ainTelemetryVms = new List<AinTelemetryViewModel> {
-				new AinTelemetryViewModel("АИН №1"),
-				new AinTelemetryViewModel("АИН №2"),
-				new AinTelemetryViewModel("АИН №3")
+				new AinTelemetryViewModel("АИН №1", this as ICommonAinTelemetryVm),
+				new AinTelemetryViewModel("АИН №2", this as ICommonAinTelemetryVm),
+				new AinTelemetryViewModel("АИН №3", this as ICommonAinTelemetryVm)
 			};
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
@@ -148,22 +148,17 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
-		public void UpdateCommonEngineState(EngineState value) {
+		public void UpdateCommonEngineState(EngineState? value) {
 			throw new NotImplementedException();
 		}
 
-		public void UpdateCommonFaultState(EngineState value) {
+		public void UpdateCommonFaultState(FaultState? value)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void UpdateAinsLinkState(bool ain1Linkfault, bool ain2LinkFault, bool ain3LinkFault) {
+		public void UpdateAinsLinkState(bool? ain1Linkfault, bool? ain2LinkFault, bool? ain3LinkFault) {
 			throw new NotImplementedException();
 		}
-	}
-
-	internal interface ICommonAinTelemetryVm {
-		void UpdateCommonEngineState(EngineState value);
-		void UpdateCommonFaultState(EngineState value);
-		void UpdateAinsLinkState(bool ain1Linkfault, bool ain2LinkFault, bool ain3LinkFault);
 	}
 }

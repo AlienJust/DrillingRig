@@ -101,6 +101,7 @@
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
     <Compile Include="AinsSettings\AinSettingsViewModel.cs" />
+    <Compile Include="AinTelemetry\ICommonAinTelemetryVm.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsSerializationConstants.cs" />
