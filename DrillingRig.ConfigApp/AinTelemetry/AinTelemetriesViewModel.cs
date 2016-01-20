@@ -13,7 +13,8 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
-	internal class AinTelemetriesViewModel : ViewModelBase {
+	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm
+	{
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -146,5 +147,23 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				}
 			}
 		}
+
+		public void UpdateCommonEngineState(EngineState value) {
+			throw new NotImplementedException();
+		}
+
+		public void UpdateCommonFaultState(EngineState value) {
+			throw new NotImplementedException();
+		}
+
+		public void UpdateAinsLinkState(bool ain1Linkfault, bool ain2LinkFault, bool ain3LinkFault) {
+			throw new NotImplementedException();
+		}
+	}
+
+	internal interface ICommonAinTelemetryVm {
+		void UpdateCommonEngineState(EngineState value);
+		void UpdateCommonFaultState(EngineState value);
+		void UpdateAinsLinkState(bool ain1Linkfault, bool ain2LinkFault, bool ain3LinkFault);
 	}
 }
