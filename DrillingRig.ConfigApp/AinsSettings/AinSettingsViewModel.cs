@@ -209,7 +209,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 				}
 				var cmd = new WriteAinSettingsCommand(_zeroBasedAinNumber, ainSettings);
 
-				_logger.Log("Команда записи настроек БС-Ethernet поставлена в очередь");
+				_logger.Log("Команда чтения настроек АИН" + (_zeroBasedAinNumber + 1) + " поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
@@ -227,7 +227,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 							{
 								var result = cmd.GetResult(bytes);
 								if (result) {
-									_logger.Log("Настройки БС-Ethernet успешно прочитаны");
+									_logger.Log("Настройки АИН" + (_zeroBasedAinNumber + 1) + " успешно записаны");
 								}
 								else {
 									throw new Exception("странно, флаг записи результата = False");
@@ -257,7 +257,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 				var cmd = new ReadAinSettingsCommand(_zeroBasedAinNumber);
 
-				_logger.Log("Команда чтения настроек БС-Ethernet поставлена в очередь");
+				_logger.Log("Команда чтения настроек АИН" + (_zeroBasedAinNumber + 1) + " поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
@@ -322,7 +322,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									TextMax = result.TextMax;
 									ToHl = result.ToHl;
 								});
-								_logger.Log("Настройки БС-Ethernet успешно прочитаны");
+								_logger.Log("Настройки АИН" + (_zeroBasedAinNumber + 1) + " успешно прочитаны");
 							}
 							catch (Exception exx)
 							{

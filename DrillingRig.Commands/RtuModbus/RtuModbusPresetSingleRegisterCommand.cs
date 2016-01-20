@@ -22,13 +22,14 @@ namespace DrillingRig.Commands.RtuModbus
 
 		public string Name
 		{
-			get { return "Preset Single Register at address: " + _firstRegisterAddress + ", count: " + _registersCountToRead; }
+			get { return "Preset Single Register at address: " + _registerAddress + ", value to set: " + _valueToSet; }
 		}
 
 		public byte[] Serialize() {
 			var result = new byte[4];
-			result[0] = (byte)(_firstRegisterAddress & 0xFF);
-			result[1] = (byte) ((_firstRegisterAddress & 0xFF00) >> 8);
+			// TODO:
+			//result[0] = (byte)(_firstRegisterAddress & 0xFF);
+			//result[1] = (byte) ((_firstRegisterAddress & 0xFF00) >> 8);
 			return result;
 		}
 
@@ -41,7 +42,8 @@ namespace DrillingRig.Commands.RtuModbus
 		public int ReplyLength
 		{
 			get {
-				return 1 + _registersCountToRead * 2;
+				//return 1 + _registersCountToRead * 2;
+				throw new NotImplementedException("TODO");
 			}
 		}
 

@@ -43,7 +43,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 					sendBytes[sendBytes.Length - 1] = sendCrc.High;
 
 					_portExtender.WriteBytes(sendBytes, 0, sendBytes.Length);
-					var replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, (int) timeout.TotalSeconds); // + 4 bytes are: addr, cmd, crc, crc
+					var replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, (int) timeout.TotalSeconds, true); // + 4 bytes are: addr, cmd, crc, crc
 
 					// length is checked in port extender
 					if (replyBytes[0] != address) {

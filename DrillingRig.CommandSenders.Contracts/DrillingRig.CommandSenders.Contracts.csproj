@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="ICommandSenderController.cs" />
     <Compile Include="IRrModbusCommandSender.cs" />
-    <Compile Include="IRtuModbusCommandSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
