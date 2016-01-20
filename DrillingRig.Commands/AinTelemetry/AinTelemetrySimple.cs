@@ -1,5 +1,7 @@
 namespace DrillingRig.Commands.AinTelemetry {
 	class AinTelemetrySimple : IAinTelemetry {
+		private readonly EngineState _commonEngineState;
+		private readonly FaultState _commonFaultState;
 		private readonly double _rotationFriquencyCalculated;
 		private readonly double _pwmModulationCoefficient;
 		private readonly double _momentumCurrentSetting;
@@ -39,6 +41,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly double _currentQpartMeasured;
 		private readonly double _afterFilterFset;
 		private readonly double _afterFilterTorq;
+
+		private readonly double _externalTemperature;
+
 		private readonly double _dCurrentRegulatorProportionalPart;
 		private readonly double _qcurrentRegulatorProportionalPart;
 		private readonly double _speedRegulatorProportionalPart;
@@ -46,7 +51,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly double _calculatorDflowRegulatorOutput;
 		private readonly double _calculatorQflowRegulatorOutput;
 
+		private readonly bool _ain1LinkFault;
+		private readonly bool _ain2LinkFault;
+		private readonly bool _ain3LinkFault;
+
 		public AinTelemetrySimple(
+			EngineState commonEngineState,
+			FaultState commonFaultState,
+
 			double rotationFriquencyCalculated, 
 			double pwmModulationCoefficient, 
 			double momentumCurrentSetting, 
@@ -83,12 +95,21 @@ namespace DrillingRig.Commands.AinTelemetry {
 			double currentQpartMeasured, 
 			double afterFilterFset, 
 			double afterFilterTorq, 
+			double externalTemperature,
 			double dCurrentRegulatorProportionalPart, 
 			double qcurrentRegulatorProportionalPart, 
 			double speedRegulatorProportionalPart, 
 			double flowRegulatorProportionalPart, 
 			double calculatorDflowRegulatorOutput, 
-			double calculatorQflowRegulatorOutput) {
+			double calculatorQflowRegulatorOutput,
+
+			bool ain1LinkFault,
+			bool ain2LinkFault,
+			bool ain3LinkFault
+			
+			) {
+			_commonEngineState = commonEngineState;
+			_commonFaultState = commonFaultState;
 
 			_rotationFriquencyCalculated = rotationFriquencyCalculated;
 			_pwmModulationCoefficient = pwmModulationCoefficient;
@@ -129,13 +150,31 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_currentQpartMeasured = currentQpartMeasured;
 			_afterFilterFset = afterFilterFset;
 			_afterFilterTorq = afterFilterTorq;
+
+			externalTemperature = externalTemperature;
+
 			_dCurrentRegulatorProportionalPart = dCurrentRegulatorProportionalPart;
 			_qcurrentRegulatorProportionalPart = qcurrentRegulatorProportionalPart;
 			_speedRegulatorProportionalPart = speedRegulatorProportionalPart;
 			_flowRegulatorProportionalPart = flowRegulatorProportionalPart;
 			_calculatorDflowRegulatorOutput = calculatorDflowRegulatorOutput;
 			_calculatorQflowRegulatorOutput = calculatorQflowRegulatorOutput;
+			
+			_ain1LinkFault = ain1LinkFault;
+			_ain2LinkFault = ain2LinkFault;
+			_ain3LinkFault = ain3LinkFault;
 		}
+
+		public EngineState CommonEngineState
+		{
+			get { return _commonEngineState; }
+		}
+
+		public FaultState CommonFaultState
+		{
+			get { return _commonFaultState; }
+		}
+
 
 		public double RotationFriquencyCalculated {
 			get { return _rotationFriquencyCalculated; }
@@ -274,6 +313,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 			get { return _afterFilterTorq; }
 		}
 
+		public double ExternalTemperature { get { return _externalTemperature; } }
+
 		public double DCurrentRegulatorProportionalPart {
 			get { return _dCurrentRegulatorProportionalPart; }
 		}
@@ -296,6 +337,18 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 		public double CalculatorQflowRegulatorOutput {
 			get { return _calculatorQflowRegulatorOutput; }
+		}
+
+		public bool Ain1LinkFault {
+			get { return _ain1LinkFault; }
+		}
+
+		public bool Ain2LinkFault {
+			get { return _ain2LinkFault; }
+		}
+
+		public bool Ain3LinkFault {
+			get { return _ain3LinkFault; }
 		}
 	}
 }

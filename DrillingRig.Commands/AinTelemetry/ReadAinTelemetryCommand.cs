@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinTelemetry {
@@ -27,59 +28,79 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 		public IAinTelemetry GetResult(byte[] reply) {
 			// TODO: check if reply[0] is equal _zbAinNumber
+
+			var oldReply = reply.Skip(4).ToList();
+
 			return new AinTelemetrySimple(
-				((short) (reply[1] + (reply[2] << 8)))*0.1,
-				((short) (reply[3] + (reply[4] << 8)))*1.0,
-				((short) (reply[5] + (reply[6] << 8)))*1.0,
-				((short) (reply[7] + (reply[8] << 8)))*1.0,
-				((short) (reply[9] + (reply[10] << 8)))*1.0,
-				((short) (reply[11] + (reply[12] << 8)))*1.0,
-				((short) (reply[13] + (reply[14] << 8)))*1.0/256.0,
-				((short) (reply[15] + (reply[16] << 8)))*1.0/256.0,
-				((short) (reply[17] + (reply[18] << 8)))*0.1,
-				((short) (reply[19] + (reply[20] << 8)))*1.0,
-				((short) (reply[21] + (reply[22] << 8)))*1.0,
-				((short) (reply[23] + (reply[24] << 8)))*1.0,
-				((short) (reply[25] + (reply[26] << 8)))*1.0,
-				((short) (reply[27] + (reply[28] << 8)))*1.0,
+				EngineStateExtensions.GetStateFromUshort((ushort) (reply[1] + (reply[2] << 8))),
+				FaultStateExtensions.GetStateFromUshort((ushort) (reply[3] + (reply[4] << 8))),
 
-				ModeSetRunModeBits12Extensions.FromInt((reply[29] & 0x03)),
+				((short) (oldReply[1] + (oldReply[2] << 8)))*0.1,
+				((short) (oldReply[3] + (oldReply[4] << 8)))*1.0,
+				((short) (oldReply[5] + (oldReply[6] << 8)))*1.0,
+				((short) (oldReply[7] + (oldReply[8] << 8)))*1.0,
+				((short) (oldReply[9] + (oldReply[10] << 8)))*1.0,
+				((short) (oldReply[11] + (oldReply[12] << 8)))*1.0,
+				((short) (oldReply[13] + (oldReply[14] << 8)))*1.0/256.0,
+				((short) (oldReply[15] + (oldReply[16] << 8)))*1.0/256.0,
+				((short) (oldReply[17] + (oldReply[18] << 8)))*0.1,
+				((short) (oldReply[19] + (oldReply[20] << 8)))*1.0,
+				((short) (oldReply[21] + (oldReply[22] << 8)))*1.0,
+				((short) (oldReply[23] + (oldReply[24] << 8)))*1.0,
+				((short) (oldReply[25] + (oldReply[26] << 8)))*1.0,
+				((short) (oldReply[27] + (oldReply[28] << 8)))*1.0,
 
-				((reply[29] & 0x04) == 0x04),
+				ModeSetRunModeBits12Extensions.FromInt((oldReply[29] & 0x03)),
 
-				((reply[31] & 0x01) == 0x01),
-				((reply[31] & 0x02) == 0x02),
-				((reply[31] & 0x04) == 0x04),
-				((reply[31] & 0x08) == 0x08),
-				((reply[31] & 0x10) == 0x10),
-				((reply[31] & 0x20) == 0x20),
+				((oldReply[29] & 0x04) == 0x04),
 
-				((reply[31] & 0x40) == 0x40),
-				((reply[31] & 0x80) == 0x80),
+				((oldReply[31] & 0x01) == 0x01),
+				((oldReply[31] & 0x02) == 0x02),
+				((oldReply[31] & 0x04) == 0x04),
+				((oldReply[31] & 0x08) == 0x08),
+				((oldReply[31] & 0x10) == 0x10),
+				((oldReply[31] & 0x20) == 0x20),
 
-				((reply[32] & 0x01) == 0x01),
-				((reply[32] & 0x10) == 0x10),
-				((reply[32] & 0x20) == 0x20),
+				((oldReply[31] & 0x40) == 0x40),
+				((oldReply[31] & 0x80) == 0x80),
 
-				((short) (reply[33] + (reply[34] << 8)))*1.0,
-				((short) (reply[35] + (reply[36] << 8)))*1.0,
-				((short) (reply[37] + (reply[38] << 8)))*1.0,
-				((short) (reply[39] + (reply[40] << 8)))*1.0,
-				((short) (reply[41] + (reply[42] << 8)))*1.0,
-				((short) (reply[43] + (reply[44] << 8)))*1.0,
-				((short) (reply[45] + (reply[46] << 8)))*1.0,
-				((short) (reply[47] + (reply[48] << 8)))*1.0,
-				((short) (reply[49] + (reply[50] << 8)))*1.0,
-				((short) (reply[51] + (reply[52] << 8)))*1.0,
-				((short) (reply[53] + (reply[54] << 8)))*1.0,
-				((short) (reply[55] + (reply[56] << 8)))*1.0,
-				((short) (reply[57] + (reply[58] << 8)))*1.0);
+				((oldReply[32] & 0x01) == 0x01),
+				((oldReply[32] & 0x10) == 0x10),
+				((oldReply[32] & 0x20) == 0x20),
+
+				((short) (oldReply[33] + (oldReply[34] << 8)))*1.0,
+				((short) (oldReply[35] + (oldReply[36] << 8)))*1.0,
+				((short) (oldReply[37] + (oldReply[38] << 8)))*1.0,
+				((short) (oldReply[39] + (oldReply[40] << 8)))*1.0,
+				((short) (oldReply[41] + (oldReply[42] << 8)))*1.0,
+				((short) (oldReply[43] + (oldReply[44] << 8)))*1.0,
+				((short) (oldReply[45] + (oldReply[46] << 8)))*1.0,
+
+				// Text (External temperature)
+				((short) (oldReply[47] + (oldReply[48] << 8)))*1.0,
+
+				((short) (oldReply[49] + (oldReply[50] << 8)))*1.0,
+				((short) (oldReply[51] + (oldReply[52] << 8)))*1.0,
+				((short) (oldReply[53] + (oldReply[54] << 8)))*1.0,
+				((short) (oldReply[55] + (oldReply[56] << 8)))*1.0,
+				((short) (oldReply[57] + (oldReply[58] << 8)))*1.0,
+				((short) (oldReply[59] + (oldReply[60] << 8)))*1.0,
+
+				//61-62 - AUX1
+				//63-64 - AUX2
+				//65-66 - PVER
+				//67-68 - PVDATE
+
+				//status byte:
+				(oldReply[69] & 0x01) == 0x01,
+				(oldReply[69] & 0x02) == 0x02,
+				(oldReply[69] & 0x04) == 0x04);
 		}
 
 		public int ReplyLength
 		{
 			get {
-				return 70;
+				return 74;
 			}
 		}
 

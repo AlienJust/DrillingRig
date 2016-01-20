@@ -1,5 +1,8 @@
 ﻿namespace DrillingRig.Commands.AinTelemetry {
 	public interface IAinTelemetry {
+		FaultState CommonFaultState { get; }
+		EngineState CommonEngineState { get; }
+
 		double RotationFriquencyCalculated { get; }
 		double PwmModulationCoefficient { get; }
 		double MomentumCurrentSetting { get; }
@@ -40,6 +43,8 @@
 		double AfterFilterFset { get; }
 		double AfterFilterTorq { get; }
 
+		double ExternalTemperature { get; }
+
 		double DCurrentRegulatorProportionalPart { get; }
 		double QcurrentRegulatorProportionalPart { get; }
 		double SpeedRegulatorProportionalPart { get; }
@@ -47,6 +52,9 @@
 
 		double CalculatorDflowRegulatorOutput { get; }
 		double CalculatorQflowRegulatorOutput { get; }
-		
+
+		bool Ain1LinkFault { get; }
+		bool Ain2LinkFault { get; }
+		bool Ain3LinkFault { get; }
 	}
 }
