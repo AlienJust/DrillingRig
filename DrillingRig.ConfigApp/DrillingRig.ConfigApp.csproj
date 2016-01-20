@@ -109,6 +109,7 @@
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsExporter.cs" />
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
     <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
+    <Compile Include="GridControl.cs" />
     <Compile Include="INotifySendingEnabled.cs" />
     <Compile Include="CoolerTelemetry\CoolerTelemetriesView.xaml.cs">
       <DependentUpon>CoolerTelemetriesView.xaml</DependentUpon>
