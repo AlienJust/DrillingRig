@@ -129,11 +129,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public static DateTime? FromUshort(this ushort value) {
 			DateTime? buildDate;
 			try {
-				buildDate = new DateTime(
-					((value << 9) & 0x7F),
-					((value << 5) & 0x0F),
-					(value & 0x1F)
-					);
+				int year = 2000 + ((value >> 9) & 0x7F);
+				int month = ((value >> 5) & 0x0F);
+				int day = (value & 0x1F);
+				buildDate = new DateTime(year, month, day);
 			}
 			catch {
 				buildDate = null;

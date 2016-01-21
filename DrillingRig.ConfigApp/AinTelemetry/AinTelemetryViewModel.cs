@@ -417,7 +417,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			RaisePropertyChanged(() => Aux1);
 			RaisePropertyChanged(() => Aux2);
 			RaisePropertyChanged(() => Pver);
-			RaisePropertyChanged(() => Aux1);
+			RaisePropertyChanged(() => PvDate);
 
 			//EngineState? commonEngineState = 
 			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (EngineState?)_telemetry.CommonEngineState);
