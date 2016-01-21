@@ -22,6 +22,8 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 
 		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
+				command.Serialize();
+
 				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
 				Exception exception = null;
 				byte[] reply;

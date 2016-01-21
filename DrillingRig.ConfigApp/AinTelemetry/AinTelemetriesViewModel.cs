@@ -167,9 +167,9 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 		public void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault) {
-			string ain1LinkInfo = ain1LinkFault.HasValue ? (ain1LinkFault.Value ? "OK" : "ER") : "X3";
-			string ain2LinkInfo = ain2LinkFault.HasValue ? (ain2LinkFault.Value ? "OK" : "ER") : "X3";
-			string ain3LinkInfo = ain3LinkFault.HasValue ? (ain3LinkFault.Value ? "OK" : "ER") : "X3";
+			string ain1LinkInfo = ain1LinkFault.HasValue ? (ain1LinkFault.Value ? "ER" : "OK") : "X3";
+			string ain2LinkInfo = ain2LinkFault.HasValue ? (ain2LinkFault.Value ? "ER" : "OK") : "X3";
+			string ain3LinkInfo = ain3LinkFault.HasValue ? (ain3LinkFault.Value ? "ER" : "OK") : "X3";
 
 			AinsLinkState = ain1LinkInfo + " | " + ain2LinkInfo + " | " + ain3LinkInfo;
 		}
