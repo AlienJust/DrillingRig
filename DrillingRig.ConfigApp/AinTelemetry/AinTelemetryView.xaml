@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="480">
+             d:DesignHeight="900" d:DesignWidth="480">
 	<Expander Header="{Binding Path=AinName, Mode=OneTime}">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -158,6 +158,11 @@
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
+
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
 				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Частота вращения, измеренная ДЧВ (электрическая)"/>
 				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=RotationFriquencyMeasuredDcv, Mode=OneWay}"/>
@@ -200,6 +205,19 @@
 
 				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Выход регулятора вычислителя потока Q"/>
 				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Text="{Binding Path=CalculatorQflowRegulatorOutput, Mode=OneWay}"/>
+
+
+				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="14" VerticalAlignment="Center" Text="Вспомогательная ячейка 1"/>
+				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="14" VerticalAlignment="Center" Text="{Binding Path=Aux1, Mode=OneWay}"/>
+
+				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="15" VerticalAlignment="Center" Text="Вспомогательная ячейка 2"/>
+				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="15" VerticalAlignment="Center" Text="{Binding Path=Aux2, Mode=OneWay}"/>
+
+				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="16" VerticalAlignment="Center" Text="Версия ПО"/>
+				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" Text="{Binding Path=Pver, Mode=OneWay}"/>
+
+				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="17" VerticalAlignment="Center" Text="Дата билда ПО"/>
+				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="17" VerticalAlignment="Center" Text="{Binding Path=PvDate, Mode=OneWay, StringFormat='yyyy.MM.dd'}"/>
 			</configApp:GridControl>
 		</Grid>
 	</Expander>

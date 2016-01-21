@@ -31,6 +31,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 			var oldReply = reply.Skip(4).ToList();
 
+			
+			
 			return new AinTelemetrySimple(
 				EngineStateExtensions.GetStateFromUshort((ushort) (reply[1] + (reply[2] << 8))),
 				FaultStateExtensions.GetStateFromUshort((ushort) (reply[3] + (reply[4] << 8))),
@@ -86,10 +88,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 				((short) (oldReply[57] + (oldReply[58] << 8)))*1.0,
 				((short) (oldReply[59] + (oldReply[60] << 8)))*1.0,
 
-				//61-62 - AUX1
-				//63-64 - AUX2
-				//65-66 - PVER
-				//67-68 - PVDATE
+
+				((ushort)(oldReply[61] + (oldReply[62] << 8))),
+				((ushort)(oldReply[63] + (oldReply[64] << 8))),
+				((ushort)(oldReply[65] + (oldReply[66] << 8))),
+				((ushort)(oldReply[67] + (oldReply[68] << 8))).FromUshort(),
 
 				//status byte:
 				(oldReply[69] & 0x01) == 0x01,
@@ -116,6 +119,23 @@ namespace DrillingRig.Commands.AinTelemetry {
 			result[3] = (byte)rnd.Next(0, 6);
 			result[4] = 0;
 			return result;
+		}
+	}
+
+	static class DateTimeExtensions {
+		public static DateTime? FromUshort(this ushort value) {
+			DateTime? buildDate;
+			try {
+				buildDate = new DateTime(
+					((value << 9) & 0x7F),
+					((value << 5) & 0x0F),
+					(value & 0x1F)
+					);
+			}
+			catch {
+				buildDate = null;
+			}
+			return buildDate;
 		}
 	}
 }

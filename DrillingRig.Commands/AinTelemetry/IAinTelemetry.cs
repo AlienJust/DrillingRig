@@ -1,4 +1,6 @@
-﻿namespace DrillingRig.Commands.AinTelemetry {
+﻿using System;
+
+namespace DrillingRig.Commands.AinTelemetry {
 	public interface IAinTelemetry {
 		FaultState CommonFaultState { get; }
 		EngineState CommonEngineState { get; }
@@ -52,6 +54,11 @@
 
 		double CalculatorDflowRegulatorOutput { get; }
 		double CalculatorQflowRegulatorOutput { get; }
+
+		ushort Aux1 { get; }
+		ushort Aux2 { get; }
+		ushort Pver { get; }
+		DateTime? PvDate { get; } // TODO: m.b. change to DateTime?
 
 		bool Ain1LinkFault { get; }
 		bool Ain2LinkFault { get; }

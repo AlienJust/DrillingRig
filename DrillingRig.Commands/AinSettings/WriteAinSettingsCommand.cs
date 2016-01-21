@@ -113,8 +113,6 @@ namespace DrillingRig.Commands.AinSettings {
 			var result = new[]{OneBasedAinNumber};
 			return result;
 		}
-
-		
 	}
 
 	static class IlistExtensions {

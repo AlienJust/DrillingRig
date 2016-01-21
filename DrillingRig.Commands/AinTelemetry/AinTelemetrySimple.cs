@@ -1,5 +1,7 @@
+using System;
+
 namespace DrillingRig.Commands.AinTelemetry {
-	class AinTelemetrySimple : IAinTelemetry {
+	internal class AinTelemetrySimple : IAinTelemetry {
 		private readonly EngineState _commonEngineState;
 		private readonly FaultState _commonFaultState;
 		private readonly double _rotationFriquencyCalculated;
@@ -33,7 +35,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly bool _allowedDcVoltageExcess;
 		private readonly bool _eepromI2CErrorDefaultParamsAreLoaded;
 		private readonly bool _eepromCrcErrorDefaultParamsAreLoaded;
-		
+
 		private readonly double _rotationFriquencyMeasuredDcv;
 		private readonly double _afterFilterSpeedControllerFeedbackFriquency;
 		private readonly double _afterFilterFimag;
@@ -51,6 +53,13 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly double _calculatorDflowRegulatorOutput;
 		private readonly double _calculatorQflowRegulatorOutput;
 
+
+		private readonly ushort _aux1;
+		private readonly ushort _aux2;
+		private readonly ushort _pver;
+		private readonly DateTime? _pvDate;
+
+
 		private readonly bool _ain1LinkFault;
 		private readonly bool _ain2LinkFault;
 		private readonly bool _ain3LinkFault;
@@ -59,55 +68,55 @@ namespace DrillingRig.Commands.AinTelemetry {
 			EngineState commonEngineState,
 			FaultState commonFaultState,
 
-			double rotationFriquencyCalculated, 
-			double pwmModulationCoefficient, 
-			double momentumCurrentSetting, 
-			double radiatorTemperature, 
-			double dcBusVoltage, 
-			double allPhasesCurrentAmplitudeEnvelopeCurve, 
-			double regulatorCurrentDoutput, 
-			double regulatorCurrentQoutput, 
-			double friquencyIntensitySetpointOutput, 
-			double flowSetting, 
-			double measuredMoment, 
-			double speedRegulatorOutputOrMomentSetting, 
-			double measuredFlow, 
-			double settingExcitationCurrent, 
+			double rotationFriquencyCalculated,
+			double pwmModulationCoefficient,
+			double momentumCurrentSetting,
+			double radiatorTemperature,
+			double dcBusVoltage,
+			double allPhasesCurrentAmplitudeEnvelopeCurve,
+			double regulatorCurrentDoutput,
+			double regulatorCurrentQoutput,
+			double friquencyIntensitySetpointOutput,
+			double flowSetting,
+			double measuredMoment,
+			double speedRegulatorOutputOrMomentSetting,
+			double measuredFlow,
+			double settingExcitationCurrent,
 
 			ModeSetRunModeBits12 runModeBits12,
 
-			bool runModeRotationDirection, 
-			bool driver1HasErrors, 
-			bool driver2HasErrors, 
-			bool driver3HasErrors, 
-			bool driver4HasErrors, 
-			bool driver5HasErrors, 
-			bool driver6HasErrors, 
-			bool somePhaseMaximumAlowedCurrentExcess, 
+			bool runModeRotationDirection,
+			bool driver1HasErrors,
+			bool driver2HasErrors,
+			bool driver3HasErrors,
+			bool driver4HasErrors,
+			bool driver5HasErrors,
+			bool driver6HasErrors,
+			bool somePhaseMaximumAlowedCurrentExcess,
 			bool radiatorKeysTemperatureRiseTo85DegreesExcess,
 			bool allowedDcVoltageExcess,
-			bool eepromI2CErrorDefaultParamsAreLoaded, 
-			bool eepromCrcErrorDefaultParamsAreLoaded, 
-			double rotationFriquencyMeasuredDcv, 
-			double afterFilterSpeedControllerFeedbackFriquency, 
-			double afterFilterFimag, 
-			double currentDpartMeasured, 
-			double currentQpartMeasured, 
-			double afterFilterFset, 
-			double afterFilterTorq, 
+			bool eepromI2CErrorDefaultParamsAreLoaded,
+			bool eepromCrcErrorDefaultParamsAreLoaded,
+			double rotationFriquencyMeasuredDcv,
+			double afterFilterSpeedControllerFeedbackFriquency,
+			double afterFilterFimag,
+			double currentDpartMeasured,
+			double currentQpartMeasured,
+			double afterFilterFset,
+			double afterFilterTorq,
 			double externalTemperature,
-			double dCurrentRegulatorProportionalPart, 
-			double qcurrentRegulatorProportionalPart, 
-			double speedRegulatorProportionalPart, 
-			double flowRegulatorProportionalPart, 
-			double calculatorDflowRegulatorOutput, 
+			double dCurrentRegulatorProportionalPart,
+			double qcurrentRegulatorProportionalPart,
+			double speedRegulatorProportionalPart,
+			double flowRegulatorProportionalPart,
+			double calculatorDflowRegulatorOutput,
 			double calculatorQflowRegulatorOutput,
+
+			ushort aux1, ushort aux2, ushort pver, DateTime? pvDate,
 
 			bool ain1LinkFault,
 			bool ain2LinkFault,
-			bool ain3LinkFault
-			
-			) {
+			bool ain3LinkFault) {
 			_commonEngineState = commonEngineState;
 			_commonFaultState = commonFaultState;
 
@@ -159,19 +168,23 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_flowRegulatorProportionalPart = flowRegulatorProportionalPart;
 			_calculatorDflowRegulatorOutput = calculatorDflowRegulatorOutput;
 			_calculatorQflowRegulatorOutput = calculatorQflowRegulatorOutput;
-			
+
+			_aux1 = aux1;
+			_aux2 = aux2;
+			_pver = pver;
+			_pvDate = pvDate;
+
 			_ain1LinkFault = ain1LinkFault;
 			_ain2LinkFault = ain2LinkFault;
 			_ain3LinkFault = ain3LinkFault;
+			
 		}
 
-		public EngineState CommonEngineState
-		{
+		public EngineState CommonEngineState {
 			get { return _commonEngineState; }
 		}
 
-		public FaultState CommonFaultState
-		{
+		public FaultState CommonFaultState {
 			get { return _commonFaultState; }
 		}
 
@@ -272,8 +285,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 			get { return _radiatorKeysTemperatureRiseTo85DegreesExcess; }
 		}
 
-		public bool AllowedDcVoltageExcess
-		{
+		public bool AllowedDcVoltageExcess {
 			get { return _allowedDcVoltageExcess; }
 		}
 
@@ -313,7 +325,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 			get { return _afterFilterTorq; }
 		}
 
-		public double ExternalTemperature { get { return _externalTemperature; } }
+		public double ExternalTemperature {
+			get { return _externalTemperature; }
+		}
 
 		public double DCurrentRegulatorProportionalPart {
 			get { return _dCurrentRegulatorProportionalPart; }
@@ -338,6 +352,30 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public double CalculatorQflowRegulatorOutput {
 			get { return _calculatorQflowRegulatorOutput; }
 		}
+
+
+
+		public ushort Aux1
+		{
+			get { return _aux1; }
+		}
+
+		public ushort Aux2
+		{
+			get { return _aux2; }
+		}
+
+		public ushort Pver
+		{
+			get { return _pver; }
+		}
+
+		public DateTime? PvDate
+		{
+			get { return _pvDate; }
+		}
+
+
 
 		public bool Ain1LinkFault {
 			get { return _ain1LinkFault; }

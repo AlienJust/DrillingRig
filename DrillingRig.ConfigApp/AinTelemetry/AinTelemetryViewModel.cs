@@ -1,4 +1,5 @@
-﻿using AlienJust.Support.ModelViewViewModel;
+﻿using System;
+using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
@@ -314,6 +315,44 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
+		public ushort? Aux1
+		{
+			get
+			{
+				if (_telemetry == null) return null;
+				return _telemetry.Aux1;
+			}
+		}
+
+		public ushort? Aux2
+		{
+			get
+			{
+				if (_telemetry == null) return null;
+				return _telemetry.Aux2;
+			}
+		}
+
+		public ushort? Pver
+		{
+			get
+			{
+				if (_telemetry == null) return null;
+				return _telemetry.Pver;
+			}
+		}
+
+		public DateTime? PvDate
+		{
+			get
+			{
+				if (_telemetry == null) return null;
+				return _telemetry.PvDate;
+			}
+		}
+
+
+
 		public string AinName {
 			get { return _ainName; }
 		}
@@ -374,6 +413,11 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			RaisePropertyChanged(() => CalculatorDflowRegulatorOutput);
 			RaisePropertyChanged(() => CalculatorQflowRegulatorOutput);
+
+			RaisePropertyChanged(() => Aux1);
+			RaisePropertyChanged(() => Aux2);
+			RaisePropertyChanged(() => Pver);
+			RaisePropertyChanged(() => Aux1);
 
 			//EngineState? commonEngineState = 
 			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (EngineState?)_telemetry.CommonEngineState);
