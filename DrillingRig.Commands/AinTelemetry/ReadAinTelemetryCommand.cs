@@ -118,6 +118,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 			result[3] = (byte)rnd.Next(0, 6);
 			result[4] = 0;
+
+			result[71] = 0x85;
+			result[72] = 0x1F;
 			return result;
 		}
 	}

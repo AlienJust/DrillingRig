@@ -11,6 +11,7 @@ using AlienJust.Support.Text;
 using AlienJust.Support.Text.Contracts;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinTelemetry;
+using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm {
@@ -35,14 +36,15 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private string _faultState;
 		private string _ainsLinkState;
 		private const string UnknownValueText = "Неизвестно";
+		private readonly IDebugInformationShower _debugInformationShower;
 
-
-		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem) {
+		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_windowSystem = windowSystem;
+			_debugInformationShower = debugInformationShower;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
@@ -110,6 +112,30 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 							Console.WriteLine("Pause 100ms");
 							Thread.Sleep(100); // TODO: interval must be setted by user
 						}
+
+
+						var cmdDebug = new ReadDebugInfoCommand();
+						_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(1.0), (exception, bytes) => {
+							try
+							{
+								if (exception != null)
+								{
+									throw new Exception("Произошла ошибка во время обмена", exception);
+								}
+								_userInterfaceRoot.Notifier.Notify(() => _debugInformationShower.ShowBytes(bytes));
+							}
+							catch (Exception ex)
+							{
+								// TODO: log exception, null values
+								_logger.Log("Ошибка: " + ex.Message);
+								Console.WriteLine(ex);
+							}
+							waiter.Set();
+						});
+						waiter.WaitOne();
+						waiter.Reset();
+						Console.WriteLine("Pause 100ms");
+						Thread.Sleep(100); // TODO: interval must be setted by user
 					}
 				}
 				catch (Exception ex) {

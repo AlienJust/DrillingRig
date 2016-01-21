@@ -2,15 +2,88 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<Button Grid.Row="0" Content="Режим bootloader" Command="{Binding Path=CmdSetBootloader, Mode=OneTime}" Margin="2,2,2,2"/>
 		<Button Grid.Row="1" Content="Рестарт контроллера" Command="{Binding Path=CmdRestart, Mode=OneTime}" Margin="2,2,2,2"/>
+		<configApp:GridControl Grid.Row="2" ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0" Grid.Column="0" Margin="2,2,2,2" Text="1"/>
+			<TextBlock Grid.Row="1" Grid.Column="0" Margin="2,2,2,2" Text="2"/>
+			<TextBlock Grid.Row="2" Grid.Column="0" Margin="2,2,2,2" Text="3"/>
+			<TextBlock Grid.Row="3" Grid.Column="0" Margin="2,2,2,2" Text="4"/>
+			<TextBlock Grid.Row="4" Grid.Column="0" Margin="2,2,2,2" Text="5"/>
+			<TextBlock Grid.Row="5" Grid.Column="0" Margin="2,2,2,2" Text="6"/>
+			<TextBlock Grid.Row="6" Grid.Column="0" Margin="2,2,2,2" Text="7"/>
+			<TextBlock Grid.Row="7" Grid.Column="0" Margin="2,2,2,2" Text="8"/>
+
+
+			<TextBlock Grid.Row="0" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B01, Mode=OneWay}"/>
+			<TextBlock Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B02, Mode=OneWay}"/>
+			<TextBlock Grid.Row="0" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B03, Mode=OneWay}"/>
+			<TextBlock Grid.Row="0" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B04, Mode=OneWay}"/>
+
+			<TextBlock Grid.Row="1" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B11, Mode=OneWay}"/>
+			<TextBlock Grid.Row="1" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B12, Mode=OneWay}"/>
+			<TextBlock Grid.Row="1" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B13, Mode=OneWay}"/>
+			<TextBlock Grid.Row="1" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B14, Mode=OneWay}"/>
+
+			<TextBlock Grid.Row="2" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B21, Mode=OneWay}"/>
+			<TextBlock Grid.Row="2" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B22, Mode=OneWay}"/>
+			<TextBlock Grid.Row="2" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B23, Mode=OneWay}"/>
+			<TextBlock Grid.Row="2" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B24, Mode=OneWay}"/>
+
+			<TextBlock Grid.Row="3" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B31, Mode=OneWay}"/>
+			<TextBlock Grid.Row="3" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B32, Mode=OneWay}"/>
+			<TextBlock Grid.Row="3" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B33, Mode=OneWay}"/>
+			<TextBlock Grid.Row="3" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B34, Mode=OneWay}"/>
+
+
+			<TextBlock Grid.Row="4" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B41, Mode=OneWay}"/>
+			<TextBlock Grid.Row="4" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B42, Mode=OneWay}"/>
+			<TextBlock Grid.Row="4" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B43, Mode=OneWay}"/>
+			<TextBlock Grid.Row="4" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B44, Mode=OneWay}"/>
+
+
+			<TextBlock Grid.Row="5" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B51, Mode=OneWay}"/>
+			<TextBlock Grid.Row="5" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B52, Mode=OneWay}"/>
+			<TextBlock Grid.Row="5" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B53, Mode=OneWay}"/>
+			<TextBlock Grid.Row="5" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B54, Mode=OneWay}"/>
+
+			<TextBlock Grid.Row="6" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B61, Mode=OneWay}"/>
+			<TextBlock Grid.Row="6" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B62, Mode=OneWay}"/>
+			<TextBlock Grid.Row="6" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B63, Mode=OneWay}"/>
+			<TextBlock Grid.Row="6" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B64, Mode=OneWay}"/>
+
+			<TextBlock Grid.Row="7" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=B71, Mode=OneWay}"/>
+			<TextBlock Grid.Row="7" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=B72, Mode=OneWay}"/>
+			<TextBlock Grid.Row="7" Grid.Column="3" Margin="2,2,2,2" Text="{Binding Path=B73, Mode=OneWay}"/>
+			<TextBlock Grid.Row="7" Grid.Column="4" Margin="2,2,2,2" Text="{Binding Path=B74, Mode=OneWay}"/>
+		</configApp:GridControl>
 	</Grid>
 </UserControl>

@@ -14,9 +14,8 @@ namespace DrillingRig.Commands.SystemControl {
 			return new byte[0];
 		}
 
-
 		public int ReplyLength {
-			get { return 0; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
+			get { return 0;
 			}
 		}
 

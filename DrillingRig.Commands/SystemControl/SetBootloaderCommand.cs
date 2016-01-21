@@ -1,8 +1,7 @@
 ﻿using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.SystemControl {
-	public class SetBootloaderCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply
-	{
+	public class SetBootloaderCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply {
 		public byte CommandCode {
 			get { return 0x88; }
 		}
@@ -15,10 +14,8 @@ namespace DrillingRig.Commands.SystemControl {
 			return new byte[0];
 		}
 
-
 		public int ReplyLength {
-			get { return 0; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
-			}
+			get { return 0; }
 		}
 
 		public byte[] GetTestReply() {
