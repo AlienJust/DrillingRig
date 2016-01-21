@@ -151,7 +151,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_afterFilterFset = afterFilterFset;
 			_afterFilterTorq = afterFilterTorq;
 
-			externalTemperature = externalTemperature;
+			_externalTemperature = externalTemperature;
 
 			_dCurrentRegulatorProportionalPart = dCurrentRegulatorProportionalPart;
 			_qcurrentRegulatorProportionalPart = qcurrentRegulatorProportionalPart;

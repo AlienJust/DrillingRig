@@ -13,8 +13,7 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
-	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm
-	{
+	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -32,6 +31,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private bool _cancel;
 
 		private bool _readingInProgress;
+		private string _engineState;
+		private string _faultState;
+		private string _ainsLinkState;
+		private const string UnknownValueText = "Неизвестно";
 
 
 		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem) {
@@ -50,7 +53,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				new AinTelemetryViewModel("АИН №3", this as ICommonAinTelemetryVm)
 			};
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
 			_syncCancel = new object();
 			_cancel = false;
 			_readingInProgress = false;
@@ -149,16 +152,57 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 		public void UpdateCommonEngineState(EngineState? value) {
-			throw new NotImplementedException();
+			if (!value.HasValue) CommonEngineState = UnknownValueText;
+			else {
+				CommonEngineState = value.Value.ToUshort().ToString("X2") + " - " + value.Value.ToText();
+			}
 		}
 
-		public void UpdateCommonFaultState(FaultState? value)
+		public void UpdateCommonFaultState(FaultState? value) {
+			if (!value.HasValue) CommonFaultState = UnknownValueText;
+			else
+			{
+				CommonFaultState = value.Value.ToUshort().ToString("X2") + " - " + value.Value.ToText();
+			}
+		}
+
+		public void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault) {
+			string ain1LinkInfo = ain1LinkFault.HasValue ? (ain1LinkFault.Value ? "OK" : "ER") : "X3";
+			string ain2LinkInfo = ain2LinkFault.HasValue ? (ain2LinkFault.Value ? "OK" : "ER") : "X3";
+			string ain3LinkInfo = ain3LinkFault.HasValue ? (ain3LinkFault.Value ? "OK" : "ER") : "X3";
+
+			AinsLinkState = ain1LinkInfo + " | " + ain2LinkInfo + " | " + ain3LinkInfo;
+		}
+
+		public string CommonEngineState {
+			get { return _engineState; }
+			set {
+				if (_engineState != value) {
+					_engineState = value;
+					RaisePropertyChanged(() => CommonEngineState);
+				}
+			}
+		}
+
+		public string CommonFaultState
 		{
-			throw new NotImplementedException();
+			get { return _faultState; }
+			set {
+				if (_faultState != value) {
+					_faultState = value;
+					RaisePropertyChanged(() => CommonFaultState);
+				}
+			}
 		}
 
-		public void UpdateAinsLinkState(bool? ain1Linkfault, bool? ain2LinkFault, bool? ain3LinkFault) {
-			throw new NotImplementedException();
+		public string AinsLinkState {
+			get { return _ainsLinkState; }
+			set {
+				if (_ainsLinkState != value) {
+					_ainsLinkState = value;
+					RaisePropertyChanged(() => AinsLinkState);
+				}
+			}
 		}
 	}
 }

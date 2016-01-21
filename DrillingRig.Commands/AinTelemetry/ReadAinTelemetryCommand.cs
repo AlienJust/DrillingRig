@@ -108,6 +108,13 @@ namespace DrillingRig.Commands.AinTelemetry {
 			var rnd = new Random();
 			var result = new byte[ReplyLength];
 			rnd.NextBytes(result);
+			result[0] = _zeroBasedAinNumber;
+			
+			result[1] = (byte) rnd.Next(0, 21);
+			result[2] = 0;
+
+			result[3] = (byte)rnd.Next(0, 6);
+			result[4] = 0;
 			return result;
 		}
 	}
