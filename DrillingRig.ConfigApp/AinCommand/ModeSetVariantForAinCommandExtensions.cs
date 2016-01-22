@@ -44,5 +44,28 @@ namespace DrillingRig.ConfigApp.AinCommand {
 					throw new Exception("Cannot conver such " + typeof(ModeSetVariantForAinCommand).FullName + " to " + typeof(ushort).FullName);
 			}
 		}
+
+		public static string FromUshortToText(ushort variant)
+		{
+			switch (variant)
+			{
+				case 0x406:
+					return ModeSetVariantForAinCommand.Off1.ToText(); /*100 0000 0110*/;
+				case 0x405:
+					return ModeSetVariantForAinCommand.Off2.ToText(); /*100 0000 0101*/
+				case 0x403:
+					return ModeSetVariantForAinCommand.Off3.ToText(); /*100 0000 0011*/
+				case 0x40F:
+					return ModeSetVariantForAinCommand.Run.ToText(); /*100 0000 1111*/
+				case 0x50F:
+					return ModeSetVariantForAinCommand.Inching1.ToText(); /*101 0000 1111*/
+				case 0x60F:
+					return ModeSetVariantForAinCommand.Inching2.ToText(); /*110 0000 1111*/
+				case 0x480:
+					return ModeSetVariantForAinCommand.Reset.ToText(); /*100 1000 0000*/
+				default:
+					return variant.ToString("X4");
+			}
+		}
 	}
 }

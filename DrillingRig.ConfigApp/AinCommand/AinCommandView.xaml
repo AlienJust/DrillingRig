@@ -39,15 +39,50 @@
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mmax, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
 		</Grid>
 		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Column="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<CheckBox Grid.Row="0" Content="OFF1" IsChecked="{Binding Path=Off1, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="1" Content="OFF2" IsChecked="{Binding Path=Off2, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="2" Content="OFF3" IsChecked="{Binding Path=Off3, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="3" Content="RUN" IsChecked="{Binding Path=Run, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="4" Content="RAMP_OUT_ZERO" IsChecked="{Binding Path=RampOutZero, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="5" Content="RAMP_HOLD" IsChecked="{Binding Path=RampHold, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="6" Content="RAMP_IN_ZERO" IsChecked="{Binding Path=RampInZero, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="7" Content="RESET" IsChecked="{Binding Path=Reset, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="8" Content="INCHING1" IsChecked="{Binding Path=Inching1, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="9" Content="INCHING2" IsChecked="{Binding Path=Inching2, Mode=OneWayToSource}"/>
+				<CheckBox Grid.Row="10" Content="REMOTE" IsChecked="{Binding Path=Remote, Mode=OneWayToSource}"/>
+				<Button Grid.Row="11" Content="Установить режим работы" Command="{Binding Path=SendAinCommandBits, Mode=OneTime}"/>
+				
+			</Grid>
+			<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
 			</Grid.RowDefinitions>
+			
 			<Button Grid.Row="6" Grid.Column="0" Command="{Binding Path=SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Stretch">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -118,6 +153,7 @@
 					<TextBlock Text="Толчок 2 (INCHING 2)" Grid.Column="1" HorizontalAlignment="Right"/>
 				</Grid>
 			</Button>
+		</Grid>
 		</Grid>
 	</Grid>
 </UserControl>

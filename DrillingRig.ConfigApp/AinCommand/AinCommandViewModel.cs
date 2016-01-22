@@ -24,7 +24,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandInching1;
 		private readonly RelayCommand _sendAinCommandInching2;
 		private readonly RelayCommand _sendAinCommandReset;
-
+		private readonly RelayCommand _sendAinCommandBits;
 
 		private short _fset;
 		private short _mset;
@@ -54,6 +54,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_sendAinCommandInching1 = new RelayCommand(SendAinCmdInching1, () => _sendingEnabledControl.IsSendingEnabled);
 			_sendAinCommandInching2 = new RelayCommand(SendAinCmdInching2, () => _sendingEnabledControl.IsSendingEnabled);
 			_sendAinCommandReset = new RelayCommand(SendAinCmdReset, () => _sendingEnabledControl.IsSendingEnabled);
+			_sendAinCommandBits = new RelayCommand(SendAinCmdBits, () => _sendingEnabledControl.IsSendingEnabled);
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 		}
@@ -66,43 +67,59 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_sendAinCommandInching1.RaiseCanExecuteChanged();
 			_sendAinCommandInching2.RaiseCanExecuteChanged();
 			_sendAinCommandReset.RaiseCanExecuteChanged();
+			_sendAinCommandBits.RaiseCanExecuteChanged();
 		}
 
 		private void SendAinCmdOff1() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off1);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off1.ToUshort());
 		}
 
 		private void SendAinCmdOff2() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off2);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off2.ToUshort());
 		}
 
 		private void SendAinCmdOff3() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off3);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Off3.ToUshort());
 		}
 
 		private void SendAinCmdRun() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Run);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Run.ToUshort());
 		}
 
 		private void SendAinCmdInching1() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching1);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching1.ToUshort());
 		}
 
 		private void SendAinCmdInching2() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching2);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Inching2.ToUshort());
 		}
 
 		private void SendAinCmdReset() {
-			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Reset);
+			SendCmdWithCommandMode(ModeSetVariantForAinCommand.Reset.ToUshort());
+		}
+		private void SendAinCmdBits() {
+			ushort commandMode = 0;
+			if (Off1) commandMode += 0x0001;
+			if (Off2) commandMode += 0x0002;
+			if (Off3) commandMode += 0x0004;
+			if (Run) commandMode += 0x0008;
+			if (RampOutZero) commandMode += 0x0010;
+			if (RampHold) commandMode += 0x0020;
+			if (RampInZero) commandMode += 0x0040;
+			if (Reset) commandMode += 0x0080;
+			if (Inching1) commandMode += 0x0100;
+			if (Inching2) commandMode += 0x0200;
+			if (Remote) commandMode += 0x0400;
+			_logger.Log("Режим работы в составе команды АИН = 0x" + commandMode.ToString("X4"));
+			SendCmdWithCommandMode(commandMode);
 		}
 
-		private void SendCmdWithCommandMode(ModeSetVariantForAinCommand commandMode)
+		private void SendCmdWithCommandMode(ushort commandMode)
 		{
 			try {
 				_logger.Log("Подготовка к отправке команды для АИН");
-				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode.ToUshort(), _fset, _mset, _set3, _mmin, _mmax);
-
-				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + commandMode.ToText());
+				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, _fset, _mset, _set3, _mmin, _mmax);
+				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
@@ -183,6 +200,18 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 
+		public bool Off1 { get; set; }
+		public bool Off2 { get; set; }
+		public bool Off3 { get; set; }
+		public bool Run { get; set; }
+		public bool RampOutZero { get; set; }
+		public bool RampHold { get; set; }
+		public bool RampInZero { get; set; }
+		public bool Reset { get; set; }
+		public bool Inching1 { get; set; }
+		public bool Inching2 { get; set; }
+		public bool Remote { get; set; }
+		
 		public ICommand SendAinCommandOff1 {
 			get { return _sendAinCommandOff1; }
 		}
@@ -211,6 +240,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public ICommand SendAinCommandReset {
 			get { return _sendAinCommandReset; }
+		}
+
+		public RelayCommand SendAinCommandBits {
+			get { return _sendAinCommandBits; }
 		}
 	}
 }

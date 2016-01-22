@@ -9,7 +9,7 @@
         xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
         xmlns:rectifierTelemetry="clr-namespace:DrillingRig.ConfigApp.RectifierTelemetry"
         xmlns:coolerTelemetry="clr-namespace:DrillingRig.ConfigApp.CoolerTelemetry"
-        Title="Конфигурация БС-Ethernet " Height="600" Width="525">
+        Title="Конфигурация БС-Ethernet " Height="700" Width="600">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
