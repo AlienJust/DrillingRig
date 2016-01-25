@@ -83,7 +83,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 							var cmd = new ReadAinTelemetryCommand(zbAinNumber);
 							byte ainNumber = zbAinNumber;
 							_commandSenderHost.Sender.SendCommandAsync(0x01,
-								cmd, TimeSpan.FromSeconds(1.0),
+								cmd, TimeSpan.FromSeconds(0.1),
 								(exception, bytes) => {
 									IAinTelemetry ainTelemetry = null;
 									try {
@@ -116,7 +116,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 
 						var cmdDebug = new ReadDebugInfoCommand();
-						_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(1.0), (exception, bytes) => {
+						_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
 							try
 							{
 								if (exception != null)
