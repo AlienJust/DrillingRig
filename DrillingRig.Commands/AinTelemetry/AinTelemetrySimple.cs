@@ -2,8 +2,8 @@ using System;
 
 namespace DrillingRig.Commands.AinTelemetry {
 	internal class AinTelemetrySimple : IAinTelemetry {
-		private readonly EngineState _commonEngineState;
-		private readonly FaultState _commonFaultState;
+		private readonly ushort _commonEngineState;
+		private readonly ushort _commonFaultState;
 		private readonly double _rotationFriquencyCalculated;
 		private readonly double _pwmModulationCoefficient;
 		private readonly double _momentumCurrentSetting;
@@ -65,8 +65,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly bool _ain3LinkFault;
 
 		public AinTelemetrySimple(
-			EngineState commonEngineState,
-			FaultState commonFaultState,
+			ushort commonEngineState,
+			ushort commonFaultState,
 
 			double rotationFriquencyCalculated,
 			double pwmModulationCoefficient,
@@ -180,11 +180,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 			
 		}
 
-		public EngineState CommonEngineState {
+		public ushort CommonEngineState {
 			get { return _commonEngineState; }
 		}
 
-		public FaultState CommonFaultState {
+		public ushort CommonFaultState {
 			get { return _commonFaultState; }
 		}
 

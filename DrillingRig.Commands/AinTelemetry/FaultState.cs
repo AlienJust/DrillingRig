@@ -11,6 +11,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		NotMagnetized, //4 Двигатель не намагнитился за 5 сек.
 		SpeedLimit, //5 Превышение максимальной скорости длительное время.
 		StatusError, //6 Появление ошибок STATUS АИН.
+		UdcLow // 7
 	}
 
 	public static class FaultStateExtensions {
@@ -30,6 +31,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 5;
 				case FaultState.StatusError:
 					return 6;
+				case FaultState.UdcLow:
+					return 7;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -52,6 +55,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "SpeedLimit";
 				case FaultState.StatusError:
 					return "StatusError";
+				case FaultState.UdcLow:
+					return "UdcLow";
 				default:
 					throw new Exception("Cannot convert such state to string");
 			}
@@ -73,6 +78,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.SpeedLimit;
 				case 6:
 					return FaultState.StatusError;
+				case 7:
+					return FaultState.UdcLow;
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (FaultState).Name);
 			}

@@ -420,8 +420,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			RaisePropertyChanged(() => PvDate);
 
 			//EngineState? commonEngineState = 
-			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (EngineState?)_telemetry.CommonEngineState);
-			_commonAinTelemetryVm.UpdateCommonFaultState(_telemetry == null ? null :(FaultState?) _telemetry.CommonFaultState);
+			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (ushort?)_telemetry.CommonEngineState);
+			_commonAinTelemetryVm.UpdateCommonFaultState(_telemetry == null ? null : (ushort?)_telemetry.CommonFaultState);
 			_commonAinTelemetryVm.UpdateAinsLinkState(
 				_telemetry == null ? null : (bool?) _telemetry.Ain1LinkFault,
 				_telemetry == null ? null : (bool?) _telemetry.Ain2LinkFault,

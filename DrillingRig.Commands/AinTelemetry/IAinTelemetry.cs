@@ -2,8 +2,8 @@
 
 namespace DrillingRig.Commands.AinTelemetry {
 	public interface IAinTelemetry {
-		FaultState CommonFaultState { get; }
-		EngineState CommonEngineState { get; }
+		ushort CommonFaultState { get; }
+		ushort CommonEngineState { get; }
 
 		double RotationFriquencyCalculated { get; }
 		double PwmModulationCoefficient { get; }

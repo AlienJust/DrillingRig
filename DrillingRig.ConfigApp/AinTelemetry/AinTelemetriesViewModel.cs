@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.Concurrent;
@@ -177,18 +178,33 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
-		public void UpdateCommonEngineState(EngineState? value) {
+		public void UpdateCommonEngineState(ushort? value) {
 			if (!value.HasValue) CommonEngineState = UnknownValueText;
 			else {
-				CommonEngineState = value.Value.ToUshort().ToString("X2") + " - " + value.Value.ToText();
+				string commonEngineState = value.Value.ToString(CultureInfo.InvariantCulture);
+				try {
+					commonEngineState += " - " + EngineStateExtensions.GetStateFromUshort(value.Value).ToText();
+				}
+				catch (Exception ex) {
+					_logger.Log(ex);
+				}
+				CommonEngineState = commonEngineState;
 			}
 		}
 
-		public void UpdateCommonFaultState(FaultState? value) {
+		public void UpdateCommonFaultState(ushort? value)
+		{
 			if (!value.HasValue) CommonFaultState = UnknownValueText;
-			else
-			{
-				CommonFaultState = value.Value.ToUshort().ToString("X2") + " - " + value.Value.ToText();
+			else {
+				string commonFaultState = value.Value.ToString(CultureInfo.InvariantCulture);
+				try {
+					commonFaultState += " - " + FaultStateExtensions.GetStateFromUshort(value.Value).ToText();
+				}
+				catch(Exception ex)
+				{
+					_logger.Log(ex);
+				}
+				CommonFaultState = commonFaultState;
 			}
 		}
 

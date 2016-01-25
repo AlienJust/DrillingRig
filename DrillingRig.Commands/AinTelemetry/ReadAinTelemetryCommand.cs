@@ -34,8 +34,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 			
 			
 			return new AinTelemetrySimple(
-				EngineStateExtensions.GetStateFromUshort((ushort) (reply[1] + (reply[2] << 8))),
-				FaultStateExtensions.GetStateFromUshort((ushort) (reply[3] + (reply[4] << 8))),
+				(ushort) (reply[1] + (reply[2] << 8)),
+				(ushort) (reply[3] + (reply[4] << 8)),
 
 				((short) (oldReply[1] + (oldReply[2] << 8)))*0.1,
 				((short) (oldReply[3] + (oldReply[4] << 8)))*1.0,

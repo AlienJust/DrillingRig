@@ -1,9 +1,7 @@
-using DrillingRig.Commands.AinTelemetry;
-
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal interface ICommonAinTelemetryVm {
-		void UpdateCommonEngineState(EngineState? value);
-		void UpdateCommonFaultState(FaultState? value);
+		void UpdateCommonEngineState(ushort? value);
+		void UpdateCommonFaultState(ushort? value);
 		void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault);
 	}
 }
