@@ -23,7 +23,7 @@ using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp
 {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol
 	{
 		private List<string> _comPortsAvailable;
 		private string _selectedComName;
@@ -81,7 +81,7 @@ namespace DrillingRig.ConfigApp
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
 			
-			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this);
+			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this);
 			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower); // TODO: sending enabled control?
 
 			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0);
@@ -315,6 +315,10 @@ namespace DrillingRig.ConfigApp
 		public AinSettingsViewModel Ain3SettingsVm
 		{
 			get { return _ain3SettingsVm; }
+		}
+
+		public void CloseComPort() {
+			ClosePort();
 		}
 	}
 }

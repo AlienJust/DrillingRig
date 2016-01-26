@@ -129,6 +129,7 @@
       <DependentUpon>RectifierTelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SendingEnabledChangedDelegate.cs" />
+    <Compile Include="ILinkContol.cs" />
     <Compile Include="SystemControl\SystemControlViewModel.cs" />
     <Compile Include="SystemControl\SystemControlView.xaml.cs">
       <DependentUpon>SystemControlView.xaml</DependentUpon>
@@ -243,6 +244,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="flash.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
