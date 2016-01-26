@@ -55,8 +55,8 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			//_notifyWorker.StopSynchronously();
 			//Console.WriteLine("notify worker stopped OK");
 
-			_backWorker.Stop();
-			Console.WriteLine("backworker stopped OK");
+			_backWorker.StopAsync();
+			Console.WriteLine("backworker stopasync was called");
 		}
 
 		public override string ToString() {

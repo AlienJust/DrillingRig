@@ -78,7 +78,8 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 		}
 
 		public void EndWork() {
-			_backWorker.AddLastWork(()=>_serialPort.Close());
+			_backWorker.AddWork(() => _serialPort.Close());
+			_backWorker.AddWork(()=>_backWorker.StopAsync());
 		}
 	}
 }

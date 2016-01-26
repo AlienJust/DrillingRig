@@ -1,1 +1,2 @@
-ping 127.0.0.1
+"C:\Program Files (x86)\STMicroelectronics\Software\Flash Loader Demo\STMFlashLoader.exe" -c --pn 5 --to 10000 -i STM32F0_7x_128K -e --all -d --fn "E:\Work\_STM32\_STM32F0\MDIO_Intelecon_BUR\Project\Objects\LiftPost.hex" -r --a 08000000
+pause
