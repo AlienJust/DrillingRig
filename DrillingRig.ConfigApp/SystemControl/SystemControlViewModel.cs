@@ -104,7 +104,8 @@ namespace DrillingRig.ConfigApp.SystemControl
 						{
 							if (exception != null)
 							{
-								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+								//throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+								_logger.Log("Произошла ошибка при передаче данных, но это нормально");
 							}
 							_logger.Log("Команда перехода в режим bootloader была отправлена, отключаемся от COM-порта");
 							_linkControl.CloseComPort();

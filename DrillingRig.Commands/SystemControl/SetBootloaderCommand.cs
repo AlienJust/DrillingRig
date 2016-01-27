@@ -1,7 +1,7 @@
 ﻿using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.SystemControl {
-	public class SetBootloaderCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply {
+	public class SetBootloaderCommand : IRrModbusCommandWithReply {
 		public byte CommandCode {
 			get { return 0x88; }
 		}
@@ -16,10 +16,6 @@ namespace DrillingRig.Commands.SystemControl {
 
 		public int ReplyLength {
 			get { return 0; }
-		}
-
-		public byte[] GetTestReply() {
-			return new byte[0];
 		}
 	}
 }
