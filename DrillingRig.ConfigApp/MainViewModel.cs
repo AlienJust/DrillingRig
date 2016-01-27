@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Threading;
-using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
