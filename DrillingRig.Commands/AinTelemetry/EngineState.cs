@@ -27,10 +27,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 		PostInching,						//19 После толчка поддержание ключей включенными
 		FaultState, //20 Авария.
 		SwitchOnInhibit, // 21 Ожидание штатного отключения после аварийного.
-		InhibitOperationActiv, // 22 Ожидание штатного отключения после пропадания сигнала RUN.
-		ChopperMode, //22 Режим Чоппер.
-		ReadKIs, //23 Опрос КИ.
-		ReadMOs, //24 Опрос МО.
+		InhibitOperationActive, // 22 Ожидание штатного отключения после пропадания сигнала RUN.
+		ChopperNotReady, // 23 Чоппер не готов
+		ChopperRun, //24 Чоппер запущен.
+		ReadKIs, //25 Опрос КИ.
+		ReadMOs, //26 Опрос МО.
 		
 	}
 
@@ -83,14 +84,16 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 20;
 				case EngineState.SwitchOnInhibit:
 					return 21;
-				case EngineState.InhibitOperationActiv:
+				case EngineState.InhibitOperationActive:
 					return 22;
-				case EngineState.ChopperMode:
+				case EngineState.ChopperNotReady:
 					return 23;
-				case EngineState.ReadKIs:
+				case EngineState.ChopperRun:
 					return 24;
-				case EngineState.ReadMOs:
+				case EngineState.ReadKIs:
 					return 25;
+				case EngineState.ReadMOs:
+					return 26;
 
 				default:
 					throw new Exception("Cannot convert such state to ushort");
@@ -100,9 +103,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public static string ToText(this EngineState state) {
 			switch (state) {
 				case EngineState.PowerOn:
-					return "PowerOn";
+					return "POWER_ON";
 				case EngineState.WaitStart:
-					return "WaitStart";
+					return "WAIT_START";
 				case EngineState.TestImcw:
 					return "TestImcw";
 				case EngineState.TestMasterSlave:
@@ -110,13 +113,13 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case EngineState.SetTorqueSelector:
 					return "SetTorqueSelector";
 				case EngineState.ResetErrors:
-					return "ResetErrors";
+					return "RESET_ERRORS";
 				case EngineState.NotReady:
-					return "NotReady";
+					return "NOT_READY";
 				case EngineState.ReadyToSwitchOn:
 					return "ReadyToSwitchOn";
 				case EngineState.Ready:
-					return "Ready";
+					return "READY";
 
 				case EngineState.EnableOperation:
 					return "EnableOperation";
@@ -128,13 +131,13 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "OperatingState";
 
 				case EngineState.DriveSlave:
-					return "DriveSlave";
+					return "DRIVE_SLAVE";
 				case EngineState.Off2:
-					return "Off2";
+					return "OFF_2";
 				case EngineState.Off3:
-					return "Off3";
+					return "OFF_3";
 				case EngineState.Off1:
-					return "Off1";
+					return "OFF_1";
 				case EngineState.Inching1:
 					return "Inching1";
 				case EngineState.Inching2:
@@ -142,13 +145,15 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case EngineState.PostInching:
 					return "PostInching";
 				case EngineState.FaultState:
-					return "FaultState";
+					return "FAULT_STATE";
 				case EngineState.SwitchOnInhibit:
 					return "SwitchOnInhibit";
-				case EngineState.InhibitOperationActiv:
-					return "INHIBIT_OPERATION_ACTIV";
-				case EngineState.ChopperMode:
-					return "ChopperMode";
+				case EngineState.InhibitOperationActive:
+					return "INHIBIT_OPERATION_ACTIVE";
+				case EngineState.ChopperNotReady:
+					return "CHOPPER_NOT_READY";
+				case EngineState.ChopperRun:
+					return "CHOPPER_RUN";
 				case EngineState.ReadKIs:
 					return "ReadKIs";
 				case EngineState.ReadMOs:
@@ -208,12 +213,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case 21:
 					return EngineState.SwitchOnInhibit;
 				case 22:
-					return EngineState.InhibitOperationActiv;
+					return EngineState.InhibitOperationActive;
 				case 23:
-					return EngineState.ChopperMode;
+					return EngineState.ChopperNotReady;
 				case 24:
-					return EngineState.ReadKIs;
+					return EngineState.ChopperRun;
 				case 25:
+					return EngineState.ReadKIs;
+				case 26:
 					return EngineState.ReadMOs;
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (EngineState).Name);
