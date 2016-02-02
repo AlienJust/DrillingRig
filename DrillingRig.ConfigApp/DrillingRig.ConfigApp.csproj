@@ -72,6 +72,14 @@
     <Reference Include="AlienJust.Support.UserInterface.Contracts">
       <HintPath>..\References\AlienJust.Support.UserInterface.Contracts.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -130,10 +138,15 @@
     </Compile>
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Compile Include="ILinkContol.cs" />
+    <Compile Include="SystemControl\INamedTrendsControl.cs" />
     <Compile Include="SystemControl\SystemControlViewModel.cs" />
     <Compile Include="SystemControl\SystemControlView.xaml.cs">
       <DependentUpon>SystemControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SystemControl\TrendControlView.xaml.cs">
+      <DependentUpon>TrendControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemControl\TrendControlViewModel.cs" />
     <Page Include="AinCommand\AinCommandView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -218,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SystemControl\SystemControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemControl\TrendControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

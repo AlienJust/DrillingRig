@@ -87,9 +87,6 @@
 			</TabItem>
 			<TabItem Header="Система">
 				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"></RowDefinition>
-					</Grid.RowDefinitions>
 				<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
 				</Grid>
 			</TabItem>

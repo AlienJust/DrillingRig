@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.SystemControl;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
-namespace DrillingRig.ConfigApp.SystemControl
-{
-	class SystemControlViewModel : ViewModelBase, IDebugInformationShower
-	{
+namespace DrillingRig.ConfigApp.SystemControl {
+	internal class SystemControlViewModel : ViewModelBase, IDebugInformationShower, INamedTrendsControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -25,9 +26,24 @@ namespace DrillingRig.ConfigApp.SystemControl
 		private readonly RelayCommand _cmdFlash;
 
 		private IList<byte> _debugBytes;
+		private readonly ObservableCollection<DataPoint> _points1;
+		private readonly ObservableCollection<DataPoint> _points2;
+		private readonly ObservableCollection<DataPoint> _points3;
+		private readonly ObservableCollection<DataPoint> _points4;
+		private double _gridPlotHeight;
+		private readonly PlotModel _plotModel;
+		private bool _arePoints1Visible;
+		private bool _arePoints2Visible;
+		private bool _arePoints3Visible;
+		private bool _arePoints4Visible;
 
-		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl)
-		{
+		private readonly TrendControlViewModel _trendControlVm1;
+		private readonly TrendControlViewModel _trendControlVm2;
+		private readonly TrendControlViewModel _trendControlVm3;
+		private readonly TrendControlViewModel _trendControlVm4;
+
+
+		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -41,19 +57,33 @@ namespace DrillingRig.ConfigApp.SystemControl
 			_cmdFlash = new RelayCommand(Flash, () => _sendingEnabledControl.IsSendingEnabled);
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
+
+			_points1 = new ObservableCollection<DataPoint>();
+			_points2 = new ObservableCollection<DataPoint>();
+			_points3 = new ObservableCollection<DataPoint>();
+			_points4 = new ObservableCollection<DataPoint>();
+			_plotModel = new PlotModel {Title = "Hello plot"};
+			_plotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+
+			_arePoints1Visible = true;
+			_arePoints2Visible = true;
+			_arePoints3Visible = true;
+			_arePoints4Visible = true;
+
+			_trendControlVm1= new TrendControlViewModel("Параметр 1", this);
+			_trendControlVm2 = new TrendControlViewModel("Параметр 2", this);
+			_trendControlVm3 = new TrendControlViewModel("Параметр 3", this);
+			_trendControlVm4 = new TrendControlViewModel("Параметр 4", this);
 		}
 
-		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled)
-		{
+		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled) {
 			_cmdSetBootloader.RaiseCanExecuteChanged();
 			_cmdRestart.RaiseCanExecuteChanged();
 			_cmdFlash.RaiseCanExecuteChanged();
 		}
 
-		private void SetBootloader()
-		{
-			try
-			{
+		private void SetBootloader() {
+			try {
 				_logger.Log("Переход в режим bootloader");
 
 				var cmd = new SetBootloaderCommand();
@@ -63,32 +93,26 @@ namespace DrillingRig.ConfigApp.SystemControl
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
 							}
 							_logger.Log("Команда перехода в режим bootloader была отправлена");
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду перехода в режим bootloader в очередь: " + ex.Message);
 			}
 		}
 
 
 		private void Flash() {
-			try
-			{
+			try {
 				_logger.Log("Переход в режим bootloader");
 
 				var cmd = new SetBootloaderCommand();
@@ -98,12 +122,9 @@ namespace DrillingRig.ConfigApp.SystemControl
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								//throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
 								_logger.Log("Произошла ошибка при передаче данных, но это нормально");
 							}
@@ -113,54 +134,44 @@ namespace DrillingRig.ConfigApp.SystemControl
 							var process = new Process {StartInfo = psi};
 							process.Start();
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду перехода в режим bootloader в очередь: " + ex.Message);
 			}
 		}
 
-		private void Restart()
-		{
+		private void Restart() {
 			var cmd = new RestartCommand();
-			try
-			{
+			try {
 				_logger.Log(cmd.Name);
 				_logger.Log("Команда <" + cmd.Name + "> поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
 							}
 							_logger.Log("Команда <" + cmd.Name + "> была отправлена");
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду <" + cmd.Name + "> в очередь: " + ex.Message);
 			}
 		}
 
 
-		public ICommand CmdSetBootloader
-		{
+		public ICommand CmdSetBootloader {
 			get { return _cmdSetBootloader; }
 		}
 
@@ -170,47 +181,37 @@ namespace DrillingRig.ConfigApp.SystemControl
 
 		public void ShowBytes(IList<byte> bytes) {
 			_debugBytes = bytes;
-			RaisePropertyChanged(() => B01);
-			RaisePropertyChanged(() => B02);
-			RaisePropertyChanged(() => B03);
-			RaisePropertyChanged(() => B04);
+			RaisePropertyChanged(() => Param01);
+			RaisePropertyChanged(() => Param02);
 
-			RaisePropertyChanged(() => B11);
-			RaisePropertyChanged(() => B12);
-			RaisePropertyChanged(() => B13);
-			RaisePropertyChanged(() => B14);
+			RaisePropertyChanged(() => Param11);
+			RaisePropertyChanged(() => Param12);
 
-			RaisePropertyChanged(() => B21);
-			RaisePropertyChanged(() => B22);
-			RaisePropertyChanged(() => B23);
-			RaisePropertyChanged(() => B24);
+			RaisePropertyChanged(() => Param21);
+			RaisePropertyChanged(() => Param22);
 
-			RaisePropertyChanged(() => B31);
-			RaisePropertyChanged(() => B32);
-			RaisePropertyChanged(() => B33);
-			RaisePropertyChanged(() => B34);
+			RaisePropertyChanged(() => Param31);
+			RaisePropertyChanged(() => Param32);
 
-			RaisePropertyChanged(() => B41);
-			RaisePropertyChanged(() => B42);
-			RaisePropertyChanged(() => B43);
-			RaisePropertyChanged(() => B44);
+			RaisePropertyChanged(() => Param41);
+			RaisePropertyChanged(() => Param42);
 
-			RaisePropertyChanged(() => B51);
-			RaisePropertyChanged(() => B52);
-			RaisePropertyChanged(() => B53);
-			RaisePropertyChanged(() => B54);
+			RaisePropertyChanged(() => Param51);
+			RaisePropertyChanged(() => Param52);
 
-			RaisePropertyChanged(() => B61);
-			RaisePropertyChanged(() => B62);
-			RaisePropertyChanged(() => B63);
-			RaisePropertyChanged(() => B64);
+			RaisePropertyChanged(() => Param61);
+			RaisePropertyChanged(() => Param62);
 
-			RaisePropertyChanged(() => B71);
-			RaisePropertyChanged(() => B72);
-			RaisePropertyChanged(() => B73);
-			RaisePropertyChanged(() => B74);
+			RaisePropertyChanged(() => Param71);
+			RaisePropertyChanged(() => Param72);
+
+			_points1.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[0] + _debugBytes[1]*256.0));
+			_points2.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[2] + _debugBytes[3]*256.0));
+			_points3.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[4] + _debugBytes[5]*256.0));
+			_points4.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[6] + _debugBytes[7]*256.0));
 		}
 
+		// todo: move text methods to extentions or some static class
 		private string GetByteText(int zeroBasedRow, int oneBasedCol) {
 			try {
 				var b = _debugBytes[zeroBasedRow*4 + oneBasedCol - 1];
@@ -221,48 +222,224 @@ namespace DrillingRig.ConfigApp.SystemControl
 			}
 		}
 
-		public string B01 { get { return GetByteText(0, 1); } }
-		public string B02 { get { return GetByteText(0, 2); } }
-		public string B03 { get { return GetByteText(0, 3); } }
-		public string B04 { get { return GetByteText(0, 4); } }
+		private string GetUShortText(int zeroBasedRow, int oneBasedCol) {
+			try {
+				var b = _debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2] + _debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)];
+				return b.ToString("X4") + " (" + b + ")";
+			}
+			catch {
+				return "--------";
+			}
+		}
 
-		public string B11 { get { return GetByteText(1, 1); } }
-		public string B12 { get { return GetByteText(1, 2); } }
-		public string B13 { get { return GetByteText(1, 3); } }
-		public string B14 { get { return GetByteText(1, 4); } }
+		public string Param01 {
+			get { return GetUShortText(0, 1); }
+		}
 
-		public string B21 { get { return GetByteText(2, 1); } }
-		public string B22 { get { return GetByteText(2, 2); } }
-		public string B23 { get { return GetByteText(2, 3); } }
-		public string B24 { get { return GetByteText(2, 4); } }
+		public string Param02 {
+			get { return GetUShortText(0, 2); }
+		}
 
-		public string B31 { get { return GetByteText(3, 1); } }
-		public string B32 { get { return GetByteText(3, 2); } }
-		public string B33 { get { return GetByteText(3, 3); } }
-		public string B34 { get { return GetByteText(3, 4); } }
+		public string Param11 {
+			get { return GetUShortText(1, 1); }
+		}
 
-		public string B41 { get { return GetByteText(4, 1); } }
-		public string B42 { get { return GetByteText(4, 2); } }
-		public string B43 { get { return GetByteText(4, 3); } }
-		public string B44 { get { return GetByteText(4, 4); } }
+		public string Param12 {
+			get { return GetUShortText(1, 2); }
+		}
 
-		public string B51 { get { return GetByteText(5, 1); } }
-		public string B52 { get { return GetByteText(5, 2); } }
-		public string B53 { get { return GetByteText(5, 3); } }
-		public string B54 { get { return GetByteText(5, 4); } }
+		public string Param21 {
+			get { return GetUShortText(2, 1); }
+		}
 
-		public string B61 { get { return GetByteText(6, 1); } }
-		public string B62 { get { return GetByteText(6, 2); } }
-		public string B63 { get { return GetByteText(6, 3); } }
-		public string B64 { get { return GetByteText(6, 4); } }
+		public string Param22 {
+			get { return GetUShortText(2, 2); }
+		}
 
-		public string B71 { get { return GetByteText(7, 1); } }
-		public string B72 { get { return GetByteText(7, 2); } }
-		public string B73 { get { return GetByteText(7, 3); } }
-		public string B74 { get { return GetByteText(7, 4); } }
+		public string Param31 {
+			get { return GetUShortText(3, 1); }
+		}
+
+		public string Param32 {
+			get { return GetUShortText(3, 2); }
+		}
+
+		public string Param41 {
+			get { return GetUShortText(4, 1); }
+		}
+
+		public string Param42 {
+			get { return GetUShortText(4, 2); }
+		}
+
+		public string Param51 {
+			get { return GetUShortText(5, 1); }
+		}
+
+		public string Param52 {
+			get { return GetUShortText(5, 2); }
+		}
+
+		public string Param61 {
+			get { return GetUShortText(6, 1); }
+		}
+
+		public string Param62 {
+			get { return GetUShortText(6, 2); }
+		}
+
+		public string Param71 {
+			get { return GetUShortText(7, 1); }
+		}
+
+		public string Param72 {
+			get { return GetUShortText(7, 2); }
+		}
 
 		public RelayCommand CmdFlash {
 			get { return _cmdFlash; }
+		}
+
+		public ObservableCollection<DataPoint> Points1 {
+			get { return _points1; }
+		}
+
+		public ObservableCollection<DataPoint> Points2 {
+			get { return _points2; }
+		}
+
+		public ObservableCollection<DataPoint> Points3 {
+			get { return _points3; }
+		}
+
+		public ObservableCollection<DataPoint> Points4 {
+			get { return _points4; }
+		}
+
+		public double GridPlotHeight {
+			get { return _gridPlotHeight; }
+			set {
+				if (Math.Abs(_gridPlotHeight - value) > 0.1) {
+					_gridPlotHeight = value;
+					RaisePropertyChanged(() => GridPlotHeight);
+				}
+			}
+		}
+
+		public PlotModel PlModel {
+			get { return _plotModel; }
+		}
+
+		public void ClearTrendData(string name) {
+			if (name == null) throw new ArgumentNullException("name");
+			switch (name) {
+				case "Параметр 1":
+					_points1.Clear();
+					break;
+				case "Параметр 2":
+					_points2.Clear();
+					break;
+				case "Параметр 3":
+					_points3.Clear();
+					break;
+				case "Параметр 4":
+					_points4.Clear();
+					break;
+				default:
+					throw new Exception("Неизвестное название параметра: " + name);
+			}
+		}
+
+		public bool GetTrendVisibility(string name) {
+			if (name == null) throw new ArgumentNullException("name");
+			switch (name) {
+				case "Параметр 1":
+					return _arePoints1Visible;
+				case "Параметр 2":
+					return _arePoints2Visible;
+				case "Параметр 3":
+					return _arePoints3Visible;
+				case "Параметр 4":
+					return _arePoints4Visible;
+				default:
+					throw new Exception("Неизвестное название параметра: " + name);
+			}
+		}
+
+		public void SetTrendVisibility(string name, bool value) {
+			if (name == null) throw new ArgumentNullException("name");
+			switch (name) {
+				case "Параметр 1":
+					ArePoints1Visible = value;
+					break;
+				case "Параметр 2":
+					ArePoints2Visible = value;
+					break;
+				case "Параметр 3":
+					ArePoints3Visible = value;
+					break;
+				case "Параметр 4":
+					ArePoints4Visible = value;
+					break;
+				default:
+					throw new Exception("Неизвестное название параметра: " + name);
+			}
+		}
+
+		public bool ArePoints1Visible {
+			get { return _arePoints1Visible; }
+			set {
+				if (_arePoints1Visible != value) {
+					_arePoints1Visible = value;
+					RaisePropertyChanged(() => ArePoints1Visible);
+				}
+			}
+		}
+
+		public bool ArePoints2Visible {
+			get { return _arePoints2Visible; }
+			set {
+				if (_arePoints2Visible != value) {
+					_arePoints2Visible = value;
+					RaisePropertyChanged(() => ArePoints2Visible);
+				}
+			}
+		}
+
+		public bool ArePoints3Visible {
+			get { return _arePoints3Visible; }
+			set {
+				if (_arePoints3Visible != value) {
+					_arePoints3Visible = value;
+					RaisePropertyChanged(() => ArePoints3Visible);
+				}
+			}
+		}
+
+		public bool ArePoints4Visible {
+			get { return _arePoints4Visible; }
+			set {
+				if (_arePoints4Visible != value) {
+					_arePoints4Visible = value;
+					RaisePropertyChanged(() => ArePoints4Visible);
+				}
+			}
+		}
+
+		public TrendControlViewModel TrendControlVm1 {
+			get { return _trendControlVm1; }
+		}
+
+		public TrendControlViewModel TrendControlVm2 {
+			get { return _trendControlVm2; }
+		}
+
+		public TrendControlViewModel TrendControlVm3 {
+			get { return _trendControlVm3; }
+		}
+
+		public TrendControlViewModel TrendControlVm4 {
+			get { return _trendControlVm4; }
 		}
 	}
 }
