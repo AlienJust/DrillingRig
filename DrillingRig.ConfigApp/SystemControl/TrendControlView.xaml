@@ -8,10 +8,12 @@
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
+			<ColumnDefinition/>
 			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 		<CheckBox Grid.Column="0" Content="{Binding Path=Name, Mode=OneTime}" IsChecked="{Binding Path=IsTrendVisible, Mode=TwoWay}" VerticalAlignment="Center"/>
-		<Button Grid.Column="1" Command="{Binding Path=ClearTrendCommand, Mode=OneTime}">
+		<CheckBox Grid.Column="1" Content="Знаковый" IsChecked="{Binding Path=IsSigned, Mode=TwoWay}" VerticalAlignment="Center"/>
+		<Button Grid.Column="2" Command="{Binding Path=ClearTrendCommand, Mode=OneTime}">
 			<TextBlock Text="Очистить" Margin="4,0,4,0"/>
 		</Button>
 			

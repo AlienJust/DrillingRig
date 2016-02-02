@@ -27,6 +27,19 @@ namespace DrillingRig.ConfigApp.SystemControl
 			}
 		}
 
+		public bool IsSigned
+		{
+			get { return _trendsControl.GetSignedFlag(_name); }
+			set
+			{
+				if (value != IsSigned)
+				{
+					_trendsControl.SetSignedFlag(_name, value);
+					RaisePropertyChanged(() => IsSigned);
+				}
+			}
+		}
+
 		public ICommand ClearTrendCommand
 		{
 			get { return _clearTrendDataCommand; }

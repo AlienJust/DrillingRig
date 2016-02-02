@@ -41,6 +41,10 @@ namespace DrillingRig.ConfigApp.SystemControl {
 		private readonly TrendControlViewModel _trendControlVm2;
 		private readonly TrendControlViewModel _trendControlVm3;
 		private readonly TrendControlViewModel _trendControlVm4;
+		private bool _addPoints1AsSigned;
+		private bool _addPoints2AsSigned;
+		private bool _addPoints3AsSigned;
+		private bool _addPoints4AsSigned;
 
 
 		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl) {
@@ -205,10 +209,16 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			RaisePropertyChanged(() => Param71);
 			RaisePropertyChanged(() => Param72);
 
-			_points1.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[0] + _debugBytes[1]*256.0));
-			_points2.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[2] + _debugBytes[3]*256.0));
-			_points3.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[4] + _debugBytes[5]*256.0));
-			_points4.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, _debugBytes[6] + _debugBytes[7]*256.0));
+
+			double value1 = _addPoints1AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0;
+			double value2 = _addPoints2AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0;
+			double value3 = _addPoints3AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[5], _debugBytes[4]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[5], _debugBytes[4]}, 0)*1.0;
+			double value4 = _addPoints4AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[7], _debugBytes[6]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[7], _debugBytes[6]}, 0)*1.0;
+
+			_points1.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value1));
+			_points2.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value2));
+			_points3.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value3));
+			_points4.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value4));
 		}
 
 		// todo: move text methods to extentions or some static class
@@ -224,8 +234,14 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		private string GetUShortText(int zeroBasedRow, int oneBasedCol) {
 			try {
-				var b = _debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2] + _debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)];
-				return b.ToString("X4") + " (" + b + ")";
+				var b = BitConverter.ToUInt16(new[] {
+					_debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)],
+					_debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2]
+				}, 0);
+				//var b = _debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2] + _debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)] ;
+				return b.ToString("X4") + " (" + b + ")" +
+					_debugBytes[zeroBasedRow * 2 + (oneBasedCol - 1) * 2].ToString("X2") +
+					_debugBytes[zeroBasedRow * 2 + ((oneBasedCol - 1) * 2 + 1)].ToString("X2");
 			}
 			catch {
 				return "--------";
@@ -380,6 +396,44 @@ namespace DrillingRig.ConfigApp.SystemControl {
 					break;
 				case "Параметр 4":
 					ArePoints4Visible = value;
+					break;
+				default:
+					throw new Exception("Неизвестное название параметра: " + name);
+			}
+		}
+
+		public bool GetSignedFlag(string name) {
+			if (name == null) throw new ArgumentNullException("name");
+			switch (name)
+			{
+				case "Параметр 1":
+					return _addPoints1AsSigned;
+				case "Параметр 2":
+					return _addPoints2AsSigned;
+				case "Параметр 3":
+					return _addPoints3AsSigned;
+				case "Параметр 4":
+					return _addPoints4AsSigned;
+				default:
+					throw new Exception("Неизвестное название параметра: " + name);
+			}
+		}
+
+		public void SetSignedFlag(string name, bool isSigned) {
+			if (name == null) throw new ArgumentNullException("name");
+			switch (name)
+			{
+				case "Параметр 1":
+					_addPoints1AsSigned = isSigned;
+					break;
+				case "Параметр 2":
+					_addPoints2AsSigned = isSigned;
+					break;
+				case "Параметр 3":
+					_addPoints3AsSigned = isSigned;
+					break;
+				case "Параметр 4":
+					_addPoints4AsSigned = isSigned;
 					break;
 				default:
 					throw new Exception("Неизвестное название параметра: " + name);
