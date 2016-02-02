@@ -209,6 +209,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			RaisePropertyChanged(() => Param71);
 			RaisePropertyChanged(() => Param72);
 
+			// TODO: rework for big endian and little endian archs
 
 			double value1 = _addPoints1AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0;
 			double value2 = _addPoints2AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0;
@@ -234,6 +235,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		private string GetUShortText(int zeroBasedRow, int oneBasedCol) {
 			try {
+				// TODO: rework for big endian and little endian archs
 				var b = BitConverter.ToUInt16(new[] {
 					_debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)],
 					_debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2]
