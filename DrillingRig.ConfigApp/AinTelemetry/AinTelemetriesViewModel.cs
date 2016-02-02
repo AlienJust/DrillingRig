@@ -51,9 +51,9 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
 
 			_ainTelemetryVms = new List<AinTelemetryViewModel> {
-				new AinTelemetryViewModel("АИН №1", this as ICommonAinTelemetryVm),
-				new AinTelemetryViewModel("АИН №2", this as ICommonAinTelemetryVm),
-				new AinTelemetryViewModel("АИН №3", this as ICommonAinTelemetryVm)
+				new AinTelemetryViewModel("АИН №1", this),
+				new AinTelemetryViewModel("АИН №2", this),
+				new AinTelemetryViewModel("АИН №3", this)
 			};
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
