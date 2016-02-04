@@ -12,7 +12,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 		SpeedLimit, //5 Превышение максимальной скорости длительное время.
 		StatusError, //6 Появление ошибок STATUS АИН.
 		UdcLow, // 7
-		ChangedAinMode 	//11 Изменился режим работы.
+		ChangedAinMode, 	//11 Изменился режим работы.
+		SlaveNotReady //12 В режиме Ведущий не готов Ведомый
 	}
 
 	public static class FaultStateExtensions {
@@ -36,6 +37,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 7;
 				case FaultState.ChangedAinMode:
 					return 11;
+				case FaultState.SlaveNotReady:
+					return 12;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -45,7 +48,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 			switch (state)
 			{
 				case FaultState.NoError:
-					return "NoError";
+					return "NO_ERROR";
 				case FaultState.RuleImcwConflict:
 					return "RuleImcwConflict";
 				case FaultState.RuleAinConflict:
@@ -59,9 +62,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case FaultState.StatusError:
 					return "StatusError";
 				case FaultState.UdcLow:
-					return "UdcLow";
+					return "UDC_LOW";
 				case FaultState.ChangedAinMode:
 					return "CHANGED_AIN_MODE";
+				case FaultState.SlaveNotReady:
+					return "SLAVE_NOT_READY";
 				default:
 					throw new Exception("Cannot convert such state to string");
 			}
@@ -87,6 +92,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.UdcLow;
 				case 11:
 					return FaultState.ChangedAinMode;
+				case 12:
+					return FaultState.SlaveNotReady;
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (FaultState).Name);
 			}
