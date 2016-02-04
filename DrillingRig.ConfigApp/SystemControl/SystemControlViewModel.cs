@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
@@ -25,18 +24,26 @@ namespace DrillingRig.ConfigApp.SystemControl {
 		private readonly RelayCommand _cmdRestart;
 		private readonly RelayCommand _cmdFlash;
 
-		private IList<byte> _debugBytes;
-		private readonly ObservableCollection<DataPoint> _points1;
-		private readonly ObservableCollection<DataPoint> _points2;
-		private readonly ObservableCollection<DataPoint> _points3;
-		private readonly ObservableCollection<DataPoint> _points4;
-		private double _gridPlotHeight;
-		private readonly PlotModel _plotModel;
-		private bool _arePoints1Visible;
-		private bool _arePoints2Visible;
-		private bool _arePoints3Visible;
-		private bool _arePoints4Visible;
+		private readonly RelayCommand _commandPanLeftFast;
+		private readonly RelayCommand _commandPanLeft;
+		private readonly RelayCommand _commandPanRight;
+		private readonly RelayCommand _commandPanRightFast;
 
+		private readonly RelayCommand _commandPanUpFast;
+		private readonly RelayCommand _commandPanUp;
+		private readonly RelayCommand _commandPanDown;
+		private readonly RelayCommand _commandPanDownFast;
+
+		private readonly RelayCommand _commandZoomOut;
+		private readonly RelayCommand _commandZoomIn;
+		private readonly RelayCommand _commandZoomAll;
+
+		private IList<byte> _debugBytes;
+		private readonly LineSeries _points1;
+		private readonly LineSeries _points2;
+		private readonly LineSeries _points3;
+		private readonly LineSeries _points4;
+		
 		private readonly TrendControlViewModel _trendControlVm1;
 		private readonly TrendControlViewModel _trendControlVm2;
 		private readonly TrendControlViewModel _trendControlVm3;
@@ -46,6 +53,8 @@ namespace DrillingRig.ConfigApp.SystemControl {
 		private bool _addPoints3AsSigned;
 		private bool _addPoints4AsSigned;
 
+		private readonly PlotModel _plotVm;
+		private readonly PlotController _plotCr;
 
 		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl) {
 			_commandSenderHost = commandSenderHost;
@@ -62,22 +71,100 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 
-			_points1 = new ObservableCollection<DataPoint>();
-			_points2 = new ObservableCollection<DataPoint>();
-			_points3 = new ObservableCollection<DataPoint>();
-			_points4 = new ObservableCollection<DataPoint>();
-			_plotModel = new PlotModel {Title = "Hello plot"};
-			_plotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+			_plotVm = new PlotModel {Title = "Графики"};
+			_plotVm.Axes.Add(new DateTimeAxis());
+			_plotVm.Axes.Add(new LinearAxis());
+			//_plotVm.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
 
-			_arePoints1Visible = true;
-			_arePoints2Visible = true;
-			_arePoints3Visible = true;
-			_arePoints4Visible = true;
+			_plotCr = new PlotController();
+			_plotCr.UnbindAll();
+			_plotCr.BindMouseDown(OxyMouseButton.Left, PlotCommands.Track);
+			_plotCr.Bind(new OxyMouseDownGesture(OxyMouseButton.Right), PlotCommands.PanAt);
+			_plotCr.Bind(new OxyMouseDownGesture(OxyMouseButton.Left), PlotCommands.ZoomRectangle);
+			_plotCr.Bind(new OxyMouseEnterGesture(OxyModifierKeys.None), PlotCommands.HoverPointsOnlyTrack);
+			_plotCr.BindMouseWheel(PlotCommands.ZoomWheel);
+			_plotCr.BindMouseDown(OxyMouseButton.Left, OxyModifierKeys.None, 2, PlotCommands.ResetAt);
+
+			_points1 = new LineSeries { Color = OxyColor.FromRgb(255, 0, 0) };
+			_points2 = new LineSeries { Color = OxyColor.FromRgb(0, 128, 0) };
+			_points3 = new LineSeries { Color = OxyColor.FromRgb(0, 0, 128) };
+			_points4 = new LineSeries { Color = OxyColor.FromRgb(128, 0, 128) };
+
+			_plotVm.Series.Add(_points1);
+			_plotVm.Series.Add(_points2);
+			_plotVm.Series.Add(_points3);
+			_plotVm.Series.Add(_points4);
 
 			_trendControlVm1= new TrendControlViewModel("Параметр 1", this);
 			_trendControlVm2 = new TrendControlViewModel("Параметр 2", this);
 			_trendControlVm3 = new TrendControlViewModel("Параметр 3", this);
 			_trendControlVm4 = new TrendControlViewModel("Параметр 4", this);
+
+			_commandPanLeftFast = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(_plotVm.PlotArea.Width / 4.0, 0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanLeft = new RelayCommand(() => {
+				_plotVm.PanAllAxes(_plotVm.PlotArea.Width / 20.0, 0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanRight = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(_plotVm.PlotArea.Width / -20.0, 0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanRightFast = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(_plotVm.PlotArea.Width / -4.0, 0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandZoomOut = new RelayCommand(() => {
+				_plotVm.ZoomAllAxes(0.8);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandZoomIn = new RelayCommand(() =>
+			{
+				_plotVm.ZoomAllAxes(1.25);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandZoomAll = new RelayCommand(() =>
+			{
+				_plotVm.ResetAllAxes();
+				_plotVm.InvalidatePlot(false);
+			});
+
+
+
+			_commandPanUpFast = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(0, _plotVm.PlotArea.Height/ 4.0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanUp = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(0, _plotVm.PlotArea.Height / 20.0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanDown = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(0, _plotVm.PlotArea.Height / -20.0);
+				_plotVm.InvalidatePlot(false);
+			});
+
+			_commandPanDownFast = new RelayCommand(() =>
+			{
+				_plotVm.PanAllAxes(0, _plotVm.PlotArea.Height / -4.0);
+				_plotVm.InvalidatePlot(false);
+			});
 		}
 
 		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled) {
@@ -211,15 +298,31 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 			// TODO: rework for big endian and little endian archs
 
-			double value1 = _addPoints1AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[1], _debugBytes[0]}, 0)*1.0;
-			double value2 = _addPoints2AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[3], _debugBytes[2]}, 0)*1.0;
-			double value3 = _addPoints3AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[5], _debugBytes[4]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[5], _debugBytes[4]}, 0)*1.0;
-			double value4 = _addPoints4AsSigned ? BitConverter.ToInt16(new[] {_debugBytes[7], _debugBytes[6]}, 0)*1.0 : BitConverter.ToUInt16(new[] {_debugBytes[7], _debugBytes[6]}, 0)*1.0;
+			double value1 = _addPoints1AsSigned ? ToInt16(_debugBytes[0], _debugBytes[1])*1.0 : ToUInt16(_debugBytes[0], _debugBytes[1])*1.0;
+			double value2 = _addPoints2AsSigned ? ToInt16(_debugBytes[2], _debugBytes[3])*1.0 : ToUInt16(_debugBytes[2], _debugBytes[3])*1.0;
+			double value3 = _addPoints3AsSigned ? ToInt16(_debugBytes[4], _debugBytes[5])*1.0 : ToUInt16(_debugBytes[4], _debugBytes[5])*1.0;
+			double value4 = _addPoints4AsSigned ? ToInt16(_debugBytes[6], _debugBytes[7])*1.0 : ToUInt16(_debugBytes[6], _debugBytes[7])*1.0;
 
-			_points1.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value1));
-			_points2.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value2));
-			_points3.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value3));
-			_points4.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value4));
+			_points1.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value1));
+			_points2.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value2));
+			_points3.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value3));
+			_points4.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, value4));
+
+			_plotVm.InvalidatePlot(true);
+		}
+
+		private short ToInt16(byte lowByte, byte highByte) {
+			if (BitConverter.IsLittleEndian) {
+				return BitConverter.ToInt16(new[] {highByte, lowByte}, 0);
+			}
+			return BitConverter.ToInt16(new[] {lowByte, highByte}, 0);
+		}
+
+		private ushort ToUInt16(byte lowByte, byte highByte) {
+			if (BitConverter.IsLittleEndian) {
+				return BitConverter.ToUInt16(new[] {highByte, lowByte}, 0);
+			}
+			return BitConverter.ToUInt16(new[] {lowByte, highByte}, 0);
 		}
 
 		// todo: move text methods to extentions or some static class
@@ -235,15 +338,17 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		private string GetUShortText(int zeroBasedRow, int oneBasedCol) {
 			try {
-				// TODO: rework for big endian and little endian archs
-				var b = BitConverter.ToUInt16(new[] {
-					_debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)],
-					_debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2]
-				}, 0);
-				//var b = _debugBytes[zeroBasedRow*2 + (oneBasedCol - 1)*2] + _debugBytes[zeroBasedRow*2 + ((oneBasedCol - 1)*2 + 1)] ;
-				return b.ToString("X4") + " (" + b + ")" +
-					_debugBytes[zeroBasedRow * 2 + (oneBasedCol - 1) * 2].ToString("X2") +
-					_debugBytes[zeroBasedRow * 2 + ((oneBasedCol - 1) * 2 + 1)].ToString("X2");
+				const int bytesCountPerValue = 2;
+				const int valuesCountInRow = 2;
+				const int bytesInRow = bytesCountPerValue*valuesCountInRow;
+				int firstCurrentRowByteIndex = zeroBasedRow*bytesInRow;
+				
+				int lowByteIndex = firstCurrentRowByteIndex + (oneBasedCol - 1) * bytesCountPerValue;
+				int highByteIndex = firstCurrentRowByteIndex + ((oneBasedCol - 1) * bytesCountPerValue + 1);
+
+				var b = ToUInt16(_debugBytes[lowByteIndex], _debugBytes[highByteIndex]);
+				
+				return b.ToString("X4") + " (" + b + ")";
 			}
 			catch {
 				return "--------";
@@ -318,50 +423,33 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			get { return _cmdFlash; }
 		}
 
-		public ObservableCollection<DataPoint> Points1 {
-			get { return _points1; }
+		
+		public PlotModel PlotVm {
+			get { return _plotVm; }
 		}
 
-		public ObservableCollection<DataPoint> Points2 {
-			get { return _points2; }
-		}
-
-		public ObservableCollection<DataPoint> Points3 {
-			get { return _points3; }
-		}
-
-		public ObservableCollection<DataPoint> Points4 {
-			get { return _points4; }
-		}
-
-		public double GridPlotHeight {
-			get { return _gridPlotHeight; }
-			set {
-				if (Math.Abs(_gridPlotHeight - value) > 0.1) {
-					_gridPlotHeight = value;
-					RaisePropertyChanged(() => GridPlotHeight);
-				}
-			}
-		}
-
-		public PlotModel PlModel {
-			get { return _plotModel; }
+		public PlotController PlotCr {
+			get { return _plotCr; }
 		}
 
 		public void ClearTrendData(string name) {
 			if (name == null) throw new ArgumentNullException("name");
 			switch (name) {
 				case "Параметр 1":
-					_points1.Clear();
+					_points1.Points.Clear();
+					_plotVm.InvalidatePlot(true);
 					break;
 				case "Параметр 2":
-					_points2.Clear();
+					_points2.Points.Clear();
+					_plotVm.InvalidatePlot(true);
 					break;
 				case "Параметр 3":
-					_points3.Clear();
+					_points3.Points.Clear();
+					_plotVm.InvalidatePlot(true);
 					break;
 				case "Параметр 4":
-					_points4.Clear();
+					_points4.Points.Clear();
+					_plotVm.InvalidatePlot(true);
 					break;
 				default:
 					throw new Exception("Неизвестное название параметра: " + name);
@@ -372,13 +460,13 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			if (name == null) throw new ArgumentNullException("name");
 			switch (name) {
 				case "Параметр 1":
-					return _arePoints1Visible;
+					return _points1.IsVisible;
 				case "Параметр 2":
-					return _arePoints2Visible;
+					return _points2.IsVisible;
 				case "Параметр 3":
-					return _arePoints3Visible;
+					return _points3.IsVisible;
 				case "Параметр 4":
-					return _arePoints4Visible;
+					return _points4.IsVisible;
 				default:
 					throw new Exception("Неизвестное название параметра: " + name);
 			}
@@ -388,16 +476,16 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			if (name == null) throw new ArgumentNullException("name");
 			switch (name) {
 				case "Параметр 1":
-					ArePoints1Visible = value;
+					_points1.IsVisible = value;
 					break;
 				case "Параметр 2":
-					ArePoints2Visible = value;
+					_points2.IsVisible = value;
 					break;
 				case "Параметр 3":
-					ArePoints3Visible = value;
+					_points3.IsVisible = value;
 					break;
 				case "Параметр 4":
-					ArePoints4Visible = value;
+					_points4.IsVisible = value;
 					break;
 				default:
 					throw new Exception("Неизвестное название параметра: " + name);
@@ -441,47 +529,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 					throw new Exception("Неизвестное название параметра: " + name);
 			}
 		}
-
-		public bool ArePoints1Visible {
-			get { return _arePoints1Visible; }
-			set {
-				if (_arePoints1Visible != value) {
-					_arePoints1Visible = value;
-					RaisePropertyChanged(() => ArePoints1Visible);
-				}
-			}
-		}
-
-		public bool ArePoints2Visible {
-			get { return _arePoints2Visible; }
-			set {
-				if (_arePoints2Visible != value) {
-					_arePoints2Visible = value;
-					RaisePropertyChanged(() => ArePoints2Visible);
-				}
-			}
-		}
-
-		public bool ArePoints3Visible {
-			get { return _arePoints3Visible; }
-			set {
-				if (_arePoints3Visible != value) {
-					_arePoints3Visible = value;
-					RaisePropertyChanged(() => ArePoints3Visible);
-				}
-			}
-		}
-
-		public bool ArePoints4Visible {
-			get { return _arePoints4Visible; }
-			set {
-				if (_arePoints4Visible != value) {
-					_arePoints4Visible = value;
-					RaisePropertyChanged(() => ArePoints4Visible);
-				}
-			}
-		}
-
+		
 		public TrendControlViewModel TrendControlVm1 {
 			get { return _trendControlVm1; }
 		}
@@ -496,6 +544,50 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		public TrendControlViewModel TrendControlVm4 {
 			get { return _trendControlVm4; }
+		}
+
+		public RelayCommand CommandPanLeft {
+			get { return _commandPanLeft; }
+		}
+
+		public RelayCommand CommandPanRight {
+			get { return _commandPanRight; }
+		}
+
+		public RelayCommand CommandZoomOut {
+			get { return _commandZoomOut; }
+		}
+
+		public RelayCommand CommandZoomIn {
+			get { return _commandZoomIn; }
+		}
+
+		public RelayCommand CommandPanLeftFast {
+			get { return _commandPanLeftFast; }
+		}
+
+		public RelayCommand CommandPanRightFast {
+			get { return _commandPanRightFast; }
+		}
+
+		public RelayCommand CommandZoomAll {
+			get { return _commandZoomAll; }
+		}
+
+		public RelayCommand CommandPanUpFast {
+			get { return _commandPanUpFast; }
+		}
+
+		public RelayCommand CommandPanUp {
+			get { return _commandPanUp; }
+		}
+
+		public RelayCommand CommandPanDown {
+			get { return _commandPanDown; }
+		}
+
+		public RelayCommand CommandPanDownFast {
+			get { return _commandPanDownFast; }
 		}
 	}
 }
