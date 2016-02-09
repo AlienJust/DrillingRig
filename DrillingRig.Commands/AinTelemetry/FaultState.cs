@@ -12,8 +12,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 		SpeedLimit, //5 Превышение максимальной скорости длительное время.
 		StatusError, //6 Появление ошибок STATUS АИН.
 		UdcLow, // 7
-		ChangedAinMode, 	//11 Изменился режим работы.
-		SlaveNotReady //12 В режиме Ведущий не готов Ведомый
+		AinLinkError, 		//8 Потеря связи с АИН.
+		EthernetLinkError,//9 Потеря связи с Ethernet.
+		CanLinkError,			//10 Потеря связи по линии CAN.
+		ChangedAinMode, 	//11 Изменился режим работы (Одиночный/ведущий/ведомый).
+		SlaveNotReady,		//12 В режиме Ведущий  не готов Ведомый.
 	}
 
 	public static class FaultStateExtensions {
@@ -35,6 +38,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 6;
 				case FaultState.UdcLow:
 					return 7;
+
+				case FaultState.AinLinkError:
+					return 8;
+				case FaultState.EthernetLinkError:
+					return 9;
+				case FaultState.CanLinkError:
+					return 10;
+
 				case FaultState.ChangedAinMode:
 					return 11;
 				case FaultState.SlaveNotReady:
@@ -63,6 +74,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "StatusError";
 				case FaultState.UdcLow:
 					return "UDC_LOW";
+
+				case FaultState.AinLinkError:
+					return "AIN_LINK_ERROR";
+				case FaultState.EthernetLinkError:
+					return "ETHERNET_LINK_ERROR";
+				case FaultState.CanLinkError:
+					return "CAN_LINK_ERROR";
+
 				case FaultState.ChangedAinMode:
 					return "CHANGED_AIN_MODE";
 				case FaultState.SlaveNotReady:
@@ -90,6 +109,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.StatusError;
 				case 7:
 					return FaultState.UdcLow;
+
+				case 8:
+					return FaultState.AinLinkError;
+				case 9:
+					return FaultState.EthernetLinkError;
+				case 10:
+					return FaultState.CanLinkError;
+
 				case 11:
 					return FaultState.ChangedAinMode;
 				case 12:
