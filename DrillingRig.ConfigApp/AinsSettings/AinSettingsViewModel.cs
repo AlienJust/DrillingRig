@@ -86,14 +86,16 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			_exportSettingsCommand = new RelayCommand(ExportSettings);
 
 
-			KpW = null;
-			KiW = null;
-			FiNom = null;
-			Imax = null;
-			UdcMax = null;
-			UdcMin = null;
-			Fnom = null;
-			Fmax = null;
+			KpW = null; //  2
+			KiW = null; // 3 4
+			FiNom = null; // 5
+			Imax = null; // 6
+			UdcMax = null; // 7
+			UdcMin = null; // 8
+			Fnom = null;// 9
+			Fmax = null; // 10
+			Empty10 = null;
+			Empty11 = null;
 			IoutMax = null;
 			FiMin = null;
 			DacCh = null;

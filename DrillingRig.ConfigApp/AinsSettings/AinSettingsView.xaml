@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="500">
+             d:DesignHeight="1000" d:DesignWidth="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -363,7 +363,7 @@
 						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пустой параметр №53"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Empty39, Mode=TwoWay}"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Empty53, Mode=TwoWay}"/>
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
