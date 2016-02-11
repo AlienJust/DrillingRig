@@ -42,7 +42,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlienJust.Adaptation.WindowsPresentation">
+    <Reference Include="AlienJust.Adaptation.WindowsPresentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.Concurrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,23 +54,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.Loggers">
+    <Reference Include="AlienJust.Support.Loggers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Loggers.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.Loggers.Contracts">
+    <Reference Include="AlienJust.Support.Loggers.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Loggers.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.ModelViewViewModel">
+    <Reference Include="AlienJust.Support.ModelViewViewModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.ModelViewViewModel.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.Text, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Text.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.Text.Contracts">
+    <Reference Include="AlienJust.Support.Text.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Text.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.UserInterface.Contracts">
+    <Reference Include="AlienJust.Support.UserInterface.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.UserInterface.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">

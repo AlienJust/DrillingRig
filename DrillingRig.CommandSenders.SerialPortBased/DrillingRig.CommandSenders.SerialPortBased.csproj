@@ -30,10 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlienJust.Support.Concurrent">
+    <Reference Include="AlienJust.Support.Concurrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.Concurrent.Contracts">
+    <Reference Include="AlienJust.Support.Concurrent.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.Loggers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -44,7 +46,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Loggers.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="AlienJust.Support.Serial">
+    <Reference Include="AlienJust.Support.Serial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Serial.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.Text, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -15,8 +15,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 	public class SerialPortBasedCommandSender : IRrModbusCommandSender, ICommandSenderController {
 		private readonly SerialPort _serialPort;
 		private readonly SerialPortExtender _portExtender;
-		private readonly IStoppableWorker<Action> _backWorker;
-		//private readonly IStoppableWorker<Action> _notifyWorker;
+		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
 
 		public SerialPortBasedCommandSender(string portName) {
 			_serialPort = new SerialPort(portName, 115200);
