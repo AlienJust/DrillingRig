@@ -80,7 +80,7 @@ namespace DrillingRig.ConfigApp
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
 			
 			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this);
-			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower); // TODO: sending enabled control?
+			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower, _systemControlVm.CommonTelemetryVm); // TODO: sending enabled control?
 
 			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0);
 			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1);

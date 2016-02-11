@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="DrillingRig.ConfigApp.AinTelemetry.TelemetryCommonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="300">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
+		<TextBlock Grid.Column="0" Grid.Row="0" Text="Этап:"/>
+		<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=CommonEngineState, Mode=OneWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="1" Text="Код ошибки:"/>
+		<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=CommonFaultState, Mode=OneWay}"/>
+
+		<TextBlock Grid.Column="0" Grid.Row="2" Text="Связь с АИН:"/>
+		<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=AinsLinkState, Mode=OneWay}"/>
+	</Grid>
+</UserControl>

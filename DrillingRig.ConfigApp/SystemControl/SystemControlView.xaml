@@ -6,6 +6,7 @@
              xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
              xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
+             xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="300">
 	<UserControl.Resources>
@@ -16,12 +17,14 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Button Grid.Row="0" Content="Режим bootloader" Command="{Binding Path=CmdSetBootloader, Mode=OneTime}" Margin="2,2,2,2"/>
 		<Button Grid.Row="1" Content="Рестарт контроллера" Command="{Binding Path=CmdRestart, Mode=OneTime}" Margin="2,2,2,2"/>
 		<Button Grid.Row="2" Content="Прошивка..." Command="{Binding Path=CmdFlash, Mode=OneTime}" Margin="2,2,2,2"/>
-		<TabControl Grid.Row="3" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+		<ainTelemetry:TelemetryCommonView Grid.Row="3" DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
+		<TabControl Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
 			<TabItem Header="Отладочные параметры">
 				<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1" x:Name="DebugGrid">
 					<Grid.ColumnDefinitions>

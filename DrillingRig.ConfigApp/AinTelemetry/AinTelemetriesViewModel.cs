@@ -33,19 +33,24 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private bool _cancel;
 
 		private bool _readingInProgress;
-		private string _engineState;
-		private string _faultState;
-		private string _ainsLinkState;
-		private const string UnknownValueText = "Неизвестно";
+
+		private readonly ICommonAinTelemetryVm _externalTelemetryVm;
+		private readonly TelemetryCommonViewModel _ownTelemetryVm;
+		//private string _engineState;
+		//private string _faultState;
+		//private string _ainsLinkState;
+
 		private readonly IDebugInformationShower _debugInformationShower;
 
-		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower) {
+		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower, ICommonAinTelemetryVm externalTelemetryVm) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_windowSystem = windowSystem;
 			_debugInformationShower = debugInformationShower;
+
+			_externalTelemetryVm = externalTelemetryVm;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
@@ -55,6 +60,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				new AinTelemetryViewModel("АИН №2", this),
 				new AinTelemetryViewModel("АИН №3", this)
 			};
+
+			_ownTelemetryVm = new TelemetryCommonViewModel(_logger);
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
 			_syncCancel = new object();
@@ -179,72 +186,23 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 		public void UpdateCommonEngineState(ushort? value) {
-			if (!value.HasValue) CommonEngineState = UnknownValueText;
-			else {
-				string commonEngineState = value.Value.ToString(CultureInfo.InvariantCulture);
-				try {
-					commonEngineState += " - " + EngineStateExtensions.GetStateFromUshort(value.Value).ToText();
-				}
-				catch (Exception ex) {
-					_logger.Log(ex);
-				}
-				CommonEngineState = commonEngineState;
-			}
+			_ownTelemetryVm.UpdateCommonEngineState(value);
+			_externalTelemetryVm.UpdateCommonEngineState(value);
 		}
 
 		public void UpdateCommonFaultState(ushort? value)
 		{
-			if (!value.HasValue) CommonFaultState = UnknownValueText;
-			else {
-				string commonFaultState = value.Value.ToString(CultureInfo.InvariantCulture);
-				try {
-					commonFaultState += " - " + FaultStateExtensions.GetStateFromUshort(value.Value).ToText();
-				}
-				catch(Exception ex)
-				{
-					_logger.Log(ex);
-				}
-				CommonFaultState = commonFaultState;
-			}
+			_ownTelemetryVm.UpdateCommonFaultState(value);
+			_externalTelemetryVm.UpdateCommonFaultState(value);
 		}
 
 		public void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault) {
-			string ain1LinkInfo = ain1LinkFault.HasValue ? (ain1LinkFault.Value ? "ER" : "OK") : "X3";
-			string ain2LinkInfo = ain2LinkFault.HasValue ? (ain2LinkFault.Value ? "ER" : "OK") : "X3";
-			string ain3LinkInfo = ain3LinkFault.HasValue ? (ain3LinkFault.Value ? "ER" : "OK") : "X3";
-
-			AinsLinkState = ain1LinkInfo + " | " + ain2LinkInfo + " | " + ain3LinkInfo;
+			_ownTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
+			_externalTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
 		}
 
-		public string CommonEngineState {
-			get { return _engineState; }
-			set {
-				if (_engineState != value) {
-					_engineState = value;
-					RaisePropertyChanged(() => CommonEngineState);
-				}
-			}
-		}
-
-		public string CommonFaultState
-		{
-			get { return _faultState; }
-			set {
-				if (_faultState != value) {
-					_faultState = value;
-					RaisePropertyChanged(() => CommonFaultState);
-				}
-			}
-		}
-
-		public string AinsLinkState {
-			get { return _ainsLinkState; }
-			set {
-				if (_ainsLinkState != value) {
-					_ainsLinkState = value;
-					RaisePropertyChanged(() => AinsLinkState);
-				}
-			}
+		public TelemetryCommonViewModel OwnTelemetryVm {
+			get { return _ownTelemetryVm; }
 		}
 	}
 }

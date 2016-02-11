@@ -116,6 +116,10 @@
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
     <Compile Include="AinsSettings\AinSettingsViewModel.cs" />
     <Compile Include="AinTelemetry\ICommonAinTelemetryVm.cs" />
+    <Compile Include="AinTelemetry\TelemetryCommonView.xaml.cs">
+      <DependentUpon>TelemetryCommonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
     <Compile Include="IDebugInformationShower.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
@@ -168,6 +172,10 @@
     <Page Include="AinTelemetry\AinTelemetryView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AinTelemetry\TelemetryCommonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BsEthernetNominals\BsEthernetNominalsView.xaml">
       <SubType>Designer</SubType>

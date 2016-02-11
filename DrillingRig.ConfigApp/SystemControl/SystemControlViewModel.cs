@@ -6,6 +6,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.SystemControl;
+using DrillingRig.ConfigApp.AinTelemetry;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -55,6 +56,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		private readonly PlotModel _plotVm;
 		private readonly PlotController _plotCr;
+		private readonly TelemetryCommonViewModel _commonTelemetryVm;
 
 		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl) {
 			_commandSenderHost = commandSenderHost;
@@ -64,6 +66,8 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			_windowSystem = windowSystem;
 			_sendingEnabledControl = sendingEnabledControl;
 			_linkControl = linkControl;
+
+			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
 
 			_cmdSetBootloader = new RelayCommand(SetBootloader, () => _sendingEnabledControl.IsSendingEnabled);
 			_cmdRestart = new RelayCommand(Restart, () => _sendingEnabledControl.IsSendingEnabled);
@@ -588,6 +592,10 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		public RelayCommand CommandPanDownFast {
 			get { return _commandPanDownFast; }
+		}
+
+		public TelemetryCommonViewModel CommonTelemetryVm {
+			get { return _commonTelemetryVm; }
 		}
 	}
 }

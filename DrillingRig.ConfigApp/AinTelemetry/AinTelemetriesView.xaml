@@ -12,26 +12,7 @@
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			
-			<TextBlock Grid.Column="0" Grid.Row="0" Text="Этап:"/>
-			<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=CommonEngineState, Mode=OneWay}"/>
-			
-			<TextBlock Grid.Column="0" Grid.Row="1" Text="Код ошибки:"/>
-			<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=CommonFaultState, Mode=OneWay}"/>
-			
-			<TextBlock Grid.Column="0" Grid.Row="2" Text="Связь с АИН:"/>
-			<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=AinsLinkState, Mode=OneWay}"/>
-		</Grid>
+		<ainTelemetry:TelemetryCommonView DataContext="{Binding Path=OwnTelemetryVm, Mode=OneTime}"/>
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<ListBox ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=AinTelemetryVms, Mode=OneTime}">
 				<ListBox.ItemTemplate>
