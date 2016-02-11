@@ -17,7 +17,7 @@
 			<ListBox ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=AinTelemetryVms, Mode=OneTime}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<ainTelemetry:AinTelemetryView/>
+						<ainTelemetry:AinTelemetryExpandedView/>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>

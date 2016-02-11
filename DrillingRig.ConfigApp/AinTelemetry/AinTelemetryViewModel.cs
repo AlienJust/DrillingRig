@@ -4,12 +4,10 @@ using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal class AinTelemetryViewModel : ViewModelBase {
-		private readonly string _ainName;
 		private readonly ICommonAinTelemetryVm _commonAinTelemetryVm;
 		private IAinTelemetry _telemetry;
 
-		public AinTelemetryViewModel(string ainName, ICommonAinTelemetryVm commonAinTelemetryVm) {
-			_ainName = ainName;
+		public AinTelemetryViewModel(ICommonAinTelemetryVm commonAinTelemetryVm) {
 			_commonAinTelemetryVm = commonAinTelemetryVm;
 			_telemetry = null;
 		}
@@ -350,13 +348,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				return _telemetry.PvDate;
 			}
 		}
-
-
-
-		public string AinName {
-			get { return _ainName; }
-		}
-
 
 
 		// TODO: other props

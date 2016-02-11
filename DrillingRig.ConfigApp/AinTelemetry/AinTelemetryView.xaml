@@ -6,8 +6,7 @@
              xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="480">
-	<Expander Header="{Binding Path=AinName, Mode=OneTime}">
-		<Grid>
+	<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
@@ -220,5 +219,4 @@
 				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="17" VerticalAlignment="Center" Text="{Binding Path=PvDate, Mode=OneWay, StringFormat='yyyy.MM.dd'}"/>
 			</configApp:GridControl>
 		</Grid>
-	</Expander>
 </UserControl>

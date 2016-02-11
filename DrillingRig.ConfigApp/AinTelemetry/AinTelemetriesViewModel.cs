@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.Concurrent;
@@ -25,7 +24,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private readonly RelayCommand _readCycleCommand;
 		private readonly RelayCommand _stopReadingCommand;
 
-		private readonly List<AinTelemetryViewModel> _ainTelemetryVms;
+		private readonly List<AinTelemetryExpandedViewModel> _ainTelemetryVms;
 
 		private readonly IWorker<Action> _backWorker;
 
@@ -41,7 +40,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 		private readonly IDebugInformationShower _debugInformationShower;
 
-		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower, TelemetryCommonViewModel externalTelemetryVm)
+		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower, TelemetryCommonViewModel externalTelemetryVm, AinTelemetryViewModel ain1TelemetyVm, AinTelemetryViewModel ain2TelemetyVm,AinTelemetryViewModel ain3TelemetyVm)
 		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
@@ -55,10 +54,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
 
-			_ainTelemetryVms = new List<AinTelemetryViewModel> {
-				new AinTelemetryViewModel("АИН №1", this),
-				new AinTelemetryViewModel("АИН №2", this),
-				new AinTelemetryViewModel("АИН №3", this)
+			_ainTelemetryVms = new List<AinTelemetryExpandedViewModel> {
+				new AinTelemetryExpandedViewModel("АИН №1", ain1TelemetyVm),
+				new AinTelemetryExpandedViewModel("АИН №2", ain2TelemetyVm),
+				new AinTelemetryExpandedViewModel("АИН №3", ain3TelemetyVm)
 			};
 
 
@@ -108,7 +107,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 										byte number = ainNumber;
 										_userInterfaceRoot.Notifier.Notify(() => {
 											Console.WriteLine("UserInterface thread begin action =============================");
-											_ainTelemetryVms[number].UpdateTelemetry(ainTelemetry);
+											_ainTelemetryVms[number].AinTelemetryVm.UpdateTelemetry(ainTelemetry);
 											Console.WriteLine("UserInterface thread end action ===============================");
 										});
 										waiter.Set();
@@ -159,7 +158,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			});
 		}
 
-		public IEnumerable<AinTelemetryViewModel> AinTelemetryVms {
+		public IEnumerable<AinTelemetryExpandedViewModel> AinTelemetryVms {
 			get { return _ainTelemetryVms; }
 		}
 

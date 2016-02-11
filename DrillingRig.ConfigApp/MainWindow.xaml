@@ -13,7 +13,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="2*"/>
+			<RowDefinition Height="4*"/>
 			<RowDefinition Height="1*"/>
 		</Grid.RowDefinitions>
 		<Grid>
@@ -62,19 +62,13 @@
 			</TabItem>
 
 			<TabItem Header="Команда АИН1">
-				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
-				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Команда АИН2">
-				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
-				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Команда АИН3">
-				<ScrollViewer>
 					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
-				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Настройки АИН1">
 					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
@@ -97,6 +91,7 @@
 				<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
 		</TabControl>
-		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
+		<GridSplitter Grid.Row="2" Height="8" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" Background="Aquamarine" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
+		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="0,8,0,0"/>
 	</Grid>
 </Window>
