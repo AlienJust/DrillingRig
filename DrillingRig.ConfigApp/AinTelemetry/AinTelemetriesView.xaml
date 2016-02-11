@@ -12,7 +12,7 @@
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ainTelemetry:TelemetryCommonView DataContext="{Binding Path=OwnTelemetryVm, Mode=OneTime}"/>
+		<ainTelemetry:TelemetryCommonView DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<ListBox ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=AinTelemetryVms, Mode=OneTime}">
 				<ListBox.ItemTemplate>

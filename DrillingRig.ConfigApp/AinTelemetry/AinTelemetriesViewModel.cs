@@ -34,15 +34,15 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 		private bool _readingInProgress;
 
-		private readonly ICommonAinTelemetryVm _externalTelemetryVm;
-		private readonly TelemetryCommonViewModel _ownTelemetryVm;
+		private readonly TelemetryCommonViewModel _commonTelemetryVm;
 		//private string _engineState;
 		//private string _faultState;
 		//private string _ainsLinkState;
 
 		private readonly IDebugInformationShower _debugInformationShower;
 
-		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower, ICommonAinTelemetryVm externalTelemetryVm) {
+		public AinTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, IDebugInformationShower debugInformationShower, TelemetryCommonViewModel externalTelemetryVm)
+		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -50,7 +50,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_windowSystem = windowSystem;
 			_debugInformationShower = debugInformationShower;
 
-			_externalTelemetryVm = externalTelemetryVm;
+			_commonTelemetryVm = externalTelemetryVm;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
@@ -61,7 +61,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				new AinTelemetryViewModel("АИН №3", this)
 			};
 
-			_ownTelemetryVm = new TelemetryCommonViewModel(_logger);
 
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
 			_syncCancel = new object();
@@ -186,23 +185,20 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 		public void UpdateCommonEngineState(ushort? value) {
-			_ownTelemetryVm.UpdateCommonEngineState(value);
-			_externalTelemetryVm.UpdateCommonEngineState(value);
+			_commonTelemetryVm.UpdateCommonEngineState(value);
 		}
 
 		public void UpdateCommonFaultState(ushort? value)
 		{
-			_ownTelemetryVm.UpdateCommonFaultState(value);
-			_externalTelemetryVm.UpdateCommonFaultState(value);
+			_commonTelemetryVm.UpdateCommonFaultState(value);
 		}
 
 		public void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault) {
-			_ownTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
-			_externalTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
+			_commonTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
 		}
 
-		public TelemetryCommonViewModel OwnTelemetryVm {
-			get { return _ownTelemetryVm; }
+		public TelemetryCommonViewModel CommonTelemetryVm {
+			get { return _commonTelemetryVm; }
 		}
 	}
 }

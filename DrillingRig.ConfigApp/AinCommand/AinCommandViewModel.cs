@@ -6,6 +6,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinCommand;
+using DrillingRig.ConfigApp.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandViewModel : ViewModelBase {
@@ -26,13 +27,15 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandReset;
 		private readonly RelayCommand _sendAinCommandBits;
 
+		private readonly TelemetryCommonViewModel _commonTelemetryVm;
+
 		private short _fset;
 		private short _mset;
 		private short _set3;
 		private short _mmin;
 		private short _mmax;
 
-		public AinCommandViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber) {
+		public AinCommandViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, TelemetryCommonViewModel commonTelemetryVm) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -40,6 +43,8 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_windowSystem = windowSystem;
 			_sendingEnabledControl = sendingEnabledControl;
 			_zeroBasedAinNumber = zeroBasedAinNumber;
+
+			_commonTelemetryVm = commonTelemetryVm;
 
 			_fset = 0;
 			_mset = 0;
@@ -244,6 +249,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public RelayCommand SendAinCommandBits {
 			get { return _sendAinCommandBits; }
+		}
+
+		public TelemetryCommonViewModel CommonTelemetryVm {
+			get { return _commonTelemetryVm; }
 		}
 	}
 }

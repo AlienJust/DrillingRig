@@ -4,14 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
+		<ainTelemetry:TelemetryCommonView DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"></ainTelemetry:TelemetryCommonView>
+		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>
@@ -38,7 +41,7 @@
 			<TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Максимальный момент (ограничение)"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mmax, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
 		</Grid>
-		<Grid Grid.Row="1">
+		<Grid Grid.Row="2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>

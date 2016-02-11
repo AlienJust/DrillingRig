@@ -28,20 +28,25 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _udcMin;
 		private short? _fnom;
 		private short? _fmax;
+
 		private short? _empty10;
 		private short? _empty11;
+
 		private short? _ioutMax;
 		private short? _fiMin;
 		private short? _dacCh;
 		private short? _imcw;
+
 		private short? _ia0;
 		private short? _ib0;
 		private short? _ic0;
 		private short? _udc0;
 		private short? _tauR;
+
 		private short? _lm;
 		private short? _lsl;
 		private short? _lrl;
+
 		private int? _kpFi;
 		private int? _kiFi;
 		private int? _kpId;
@@ -51,22 +56,29 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _accDfDt;
 		private short? _decDfDt;
 		private short? _unom;
+
 		private short? _empty39;
+
 		private short? _rs;
 		private short? _fmin;
+
 		private short? _tauM;
 		private short? _tauF;
 		private short? _tauFSet;
 		private short? _tauFi;
 		private short? _idSetMin;
 		private short? _idSetMax;
+
 		private int? _kpFe;
 		private int? _kiFe;
 		private short? _np;
+
 		private short? _empty53;
+
 		private short? _emdecDfdt;
 		private short? _textMax;
 		private short? _toHl;
+
 		private readonly byte _zeroBasedAinNumber;
 
 		public AinSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber)
@@ -86,48 +98,61 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			_exportSettingsCommand = new RelayCommand(ExportSettings);
 
 
-			KpW = null; //  2
-			KiW = null; // 3 4
-			FiNom = null; // 5
-			Imax = null; // 6
-			UdcMax = null; // 7
-			UdcMin = null; // 8
-			Fnom = null;// 9
-			Fmax = null; // 10
-			Empty10 = null;
-			Empty11 = null;
-			IoutMax = null;
-			FiMin = null;
-			DacCh = null;
-			Imcw = null;
-			Ia0 = null;
-			Ib0 = null;
-			Ic0 = null;
-			Udc0 = null;
-			TauR = null;
-			Lm = null;
-			Lsl = null;
-			Lrl = null;
-			KpFi = null;
-			KiFi = null;
-			KpId = null;
-			KiId = null;
-			KpIq = null;
-			KiIq = null;
-			AccDfDt = null;
-			DecDfDt = null;
-			Unom = null;
-			Rs = null;
-			Fmin = null;
-			TauM = null;
-			TauF = null;
-			TauFSet = null;
-			TauFi = null;
-			IdSetMin = null;
-			IdSetMax = null;
-			KpFe = null;
-			KiFe = null;
-			Np = null;
+			KpW = null; // 0 1
+			KiW = null; // 2 3
+			FiNom = null; // 4
+			Imax = null; // 5
+			UdcMax = null; // 6
+			UdcMin = null; // 7
+			Fnom = null;// 8
+			Fmax = null; // 9
+
+			Empty10 = null; // 10
+			Empty11 = null; // 11
+
+			IoutMax = null; //12
+			FiMin = null; // 13
+			DacCh = null; // 14
+			Imcw = null; // 15
+
+			Ia0 = null; // 16
+			Ib0 = null; // 17
+			Ic0 = null; // 18
+			Udc0 = null; // 19
+			TauR = null; // 20
+
+			Lm = null; // 21
+			Lsl = null; // 22
+			Lrl = null; // 23
+
+			KpFi = null; // 24
+			KiFi = null; // 26
+			KpId = null; // 28
+			KiId = null; // 30
+			KpIq = null; // 32
+			KiIq = null; // 34
+
+			AccDfDt = null; // 35
+			DecDfDt = null; // 36
+			Unom = null; // 37
+
+			Empty39 = null; // 38
+
+			Rs = null; // 
+			Fmin = null; // 
+			TauM = null; // 
+			TauF = null; // 
+			TauFSet = null; // 
+			TauFi = null; // 
+			IdSetMin = null; // 
+			IdSetMax = null; // 
+
+			KpFe = null; // 
+			KiFe = null; // 
+			Np = null; // 
+
+			Empty53 = null;
+
 			EmdecDfdt = null;
 			TextMax = null;
 			ToHl = null;

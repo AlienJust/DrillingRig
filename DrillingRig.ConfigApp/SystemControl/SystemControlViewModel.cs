@@ -58,7 +58,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 		private readonly PlotController _plotCr;
 		private readonly TelemetryCommonViewModel _commonTelemetryVm;
 
-		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl) {
+		public SystemControlViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, ILinkContol linkControl, TelemetryCommonViewModel commonTelemetryVm) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -67,7 +67,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			_sendingEnabledControl = sendingEnabledControl;
 			_linkControl = linkControl;
 
-			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
+			_commonTelemetryVm = commonTelemetryVm;
 
 			_cmdSetBootloader = new RelayCommand(SetBootloader, () => _sendingEnabledControl.IsSendingEnabled);
 			_cmdRestart = new RelayCommand(Restart, () => _sendingEnabledControl.IsSendingEnabled);

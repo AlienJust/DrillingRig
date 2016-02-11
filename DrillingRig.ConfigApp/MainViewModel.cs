@@ -49,6 +49,8 @@ namespace DrillingRig.ConfigApp
 		private readonly RectifierTelemetriesViewModel _rectifierTelemetriesVm;
 		private readonly CoolerTelemetriesViewModel _coolerTelemetriesVm;
 
+		private readonly TelemetryCommonViewModel _commonTelemetryVm;
+
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
 		private readonly RelayCommand _getPortsAvailableCommand;
@@ -76,15 +78,17 @@ namespace DrillingRig.ConfigApp
 
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
 
+			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
+
 			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
-			
-			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this);
-			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower, _systemControlVm.CommonTelemetryVm); // TODO: sending enabled control?
 
-			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0);
-			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1);
-			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2);
+			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this, _commonTelemetryVm);
+			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower, _commonTelemetryVm); // TODO: sending enabled control?
+
+			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0, _commonTelemetryVm);
+			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1, _commonTelemetryVm);
+			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2, _commonTelemetryVm);
 
 			_ain1SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 0);
 			_ain2SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 1);
