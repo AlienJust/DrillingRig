@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections;
-using System.ComponentModel;
 
 namespace DrillingRig.Commands.AinTelemetry {
 	public enum FaultState {
-		NoError = 0, //0 Нет ошибок.
-		RuleImcwConflict, //1 Конфликт ролей каналов (по IMCW).
-		RuleAinConflict, //2 Конфликт ролей АИН при работе двух ПЧ на одну лебедку.
-		NoAinLink, //3 Нет связи с АИН.
-		NotMagnetized, //4 Двигатель не намагнитился за 5 сек.
-		SpeedLimit, //5 Превышение максимальной скорости длительное время.
-		StatusError, //6 Появление ошибок STATUS АИН.
+		NoError = 0, // 0 Нет ошибок.
+		RuleImcwConflict, // 1 Конфликт ролей каналов (по IMCW).
+		RuleAinConflict, // 2 Конфликт ролей АИН при работе двух ПЧ на одну лебедку.
+		NoAinLink, // 3 Нет связи с АИН.
+		NotMagnetized, // 4 Двигатель не намагнитился за 5 сек.
+		SpeedLimit, // 5 Превышение максимальной скорости длительное время.
+		StatusError, // 6 Появление ошибок STATUS АИН.
 		UdcLow, // 7
-		AinLinkError, 		//8 Потеря связи с АИН.
-		EthernetLinkError,//9 Потеря связи с Ethernet.
-		CanLinkError,			//10 Потеря связи по линии CAN.
-		ChangedAinMode, 	//11 Изменился режим работы (Одиночный/ведущий/ведомый).
-		SlaveNotReady,		//12 В режиме Ведущий  не готов Ведомый.
+		AinLinkError, //8 Потеря связи с АИН.
+		EthernetLinkError, //9 Потеря связи с Ethernet.
+		CanLinkError, //10 Потеря связи по линии CAN.
+		ChangedAinMode, //11 Изменился режим работы (Одиночный/ведущий/ведомый).
+		SlaveNotReady, //12 В режиме Ведущий  не готов Ведомый.
+		RelayBlocking,
+		RelayAlarmMo, //
 	}
 
 	public static class FaultStateExtensions {
@@ -50,6 +50,12 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 11;
 				case FaultState.SlaveNotReady:
 					return 12;
+
+				case FaultState.RelayBlocking:
+					return 13;
+				case FaultState.RelayAlarmMo:
+					return 14;
+
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -86,6 +92,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "CHANGED_AIN_MODE";
 				case FaultState.SlaveNotReady:
 					return "SLAVE_NOT_READY";
+				case FaultState.RelayBlocking:
+					return "RELAY_BLOCKING";
+				case FaultState.RelayAlarmMo:
+					return "RELAY_ALARM_MO";
 				default:
 					throw new Exception("Cannot convert such state to string");
 			}
@@ -121,6 +131,12 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.ChangedAinMode;
 				case 12:
 					return FaultState.SlaveNotReady;
+				
+				case 13:
+					return FaultState.RelayBlocking;
+				case 14:
+					return FaultState.RelayAlarmMo;
+
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (FaultState).Name);
 			}
