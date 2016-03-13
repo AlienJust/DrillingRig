@@ -340,7 +340,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			}
 		}
 
-		private string GetUShortText(int zeroBasedRow, int oneBasedCol) {
+		private string GetParamText(int zeroBasedRow, int oneBasedCol) {
 			try {
 				const int bytesCountPerValue = 2;
 				const int valuesCountInRow = 2;
@@ -350,9 +350,10 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				int lowByteIndex = firstCurrentRowByteIndex + (oneBasedCol - 1) * bytesCountPerValue;
 				int highByteIndex = firstCurrentRowByteIndex + ((oneBasedCol - 1) * bytesCountPerValue + 1);
 
-				var b = ToUInt16(_debugBytes[lowByteIndex], _debugBytes[highByteIndex]);
+				var bu = ToUInt16(_debugBytes[lowByteIndex], _debugBytes[highByteIndex]);
+				var bs = ToInt16(_debugBytes[lowByteIndex], _debugBytes[highByteIndex]);
 				
-				return b.ToString("X4") + " (" + b + ")";
+				return bu.ToString("X4") + " (" + bu + ") + [" + bs + "]";
 			}
 			catch {
 				return "--------";
@@ -360,67 +361,67 @@ namespace DrillingRig.ConfigApp.SystemControl {
 		}
 
 		public string Param01 {
-			get { return GetUShortText(0, 1); }
+			get { return GetParamText(0, 1); }
 		}
 
 		public string Param02 {
-			get { return GetUShortText(0, 2); }
+			get { return GetParamText(0, 2); }
 		}
 
 		public string Param11 {
-			get { return GetUShortText(1, 1); }
+			get { return GetParamText(1, 1); }
 		}
 
 		public string Param12 {
-			get { return GetUShortText(1, 2); }
+			get { return GetParamText(1, 2); }
 		}
 
 		public string Param21 {
-			get { return GetUShortText(2, 1); }
+			get { return GetParamText(2, 1); }
 		}
 
 		public string Param22 {
-			get { return GetUShortText(2, 2); }
+			get { return GetParamText(2, 2); }
 		}
 
 		public string Param31 {
-			get { return GetUShortText(3, 1); }
+			get { return GetParamText(3, 1); }
 		}
 
 		public string Param32 {
-			get { return GetUShortText(3, 2); }
+			get { return GetParamText(3, 2); }
 		}
 
 		public string Param41 {
-			get { return GetUShortText(4, 1); }
+			get { return GetParamText(4, 1); }
 		}
 
 		public string Param42 {
-			get { return GetUShortText(4, 2); }
+			get { return GetParamText(4, 2); }
 		}
 
 		public string Param51 {
-			get { return GetUShortText(5, 1); }
+			get { return GetParamText(5, 1); }
 		}
 
 		public string Param52 {
-			get { return GetUShortText(5, 2); }
+			get { return GetParamText(5, 2); }
 		}
 
 		public string Param61 {
-			get { return GetUShortText(6, 1); }
+			get { return GetParamText(6, 1); }
 		}
 
 		public string Param62 {
-			get { return GetUShortText(6, 2); }
+			get { return GetParamText(6, 2); }
 		}
 
 		public string Param71 {
-			get { return GetUShortText(7, 1); }
+			get { return GetParamText(7, 1); }
 		}
 
 		public string Param72 {
-			get { return GetUShortText(7, 2); }
+			get { return GetParamText(7, 2); }
 		}
 
 		public RelayCommand CmdFlash {

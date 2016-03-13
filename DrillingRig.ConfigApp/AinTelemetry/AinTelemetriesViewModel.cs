@@ -107,6 +107,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 										byte number = ainNumber;
 										_userInterfaceRoot.Notifier.Notify(() => {
 											Console.WriteLine("UserInterface thread begin action =============================");
+											Console.WriteLine("AIN viewModel zbNumber: " + number);
 											_ainTelemetryVms[number].AinTelemetryVm.UpdateTelemetry(ainTelemetry);
 											Console.WriteLine("UserInterface thread end action ===============================");
 										});
