@@ -22,6 +22,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly ModeSetRunModeBits12 _runModeBits12;
 		private readonly bool _runModeRotationDirection;
 
+		private ushort _status;
+
 		private readonly bool _driver1HasErrors;
 		private readonly bool _driver2HasErrors;
 		private readonly bool _driver3HasErrors;
@@ -86,6 +88,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 			ModeSetRunModeBits12 runModeBits12,
 
 			bool runModeRotationDirection,
+
+			ushort status,
+
 			bool driver1HasErrors,
 			bool driver2HasErrors,
 			bool driver3HasErrors,
@@ -137,6 +142,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 			_runModeBits12 = runModeBits12;
 			_runModeRotationDirection = runModeRotationDirection;
+
+			_status = status;
 
 			_driver1HasErrors = driver1HasErrors;
 			_driver2HasErrors = driver2HasErrors;
@@ -252,6 +259,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public bool RunModeRotationDirection {
 			get { return _runModeRotationDirection; }
 		}
+
+		public ushort Status { get { return _status; } }
 
 		public bool Driver1HasErrors {
 			get { return _driver1HasErrors; }

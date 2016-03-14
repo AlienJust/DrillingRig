@@ -56,6 +56,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 				((oldReply[29] & 0x04) == 0x04),
 
+				(ushort)(oldReply[31] + (oldReply[32] << 8)),
+
 				((oldReply[31] & 0x01) == 0x01),
 				((oldReply[31] & 0x02) == 0x02),
 				((oldReply[31] & 0x04) == 0x04),

@@ -23,6 +23,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 		ModeSetRunModeBits12 RunModeBits12 { get; }
 		bool RunModeRotationDirection { get; }
 
+		ushort Status { get; }
+
 		bool Driver1HasErrors { get; }
 		bool Driver2HasErrors { get; }
 		bool Driver3HasErrors { get; }

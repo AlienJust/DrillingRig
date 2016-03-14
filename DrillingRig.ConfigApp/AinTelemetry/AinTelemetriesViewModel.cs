@@ -109,6 +109,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 											Console.WriteLine("UserInterface thread begin action =============================");
 											Console.WriteLine("AIN viewModel zbNumber: " + number);
 											_ainTelemetryVms[number].AinTelemetryVm.UpdateTelemetry(ainTelemetry);
+											if (number == 0) _commonTelemetryVm.UpdateAin1Status(ainTelemetry == null ? null : (ushort?)ainTelemetry.Status);
 											Console.WriteLine("UserInterface thread end action ===============================");
 										});
 										waiter.Set();
@@ -195,6 +196,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 		public void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault) {
 			_commonTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
+		}
+
+		public void UpdateAin1Status(ushort? value) {
+			_commonTelemetryVm.UpdateAin1Status(value);
 		}
 
 		public TelemetryCommonViewModel CommonTelemetryVm {
