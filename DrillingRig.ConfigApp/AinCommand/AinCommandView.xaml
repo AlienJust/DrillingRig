@@ -8,6 +8,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="500">
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0" Content="Читать телеметрию циклически" Command="{Binding Path=ReadCycleCommand, Mode=OneTime}"/>
+			<Button Grid.Column="1" Content="Остановка чтения телеметрии" Command="{Binding Path=StopReadingCommand, Mode=OneTime}"/>
+		</Grid>
+	<Grid Grid.Row="1">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"/>
 			<ColumnDefinition/>
@@ -167,5 +180,6 @@
 		<ScrollViewer Grid.Column="1" CanContentScroll="True">
 			<ainTelemetry:AinTelemetryView DataContext="{Binding Path=AinTelemetryVm, Mode=OneTime}"/>
 		</ScrollViewer>
+	</Grid>
 	</Grid>
 </UserControl>

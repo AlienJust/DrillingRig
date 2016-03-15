@@ -1,4 +1,4 @@
-﻿<Window x:Class="DrillingRig.ConfigApp.MainWindow"
+﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
@@ -9,12 +9,119 @@
         xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
         xmlns:rectifierTelemetry="clr-namespace:DrillingRig.ConfigApp.RectifierTelemetry"
         xmlns:coolerTelemetry="clr-namespace:DrillingRig.ConfigApp.CoolerTelemetry"
-        Title="Конфигурация БС-Ethernet " Height="700" Width="600">
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="Конфигурация БС-Ethernet " Height="800" Width="700" ResizeMode="CanResizeWithGrip">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+				<!-- Accent and AppTheme setting -->
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="AzureTabItem" TargetType="{x:Type TabItem}">
+				<Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="TabItem">
+							<StackPanel>
+								<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" Padding="4,1,8,1" BorderThickness="0,0,0,4" Margin="2,2,2,0" SnapsToDevicePixels="True">
+									<Border.Style>
+										<Style TargetType="Border">
+											<Setter Property="Background">
+												<Setter.Value>
+													<SolidColorBrush Color="{DynamicResource Gray5}"/>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Border.Style>
+									<TextBlock x:Name="root" FontSize="12">
+										<TextBlock.Style>
+											<Style TargetType="TextBlock">
+												<Setter Property="Foreground">
+													<Setter.Value>
+														<SolidColorBrush Color="{DynamicResource BlackColor}" />
+													</Setter.Value>
+												</Setter>
+											</Style>
+										</TextBlock.Style>
+										<ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+									</TextBlock>
+								</Border>
+								<Canvas Height="2" Width="10" x:Name="arrow" Margin="25,0,0,0" HorizontalAlignment="Left" SnapsToDevicePixels="True" RenderTransformOrigin="0.5,0.5">
+									<Canvas.RenderTransform>
+										<TransformGroup>
+											<ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+											<SkewTransform/>
+											<RotateTransform/>
+											<TranslateTransform/>
+										</TransformGroup>
+									</Canvas.RenderTransform>
+									<Path Data="M 0 0 H 20 L 10 10 Z" StrokeThickness="0" Fill="{DynamicResource AccentColorBrush}"/>
+								</Canvas>
+							</StackPanel>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsSelected" Value="true">
+									<Setter TargetName="root" Property="Foreground">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource WhiteColor}" />
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="border" Property="Background">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource AccentColor}"/>
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="border" Property="BorderBrush">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource AccentColor}"/>
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="arrow" Property="Visibility" Value="Visible"/>
+								</Trigger>
+								<Trigger Property="IsSelected" Value="false">
+									<Setter TargetName="root" Property="Foreground">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource BlackColor}" />
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="arrow" Property="Visibility" Value="Hidden"/>
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter TargetName="root" Property="Foreground">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource WhiteColor}" />
+										</Setter.Value>
+									</Setter>
+									<Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"></Setter>
+									<Setter TargetName="border" Property="Background">
+										<Setter.Value>
+											<SolidColorBrush Color="{DynamicResource AccentColor}"/>
+										</Setter.Value>
+									</Setter>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</Window.Resources>
+	<!--<controls:MetroWindow.RightWindowCommands>
+		<controls:WindowCommands>
+			<Button Content="About"/>
+		</controls:WindowCommands>
+	</controls:MetroWindow.RightWindowCommands>-->
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="4*"/>
 			<RowDefinition Height="1*"/>
+			<!--<RowDefinition Height="20"/>-->
 		</Grid.RowDefinitions>
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -35,63 +142,64 @@
 			<Button Grid.Column="3" Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Отключиться" />
 			<Button Grid.Column="2" Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подключиться" />
 		</Grid>
-		<TabControl Grid.Row="1">
-			<TabItem Header="Настройка БС-Ethernet">
+		<TabControl Grid.Row="1" Background="Transparent">
+			<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
 				<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Номинальные значения БС-Ethernet">
+			<TabItem Header="Номинальные значения БС-Ethernet" Style="{StaticResource AzureTabItem}">
 				<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Телеметрия АИН">
+			<TabItem Header="Телеметрия АИН" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+				<!--Header="Телеметрия АИН"-->
 				<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Настройки АИН1">
+			<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
 				<ScrollViewer>
 					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
-			<TabItem Header="Настройки АИН2">
+			<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
 				<ScrollViewer>
 					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
-			<TabItem Header="Настройки АИН3">
+			<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
 				<ScrollViewer>
 					<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
 				</ScrollViewer>
 			</TabItem>
 
-			<TabItem Header="Команда АИН1">
-					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
+			<TabItem Header="Команда АИН1" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+				<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Команда АИН2">
-					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
+			<TabItem Header="Команда АИН2" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+				<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Команда АИН3">
-					<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
+			<TabItem Header="Команда АИН3" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+				<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Настройки АИН1">
-					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
+			<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
+				<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Настройки АИН2">
-					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
+			<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
+				<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Настройки АИН3">
-					<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
+			<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
+				<ainsSettings:AinSettingsView DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Система">
+			<TabItem Header="Система" Style="{StaticResource AzureTabItem}" BorderBrush="Blue">
 				<Grid>
-				<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
+					<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Выпрямители">
+			<TabItem Header="Выпрямители" Style="{StaticResource AzureTabItem}">
 				<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
-			<TabItem Header="Модуль охлаждения">
+			<TabItem Header="Модуль охлаждения" Style="{StaticResource AzureTabItem}">
 				<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
 			</TabItem>
 		</TabControl>
-		<GridSplitter Grid.Row="2" Height="8" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" Background="Aquamarine" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
-		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="0,8,0,0"/>
+		<GridSplitter Grid.Row="2" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
+		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>
 	</Grid>
-</Window>
+</controls:MetroWindow>

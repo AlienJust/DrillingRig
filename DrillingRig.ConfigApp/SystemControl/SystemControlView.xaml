@@ -11,6 +11,49 @@
              d:DesignHeight="400" d:DesignWidth="300">
 	<UserControl.Resources>
 		<BooleanToVisibilityConverter x:Key="BtvConverter"/>
+		<Style TargetType="TabItem" x:Key="AzureNavTabItem">
+			<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+			<Setter Property="IsTabStop" Value="False" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Margin" Value="0,2,20,0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="VerticalContentAlignment" Value="Stretch" />
+			<Setter Property="MinWidth" Value="5" />
+			<Setter Property="MinHeight" Value="5" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="TabItem">
+						<Label x:Name="root" FontSize="12" Margin="{TemplateBinding Margin}" FontWeight="SemiBold">
+							<ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+						</Label>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsSelected" Value="true">
+								<Setter TargetName="root" Property="Foreground">
+									<Setter.Value>
+										<SolidColorBrush Color="{DynamicResource AccentColor}" />
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger Property="IsSelected" Value="false">
+								<Setter TargetName="root" Property="Foreground">
+									<Setter.Value>
+										<SolidColorBrush Color="{DynamicResource Gray2}" />
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger SourceName="root" Property="IsMouseOver" Value="True">
+								<Setter TargetName="root" Property="Foreground">
+									<Setter.Value>
+										<SolidColorBrush Color="{DynamicResource AccentColor}" />
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -25,7 +68,7 @@
 		<Button Grid.Row="2" Content="Прошивка..." Command="{Binding Path=CmdFlash, Mode=OneTime}" Margin="2,2,2,2"/>
 		<ainTelemetry:TelemetryCommonView Grid.Row="3" DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
 		<TabControl Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
-			<TabItem Header="Отладочные параметры">
+			<TabItem Header="Отладочные параметры" Style="{StaticResource AzureNavTabItem}">
 				<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1" x:Name="DebugGrid">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
@@ -78,7 +121,7 @@
 					<TextBlock Grid.Row="7" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param72, Mode=OneWay}"/>
 				</configApp:GridControl>
 			</TabItem>
-			<TabItem Header="Графики">
+			<TabItem Header="Графики" Style="{StaticResource AzureNavTabItem}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*"/>

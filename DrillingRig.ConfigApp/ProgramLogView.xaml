@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
-		<ListBox ItemsSource="{Binding Path=LogLines, Mode=OneTime}"/>
+		<ListBox ItemsSource="{Binding Path=LogLines, Mode=OneTime}" BorderThickness="0"/>
 	</Grid>
 </UserControl>
