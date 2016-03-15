@@ -10,7 +10,7 @@
         xmlns:rectifierTelemetry="clr-namespace:DrillingRig.ConfigApp.RectifierTelemetry"
         xmlns:coolerTelemetry="clr-namespace:DrillingRig.ConfigApp.CoolerTelemetry"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="Конфигурация БС-Ethernet " Height="800" Width="700" ResizeMode="CanResizeWithGrip">
+        Title="Конфигурация БС-Ethernet " Height="800" Width="800" ResizeMode="CanResizeWithGrip">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
