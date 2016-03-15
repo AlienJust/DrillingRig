@@ -127,6 +127,7 @@
       <DependentUpon>AinTelemetryExpandedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\AinTelemetryExpandedViewModel.cs" />
+    <Compile Include="AinTelemetry\IAinTelemetriesCycleControl.cs" />
     <Compile Include="AinTelemetry\ICommonAinTelemetryVm.cs" />
     <Compile Include="AinTelemetry\TelemetryCommonView.xaml.cs">
       <DependentUpon>TelemetryCommonView.xaml</DependentUpon>

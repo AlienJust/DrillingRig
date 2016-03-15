@@ -14,7 +14,7 @@ using DrillingRig.Commands.AinTelemetry;
 using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
-	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm {
+	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm, IAinTelemetriesCycleControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -51,8 +51,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			_commonTelemetryVm = externalTelemetryVm;
 
-			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
-			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
+			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress); // TODO: check port opened
+			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress); 
 
 			_ainTelemetryVms = new List<AinTelemetryExpandedViewModel> {
 				new AinTelemetryExpandedViewModel("АИН №1", ain1TelemetyVm),

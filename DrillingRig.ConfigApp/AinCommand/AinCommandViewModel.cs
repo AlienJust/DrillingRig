@@ -9,7 +9,7 @@ using DrillingRig.Commands.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinCommand {
-	internal class AinCommandViewModel : ViewModelBase {
+	internal class AinCommandViewModel : ViewModelBase, IAinTelemetriesCycleControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -35,8 +35,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private short _set3;
 		private short _mmin;
 		private short _mmax;
+		private readonly ICommand _readCycleCommand;
+		private readonly ICommand _stopReadingCommand;
 
-		public AinCommandViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, TelemetryCommonViewModel commonTelemetryVm, AinTelemetryViewModel ainTelemetryVm) {
+		public AinCommandViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, TelemetryCommonViewModel commonTelemetryVm, AinTelemetryViewModel ainTelemetryVm, IAinTelemetriesCycleControl ainTelemetriesCycleControl) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -47,6 +49,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 			_commonTelemetryVm = commonTelemetryVm;
 			_ainTelemetryVm = ainTelemetryVm;
+
+			_readCycleCommand = ainTelemetriesCycleControl.ReadCycleCommand;
+			_stopReadingCommand = ainTelemetriesCycleControl.StopReadingCommand;
 
 			_fset = 0;
 			_mset = 0;
@@ -259,6 +264,14 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public AinTelemetryViewModel AinTelemetryVm {
 			get { return _ainTelemetryVm; }
+		}
+
+		public ICommand ReadCycleCommand {
+			get { return _readCycleCommand; }
+		}
+
+		public ICommand StopReadingCommand {
+			get { return _stopReadingCommand; }
 		}
 	}
 }
