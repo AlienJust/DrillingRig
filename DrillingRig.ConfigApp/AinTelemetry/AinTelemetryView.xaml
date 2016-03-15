@@ -7,216 +7,216 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="480">
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<configApp:GridControl Grid.Row="0" ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="3*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+
 			</Grid.RowDefinitions>
-			<configApp:GridControl Grid.Row="0" ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="3*"/>
-					<ColumnDefinition Width="1*"/>
-				</Grid.ColumnDefinitions>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Вычисленная частота вращения (электрическая)"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=RotationFriquencyCalculated, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Коэффициент модуляции ШИМ"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=PwmModulationCoefficient, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="Задание моментного тока"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Path=MomentumCurrentSetting, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Температура радиатора"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Path=RadiatorTemperature, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Напряжение шины DC"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Path=DcBusVoltage, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Амплитуда огибающей тока по всем трем фазам"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Path=AllPhasesCurrentAmplitudeEnvelopeCurve, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Выход регулятора тока D"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Text="{Binding Path=RegulatorCurrentDoutput, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Выход регулятора тока Q"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Text="{Binding Path=RegulatorCurrentQoutput, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Выход задатчика интенсивности частоты (электрической)"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" Text="{Binding Path=FriquencyIntensitySetpointOutput, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Уставка потока"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Text="{Binding Path=FlowSetting, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Измеренный момент"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" Text="{Binding Path=MeasuredMoment, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="11" VerticalAlignment="Center" Text="Выход регулятора скорости номинальный или уставка момента"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="11" VerticalAlignment="Center" Text="{Binding Path=SpeedRegulatorOutputOrMomentSetting, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="12" VerticalAlignment="Center" Text="Измеренный поток"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Text="{Binding Path=MeasuredFlow, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Задание тока возбуждения"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Text="{Binding Path=SettingExcitationCurrent, Mode=OneWay}"/>
+
+		</configApp:GridControl>
+		<Border Grid.Column="0" Grid.Row="1" BorderThickness="2,0,2,1" BorderBrush="DeepSkyBlue">
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-
 				</Grid.RowDefinitions>
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Вычисленная частота вращения (электрическая)"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=RotationFriquencyCalculated, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Коэффициент модуляции ШИМ"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=PwmModulationCoefficient, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="Задание моментного тока"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Path=MomentumCurrentSetting, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Температура радиатора"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Path=RadiatorTemperature, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Напряжение шины DC"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Path=DcBusVoltage, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Амплитуда огибающей тока по всем трем фазам"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Path=AllPhasesCurrentAmplitudeEnvelopeCurve, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Выход регулятора тока D"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Text="{Binding Path=RegulatorCurrentDoutput, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Выход регулятора тока Q"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Text="{Binding Path=RegulatorCurrentQoutput, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Выход задатчика интенсивности частоты (электрической)"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" Text="{Binding Path=FriquencyIntensitySetpointOutput, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Уставка потока"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Text="{Binding Path=FlowSetting, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Измеренный момент"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" Text="{Binding Path=MeasuredMoment, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="11" VerticalAlignment="Center" Text="Выход регулятора скорости номинальный или уставка момента"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="11" VerticalAlignment="Center" Text="{Binding Path=SpeedRegulatorOutputOrMomentSetting, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="12" VerticalAlignment="Center" Text="Измеренный поток"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Text="{Binding Path=MeasuredFlow, Mode=OneWay}"/>
-
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Задание тока возбуждения"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Text="{Binding Path=SettingExcitationCurrent, Mode=OneWay}"/>
-
-			</configApp:GridControl>
-			<Border Grid.Column="0" Grid.Row="1" BorderThickness="1" BorderBrush="Black">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-					</Grid.RowDefinitions>
-					<TextBlock Margin="2,2,2,2" Grid.Row="0" VerticalAlignment="Center" Text="Текущий режим работы:"/>
-					<Grid Grid.Row="1">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-							<TextBlock Text="Биты [0-1]:" Margin="2,2,10,2" VerticalAlignment="Center"/>
-							<TextBlock Margin="2,2,2,2" Text="{Binding Path=RunModeBits12, Mode=OneWay}" VerticalAlignment="Center"/>
-						</StackPanel>
-						<!--<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
+				<TextBlock Margin="2,2,2,2" Grid.Row="0" VerticalAlignment="Center" Text="Текущий режим работы:"/>
+				<Grid Grid.Row="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+						<TextBlock Text="Биты [0-1]:" Margin="2,2,10,2" VerticalAlignment="Center"/>
+						<TextBlock Margin="2,2,2,2" Text="{Binding Path=RunModeBits12, Mode=OneWay}" VerticalAlignment="Center"/>
+					</StackPanel>
+					<!--<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
 						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга" IsChecked="{Binding Path=RunModeTraction, Mode=OneWay}"/>-->
-						<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения" IsChecked="{Binding Path=RunModeRotationDirection, Mode=OneWay}"/>
-					</Grid>
+					<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения" IsChecked="{Binding Path=RunModeRotationDirection, Mode=OneWay}"/>
 				</Grid>
-			</Border>
-			<Border Grid.Column="0" Grid.Row="2" BorderThickness="1" BorderBrush="Black">
-				<Grid >
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-					</Grid.RowDefinitions>
-					<TextBlock Margin="2,2,2,2" Grid.Row="0" VerticalAlignment="Center" Text="Статус:"/>
-					<Grid Grid.Row="1">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<CheckBox Grid.Row="0" Grid.Column="0" Content="Ошибки драйвера 1" IsChecked="{Binding Path=Driver1HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="0" Grid.Column="1" Content="Ошибки драйвера 2" IsChecked="{Binding Path=Driver2HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="0" Grid.Column="2" Content="Ошибки драйвера 3" IsChecked="{Binding Path=Driver3HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="1" Grid.Column="0" Content="Ошибки драйвера 4" IsChecked="{Binding Path=Driver4HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="1" Grid.Column="1" Content="Ошибки драйвера 5" IsChecked="{Binding Path=Driver5HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="1" Grid.Column="2" Content="Ошибки драйвера 6" IsChecked="{Binding Path=Driver6HasErrors, Mode=OneWay}"/>
-						<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение допустимого тока по любой из фаз" IsChecked="{Binding Path=SomePhaseMaximumAlowedCurrentExcess, Mode=OneWay}"/>
-						<CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение температуры радиатора ключей +85 градусов" IsChecked="{Binding Path=RadiatorKeysTemperatureRiseTo85DegreesExcess, Mode=OneWay}"/>
-						<CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение напряжения DC" IsChecked="{Binding Path=AllowedDcVoltageExcess, Mode=OneWay}"/>
-						<CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка I2C/EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromI2CErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
-						<CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка CRC EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromCrcErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
-					</Grid>
-				</Grid>
-			</Border>
-			<configApp:GridControl Grid.Row="3" ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="3*"/>
-					<ColumnDefinition Width="1*"/>
-				</Grid.ColumnDefinitions>
+			</Grid>
+		</Border>
+		<Border Grid.Column="0" Grid.Row="2" BorderThickness="2,1,2,0" BorderBrush="DeepSkyBlue">
+			<Grid >
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Частота вращения, измеренная ДЧВ (электрическая)"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=RotationFriquencyMeasuredDcv, Mode=OneWay}"/>
+				<TextBlock Margin="2,2,2,2" Grid.Row="0" VerticalAlignment="Center" Text="Статус:"/>
+				<Grid Grid.Row="1">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<CheckBox Grid.Row="0" Grid.Column="0" Content="Ошибки драйвера 1" IsChecked="{Binding Path=Driver1HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="0" Grid.Column="1" Content="Ошибки драйвера 2" IsChecked="{Binding Path=Driver2HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="0" Grid.Column="2" Content="Ошибки драйвера 3" IsChecked="{Binding Path=Driver3HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="1" Grid.Column="0" Content="Ошибки драйвера 4" IsChecked="{Binding Path=Driver4HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="1" Grid.Column="1" Content="Ошибки драйвера 5" IsChecked="{Binding Path=Driver5HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="1" Grid.Column="2" Content="Ошибки драйвера 6" IsChecked="{Binding Path=Driver6HasErrors, Mode=OneWay}"/>
+					<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение допустимого тока по любой из фаз" IsChecked="{Binding Path=SomePhaseMaximumAlowedCurrentExcess, Mode=OneWay}"/>
+					<CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение температуры радиатора ключей +85 градусов" IsChecked="{Binding Path=RadiatorKeysTemperatureRiseTo85DegreesExcess, Mode=OneWay}"/>
+					<CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="Превышение напряжения DC" IsChecked="{Binding Path=AllowedDcVoltageExcess, Mode=OneWay}"/>
+					<CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка I2C/EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromI2CErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
+					<CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Content="Ошибка CRC EEPROM, загружены параметры по умолчанию" IsChecked="{Binding Path=EepromCrcErrorDefaultParamsAreLoaded, Mode=OneWay}"/>
+				</Grid>
+			</Grid>
+		</Border>
+		<configApp:GridControl Grid.Row="3" ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="3*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Частота на ОС регулятора скорости после фильтра"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=AfterFilterSpeedControllerFeedbackFriquency, Mode=OneWay}"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Частота вращения, измеренная ДЧВ (электрическая)"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=RotationFriquencyMeasuredDcv, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="FImag после фильтра"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Path=AfterFilterFimag, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Частота на ОС регулятора скорости после фильтра"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding Path=AfterFilterSpeedControllerFeedbackFriquency, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Измеренная составляющая тока D"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Path=CurrentDpartMeasured, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="FImag после фильтра"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Text="{Binding Path=AfterFilterFimag, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Измеренная составляющая тока Q"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Path=CurrentQpartMeasured, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Text="Измеренная составляющая тока D"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Text="{Binding Path=CurrentDpartMeasured, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Fset после фильтра"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Path=AfterFilterFset, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Измеренная составляющая тока Q"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding Path=CurrentQpartMeasured, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Torq после фильтра"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Text="{Binding Path=AfterFilterTorq, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Fset после фильтра"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Text="{Binding Path=AfterFilterFset, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Внешняя температура"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Text="{Binding Path=ExternalTemperature, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Torq после фильтра"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Text="{Binding Path=AfterFilterTorq, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Пропорциональная часть регулятора тока D"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" Text="{Binding Path=DCurrentRegulatorProportionalPart, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Text="Внешняя температура"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Text="{Binding Path=ExternalTemperature, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Пропорциональная часть регулятора тока Q"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Text="{Binding Path=QcurrentRegulatorProportionalPart, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Text="Пропорциональная часть регулятора тока D"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" Text="{Binding Path=DCurrentRegulatorProportionalPart, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Пропорциональная часть регулятора скорости"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" Text="{Binding Path=SpeedRegulatorProportionalPart, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Text="Пропорциональная часть регулятора тока Q"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Text="{Binding Path=QcurrentRegulatorProportionalPart, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="11" VerticalAlignment="Center" Text="Пропорциональная часть регулятора потока"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="11" VerticalAlignment="Center" Text="{Binding Path=FlowRegulatorProportionalPart, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Text="Пропорциональная часть регулятора скорости"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" Text="{Binding Path=SpeedRegulatorProportionalPart, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="12" VerticalAlignment="Center" Text="Выход регулятора вычислителя потока D"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Text="{Binding Path=CalculatorDflowRegulatorOutput, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="11" VerticalAlignment="Center" Text="Пропорциональная часть регулятора потока"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="11" VerticalAlignment="Center" Text="{Binding Path=FlowRegulatorProportionalPart, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Выход регулятора вычислителя потока Q"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Text="{Binding Path=CalculatorQflowRegulatorOutput, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="12" VerticalAlignment="Center" Text="Выход регулятора вычислителя потока D"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Text="{Binding Path=CalculatorDflowRegulatorOutput, Mode=OneWay}"/>
+
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="13" VerticalAlignment="Center" Text="Выход регулятора вычислителя потока Q"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Text="{Binding Path=CalculatorQflowRegulatorOutput, Mode=OneWay}"/>
 
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="14" VerticalAlignment="Center" Text="Вспомогательная ячейка 1"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="14" VerticalAlignment="Center" Text="{Binding Path=Aux1, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="14" VerticalAlignment="Center" Text="Вспомогательная ячейка 1"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="14" VerticalAlignment="Center" Text="{Binding Path=Aux1, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="15" VerticalAlignment="Center" Text="Вспомогательная ячейка 2"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="15" VerticalAlignment="Center" Text="{Binding Path=Aux2, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="15" VerticalAlignment="Center" Text="Вспомогательная ячейка 2"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="15" VerticalAlignment="Center" Text="{Binding Path=Aux2, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="16" VerticalAlignment="Center" Text="Версия ПО"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" Text="{Binding Path=Pver, Mode=OneWay}"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="16" VerticalAlignment="Center" Text="Версия ПО"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" Text="{Binding Path=Pver, Mode=OneWay}"/>
 
-				<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="17" VerticalAlignment="Center" Text="Дата билда ПО"/>
-				<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="17" VerticalAlignment="Center" Text="{Binding Path=PvDate, Mode=OneWay, StringFormat='yyyy.MM.dd'}"/>
-			</configApp:GridControl>
-		</Grid>
+			<TextBlock Margin="2,2,2,2" Grid.Column="0" Grid.Row="17" VerticalAlignment="Center" Text="Дата билда ПО"/>
+			<TextBlock Margin="2,2,2,2" Grid.Column="1" Grid.Row="17" VerticalAlignment="Center" Text="{Binding Path=PvDate, Mode=OneWay, StringFormat='yyyy.MM.dd'}"/>
+		</configApp:GridControl>
+	</Grid>
 </UserControl>

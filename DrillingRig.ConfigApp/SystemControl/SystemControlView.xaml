@@ -69,7 +69,7 @@
 		<ainTelemetry:TelemetryCommonView Grid.Row="3" DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
 		<TabControl Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
 			<TabItem Header="Отладочные параметры" Style="{StaticResource AzureNavTabItem}">
-				<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="Blue" GridLineThickness="1" x:Name="DebugGrid">
+				<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2" x:Name="DebugGrid">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition/>
