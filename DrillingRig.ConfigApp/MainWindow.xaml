@@ -39,12 +39,12 @@
 										<Style TargetType="Border">
 											<Setter Property="Background">
 												<Setter.Value>
-													<SolidColorBrush Color="{DynamicResource Gray5}"/>
+													<SolidColorBrush Color="{DynamicResource Gray8}"/>
 												</Setter.Value>
 											</Setter>
 										</Style>
 									</Border.Style>
-									<TextBlock x:Name="root" FontSize="12">
+									<TextBlock x:Name="root" FontSize="14" Margin="2,4,8,2">
 										<TextBlock.Style>
 											<Style TargetType="TextBlock">
 												<Setter Property="Foreground">
@@ -57,8 +57,8 @@
 										<ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
 									</TextBlock>
 								</Border>
-								<Canvas Grid.Column="1" Height="10" Width="5" x:Name="arrow" Margin="0,4,0,0" HorizontalAlignment="Left" SnapsToDevicePixels="True">
-									<Path Data="M 0 0 L 5 5 L 0 10 Z" StrokeThickness="0" Fill="{DynamicResource AccentColorBrush}"/>
+								<Canvas Grid.Column="1" Height="16" Width="8" x:Name="arrow" Margin="0,4,0,0" HorizontalAlignment="Left" SnapsToDevicePixels="True">
+									<Path Data="M 0 0 L 8 8 L 0 16 Z" StrokeThickness="0" Fill="{DynamicResource AccentColorBrush}"/>
 								</Canvas>
 							</Grid>
 							<ControlTemplate.Triggers>
@@ -126,7 +126,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="4*"/>
 			<RowDefinition Height="1*"/>
-			<!--<RowDefinition Height="20"/>-->
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0" Background="Transparent" TabStripPlacement="Left">
 			<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
