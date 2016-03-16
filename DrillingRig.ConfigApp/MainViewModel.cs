@@ -21,6 +21,8 @@ using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol {
+		private const string TestComPortName = "ТЕСТ";
+
 		private List<string> _comPortsAvailable;
 		private string _selectedComName;
 
@@ -136,7 +138,7 @@ namespace DrillingRig.ConfigApp {
 				_logger.Log("Открытие порта " + _selectedComName + "...");
 
 
-				if (_selectedComName == "Test") // TODO: extract constant
+				if (_selectedComName == TestComPortName) // TODO: extract constant
 				{
 					var sender = new NothingBasedCommandSender();
 					_commandSender = sender;
@@ -164,10 +166,11 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		private void GetPortsAvailable() {
-			var ports = new List<string> { "Test" }; // TODO: extract constant
+			var ports = new List<string>();
 			ports.AddRange(SerialPort.GetPortNames());
 			ComPortsAvailable = ports;
 			if (ComPortsAvailable.Count > 0) SelectedComName = ComPortsAvailable[0];
+			ports.Add(TestComPortName); // TODO: extract constant);
 		}
 
 		public event SendingEnabledChangedDelegate SendingEnabledChanged;
