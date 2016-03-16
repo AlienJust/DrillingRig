@@ -89,15 +89,29 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
 						<ColumnDefinition/>
-						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
 					<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
 						<TextBlock Text="Биты [0-1]:" Margin="2,2,10,2" VerticalAlignment="Center"/>
 						<TextBlock Margin="2,2,2,2" Text="{Binding Path=RunModeBits12, Mode=OneWay}" VerticalAlignment="Center"/>
 					</StackPanel>
+					<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+						<TextBlock Text="Биты [8-9]:" Margin="2,2,10,2" VerticalAlignment="Center"/>
+						<TextBlock Margin="2,2,2,2" Text="{Binding Path=MomentumSetterSelector, Mode=OneWay}" VerticalAlignment="Center"/>
+					</StackPanel>
 					<!--<CheckBox Grid.Row="0" Grid.Column="0" Content="Выбег" IsChecked="{Binding Path=RunModeFreewheel, Mode=OneWay}"/>
 						<CheckBox Grid.Row="0" Grid.Column="1" Content="Тяга" IsChecked="{Binding Path=RunModeTraction, Mode=OneWay}"/>-->
-					<CheckBox Grid.Row="0" Grid.Column="2" Content="Направление вращения" IsChecked="{Binding Path=RunModeRotationDirection, Mode=OneWay}"/>
+					<CheckBox Grid.Row="1" Grid.Column="0" Content="Сброс ЗИ в 0" IsChecked="{Binding Path=ResetZiToZero, Mode=OneWay}"/>
+					<CheckBox Grid.Row="1" Grid.Column="1" Content="Сброс аварий" IsChecked="{Binding Path=ResetFault, Mode=OneWay}"/>
+					<CheckBox Grid.Row="2" Grid.Column="0" Content="Ограничение регулятора ID" IsChecked="{Binding Path=LimitRegulatorId, Mode=OneWay}"/>
+					<CheckBox Grid.Row="2" Grid.Column="1" Content="Ограничение регулятора IQ" IsChecked="{Binding Path=LimitRegulatorIq, Mode=OneWay}"/>
+					<CheckBox Grid.Row="3" Grid.Column="0" Content="Ограничение регулятора скорости" IsChecked="{Binding Path=LimitRegulatorSpeed, Mode=OneWay}"/>
+					<CheckBox Grid.Row="3" Grid.Column="1" Content="Ограничение регулятора потока" IsChecked="{Binding Path=LimitRegulatorFlow, Mode=OneWay}"/>
 				</Grid>
 			</Grid>
 		</Border>

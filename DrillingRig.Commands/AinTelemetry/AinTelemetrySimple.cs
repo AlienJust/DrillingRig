@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace DrillingRig.Commands.AinTelemetry {
 	internal class AinTelemetrySimple : IAinTelemetry {
@@ -20,9 +21,17 @@ namespace DrillingRig.Commands.AinTelemetry {
 		private readonly double _settingExcitationCurrent;
 
 		private readonly ModeSetRunModeBits12 _runModeBits12;
-		private readonly bool _runModeRotationDirection;
+		
+		private readonly bool _resetZiToZero;
+		private readonly bool _resetFault;
+		private readonly bool _limitRegulatorId;
+		private readonly bool _limitRegulatorIq;
+		private readonly bool _limitRegulatorSpeed;
+		private readonly bool _limitRegulatorFlow;
 
-		private ushort _status;
+		private readonly ModeSetMomentumSetterSelector _momentumSetterSelector;
+
+		private readonly ushort _status;
 
 		private readonly bool _driver1HasErrors;
 		private readonly bool _driver2HasErrors;
@@ -87,7 +96,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 			ModeSetRunModeBits12 runModeBits12,
 
-			bool runModeRotationDirection,
+			bool resetZiToZero,
+			bool resetFault,
+			bool limitRegulatorId,
+			bool limitRegulatorIq,
+			bool limitRegulatorSpeed,
+			bool limitRegulatorFlow,
+
+			ModeSetMomentumSetterSelector momentumSetterSelector,
 
 			ushort status,
 
@@ -141,7 +157,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_settingExcitationCurrent = settingExcitationCurrent;
 
 			_runModeBits12 = runModeBits12;
-			_runModeRotationDirection = runModeRotationDirection;
+			_resetZiToZero = resetZiToZero;
+			_resetFault = resetFault;
+			_limitRegulatorId = limitRegulatorId;
+			_limitRegulatorIq = limitRegulatorIq;
+			_limitRegulatorSpeed = limitRegulatorSpeed;
+			_limitRegulatorFlow = limitRegulatorFlow;
+
+			_momentumSetterSelector = momentumSetterSelector;
 
 			_status = status;
 
@@ -184,7 +207,6 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_ain1LinkFault = ain1LinkFault;
 			_ain2LinkFault = ain2LinkFault;
 			_ain3LinkFault = ain3LinkFault;
-			
 		}
 
 		public ushort CommonEngineState {
@@ -252,13 +274,43 @@ namespace DrillingRig.Commands.AinTelemetry {
 			get { return _settingExcitationCurrent; }
 		}
 
+
+
+
 		public ModeSetRunModeBits12 RunModeBits12 {
 			get { return _runModeBits12; }
 		}
 
-		public bool RunModeRotationDirection {
-			get { return _runModeRotationDirection; }
+		public bool ResetZiToZero {
+			get { return _resetZiToZero; }
 		}
+
+		public bool ResetFault {
+			get { return _resetFault; }
+		}
+
+		public bool LimitRegulatorId {
+			get { return _limitRegulatorId; }
+		}
+
+		public bool LimitRegulatorIq {
+			get { return _limitRegulatorIq; }
+		}
+
+		public bool LimitRegulatorSpeed {
+			get { return _limitRegulatorSpeed; }
+		}
+
+		public bool LimitRegulatorFlow {
+			get { return _limitRegulatorFlow; }
+		}
+
+		public ModeSetMomentumSetterSelector MomentumSetterSelector {
+			get { return _momentumSetterSelector; }
+		}
+
+
+
 
 		public ushort Status { get { return _status; } }
 
@@ -397,5 +449,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		public bool Ain3LinkFault {
 			get { return _ain3LinkFault; }
 		}
+
+		
 	}
 }

@@ -55,6 +55,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 				ModeSetRunModeBits12Extensions.FromInt((oldReply[29] & 0x03)),
 
 				((oldReply[29] & 0x04) == 0x04),
+				((oldReply[29] & 0x08) == 0x08),
+				((oldReply[29] & 0x10) == 0x10),
+				((oldReply[29] & 0x20) == 0x20),
+				((oldReply[29] & 0x40) == 0x40),
+				((oldReply[29] & 0x80) == 0x80),
+
+				ModeSetMomentumSetterSelectorExtensions.FromInt((oldReply[30] & 0x03)),
+
 
 				(ushort)(oldReply[31] + (oldReply[32] << 8)),
 

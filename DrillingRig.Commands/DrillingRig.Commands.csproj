@@ -48,6 +48,8 @@
     <Compile Include="AinTelemetry\EngineState.cs" />
     <Compile Include="AinTelemetry\FaultState.cs" />
     <Compile Include="AinTelemetry\IAinTelemetry.cs" />
+    <Compile Include="AinTelemetry\ModeSetMomentumSetterSelector.cs" />
+    <Compile Include="AinTelemetry\ModeSetMomentumSetterSelectorExtensions.cs" />
     <Compile Include="AinTelemetry\ModeSetRunModeBits12.cs" />
     <Compile Include="AinTelemetry\ModeSetRunModeBits12Extensions.cs" />
     <Compile Include="AinTelemetry\ReadAinTelemetryCommand.cs" />

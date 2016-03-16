@@ -21,7 +21,14 @@ namespace DrillingRig.Commands.AinTelemetry {
 		double SettingExcitationCurrent { get; }
 
 		ModeSetRunModeBits12 RunModeBits12 { get; }
-		bool RunModeRotationDirection { get; }
+		bool ResetZiToZero { get; }
+		bool ResetFault { get; }
+		bool LimitRegulatorId { get; }
+		bool LimitRegulatorIq { get; }
+		bool LimitRegulatorSpeed { get; }
+		bool LimitRegulatorFlow { get; }
+		ModeSetMomentumSetterSelector MomentumSetterSelector { get; }
+
 
 		ushort Status { get; }
 

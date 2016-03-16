@@ -123,6 +123,7 @@
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
     <Compile Include="AinsSettings\AinSettingsViewModel.cs" />
+    <Compile Include="AinsSettings\NullableShortToNullableDoubleConverter01.cs" />
     <Compile Include="AinTelemetry\AinTelemetryExpandedView.xaml.cs">
       <DependentUpon>AinTelemetryExpandedView.xaml</DependentUpon>
     </Compile>

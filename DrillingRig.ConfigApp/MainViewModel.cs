@@ -19,10 +19,8 @@ using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
-namespace DrillingRig.ConfigApp
-{
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol
-	{
+namespace DrillingRig.ConfigApp {
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol {
 		private List<string> _comPortsAvailable;
 		private string _selectedComName;
 
@@ -65,8 +63,7 @@ namespace DrillingRig.ConfigApp
 		private readonly ILogger _logger;
 		private bool _isSendingEnabled;
 
-		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem)
-		{
+		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_targetAddress = 1;
 
 			_commandSender = null;
@@ -113,10 +110,8 @@ namespace DrillingRig.ConfigApp
 			_logger.Log("Программа загружена");
 		}
 
-		private void ClosePort()
-		{
-			try
-			{
+		private void ClosePort() {
+			try {
 				IsSendingEnabled = false;
 				RaiseSendingEnabledChanged(IsSendingEnabled);
 
@@ -130,16 +125,13 @@ namespace DrillingRig.ConfigApp
 				_logger.Log("Ранее открытый порт " + _commandSender + " закрыт");
 
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось закрыть открытый ранее порт " + _commandSender + ". " + ex.Message);
 			}
 		}
 
-		private void OpenPort()
-		{
-			try
-			{
+		private void OpenPort() {
+			try {
 				if (_isPortOpened) ClosePort();
 				_logger.Log("Открытие порта " + _selectedComName + "...");
 
@@ -151,8 +143,7 @@ namespace DrillingRig.ConfigApp
 					_commandSenderController = sender;
 
 				}
-				else
-				{
+				else {
 					var sender = new SerialPortBasedCommandSender(SelectedComName);
 					_commandSender = sender;
 					_commandSenderController = sender;
@@ -167,14 +158,12 @@ namespace DrillingRig.ConfigApp
 				IsSendingEnabled = true;
 				RaiseSendingEnabledChanged(IsSendingEnabled);
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось открыть порт " + _selectedComName + ". " + ex.Message);
 			}
 		}
 
-		private void GetPortsAvailable()
-		{
+		private void GetPortsAvailable() {
 			var ports = new List<string> { "Test" }; // TODO: extract constant
 			ports.AddRange(SerialPort.GetPortNames());
 			ComPortsAvailable = ports;
@@ -183,148 +172,121 @@ namespace DrillingRig.ConfigApp
 
 		public event SendingEnabledChangedDelegate SendingEnabledChanged;
 
-		// TODO: thread safity
-		public bool IsSendingEnabled
-		{
+		public bool IsSendingEnabled {
 			get { return _isSendingEnabled; }
-			set { _isSendingEnabled = value; }
+			set {
+				if (_isSendingEnabled != value) {
+					_isSendingEnabled = value;
+					RaisePropertyChanged(() => IsSendingEnabled);
+				}
+			}
 		}
 
-		private void RaiseSendingEnabledChanged(bool isSendingEnabled)
-		{
+		private void RaiseSendingEnabledChanged(bool isSendingEnabled) {
 			var eve = SendingEnabledChanged;
 			if (eve != null)
 				eve.Invoke(isSendingEnabled);
 		}
 
-
-
-		public List<string> ComPortsAvailable
-		{
+		public List<string> ComPortsAvailable {
 			get { return _comPortsAvailable; }
-			set
-			{
-				if (_comPortsAvailable != value)
-				{
+			set {
+				if (_comPortsAvailable != value) {
 					_comPortsAvailable = value;
 					RaisePropertyChanged(() => ComPortsAvailable);
 				}
 			}
 		}
 
-		public string SelectedComName
-		{
+		public string SelectedComName {
 			get { return _selectedComName; }
-			set
-			{
-				if (value != _selectedComName)
-				{
+			set {
+				if (value != _selectedComName) {
 					_selectedComName = value;
 					RaisePropertyChanged(() => SelectedComName);
 				}
 			}
 		}
 
-		public RelayCommand OpenPortCommand
-		{
+		public RelayCommand OpenPortCommand {
 			get { return _openPortCommand; }
 		}
 
-		public RelayCommand ClosePortCommand
-		{
+		public RelayCommand ClosePortCommand {
 			get { return _closePortCommand; }
 		}
 
-		public RelayCommand GetPortsAvailableCommand
-		{
+		public RelayCommand GetPortsAvailableCommand {
 			get { return _getPortsAvailableCommand; }
 		}
 
-		public IRrModbusCommandSender Sender
-		{
+		public IRrModbusCommandSender Sender {
 			get { return _commandSender; }
 		}
 
-		public byte TargetAddress
-		{
+		public byte TargetAddress {
 			get { return _targetAddress; }
-			set
-			{
-				if (_targetAddress != value)
-				{
+			set {
+				if (_targetAddress != value) {
 					_targetAddress = value;
 					RaisePropertyChanged(() => TargetAddress);
 				}
 			}
 		}
 
-		public IThreadNotifier Notifier
-		{
+		public IThreadNotifier Notifier {
 			get { return _notifier; }
 		}
 
-		public ProgramLogViewModel ProgramLogVm
-		{
+		public ProgramLogViewModel ProgramLogVm {
 			get { return _programLogVm; }
 		}
 
-		public BsEthernetSettingsViewModel BsEthernetSettingsVm
-		{
+		public BsEthernetSettingsViewModel BsEthernetSettingsVm {
 			get { return _bsEthernetSettingsVm; }
 		}
 
-		public BsEthernetNominalsViewModel BsEthernetNominalsVm
-		{
+		public BsEthernetNominalsViewModel BsEthernetNominalsVm {
 			get { return _bsEthernetNominalsVm; }
 		}
 
-		public AinTelemetriesViewModel AinTelemetriesVm
-		{
+		public AinTelemetriesViewModel AinTelemetriesVm {
 			get { return _ainTelemetriesVm; }
 		}
 
-		public AinCommandViewModel Ain1CommandVm
-		{
+		public AinCommandViewModel Ain1CommandVm {
 			get { return _ain1CommandVm; }
 		}
 
-		public AinCommandViewModel Ain2CommandVm
-		{
+		public AinCommandViewModel Ain2CommandVm {
 			get { return _ain2CommandVm; }
 		}
 
-		public AinCommandViewModel Ain3CommandVm
-		{
+		public AinCommandViewModel Ain3CommandVm {
 			get { return _ain3CommandVm; }
 		}
 
-		public SystemControlViewModel SystemControlVm
-		{
+		public SystemControlViewModel SystemControlVm {
 			get { return _systemControlVm; }
 		}
 
-		public RectifierTelemetriesViewModel RectifierTelemetriesVm
-		{
+		public RectifierTelemetriesViewModel RectifierTelemetriesVm {
 			get { return _rectifierTelemetriesVm; }
 		}
 
-		public CoolerTelemetriesViewModel CoolerTelemetriesVm
-		{
+		public CoolerTelemetriesViewModel CoolerTelemetriesVm {
 			get { return _coolerTelemetriesVm; }
 		}
 
-		public AinSettingsViewModel Ain1SettingsVm
-		{
+		public AinSettingsViewModel Ain1SettingsVm {
 			get { return _ain1SettingsVm; }
 		}
 
-		public AinSettingsViewModel Ain2SettingsVm
-		{
+		public AinSettingsViewModel Ain2SettingsVm {
 			get { return _ain2SettingsVm; }
 		}
 
-		public AinSettingsViewModel Ain3SettingsVm
-		{
+		public AinSettingsViewModel Ain3SettingsVm {
 			get { return _ain3SettingsVm; }
 		}
 

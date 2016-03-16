@@ -111,7 +111,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 		public string RunModeBits12 {
-			get {
+			get { // TODO: move to static class
 				if (_telemetry == null) return string.Empty;
 				switch (_telemetry.RunModeBits12)
 				{
@@ -120,21 +120,76 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 					case ModeSetRunModeBits12.Traction: 
 						return "Тяга";
 					case ModeSetRunModeBits12.Unknown2:
-						return "Х.З. 02";
+						return "Штатный останов";
 					case ModeSetRunModeBits12.Unknown3:
-						return "Х.З. 03";
+						return "Аварийный останов";
 					default:
 						return "WTF?";
 				}
 			}
 		}
 
-		public bool? RunModeRotationDirection {
+		public bool? ResetZiToZero {
 			get {
 				if (_telemetry == null) return null;
-				return _telemetry.RunModeRotationDirection;
+				return _telemetry.ResetZiToZero;
 			}
 		}
+
+		public bool? ResetFault {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.ResetFault;
+			}
+		}
+
+		public bool? LimitRegulatorId {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.LimitRegulatorId;
+			}
+		}
+
+		public bool? LimitRegulatorIq {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.LimitRegulatorIq;
+			}
+		}
+
+		public bool? LimitRegulatorSpeed {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.LimitRegulatorSpeed;
+			}
+		}
+
+		public bool? LimitRegulatorFlow {
+			get {
+				if (_telemetry == null) return null;
+				return _telemetry.LimitRegulatorFlow;
+			}
+		}
+
+		public string MomentumSetterSelector {
+			get { // TODO: move to static class
+				if (_telemetry == null) return string.Empty;
+				switch (_telemetry.MomentumSetterSelector) {
+					case ModeSetMomentumSetterSelector.SpeedRegulator:
+						return "Регулятор скорости";
+					case ModeSetMomentumSetterSelector.ExternalMoment:
+						return "Внешний момент";
+					case ModeSetMomentumSetterSelector.Summary:
+						return "Сумма";
+					case ModeSetMomentumSetterSelector.Zero:
+						return "0";
+					default:
+						return "WTF?";
+				}
+			}
+		}
+
+
 
 		public bool? Driver1HasErrors {
 			get {
@@ -371,7 +426,13 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			RaisePropertyChanged(() => SettingExcitationCurrent);
 
 			RaisePropertyChanged(() => RunModeBits12);
-			RaisePropertyChanged(() => RunModeRotationDirection);
+			RaisePropertyChanged(() => ResetZiToZero);
+			RaisePropertyChanged(() => ResetFault);
+			RaisePropertyChanged(() => LimitRegulatorId);
+			RaisePropertyChanged(() => LimitRegulatorIq);
+			RaisePropertyChanged(() => LimitRegulatorSpeed);
+			RaisePropertyChanged(() => LimitRegulatorFlow);
+			RaisePropertyChanged(() => MomentumSetterSelector);
 
 			RaisePropertyChanged(() => Driver1HasErrors);
 			RaisePropertyChanged(() => Driver2HasErrors);

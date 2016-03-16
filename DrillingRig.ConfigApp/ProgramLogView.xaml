@@ -6,6 +6,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
-		<ListBox ItemsSource="{Binding Path=LogLines, Mode=OneTime}" BorderThickness="0"/>
+		<ListBox ItemsSource="{Binding Path=LogLines, Mode=OneTime}" BorderThickness="0">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="MaxHeight" Value="20"/>
+				</Style>
+			</ListBox.ItemContainerStyle>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Path=MessageText, Mode=OneTime}" FontFamily="Courier new" FontSize="12"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel IsItemsHost="True" Orientation="Vertical"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+		</ListBox>
 	</Grid>
 </UserControl>
