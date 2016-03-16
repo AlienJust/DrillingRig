@@ -152,6 +152,7 @@
       <DependentUpon>CoolerTelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CoolerTelemetry\CoolerTelemetryViewModel.cs" />
+    <Compile Include="ListBoxBehavior.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
