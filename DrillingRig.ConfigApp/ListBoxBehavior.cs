@@ -1,100 +1,51 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace DrillingRig.ConfigApp {
 	/// <summary>
 	/// This class contains a few useful extenders for the ListBox
 	/// </summary>
-	class ListBoxBehavior {
-		static readonly Dictionary<ListBox, Capture> Associations =
-					 new Dictionary<ListBox, Capture>();
-
-		public static bool GetScrollOnNewItem(DependencyObject obj) {
-			return (bool)obj.GetValue(ScrollOnNewItemProperty);
+	public static class ListBoxBehavior {
+		public static bool GetScrollSelectedIntoView(ListBox listBox) {
+			return (bool)listBox.GetValue(ScrollSelectedIntoViewProperty);
 		}
 
-		public static void SetScrollOnNewItem(DependencyObject obj, bool value) {
-			obj.SetValue(ScrollOnNewItemProperty, value);
+		public static void SetScrollSelectedIntoView(ListBox listBox, bool value) {
+			listBox.SetValue(ScrollSelectedIntoViewProperty, value);
 		}
 
-		public static readonly DependencyProperty ScrollOnNewItemProperty =
-				DependencyProperty.RegisterAttached(
-						"ScrollOnNewItem",
-						typeof(bool),
-						typeof(ListBoxBehavior),
-						new UIPropertyMetadata(false, OnScrollOnNewItemChanged));
+		public static readonly DependencyProperty ScrollSelectedIntoViewProperty =
+			DependencyProperty.RegisterAttached("ScrollSelectedIntoView", typeof(bool), typeof(ListBoxBehavior),
+				new UIPropertyMetadata(false, OnScrollSelectedIntoViewChanged));
 
-		public static void OnScrollOnNewItemChanged(
-				DependencyObject d,
-				DependencyPropertyChangedEventArgs e) {
-			var listBox = d as ListBox;
-			if (listBox == null) return;
-			bool oldValue = (bool)e.OldValue, newValue = (bool)e.NewValue;
-			if (newValue == oldValue) return;
-			if (newValue) {
-				listBox.Loaded += ListBox_Loaded;
-				listBox.Unloaded += ListBox_Unloaded;
-				var itemsSourcePropertyDescriptor = TypeDescriptor.GetProperties(listBox)["ItemsSource"];
-				itemsSourcePropertyDescriptor.AddValueChanged(listBox, ListBox_ItemsSourceChanged);
+		private static void OnScrollSelectedIntoViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+			var selector = d as Selector;
+			if (selector == null) return;
+
+			if (e.NewValue is bool == false)
+				return;
+
+			if ((bool)e.NewValue) {
+				selector.AddHandler(Selector.SelectionChangedEvent, new RoutedEventHandler(ListBoxSelectionChangedHandler));
 			}
 			else {
-				listBox.Loaded -= ListBox_Loaded;
-				listBox.Unloaded -= ListBox_Unloaded;
-				if (Associations.ContainsKey(listBox))
-					Associations[listBox].Dispose();
-				var itemsSourcePropertyDescriptor = TypeDescriptor.GetProperties(listBox)["ItemsSource"];
-				itemsSourcePropertyDescriptor.RemoveValueChanged(listBox, ListBox_ItemsSourceChanged);
+				selector.RemoveHandler(Selector.SelectionChangedEvent, new RoutedEventHandler(ListBoxSelectionChangedHandler));
 			}
 		}
 
-		private static void ListBox_ItemsSourceChanged(object sender, EventArgs e) {
-			var listBox = (ListBox)sender;
-			if (Associations.ContainsKey(listBox))
-				Associations[listBox].Dispose();
-			Associations[listBox] = new Capture(listBox);
-		}
+		private static void ListBoxSelectionChangedHandler(object sender, RoutedEventArgs e) {
+			if (!(sender is ListBox)) return;
 
-		static void ListBox_Unloaded(object sender, RoutedEventArgs e) {
-			var listBox = (ListBox)sender;
-			if (Associations.ContainsKey(listBox))
-				Associations[listBox].Dispose();
-			listBox.Unloaded -= ListBox_Unloaded;
-		}
-
-		static void ListBox_Loaded(object sender, RoutedEventArgs e) {
-			var listBox = (ListBox)sender;
-			var incc = listBox.Items as INotifyCollectionChanged;
-			if (incc == null) return;
-			listBox.Loaded -= ListBox_Loaded;
-			Associations[listBox] = new Capture(listBox);
-		}
-
-		class Capture : IDisposable {
-			private readonly ListBox listBox;
-			private readonly INotifyCollectionChanged incc;
-
-			public Capture(ListBox listBox) {
-				this.listBox = listBox;
-				incc = listBox.ItemsSource as INotifyCollectionChanged;
-				if (incc != null) {
-					incc.CollectionChanged += incc_CollectionChanged;
-				}
-			}
-
-			void incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-				if (e.Action == NotifyCollectionChangedAction.Add) {
-					listBox.ScrollIntoView(e.NewItems[0]);
-					listBox.SelectedItem = e.NewItems[0];
-				}
-			}
-
-			public void Dispose() {
-				if (incc != null)
-					incc.CollectionChanged -= incc_CollectionChanged;
+			var listBox = (sender as ListBox);
+			if (listBox.SelectedItem != null) {
+				listBox.Dispatcher.BeginInvoke(
+					(Action)(() => {
+						listBox.UpdateLayout();
+						if (listBox.SelectedItem != null)
+							listBox.ScrollIntoView(listBox.SelectedItem);
+					}));
 			}
 		}
 	}

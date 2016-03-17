@@ -170,6 +170,6 @@
 			</TabItem>
 		</TabControl>
 		<GridSplitter Grid.Row="1" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
-		<configApp:ProgramLogView Grid.Row="2" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>
+		<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>
 	</Grid>
 </controls:MetroWindow>

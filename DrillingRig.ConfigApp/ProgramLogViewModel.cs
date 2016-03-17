@@ -5,12 +5,13 @@ using AlienJust.Support.ModelViewViewModel;
 
 namespace DrillingRig.ConfigApp
 {
-	class ProgramLogViewModel : ViewModelBase, ILogger {
+	internal class ProgramLogViewModel : ViewModelBase, ILogger {
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ObservableCollection<ILogLine> _logLines;
 		private readonly ICommand _clearLogCmd;
 
 		private bool _scrollAutomaticly;
+		private ILogLine _selectedLine;
 
 		public ProgramLogViewModel(IUserInterfaceRoot userInterfaceRoot) {
 			_userInterfaceRoot = userInterfaceRoot;
@@ -44,11 +45,25 @@ namespace DrillingRig.ConfigApp
 
 
 		public void Log(string text) {
-			_userInterfaceRoot.Notifier.Notify(() => LogLines.Add(new LogLineSimple(text)));
+			_userInterfaceRoot.Notifier.Notify(() => {
+				var logLine = new LogLineSimple(text);
+				LogLines.Add(logLine);
+				if (ScrollAutomaticly) SelectedLine = logLine;
+			});
 		}
 
 		public void Log(object obj) {
 			Log(obj.ToString());
+		}
+
+		public ILogLine SelectedLine {
+			get { return _selectedLine; }
+			set {
+				if (_selectedLine != value) {
+					_selectedLine = value;
+					RaisePropertyChanged(() => SelectedLine);
+				}
+			}
 		}
 	}
 

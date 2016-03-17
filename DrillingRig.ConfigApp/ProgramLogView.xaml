@@ -11,7 +11,7 @@
 			<RowDefinition/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<ListBox ItemsSource="{Binding Path=LogLines, Mode=OneTime}" BorderThickness="0" IsSynchronizedWithCurrentItem="True" configApp:ListBoxBehavior.ScrollOnNewItem="{Binding Path=ScrollAutomaticly, Mode=OneWay}">
+		<ListBox SelectedItem="{Binding Path=SelectedLine, Mode=TwoWay}" ItemsSource="{Binding Path=LogLines, Mode=OneTime}" BorderThickness="0" IsSynchronizedWithCurrentItem="True" configApp:ListBoxBehavior.ScrollSelectedIntoView="{Binding Path=ScrollAutomaticly, Mode=OneWay}">
 			<ListBox.ItemContainerStyle>
 				<Style TargetType="ListBoxItem">
 					<Setter Property="MaxHeight" Value="20"/>
