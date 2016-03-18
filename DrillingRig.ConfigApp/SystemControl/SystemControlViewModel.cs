@@ -75,7 +75,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 
-			_plotVm = new PlotModel {Title = "Графики"};
+			_plotVm = new PlotModel {IsLegendVisible = false};
 			_plotVm.Axes.Add(new DateTimeAxis());
 			_plotVm.Axes.Add(new LinearAxis());
 			//_plotVm.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));

@@ -8,7 +8,7 @@
              xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
              xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="500">
 	<UserControl.Resources>
 		<BooleanToVisibilityConverter x:Key="BtvConverter"/>
 		<Style TargetType="TabItem" x:Key="AzureNavTabItem">
