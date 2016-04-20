@@ -14,7 +14,7 @@ using DrillingRig.Commands.AinTelemetry;
 using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
-	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm, IAinTelemetriesCycleControl {
+	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm, IAinTelemetriesCycleControl , ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -25,8 +25,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private readonly RelayCommand _stopReadingCommand;
 
 		private readonly List<AinTelemetryExpandedViewModel> _ainTelemetryVms;
-
-		private readonly IWorker<Action> _backWorker;
 
 		private readonly object _syncCancel;
 		private bool _cancel;
@@ -61,118 +59,43 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			};
 
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
+			//_backWorker = new SingleThreadedRelayQueueWorker<Action>("AinTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ")})));
 			_syncCancel = new object();
-			_cancel = false;
+			_cancel = true;
 			_readingInProgress = false;
 		}
 
 		private void StopReading() {
 			Cancel = true;
+			foreach (var ainTelemetryExpandedViewModel in _ainTelemetryVms) {
+				ainTelemetryExpandedViewModel.AinTelemetryVm.Cancel = true;
+			}
+
+			_readingInProgress = false;
 			_logger.Log("Взведен внутренний флаг прерывания циклического опроса");
+			_readCycleCommand.RaiseCanExecuteChanged();
+			_stopReadingCommand.RaiseCanExecuteChanged();
 		}
 
 		private void ReadCycle() {
 			_logger.Log("Запуск циклического опроса телеметрии");
 			Cancel = false;
+			foreach (var ainTelemetryExpandedViewModel in _ainTelemetryVms) {
+				ainTelemetryExpandedViewModel.AinTelemetryVm.Cancel = false;
+			}
 			_readingInProgress = true;
 			_readCycleCommand.RaiseCanExecuteChanged();
 			_stopReadingCommand.RaiseCanExecuteChanged();
-
-
-			_backWorker.AddWork(() => {
-				try {
-					var waiter = new ManualResetEvent(false);
-					while (!Cancel) {
-						for (byte zbAinNumber = 0; zbAinNumber < 3; ++zbAinNumber) {
-							var cmd = new ReadAinTelemetryCommand(zbAinNumber);
-							byte ainNumber = zbAinNumber;
-							_commandSenderHost.Sender.SendCommandAsync(0x01,
-								cmd, TimeSpan.FromSeconds(0.1),
-								(exception, bytes) => {
-									IAinTelemetry ainTelemetry = null;
-									try {
-										if (exception != null) {
-											throw new Exception("Произошла ошибка во время обмена", exception);
-										}
-										var result = cmd.GetResult(bytes);
-										ainTelemetry = result;
-									}
-									catch (Exception ex) {
-										// TODO: log exception, null values
-										_logger.Log("Ошибка: " + ex.Message);
-										Console.WriteLine(ex);
-									}
-									finally {
-										byte number = ainNumber;
-										_userInterfaceRoot.Notifier.Notify(() => {
-											Console.WriteLine("UserInterface thread begin action =============================");
-											Console.WriteLine("AIN viewModel zbNumber: " + number);
-											_ainTelemetryVms[number].AinTelemetryVm.UpdateTelemetry(ainTelemetry);
-											if (number == 0) _commonTelemetryVm.UpdateAin1Status(ainTelemetry == null ? null : (ushort?)ainTelemetry.Status);
-											Console.WriteLine("UserInterface thread end action ===============================");
-										});
-										waiter.Set();
-									}
-								});
-							waiter.WaitOne();
-							waiter.Reset();
-							Console.WriteLine("Pause 100ms");
-							Thread.Sleep(100); // TODO: interval must be setted by user
-						}
-
-
-						var cmdDebug = new ReadDebugInfoCommand();
-						_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
-							try
-							{
-								if (exception != null)
-								{
-									throw new Exception("Произошла ошибка во время обмена", exception);
-								}
-								_userInterfaceRoot.Notifier.Notify(() => _debugInformationShower.ShowBytes(bytes));
-							}
-							catch (Exception ex)
-							{
-								// TODO: log exception, null values
-								_logger.Log("Ошибка: " + ex.Message);
-								Console.WriteLine(ex);
-							}
-							waiter.Set();
-						});
-						waiter.WaitOne();
-						waiter.Reset();
-						Console.WriteLine("Pause 100ms");
-						Thread.Sleep(100); // TODO: interval must be setted by user
-					}
-				}
-				catch (Exception ex) {
-					_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);
-				}
-				finally {
-					_logger.Log("Циклический опрос окончен");
-					_userInterfaceRoot.Notifier.Notify(() => {
-						_readingInProgress = false;
-						_readCycleCommand.RaiseCanExecuteChanged();
-						_stopReadingCommand.RaiseCanExecuteChanged();
-					});
-				}
-			});
 		}
 
-		public IEnumerable<AinTelemetryExpandedViewModel> AinTelemetryVms {
-			get { return _ainTelemetryVms; }
-		}
+		public IEnumerable<AinTelemetryExpandedViewModel> AinTelemetryVms => _ainTelemetryVms;
 
-		public ICommand ReadCycleCommand {
-			get { return _readCycleCommand; }
-		}
+		public ICommand ReadCycleCommand => _readCycleCommand;
 
-		public ICommand StopReadingCommand {
-			get { return _stopReadingCommand; }
-		}
+		public ICommand StopReadingCommand => _stopReadingCommand;
 
-		private bool Cancel {
+
+		public bool Cancel {
 			get {
 				lock (_syncCancel) {
 					return _cancel;
@@ -185,6 +108,29 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
+
+		public void InCycleAction() {
+			var waiter = new ManualResetEvent(false);
+
+			var cmdDebug = new ReadDebugInfoCommand();
+			_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
+				try {
+					if (exception != null) {
+						throw new Exception("Произошла ошибка во время обмена", exception);
+					}
+					_userInterfaceRoot.Notifier.Notify(() => _debugInformationShower.ShowBytes(bytes));
+				}
+				catch (Exception ex) {
+					// TODO: log exception, null values
+					_logger.Log("Ошибка: " + ex.Message);
+					Console.WriteLine(ex);
+				}
+				waiter.Set();
+			});
+			waiter.WaitOne();
+			waiter.Reset();
+		}
+		
 		public void UpdateCommonEngineState(ushort? value) {
 			_commonTelemetryVm.UpdateCommonEngineState(value);
 		}
@@ -202,8 +148,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_commonTelemetryVm.UpdateAin1Status(value);
 		}
 
-		public TelemetryCommonViewModel CommonTelemetryVm {
-			get { return _commonTelemetryVm; }
-		}
+		public TelemetryCommonViewModel CommonTelemetryVm => _commonTelemetryVm;
 	}
 }

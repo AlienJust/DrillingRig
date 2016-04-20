@@ -20,6 +20,7 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
 		private readonly IWindowSystem _windowSystem;
+		private readonly ICycleThreadHolder _cycleThreadHolder;
 
 		private readonly RelayCommand _readCycleCommand;
 		private readonly RelayCommand _stopReadingCommand;
@@ -34,13 +35,14 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private bool _readingInProgress;
 
 
-		public RectifierTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem)
+		public RectifierTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, ICycleThreadHolder cycleThreadHolder)
 		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_windowSystem = windowSystem;
+			_cycleThreadHolder = cycleThreadHolder;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Threading;
+using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.Text;
+using AlienJust.Support.Text.Contracts;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
@@ -20,7 +23,7 @@ using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol {
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder {
 		private const string TestComPortName = "ТЕСТ";
 
 		private List<string> _comPortsAvailable;
@@ -29,29 +32,17 @@ namespace DrillingRig.ConfigApp {
 		private IRrModbusCommandSender _commandSender;
 		private ICommandSenderController _commandSenderController;
 
-		private readonly IThreadNotifier _notifier;
 		private readonly IWindowSystem _windowSystem;
 
 
 		private readonly ProgramLogViewModel _programLogVm;
-		private readonly BsEthernetSettingsViewModel _bsEthernetSettingsVm;
-		private readonly BsEthernetNominalsViewModel _bsEthernetNominalsVm;
 		private readonly AinTelemetriesViewModel _ainTelemetriesVm;
-		private readonly AinCommandViewModel _ain1CommandVm;
-		private readonly AinCommandViewModel _ain2CommandVm;
-		private readonly AinCommandViewModel _ain3CommandVm;
 
 		private readonly AinTelemetryViewModel _ain1TelemetryVm;
 		private readonly AinTelemetryViewModel _ain2TelemetryVm;
 		private readonly AinTelemetryViewModel _ain3TelemetryVm;
 
-		private readonly AinSettingsViewModel _ain1SettingsVm;
-		private readonly AinSettingsViewModel _ain2SettingsVm;
-		private readonly AinSettingsViewModel _ain3SettingsVm;
-
 		private readonly SystemControlViewModel _systemControlVm;
-		private readonly RectifierTelemetriesViewModel _rectifierTelemetriesVm;
-		private readonly CoolerTelemetriesViewModel _coolerTelemetriesVm;
 
 		private readonly TelemetryCommonViewModel _commonTelemetryVm;
 
@@ -64,6 +55,8 @@ namespace DrillingRig.ConfigApp {
 
 		private readonly ILogger _logger;
 		private bool _isSendingEnabled;
+		private readonly List<ICyclePart> _cycleParts;
+		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_targetAddress = 1;
@@ -72,8 +65,11 @@ namespace DrillingRig.ConfigApp {
 			_commandSenderController = null;
 
 			_isPortOpened = false;
-			_notifier = notifier;
+			Notifier = notifier;
 			_windowSystem = windowSystem;
+
+			_cycleParts = new List<ICyclePart>();
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
 
 			GetPortsAvailable();
 
@@ -83,33 +79,62 @@ namespace DrillingRig.ConfigApp {
 
 			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
 
-			_bsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
-			_bsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
+			BsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
+			BsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
 
 			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this, _commonTelemetryVm);
 
-			_ain1TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm);
-			_ain2TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm);
-			_ain3TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm);
+			_ain1TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 0, this, _programLogVm, this);
+			_ain2TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 1, this, _programLogVm, this);
+			_ain3TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 2, this, _programLogVm, this);
 
-			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm as IDebugInformationShower, _commonTelemetryVm, _ain1TelemetryVm, _ain2TelemetryVm, _ain3TelemetryVm); // TODO: sending enabled control?
+			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm, _commonTelemetryVm, _ain1TelemetryVm, _ain2TelemetryVm, _ain3TelemetryVm); // TODO: sending enabled control?
 
-			_ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0, _commonTelemetryVm, _ain1TelemetryVm, _ainTelemetriesVm);
-			_ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1, _commonTelemetryVm, _ain2TelemetryVm, _ainTelemetriesVm);
-			_ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2, _commonTelemetryVm, _ain3TelemetryVm, _ainTelemetriesVm);
+			RegisterAsCyclePart(_ain1TelemetryVm);
+			RegisterAsCyclePart(_ain2TelemetryVm);
+			RegisterAsCyclePart(_ain3TelemetryVm);
+			RegisterAsCyclePart(_ainTelemetriesVm);
 
-			_ain1SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 0);
-			_ain2SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 1);
-			_ain3SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 2);
+			Ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0, _commonTelemetryVm, _ain1TelemetryVm, _ainTelemetriesVm);
+			Ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1, _commonTelemetryVm, _ain2TelemetryVm, _ainTelemetriesVm);
+			Ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2, _commonTelemetryVm, _ain3TelemetryVm, _ainTelemetriesVm);
 
-			_rectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
-			_coolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
+			Ain1SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 0);
+			Ain2SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 1);
+			Ain3SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 2);
+
+			RectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
+			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
 			_getPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 
 			_logger.Log("Программа загружена");
+
+			_backWorker.AddWork(CycleWork);
+		}
+
+
+		private void CycleWork() {
+			while (true) {
+				int currentCycleActionsCount = 0;
+				foreach (var cyclePart in _cycleParts) {
+					if (!cyclePart.Cancel) {
+						try {
+							cyclePart.InCycleAction();
+							Thread.Sleep(50);
+						}
+						catch {
+							continue; /*can show exception in log*/
+						}
+						finally {
+							currentCycleActionsCount++;
+						}
+					}
+				}
+				Console.WriteLine("currentCycleActionsCount=" + currentCycleActionsCount);
+			}
 		}
 
 		private void ClosePort() {
@@ -237,64 +262,40 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-		public IThreadNotifier Notifier {
-			get { return _notifier; }
-		}
+		public IThreadNotifier Notifier { get; }
 
-		public ProgramLogViewModel ProgramLogVm {
-			get { return _programLogVm; }
-		}
+		public ProgramLogViewModel ProgramLogVm => _programLogVm;
 
-		public BsEthernetSettingsViewModel BsEthernetSettingsVm {
-			get { return _bsEthernetSettingsVm; }
-		}
+		public BsEthernetSettingsViewModel BsEthernetSettingsVm { get; }
 
-		public BsEthernetNominalsViewModel BsEthernetNominalsVm {
-			get { return _bsEthernetNominalsVm; }
-		}
+		public BsEthernetNominalsViewModel BsEthernetNominalsVm { get; }
 
-		public AinTelemetriesViewModel AinTelemetriesVm {
-			get { return _ainTelemetriesVm; }
-		}
+		public AinTelemetriesViewModel AinTelemetriesVm => _ainTelemetriesVm;
 
-		public AinCommandViewModel Ain1CommandVm {
-			get { return _ain1CommandVm; }
-		}
+		public AinCommandViewModel Ain1CommandVm { get; }
 
-		public AinCommandViewModel Ain2CommandVm {
-			get { return _ain2CommandVm; }
-		}
+		public AinCommandViewModel Ain2CommandVm { get; }
 
-		public AinCommandViewModel Ain3CommandVm {
-			get { return _ain3CommandVm; }
-		}
+		public AinCommandViewModel Ain3CommandVm { get; }
 
-		public SystemControlViewModel SystemControlVm {
-			get { return _systemControlVm; }
-		}
+		public SystemControlViewModel SystemControlVm => _systemControlVm;
 
-		public RectifierTelemetriesViewModel RectifierTelemetriesVm {
-			get { return _rectifierTelemetriesVm; }
-		}
+		public RectifierTelemetriesViewModel RectifierTelemetriesVm { get; }
 
-		public CoolerTelemetriesViewModel CoolerTelemetriesVm {
-			get { return _coolerTelemetriesVm; }
-		}
+		public CoolerTelemetriesViewModel CoolerTelemetriesVm { get; }
 
-		public AinSettingsViewModel Ain1SettingsVm {
-			get { return _ain1SettingsVm; }
-		}
+		public AinSettingsViewModel Ain1SettingsVm { get; }
 
-		public AinSettingsViewModel Ain2SettingsVm {
-			get { return _ain2SettingsVm; }
-		}
+		public AinSettingsViewModel Ain2SettingsVm { get; }
 
-		public AinSettingsViewModel Ain3SettingsVm {
-			get { return _ain3SettingsVm; }
-		}
+		public AinSettingsViewModel Ain3SettingsVm { get; }
 
 		public void CloseComPort() {
 			ClosePort();
+		}
+
+		public void RegisterAsCyclePart(ICyclePart part) {
+			_cycleParts.Add(part);
 		}
 	}
 }

@@ -1,114 +1,59 @@
 ﻿using System;
+using System.Threading;
+using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
-	internal class AinTelemetryViewModel : ViewModelBase {
+	internal class AinTelemetryViewModel : ViewModelBase, ICyclePart {
 		private readonly ICommonAinTelemetryVm _commonAinTelemetryVm;
+		private readonly byte _zeroBasedAinNumber;
+		private readonly ICommandSenderHost _commandSenderHost;
+		private readonly ILogger _logger;
+		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private IAinTelemetry _telemetry;
 
-		public AinTelemetryViewModel(ICommonAinTelemetryVm commonAinTelemetryVm) {
+		private readonly object _syncCancel;
+		private bool _cancel;
+
+		public AinTelemetryViewModel(ICommonAinTelemetryVm commonAinTelemetryVm, byte zeroBasedAinNumber, ICommandSenderHost commandSenderHost, ILogger logger, IUserInterfaceRoot userInterfaceRoot) {
 			_commonAinTelemetryVm = commonAinTelemetryVm;
+			_zeroBasedAinNumber = zeroBasedAinNumber;
+			_commandSenderHost = commandSenderHost;
+			_logger = logger;
+			_userInterfaceRoot = userInterfaceRoot;
 			_telemetry = null;
+			_syncCancel = new object();
+			_cancel = true;
 		}
 
-		public double? RotationFriquencyCalculated {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RotationFriquencyCalculated;
-			}
-		}
+		public double? RotationFriquencyCalculated => _telemetry?.RotationFriquencyCalculated;
 
-		public double? PwmModulationCoefficient {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.PwmModulationCoefficient;
-			}
-		}
+		public double? PwmModulationCoefficient => _telemetry?.PwmModulationCoefficient;
 
-		public double? MomentumCurrentSetting {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.MomentumCurrentSetting;
-			}
-		}
+		public double? MomentumCurrentSetting => _telemetry?.MomentumCurrentSetting;
 
-		public double? RadiatorTemperature {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RadiatorTemperature;
-			}
-		}
+		public double? RadiatorTemperature => _telemetry?.RadiatorTemperature;
 
-		public double? DcBusVoltage {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.DcBusVoltage;
-			}
-		}
+		public double? DcBusVoltage => _telemetry?.DcBusVoltage;
 
-		public double? AllPhasesCurrentAmplitudeEnvelopeCurve {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AllPhasesCurrentAmplitudeEnvelopeCurve;
-			}
-		}
+		public double? AllPhasesCurrentAmplitudeEnvelopeCurve => _telemetry?.AllPhasesCurrentAmplitudeEnvelopeCurve;
 
-		public double? RegulatorCurrentDoutput {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RegulatorCurrentDoutput;
-			}
-		}
+		public double? RegulatorCurrentDoutput => _telemetry?.RegulatorCurrentDoutput;
 
-		public double? RegulatorCurrentQoutput {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RegulatorCurrentQoutput;
-			}
-		}
+		public double? RegulatorCurrentQoutput => _telemetry?.RegulatorCurrentQoutput;
 
-		public double? FriquencyIntensitySetpointOutput {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.FriquencyIntensitySetpointOutput;
-			}
-		}
+		public double? FriquencyIntensitySetpointOutput => _telemetry?.FriquencyIntensitySetpointOutput;
 
-		public double? FlowSetting {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.FlowSetting;
-			}
-		}
+		public double? FlowSetting => _telemetry?.FlowSetting;
 
-		public double? MeasuredMoment {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.MeasuredMoment;
-			}
-		}
+		public double? MeasuredMoment => _telemetry?.MeasuredMoment;
 
-		public double? SpeedRegulatorOutputOrMomentSetting {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.SpeedRegulatorOutputOrMomentSetting;
-			}
-		}
+		public double? SpeedRegulatorOutputOrMomentSetting => _telemetry?.SpeedRegulatorOutputOrMomentSetting;
 
-		public double? MeasuredFlow {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.MeasuredFlow;
-			}
-		}
+		public double? MeasuredFlow => _telemetry?.MeasuredFlow;
 
-		public double? SettingExcitationCurrent {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.SettingExcitationCurrent;
-			}
-		}
+		public double? SettingExcitationCurrent => _telemetry?.SettingExcitationCurrent;
 
 		public string RunModeBits12 {
 			get { // TODO: move to static class
@@ -129,47 +74,17 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			}
 		}
 
-		public bool? ResetZiToZero {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.ResetZiToZero;
-			}
-		}
+		public bool? ResetZiToZero => _telemetry?.ResetZiToZero;
 
-		public bool? ResetFault {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.ResetFault;
-			}
-		}
+		public bool? ResetFault => _telemetry?.ResetFault;
 
-		public bool? LimitRegulatorId {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.LimitRegulatorId;
-			}
-		}
+		public bool? LimitRegulatorId => _telemetry?.LimitRegulatorId;
 
-		public bool? LimitRegulatorIq {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.LimitRegulatorIq;
-			}
-		}
+		public bool? LimitRegulatorIq => _telemetry?.LimitRegulatorIq;
 
-		public bool? LimitRegulatorSpeed {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.LimitRegulatorSpeed;
-			}
-		}
+		public bool? LimitRegulatorSpeed => _telemetry?.LimitRegulatorSpeed;
 
-		public bool? LimitRegulatorFlow {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.LimitRegulatorFlow;
-			}
-		}
+		public bool? LimitRegulatorFlow => _telemetry?.LimitRegulatorFlow;
 
 		public string MomentumSetterSelector {
 			get { // TODO: move to static class
@@ -191,219 +106,63 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 
 
-		public bool? Driver1HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver1HasErrors;
-			}
-		}
+		public bool? Driver1HasErrors => _telemetry?.Driver1HasErrors;
 
-		public bool? Driver2HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver2HasErrors;
-			}
-		}
+		public bool? Driver2HasErrors => _telemetry?.Driver2HasErrors;
 
-		public bool? Driver3HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver3HasErrors;
-			}
-		}
+		public bool? Driver3HasErrors => _telemetry?.Driver3HasErrors;
 
-		public bool? Driver4HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver4HasErrors;
-			}
-		}
+		public bool? Driver4HasErrors => _telemetry?.Driver4HasErrors;
 
-		public bool? Driver5HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver5HasErrors;
-			}
-		}
+		public bool? Driver5HasErrors => _telemetry?.Driver5HasErrors;
 
-		public bool? Driver6HasErrors {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.Driver6HasErrors;
-			}
-		}
+		public bool? Driver6HasErrors => _telemetry?.Driver6HasErrors;
 
-		public bool? SomePhaseMaximumAlowedCurrentExcess {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.SomePhaseMaximumAlowedCurrentExcess;
-			}
-		}
+		public bool? SomePhaseMaximumAlowedCurrentExcess => _telemetry?.SomePhaseMaximumAlowedCurrentExcess;
 
-		public bool? RadiatorKeysTemperatureRiseTo85DegreesExcess {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RadiatorKeysTemperatureRiseTo85DegreesExcess;
-			}
-		}
+		public bool? RadiatorKeysTemperatureRiseTo85DegreesExcess => _telemetry?.RadiatorKeysTemperatureRiseTo85DegreesExcess;
 
-		public bool? AllowedDcVoltageExcess {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AllowedDcVoltageExcess;
-			}
-		}
+		public bool? AllowedDcVoltageExcess => _telemetry?.AllowedDcVoltageExcess;
 
-		public bool? EepromI2CErrorDefaultParamsAreLoaded {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.EepromI2CErrorDefaultParamsAreLoaded;
-			}
-		}
+		public bool? EepromI2CErrorDefaultParamsAreLoaded => _telemetry?.EepromI2CErrorDefaultParamsAreLoaded;
 
-		public bool? EepromCrcErrorDefaultParamsAreLoaded {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.EepromCrcErrorDefaultParamsAreLoaded;
-			}
-		}
+		public bool? EepromCrcErrorDefaultParamsAreLoaded => _telemetry?.EepromCrcErrorDefaultParamsAreLoaded;
 
-		public double? RotationFriquencyMeasuredDcv {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.RotationFriquencyMeasuredDcv;
-			}
-		}
+		public double? RotationFriquencyMeasuredDcv => _telemetry?.RotationFriquencyMeasuredDcv;
 
-		public double? AfterFilterSpeedControllerFeedbackFriquency {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AfterFilterSpeedControllerFeedbackFriquency;
-			}
-		}
+		public double? AfterFilterSpeedControllerFeedbackFriquency => _telemetry?.AfterFilterSpeedControllerFeedbackFriquency;
 
-		public double? AfterFilterFimag {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AfterFilterFimag;
-			}
-		}
+		public double? AfterFilterFimag => _telemetry?.AfterFilterFimag;
 
-		public double? CurrentDpartMeasured {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.CurrentDpartMeasured;
-			}
-		}
+		public double? CurrentDpartMeasured => _telemetry?.CurrentDpartMeasured;
 
-		public double? CurrentQpartMeasured {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.CurrentQpartMeasured;
-			}
-		}
+		public double? CurrentQpartMeasured => _telemetry?.CurrentQpartMeasured;
 
-		public double? AfterFilterFset {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AfterFilterFset;
-			}
-		}
+		public double? AfterFilterFset => _telemetry?.AfterFilterFset;
 
-		public double? AfterFilterTorq {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.AfterFilterTorq;
-			}
-		}
+		public double? AfterFilterTorq => _telemetry?.AfterFilterTorq;
 
-		public double? ExternalTemperature
-		{
-			get
-			{
-				if (_telemetry == null) return null;
-				return _telemetry.ExternalTemperature;
-			}
-		}
+		public double? ExternalTemperature => _telemetry?.ExternalTemperature;
 
-		public double? DCurrentRegulatorProportionalPart {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.DCurrentRegulatorProportionalPart;
-			}
-		}
+		public double? DCurrentRegulatorProportionalPart => _telemetry?.DCurrentRegulatorProportionalPart;
 
-		public double? QcurrentRegulatorProportionalPart {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.QcurrentRegulatorProportionalPart;
-			}
-		}
+		public double? QcurrentRegulatorProportionalPart => _telemetry?.QcurrentRegulatorProportionalPart;
 
-		public double? SpeedRegulatorProportionalPart {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.SpeedRegulatorProportionalPart;
-			}
-		}
+		public double? SpeedRegulatorProportionalPart => _telemetry?.SpeedRegulatorProportionalPart;
 
-		public double? FlowRegulatorProportionalPart {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.FlowRegulatorProportionalPart;
-			}
-		}
+		public double? FlowRegulatorProportionalPart => _telemetry?.FlowRegulatorProportionalPart;
 
-		public double? CalculatorDflowRegulatorOutput {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.CalculatorDflowRegulatorOutput;
-			}
-		}
+		public double? CalculatorDflowRegulatorOutput => _telemetry?.CalculatorDflowRegulatorOutput;
 
-		public double? CalculatorQflowRegulatorOutput {
-			get {
-				if (_telemetry == null) return null;
-				return _telemetry.CalculatorQflowRegulatorOutput;
-			}
-		}
+		public double? CalculatorQflowRegulatorOutput => _telemetry?.CalculatorQflowRegulatorOutput;
 
-		public ushort? Aux1
-		{
-			get
-			{
-				if (_telemetry == null) return null;
-				return _telemetry.Aux1;
-			}
-		}
+		public ushort? Aux1 => _telemetry?.Aux1;
 
-		public ushort? Aux2
-		{
-			get
-			{
-				if (_telemetry == null) return null;
-				return _telemetry.Aux2;
-			}
-		}
+		public ushort? Aux2 => _telemetry?.Aux2;
 
-		public ushort? Pver
-		{
-			get
-			{
-				if (_telemetry == null) return null;
-				return _telemetry.Pver;
-			}
-		}
+		public ushort? Pver => _telemetry?.Pver;
 
-		public DateTime? PvDate
-		{
-			get
-			{
-				if (_telemetry == null) return null;
-				return _telemetry.PvDate;
-			}
-		}
-
+		public DateTime? PvDate => _telemetry?.PvDate;
 
 		// TODO: other props
 
@@ -472,12 +231,61 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			RaisePropertyChanged(() => PvDate);
 
 			//EngineState? commonEngineState = 
-			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry == null ? null : (ushort?)_telemetry.CommonEngineState);
-			_commonAinTelemetryVm.UpdateCommonFaultState(_telemetry == null ? null : (ushort?)_telemetry.CommonFaultState);
+			_commonAinTelemetryVm.UpdateCommonEngineState(_telemetry?.CommonEngineState);
+			_commonAinTelemetryVm.UpdateCommonFaultState(_telemetry?.CommonFaultState);
 			_commonAinTelemetryVm.UpdateAinsLinkState(
-				_telemetry == null ? null : (bool?) _telemetry.Ain1LinkFault,
-				_telemetry == null ? null : (bool?) _telemetry.Ain2LinkFault,
-				_telemetry == null ? null : (bool?) _telemetry.Ain3LinkFault);
+				_telemetry?.Ain1LinkFault,
+				_telemetry?.Ain2LinkFault,
+				_telemetry?.Ain3LinkFault);
+		}
+
+		public void InCycleAction() {
+			var waiter = new ManualResetEvent(false);
+
+			
+				var cmd = new ReadAinTelemetryCommand(_zeroBasedAinNumber);
+				_commandSenderHost.Sender.SendCommandAsync(0x01,
+					cmd, TimeSpan.FromSeconds(0.1),
+					(exception, bytes) => {
+						IAinTelemetry ainTelemetry = null;
+						try {
+							if (exception != null) {
+								throw new Exception("Произошла ошибка во время обмена", exception);
+							}
+							var result = cmd.GetResult(bytes);
+							ainTelemetry = result;
+						}
+						catch (Exception ex) {
+							// TODO: log exception, null values
+							_logger.Log("Ошибка: " + ex.Message);
+							Console.WriteLine(ex);
+						}
+						finally {
+							_userInterfaceRoot.Notifier.Notify(() => {
+								Console.WriteLine("UserInterface thread begin action =============================");
+								Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
+								UpdateTelemetry(ainTelemetry);
+								if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAin1Status(ainTelemetry?.Status);
+								Console.WriteLine("UserInterface thread end action ===============================");
+							});
+							waiter.Set();
+						}
+					});
+				waiter.WaitOne();
+				waiter.Reset();
+			}
+
+		public bool Cancel {
+			get {
+				lock (_syncCancel) {
+					return _cancel;
+				}
+			}
+			set {
+				lock (_syncCancel) {
+					_cancel = value;
+				}
+			}
 		}
 	}
 }

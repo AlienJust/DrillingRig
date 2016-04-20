@@ -134,6 +134,8 @@
       <DependentUpon>TelemetryCommonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
+    <Compile Include="ICyclePart.cs" />
+    <Compile Include="ICycleThreadHolder.cs" />
     <Compile Include="IDebugInformationShower.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
