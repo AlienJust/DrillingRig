@@ -104,6 +104,8 @@ namespace DrillingRig.ConfigApp {
 			Ain3SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 2);
 
 			RectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
+			RegisterAsCyclePart(RectifierTelemetriesVm);
+
 			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);

@@ -13,7 +13,7 @@ using DrillingRig.Commands.Rectifier;
 
 namespace DrillingRig.ConfigApp.RectifierTelemetry
 {
-	internal class RectifierTelemetriesViewModel : ViewModelBase
+	internal class RectifierTelemetriesViewModel : ViewModelBase, ICyclePart
 	{
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
@@ -26,8 +26,6 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private readonly RelayCommand _stopReadingCommand;
 
 		private readonly List<RectifierTelemetryViewModel> _rectifierTelemetryVms;
-
-		private readonly IWorker<Action> _backWorker;
 
 		private readonly object _syncCancel;
 		private bool _cancel;
@@ -56,7 +54,6 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 				new RectifierTelemetryViewModel("Выпрямитель 6"),
 			};
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("RectifierTelemetryWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayLogger(null));
 			_syncCancel = new object();
 			_cancel = false;
 			_readingInProgress = false;
@@ -65,7 +62,10 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private void StopReading()
 		{
 			Cancel = true;
+			_readingInProgress = false;
 			_logger.Log("Взведен внутренний флаг прерывания циклического опроса");
+			_readCycleCommand.RaiseCanExecuteChanged();
+			_stopReadingCommand.RaiseCanExecuteChanged();
 		}
 
 		private void ReadCycle()
@@ -75,72 +75,6 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 			_readingInProgress = true;
 			_readCycleCommand.RaiseCanExecuteChanged();
 			_stopReadingCommand.RaiseCanExecuteChanged();
-
-
-			_backWorker.AddWork(() =>
-			{
-				try
-				{
-					var w8er = new ManualResetEvent(false);
-					while (!Cancel)
-					{
-						var cmd = new ReadRectifierTelemetriesCommand();
-						_commandSenderHost.Sender.SendCommandAsync(
-							0x01,
-							cmd,
-							TimeSpan.FromSeconds(1.0),
-							(exception, bytes) =>
-							{
-								IList<IRectifierTelemetry> rectifierTelemetries = null;
-								try
-								{
-									if (exception != null)
-									{
-										throw new Exception("Произошла ошибка во время обмена", exception);
-									}
-									var result = cmd.GetResult(bytes);
-									rectifierTelemetries = result;
-								}
-								catch (Exception ex)
-								{
-									// TODO: log exception, null values
-									_logger.Log("Ошибка: " + ex.Message);
-									Console.WriteLine(ex);
-								}
-								finally
-								{
-
-									_userInterfaceRoot.Notifier.Notify(() =>
-									{
-										for (int i = 0; i < _rectifierTelemetryVms.Count; ++i)
-										{
-											var telemetryToUpdate = rectifierTelemetries == null ? null : rectifierTelemetries[i];
-											_rectifierTelemetryVms[i].UpdateTelemetry(telemetryToUpdate);
-										}
-									});
-									w8er.Set();
-								}
-							});
-						w8er.WaitOne();
-						w8er.Reset();
-						Thread.Sleep(300); // TODO: interval must be setted by user
-					}
-				}
-				catch (Exception ex)
-				{
-					_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);
-				}
-				finally
-				{
-					_logger.Log("Циклический опрос окончен");
-					_userInterfaceRoot.Notifier.Notify(() =>
-					{
-						_readingInProgress = false;
-						_readCycleCommand.RaiseCanExecuteChanged();
-						_stopReadingCommand.RaiseCanExecuteChanged();
-					});
-				}
-			});
 		}
 
 		public IEnumerable<RectifierTelemetryViewModel> RectifierTelemetryVms
@@ -158,7 +92,49 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 			get { return _stopReadingCommand; }
 		}
 
-		private bool Cancel
+		public void InCycleAction() {
+			try {
+				var w8er = new ManualResetEvent(false);
+					var cmd = new ReadRectifierTelemetriesCommand();
+					_commandSenderHost.Sender.SendCommandAsync(
+						0x01,
+						cmd,
+						TimeSpan.FromSeconds(1.0),
+						(exception, bytes) => {
+							IList<IRectifierTelemetry> rectifierTelemetries = null;
+							try {
+								if (exception != null) {
+									throw new Exception("Произошла ошибка во время обмена", exception);
+								}
+								var result = cmd.GetResult(bytes);
+								rectifierTelemetries = result;
+							}
+							catch (Exception ex) {
+									// TODO: log exception, null values
+									_logger.Log("Ошибка: " + ex.Message);
+								Console.WriteLine(ex);
+							}
+							finally {
+
+								_userInterfaceRoot.Notifier.Notify(() => {
+									for (int i = 0; i < _rectifierTelemetryVms.Count; ++i) {
+										var telemetryToUpdate = rectifierTelemetries == null ? null : rectifierTelemetries[i];
+										_rectifierTelemetryVms[i].UpdateTelemetry(telemetryToUpdate);
+									}
+								});
+								w8er.Set();
+							}
+						});
+					w8er.WaitOne();
+					w8er.Reset();
+					Thread.Sleep(300); // TODO: interval must be setted by user
+			}
+			catch (Exception ex) {
+				_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);
+			}
+		}
+
+		public bool Cancel
 		{
 			get
 			{
