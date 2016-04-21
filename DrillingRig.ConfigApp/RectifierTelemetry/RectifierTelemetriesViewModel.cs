@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Input;
-using AlienJust.Support.Concurrent;
-using AlienJust.Support.Concurrent.Contracts;
-using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands.AinTelemetry;
 using DrillingRig.Commands.Rectifier;
 
 namespace DrillingRig.ConfigApp.RectifierTelemetry
@@ -20,7 +16,6 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
 		private readonly IWindowSystem _windowSystem;
-		private readonly ICycleThreadHolder _cycleThreadHolder;
 
 		private readonly RelayCommand _readCycleCommand;
 		private readonly RelayCommand _stopReadingCommand;
@@ -33,14 +28,13 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 		private bool _readingInProgress;
 
 
-		public RectifierTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, ICycleThreadHolder cycleThreadHolder)
+		public RectifierTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem)
 		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_windowSystem = windowSystem;
-			_cycleThreadHolder = cycleThreadHolder;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
 			_stopReadingCommand = new RelayCommand(StopReading, () => _readingInProgress);
@@ -55,7 +49,7 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 			};
 
 			_syncCancel = new object();
-			_cancel = false;
+			_cancel = true;
 			_readingInProgress = false;
 		}
 
@@ -99,7 +93,7 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 					_commandSenderHost.Sender.SendCommandAsync(
 						0x01,
 						cmd,
-						TimeSpan.FromSeconds(1.0),
+						TimeSpan.FromSeconds(0.1),
 						(exception, bytes) => {
 							IList<IRectifierTelemetry> rectifierTelemetries = null;
 							try {
@@ -127,7 +121,6 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 						});
 					w8er.WaitOne();
 					w8er.Reset();
-					Thread.Sleep(300); // TODO: interval must be setted by user
 			}
 			catch (Exception ex) {
 				_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);

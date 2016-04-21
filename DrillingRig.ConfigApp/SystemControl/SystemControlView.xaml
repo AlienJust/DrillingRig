@@ -7,6 +7,7 @@
              xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:systemControl="clr-namespace:DrillingRig.ConfigApp.SystemControl"
              xmlns:ainTelemetry="clr-namespace:DrillingRig.ConfigApp.AinTelemetry"
+             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500">
 	<UserControl.Resources>
@@ -67,81 +68,88 @@
 		<Button Grid.Row="1" Content="Рестарт контроллера" Command="{Binding Path=CmdRestart, Mode=OneTime}" Margin="2,2,2,2"/>
 		<Button Grid.Row="2" Content="Прошивка..." Command="{Binding Path=CmdFlash, Mode=OneTime}" Margin="2,2,2,2"/>
 		<ainTelemetry:TelemetryCommonView Grid.Row="3" DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
-		<TabControl Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
-			<TabItem Header="Отладочные параметры" Style="{StaticResource AzureNavTabItem}">
-				<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2" x:Name="DebugGrid">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
-						<ColumnDefinition/>
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="1*"/>
-					</Grid.RowDefinitions>
+		<xcad:DockingManager Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+			<xcad:DockingManager.Theme>
+				<xcad:MetroTheme />
+			</xcad:DockingManager.Theme>
+			<xcad:LayoutRoot>
+				<xcad:LayoutPanel Orientation="Horizontal">
+					<xcad:LayoutDocumentPaneGroup>
+						<xcad:LayoutDocumentPane >
+							<xcad:LayoutDocument Title="Отладочные параметры" CanClose="False">
+								<configApp:GridControl ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2" x:Name="DebugGrid">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"/>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+										<RowDefinition Height="1*"/>
+									</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" Margin="4,2,4,2" Text="1"/>
-					<TextBlock Grid.Row="1" Grid.Column="0" Margin="4,2,4,2" Text="2"/>
-					<TextBlock Grid.Row="2" Grid.Column="0" Margin="4,2,4,2" Text="3"/>
-					<TextBlock Grid.Row="3" Grid.Column="0" Margin="4,2,4,2" Text="4"/>
-					<TextBlock Grid.Row="4" Grid.Column="0" Margin="4,2,4,2" Text="5"/>
-					<TextBlock Grid.Row="5" Grid.Column="0" Margin="4,2,4,2" Text="6"/>
-					<TextBlock Grid.Row="6" Grid.Column="0" Margin="4,2,4,2" Text="7"/>
-					<TextBlock Grid.Row="7" Grid.Column="0" Margin="4,2,4,2" Text="8"/>
+									<TextBlock Grid.Row="0" Grid.Column="0" Margin="4,2,4,2" Text="1"/>
+									<TextBlock Grid.Row="1" Grid.Column="0" Margin="4,2,4,2" Text="2"/>
+									<TextBlock Grid.Row="2" Grid.Column="0" Margin="4,2,4,2" Text="3"/>
+									<TextBlock Grid.Row="3" Grid.Column="0" Margin="4,2,4,2" Text="4"/>
+									<TextBlock Grid.Row="4" Grid.Column="0" Margin="4,2,4,2" Text="5"/>
+									<TextBlock Grid.Row="5" Grid.Column="0" Margin="4,2,4,2" Text="6"/>
+									<TextBlock Grid.Row="6" Grid.Column="0" Margin="4,2,4,2" Text="7"/>
+									<TextBlock Grid.Row="7" Grid.Column="0" Margin="4,2,4,2" Text="8"/>
 
 
-					<TextBlock Grid.Row="0" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param01, Mode=OneWay}"/>
-					<TextBlock Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param02, Mode=OneWay}"/>
+									<TextBlock Grid.Row="0" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param01, Mode=OneWay}"/>
+									<TextBlock Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param02, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="1" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param11, Mode=OneWay}"/>
-					<TextBlock Grid.Row="1" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param12, Mode=OneWay}"/>
+									<TextBlock Grid.Row="1" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param11, Mode=OneWay}"/>
+									<TextBlock Grid.Row="1" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param12, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="2" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param21, Mode=OneWay}"/>
-					<TextBlock Grid.Row="2" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param22, Mode=OneWay}"/>
+									<TextBlock Grid.Row="2" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param21, Mode=OneWay}"/>
+									<TextBlock Grid.Row="2" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param22, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="3" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param31, Mode=OneWay}"/>
-					<TextBlock Grid.Row="3" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param32, Mode=OneWay}"/>
+									<TextBlock Grid.Row="3" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param31, Mode=OneWay}"/>
+									<TextBlock Grid.Row="3" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param32, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="4" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param41, Mode=OneWay}"/>
-					<TextBlock Grid.Row="4" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param42, Mode=OneWay}"/>
+									<TextBlock Grid.Row="4" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param41, Mode=OneWay}"/>
+									<TextBlock Grid.Row="4" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param42, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="5" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param51, Mode=OneWay}"/>
-					<TextBlock Grid.Row="5" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param52, Mode=OneWay}"/>
+									<TextBlock Grid.Row="5" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param51, Mode=OneWay}"/>
+									<TextBlock Grid.Row="5" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param52, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="6" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param61, Mode=OneWay}"/>
-					<TextBlock Grid.Row="6" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param62, Mode=OneWay}"/>
+									<TextBlock Grid.Row="6" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param61, Mode=OneWay}"/>
+									<TextBlock Grid.Row="6" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param62, Mode=OneWay}"/>
 
-					<TextBlock Grid.Row="7" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param71, Mode=OneWay}"/>
-					<TextBlock Grid.Row="7" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param72, Mode=OneWay}"/>
-				</configApp:GridControl>
-			</TabItem>
-			<TabItem Header="Графики" Style="{StaticResource AzureNavTabItem}">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
-					</Grid.RowDefinitions>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition/>
-							<RowDefinition Height="Auto"/>
-						</Grid.RowDefinitions>
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition/>
-								<ColumnDefinition Width="Auto"></ColumnDefinition>
-							</Grid.ColumnDefinitions>
-							<oxy:PlotView  Model="{Binding Path=PlotVm, Mode=OneTime}" Controller="{Binding Path=PlotCr, Mode=OneTime}">
-								<!--<oxy:Plot.Axes>
+									<TextBlock Grid.Row="7" Grid.Column="1" Margin="2,2,2,2" Text="{Binding Path=Param71, Mode=OneWay}"/>
+									<TextBlock Grid.Row="7" Grid.Column="2" Margin="2,2,2,2" Text="{Binding Path=Param72, Mode=OneWay}"/>
+								</configApp:GridControl>
+							</xcad:LayoutDocument>
+							<xcad:LayoutDocument Title="Графики" CanClose="False">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*"/>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="Auto"/>
+									</Grid.RowDefinitions>
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition/>
+											<RowDefinition Height="Auto"/>
+										</Grid.RowDefinitions>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition Width="Auto"></ColumnDefinition>
+											</Grid.ColumnDefinitions>
+											<oxy:PlotView  Model="{Binding Path=PlotVm, Mode=OneTime}" Controller="{Binding Path=PlotCr, Mode=OneTime}">
+												<!--<oxy:Plot.Axes>
 							<oxy:DateTimeAxis FirstDayOfWeek="Monday" VerticalAlignment="Stretch"/>
 							<oxy:LinearAxis AbsoluteMaximum="65536" AbsoluteMinimum="-32769"/>
 						</oxy:Plot.Axes>
@@ -151,85 +159,89 @@
 							<oxy:LineSeries ItemsSource="{Binding Points3, Mode=OneTime}" Color="ForestGreen" Visibility="{Binding Path=ArePoints3Visible, Mode=OneWay, Converter={StaticResource BtvConverter}}"/>
 							<oxy:LineSeries ItemsSource="{Binding Points4, Mode=OneTime}" Color="DarkOrchid" Visibility="{Binding Path=ArePoints4Visible, Mode=OneWay, Converter={StaticResource BtvConverter}}"/>
 						</oxy:Plot.Series>-->
-							</oxy:PlotView>
-							<Grid Grid.Column="1">
-								<Grid.RowDefinitions>
-									<RowDefinition/>
-									<RowDefinition/>
-									<RowDefinition/>
-									<RowDefinition/>
-								</Grid.RowDefinitions>
-								<Button Grid.Row="0" Margin="1,1,1,1" Command="{Binding Path=CommandPanUpFast, Mode=OneTime}">
-									<TextBlock Text="&lt;&lt;" RenderTransformOrigin="0.5,0.5" >
-										<TextBlock.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform/>
-												<SkewTransform/>
-												<RotateTransform Angle="90"/>
-												<TranslateTransform/>
-											</TransformGroup>
-										</TextBlock.RenderTransform></TextBlock>
-								</Button>
-								<Button Grid.Row="1" Margin="1,1,1,1" Command="{Binding Path=CommandPanUp, Mode=OneTime}">
-									<TextBlock Text="&lt;" RenderTransformOrigin="0.5,0.5" >
-										<TextBlock.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform/>
-												<SkewTransform/>
-												<RotateTransform Angle="90"/>
-												<TranslateTransform/>
-											</TransformGroup>
-										</TextBlock.RenderTransform></TextBlock>
-								</Button>
-								<Button Grid.Row="2" Margin="1,1,1,1" Command="{Binding Path=CommandPanDown, Mode=OneTime}">
-									<TextBlock Text="&gt;" RenderTransformOrigin="0.5,0.5" >
-										<TextBlock.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform/>
-												<SkewTransform/>
-												<RotateTransform Angle="90"/>
-												<TranslateTransform/>
-											</TransformGroup>
-										</TextBlock.RenderTransform></TextBlock>
-								</Button>
-								<Button Grid.Row="3" Margin="1,1,1,1" Command="{Binding Path=CommandPanDownFast, Mode=OneTime}">
-									<TextBlock Text="&gt;&gt;" RenderTransformOrigin="0.5,0.5" >
-										<TextBlock.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform/>
-												<SkewTransform/>
-												<RotateTransform Angle="90"/>
-												<TranslateTransform/>
-											</TransformGroup>
-										</TextBlock.RenderTransform></TextBlock>
-								</Button>
-							</Grid>
-						</Grid>
-						<Grid Row="1">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-							</Grid.ColumnDefinitions>
-							<Button Grid.Column="0" Margin="1,1,1,1" Content="&lt;&lt;" Command="{Binding Path=CommandPanLeftFast, Mode=OneTime}"/>
-							<Button Grid.Column="1" Margin="1,1,1,1" Content="&lt;" Command="{Binding Path=CommandPanLeft, Mode=OneTime}"/>
-							<Button Grid.Column="2" Margin="1,1,1,1" Content="&gt;" Command="{Binding Path=CommandPanRight, Mode=OneTime}"/>
-							<Button Grid.Column="3" Margin="1,1,1,1" Content="&gt;&gt;" Command="{Binding Path=CommandPanRightFast, Mode=OneTime}"/>
-							<Button Grid.Column="4" Margin="1,1,1,1" Content="-" Command="{Binding Path=CommandZoomOut, Mode=OneTime}"/>
-							<Button Grid.Column="5" Margin="1,1,1,1" Content="100%" Command="{Binding Path=CommandZoomAll, Mode=OneTime}"/>
-							<Button Grid.Column="6" Margin="1,1,1,1" Content="+" Command="{Binding Path=CommandZoomIn, Mode=OneTime}"/>
-						</Grid>
-					</Grid>
-					<systemControl:TrendControlView Grid.Row="1" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm1, Mode=OneTime}"/>
-					<systemControl:TrendControlView Grid.Row="2" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm2, Mode=OneTime}"/>
-					<systemControl:TrendControlView Grid.Row="3" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm3, Mode=OneTime}"/>
-					<systemControl:TrendControlView Grid.Row="4" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm4, Mode=OneTime}"/>
-				</Grid>
-			</TabItem>
-		</TabControl>
+											</oxy:PlotView>
+											<Grid Grid.Column="1">
+												<Grid.RowDefinitions>
+													<RowDefinition/>
+													<RowDefinition/>
+													<RowDefinition/>
+													<RowDefinition/>
+												</Grid.RowDefinitions>
+												<Button Grid.Row="0" Margin="1,1,1,1" Command="{Binding Path=CommandPanUpFast, Mode=OneTime}">
+													<TextBlock Text="&lt;&lt;" RenderTransformOrigin="0.5,0.5" >
+														<TextBlock.RenderTransform>
+															<TransformGroup>
+																<ScaleTransform/>
+																<SkewTransform/>
+																<RotateTransform Angle="90"/>
+																<TranslateTransform/>
+															</TransformGroup>
+														</TextBlock.RenderTransform></TextBlock>
+												</Button>
+												<Button Grid.Row="1" Margin="1,1,1,1" Command="{Binding Path=CommandPanUp, Mode=OneTime}">
+													<TextBlock Text="&lt;" RenderTransformOrigin="0.5,0.5" >
+														<TextBlock.RenderTransform>
+															<TransformGroup>
+																<ScaleTransform/>
+																<SkewTransform/>
+																<RotateTransform Angle="90"/>
+																<TranslateTransform/>
+															</TransformGroup>
+														</TextBlock.RenderTransform></TextBlock>
+												</Button>
+												<Button Grid.Row="2" Margin="1,1,1,1" Command="{Binding Path=CommandPanDown, Mode=OneTime}">
+													<TextBlock Text="&gt;" RenderTransformOrigin="0.5,0.5" >
+														<TextBlock.RenderTransform>
+															<TransformGroup>
+																<ScaleTransform/>
+																<SkewTransform/>
+																<RotateTransform Angle="90"/>
+																<TranslateTransform/>
+															</TransformGroup>
+														</TextBlock.RenderTransform></TextBlock>
+												</Button>
+												<Button Grid.Row="3" Margin="1,1,1,1" Command="{Binding Path=CommandPanDownFast, Mode=OneTime}">
+													<TextBlock Text="&gt;&gt;" RenderTransformOrigin="0.5,0.5" >
+														<TextBlock.RenderTransform>
+															<TransformGroup>
+																<ScaleTransform/>
+																<SkewTransform/>
+																<RotateTransform Angle="90"/>
+																<TranslateTransform/>
+															</TransformGroup>
+														</TextBlock.RenderTransform></TextBlock>
+												</Button>
+											</Grid>
+										</Grid>
+										<Grid Row="1">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+											</Grid.ColumnDefinitions>
+											<Button Grid.Column="0" Margin="1,1,1,1" Content="&lt;&lt;" Command="{Binding Path=CommandPanLeftFast, Mode=OneTime}"/>
+											<Button Grid.Column="1" Margin="1,1,1,1" Content="&lt;" Command="{Binding Path=CommandPanLeft, Mode=OneTime}"/>
+											<Button Grid.Column="2" Margin="1,1,1,1" Content="&gt;" Command="{Binding Path=CommandPanRight, Mode=OneTime}"/>
+											<Button Grid.Column="3" Margin="1,1,1,1" Content="&gt;&gt;" Command="{Binding Path=CommandPanRightFast, Mode=OneTime}"/>
+											<Button Grid.Column="4" Margin="1,1,1,1" Content="-" Command="{Binding Path=CommandZoomOut, Mode=OneTime}"/>
+											<Button Grid.Column="5" Margin="1,1,1,1" Content="100%" Command="{Binding Path=CommandZoomAll, Mode=OneTime}"/>
+											<Button Grid.Column="6" Margin="1,1,1,1" Content="+" Command="{Binding Path=CommandZoomIn, Mode=OneTime}"/>
+										</Grid>
+									</Grid>
+									<systemControl:TrendControlView Grid.Row="1" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm1, Mode=OneTime}"/>
+									<systemControl:TrendControlView Grid.Row="2" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm2, Mode=OneTime}"/>
+									<systemControl:TrendControlView Grid.Row="3" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm3, Mode=OneTime}"/>
+									<systemControl:TrendControlView Grid.Row="4" Margin="1,1,1,1" DataContext="{Binding Path=TrendControlVm4, Mode=OneTime}"/>
+								</Grid>
+							</xcad:LayoutDocument>
+						</xcad:LayoutDocumentPane>
+					</xcad:LayoutDocumentPaneGroup>
+				</xcad:LayoutPanel>
+			</xcad:LayoutRoot>
+		</xcad:DockingManager>
 	</Grid>
 </UserControl>

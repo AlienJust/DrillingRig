@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Input;
-using AlienJust.Support.Concurrent;
-using AlienJust.Support.Concurrent.Contracts;
-using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
-using AlienJust.Support.Text;
-using AlienJust.Support.Text.Contracts;
 using AlienJust.Support.UserInterface.Contracts;
-using DrillingRig.Commands.AinTelemetry;
 using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
@@ -32,9 +26,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private bool _readingInProgress;
 
 		private readonly TelemetryCommonViewModel _commonTelemetryVm;
-		//private string _engineState;
-		//private string _faultState;
-		//private string _ainsLinkState;
 
 		private readonly IDebugInformationShower _debugInformationShower;
 
