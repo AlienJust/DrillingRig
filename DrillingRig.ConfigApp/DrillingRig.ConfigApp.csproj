@@ -202,6 +202,15 @@
     </Compile>
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Compile Include="ILinkContol.cs" />
+    <Compile Include="SystemControl\ConvertHelp.cs" />
+    <Compile Include="SystemControl\DebugParametersTrendView.xaml.cs">
+      <DependentUpon>DebugParametersTrendView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemControl\DebugParametersView.xaml.cs">
+      <DependentUpon>DebugParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemControl\DebugParametersTrendViewModel.cs" />
+    <Compile Include="SystemControl\DebugParametersViewModel.cs" />
     <Compile Include="SystemControl\INamedTrendsControl.cs" />
     <Compile Include="SystemControl\SystemControlViewModel.cs" />
     <Compile Include="SystemControl\SystemControlView.xaml.cs">
@@ -299,6 +308,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RectifierTelemetry\RectifierTelemetryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemControl\DebugParametersTrendView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemControl\DebugParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

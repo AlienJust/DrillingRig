@@ -129,7 +129,7 @@
 			<xcad:MetroTheme />
 		</xcad:DockingManager.Theme>
 		<xcad:LayoutRoot>
-			<xcad:LayoutPanel Orientation="Horizontal">
+			<xcad:LayoutPanel Orientation="Vertical">
 				<xcad:LayoutDocumentPaneGroup>
 					<xcad:LayoutDocumentPane >
 						<xcad:LayoutDocument Title="Весь контент" CanClose="False">
@@ -184,6 +184,7 @@
 								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>
 							</Grid>
 						</xcad:LayoutDocument>
+						<xcad:LayoutDocument Title="Что-то еще" CanClose="False"/>
 					</xcad:LayoutDocumentPane>
 				</xcad:LayoutDocumentPaneGroup>
 			</xcad:LayoutPanel>
