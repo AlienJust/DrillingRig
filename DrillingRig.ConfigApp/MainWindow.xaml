@@ -12,6 +12,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Конфигурация БС-Ethernet " Height="600" Width="800" ResizeMode="CanResizeWithGrip">
 	<Window.Resources>
 		<ResourceDictionary>
@@ -132,7 +133,7 @@
 			<xcad:LayoutPanel Orientation="Vertical">
 				<xcad:LayoutDocumentPaneGroup>
 					<xcad:LayoutDocumentPane >
-						<xcad:LayoutDocument Title="Весь контент" CanClose="False">
+						<xcad:LayoutDocument Title="Старый вариант" CanClose="False">
 							<Grid>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="4*"/>
@@ -184,7 +185,60 @@
 								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>
 							</Grid>
 						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="Что-то еще" CanClose="False"/>
+						<xcad:LayoutDocument Title="Телеметрия" CanClose="False">
+							<TabControl Background="Transparent" TabStripPlacement="Left">
+								<TabItem Header="01. Текущие сигналы" Style="{StaticResource AzureTabItem}" ></TabItem>
+								<TabItem Header="02. " Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="03. " Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="09. " Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
+								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange"></TabItem>
+							</TabControl>
+						</xcad:LayoutDocument>
+						<xcad:LayoutDocument Title="Настройки" CanClose="False">
+							<TabControl Background="Transparent" TabStripPlacement="Left">
+								<TabItem Header="20. стр. 220" Style="{StaticResource AzureTabItem}" ></TabItem>
+								<TabItem Header="21. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="24. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="29. стр. 220" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
+								<TabItem Header="100. Рома" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<StackPanel Orientation="Vertical">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="3*"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.01 Пропорциональный коэф. регулятора тока D"/>
+											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpId, Mode=TwoWay}"/>
+										</Grid>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="3*"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.02 Интегральный коэф. регулятора тока D"/>
+											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KiId, Mode=TwoWay}"/>
+										</Grid>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="3*"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.03 Пропорциональный коэф. регулятора тока Q"/>
+											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpIq, Mode=TwoWay}"/>
+										</Grid>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="3*"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.04 Интегральный коэф. регулятора тока Q"/>
+											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KiIq, Mode=TwoWay}"/>
+										</Grid>
+									</StackPanel>
+								</TabItem>
+								<TabItem Header="110. Марат" Style="{StaticResource AzureTabItem}" BorderBrush="Red"></TabItem>
+							</TabControl>
+						</xcad:LayoutDocument>
 					</xcad:LayoutDocumentPane>
 				</xcad:LayoutDocumentPaneGroup>
 			</xcad:LayoutPanel>
