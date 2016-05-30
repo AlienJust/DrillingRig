@@ -192,6 +192,14 @@
     </Compile>
     <Compile Include="CoolerTelemetry\CoolerTelemetryViewModel.cs" />
     <Compile Include="ListBoxBehavior.cs" />
+    <Compile Include="LookedLikeAbb\Group20SettingsView.xaml.cs">
+      <DependentUpon>Group20SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group20SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\ParameterDoubleEditableView.xaml.cs">
+      <DependentUpon>ParameterDoubleEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\ParameterDoubleEditableViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
@@ -249,6 +257,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BsEthernetSettings\BsEthernetSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Group20SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\ParameterDoubleEditableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

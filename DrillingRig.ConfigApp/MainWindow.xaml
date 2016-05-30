@@ -13,6 +13,7 @@
         xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
         Title="Конфигурация БС-Ethernet " Height="600" Width="800" ResizeMode="CanResizeWithGrip">
 	<Window.Resources>
 		<ResourceDictionary>
@@ -196,7 +197,9 @@
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Настройки" CanClose="False">
 							<TabControl Background="Transparent" TabStripPlacement="Left">
-								<TabItem Header="20. стр. 220" Style="{StaticResource AzureTabItem}" ></TabItem>
+								<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
+									<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
+								</TabItem>
 								<TabItem Header="21. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
 								<TabItem Header="24. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
 								<TabItem Header="29. стр. 220" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>

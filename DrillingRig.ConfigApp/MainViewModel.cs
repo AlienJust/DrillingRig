@@ -19,6 +19,7 @@ using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
+using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
@@ -112,8 +113,10 @@ namespace DrillingRig.ConfigApp {
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
 			_getPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 
-			_logger.Log("Программа загружена");
 
+			Group20SettingsVm = new Group20SettingsViewModel(this);
+
+			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
 		}
 
@@ -299,5 +302,8 @@ namespace DrillingRig.ConfigApp {
 		public void RegisterAsCyclePart(ICyclePart part) {
 			_cycleParts.Add(part);
 		}
+
+
+		public Group20SettingsViewModel Group20SettingsVm { get; }
 	}
 }
