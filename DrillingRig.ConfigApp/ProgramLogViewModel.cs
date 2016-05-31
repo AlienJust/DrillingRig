@@ -8,7 +8,6 @@ namespace DrillingRig.ConfigApp
 	internal class ProgramLogViewModel : ViewModelBase, ILogger {
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ObservableCollection<ILogLine> _logLines;
-		private readonly ICommand _clearLogCmd;
 
 		private bool _scrollAutomaticly;
 		private ILogLine _selectedLine;
@@ -17,7 +16,7 @@ namespace DrillingRig.ConfigApp
 			_userInterfaceRoot = userInterfaceRoot;
 			_logLines = new ObservableCollection<ILogLine>();
 
-			_clearLogCmd = new RelayCommand(ClearLog);
+			ClearLogCmd = new RelayCommand(ClearLog);
 			ScrollAutomaticly = true;
 		}
 
@@ -25,13 +24,9 @@ namespace DrillingRig.ConfigApp
 			_logLines.Clear();
 		}
 
-		public ObservableCollection<ILogLine> LogLines {
-			get { return _logLines; }
-		}
+		public ObservableCollection<ILogLine> LogLines => _logLines;
 
-		public ICommand ClearLogCmd {
-			get { return _clearLogCmd; }
-		}
+		public ICommand ClearLogCmd { get; }
 
 		public bool ScrollAutomaticly {
 			get { return _scrollAutomaticly; }
@@ -72,15 +67,10 @@ namespace DrillingRig.ConfigApp
 	}
 
 	class LogLineSimple : ILogLine {
-		private readonly string _messageText;
 		public LogLineSimple(string messageText) {
-			_messageText = messageText;
+			MessageText = messageText;
 		}
 
-		public string MessageText {
-			get {
-				return _messageText;
-			}
-		}
+		public string MessageText { get; }
 	}
 }

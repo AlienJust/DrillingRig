@@ -117,6 +117,10 @@
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<StackPanel Orientation="Horizontal">
+				<TextBlock Margin="2,2,2,2" Text="АИН:" VerticalAlignment="Center"/>
+				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding AinsCountInSystem}" SelectedItem="{Binding SelectedAinsCount}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="Порт:" VerticalAlignment="Center"/>
 				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
 				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15"/>
@@ -188,11 +192,13 @@
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Телеметрия" CanClose="False">
 							<TabControl Background="Transparent" TabStripPlacement="Left">
-								<TabItem Header="01. Текущие сигналы" Style="{StaticResource AzureTabItem}" ></TabItem>
-								<TabItem Header="02. " Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="03. " Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="09. " Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
-								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange"></TabItem>
+								<TabItem Header="01. Текущие сигналы. Основные" Style="{StaticResource AzureTabItem}" >
+									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"></lookedLikeAbb:Group01ParametersView>
+								</TabItem>
+								<TabItem Header="02. Текущие сигналы. Скорость и момент" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="03. Текущие сигналы. Внутренние параметры" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="09. Текущие сигналы. Слова отказов" Style="{StaticResource AzureTabItem}"  BorderBrush="Red"></TabItem>
+								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
 							</TabControl>
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Настройки" CanClose="False">
@@ -200,9 +206,10 @@
 								<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
 									<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="21. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="24. стр. 220" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="29. стр. 220" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
+								<TabItem Header="22. УСКОРЕН/ЗАМЕДЛЕН" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="23. ЗАДАНИЕ СКОРОСТИ" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="24. РЕГУЛИР СКОРОСТИ" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="26. ОПЕР ЗДН МОМЕНТА" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
 								<TabItem Header="100. Рома" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 									<StackPanel Orientation="Vertical">
 										<Grid>
@@ -242,6 +249,7 @@
 								<TabItem Header="110. Марат" Style="{StaticResource AzureTabItem}" BorderBrush="Red"></TabItem>
 							</TabControl>
 						</xcad:LayoutDocument>
+						<xcad:LayoutDocument Title="Графики" CanClose="False"/>
 					</xcad:LayoutDocumentPane>
 				</xcad:LayoutDocumentPaneGroup>
 			</xcad:LayoutPanel>

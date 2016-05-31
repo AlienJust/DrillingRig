@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Linq;
 using System.Threading;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
@@ -24,7 +25,7 @@ using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder {
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter {
 		private const string TestComPortName = "ТЕСТ";
 
 		private List<string> _comPortsAvailable;
@@ -58,6 +59,7 @@ namespace DrillingRig.ConfigApp {
 		private bool _isSendingEnabled;
 		private readonly List<ICyclePart> _cycleParts;
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
+		private int _selectedAinsCount;
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			_targetAddress = 1;
@@ -74,8 +76,12 @@ namespace DrillingRig.ConfigApp {
 
 			GetPortsAvailable();
 
-			_programLogVm = new ProgramLogViewModel(this);
+			// Блоки АИН в системе:
+			AinsCountInSystem = new List<int> { 1, 2, 3 };
+			SelectedAinsCount = AinsCountInSystem.First();
 
+			// Лог программы:
+			_programLogVm = new ProgramLogViewModel(this);
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
 
 			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
@@ -113,7 +119,8 @@ namespace DrillingRig.ConfigApp {
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
 			_getPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 
-
+			var cycleReader = new CycleReader(this, this, this, _programLogVm);
+			Group01ParametersVm = new Group01ParametersViewModel(this, _programLogVm, cycleReader, this);
 			Group20SettingsVm = new Group20SettingsViewModel(this);
 
 			_logger.Log("Программа загружена");
@@ -304,6 +311,27 @@ namespace DrillingRig.ConfigApp {
 		}
 
 
+
+		public List<int> AinsCountInSystem { get; }
+
+		public int SelectedAinsCount
+		{
+			get { return _selectedAinsCount; }
+			set
+			{
+				if (value != 1 && value != 2 && value != 3) throw new ArgumentOutOfRangeException("Поддерживаемое число блоков АИН в системе может быть только 1, 2 или 3, получено ошибочное число: " + value);
+				if (value != _selectedAinsCount) {
+					_selectedAinsCount = value;
+					RaisePropertyChanged(()=>SelectedAinsCount);
+					var evnt = AinsCountInSystemHasBeenChanged;
+					evnt?.Invoke();
+				}
+			}
+		}
+
+		public event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
+
+		public Group01ParametersViewModel Group01ParametersVm { get; }
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 	}
 }
