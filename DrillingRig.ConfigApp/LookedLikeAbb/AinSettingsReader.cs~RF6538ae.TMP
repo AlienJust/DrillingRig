@@ -1,0 +1,63 @@
+﻿using System;
+using AlienJust.Support.Loggers.Contracts;
+using DrillingRig.Commands.AinSettings;
+
+namespace DrillingRig.ConfigApp.LookedLikeAbb {
+	internal class AinSettingsReader : IAinSettingsReader {
+		private readonly ICommandSenderHost _commandSenderHost;
+		private readonly ITargetAddressHost _targerAddressHost;
+		private readonly IUserInterfaceRoot _userInterfaceRoot;
+		private readonly ILogger _logger;
+		private readonly IAinsCounter _ainsCounter;
+
+		private readonly object _ainsCountSyncObject;
+		private readonly TimeSpan _readSettingsTimeout;
+		private readonly TimeSpan _writeSettingsTimeout;
+
+		public AinSettingsReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IAinsCounter ainsCounter) {
+			_commandSenderHost = commandSenderHost;
+			_targerAddressHost = targerAddressHost;
+			_userInterfaceRoot = userInterfaceRoot;
+			_logger = logger;
+			_ainsCounter = ainsCounter;
+
+			_ainsCountSyncObject = new object();
+			_readSettingsTimeout = TimeSpan.FromMilliseconds(200.0);
+			_writeSettingsTimeout = TimeSpan.FromMilliseconds(200.0);
+		}
+
+		private int AinsCountThreadSafe
+		{
+			get
+			{
+				lock (_ainsCountSyncObject) {
+					return _ainsCounter.SelectedAinsCount;
+				}
+			}
+		}
+
+		public void ReadSettingsAsync(Action<Exception, IAinSettings> callback) {
+			// чтение настроек производится только для первого АИН
+			var readSettingsCmd = new ReadAinSettingsCommand(0);
+			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
+				(sendException, replyBytes) => {
+					if (sendException != null) {
+						_logger.Log("Произошла ошибка во время чтения настрок АИН");
+						callback.Invoke(sendException, null);
+						return;
+					}
+					try {
+						
+					}
+					catch (Exception ex) {
+						
+						throw;
+					}
+				});
+		}
+
+		public void WriteSettingsAsync(IAinSettings settings, Action<Exception> callback) {
+			throw new NotImplementedException();
+		}
+	}
+}

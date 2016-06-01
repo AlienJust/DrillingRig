@@ -171,7 +171,8 @@
       <DependentUpon>TelemetryCommonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
-    <Compile Include="IAinsCounter.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsReader.cs" />
+    <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
     <Compile Include="ICyclePart.cs" />
     <Compile Include="ICycleThreadHolder.cs" />
     <Compile Include="IDebugInformationShower.cs" />
@@ -202,7 +203,9 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Group01ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group20SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\IAinSettingsReader.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
+    <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
