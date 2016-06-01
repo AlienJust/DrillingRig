@@ -72,7 +72,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		public void WriteSettingsAsync(IAinSettings settings, Action<Exception> callback) {
-			throw new NotImplementedException();
+			int ainsCountToWriteSettings = AinsCountThreadSafe;
+			ReadSettingsAsync((readSettingsException, ainSettings) => {
+				if (readSettingsException != null) {
+					callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении", readSettingsException));
+					return;
+				}
+
+				//settings.Imcw
+
+			});
 		}
 	}
 }

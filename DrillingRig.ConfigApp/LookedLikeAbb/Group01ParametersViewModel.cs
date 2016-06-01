@@ -72,12 +72,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			ReadCycleCmd = new RelayCommand(ReadCycle, ()=>!_isReadingCycle);
 			StopReadCycleCmd = new RelayCommand(StopReadCycle, () => _isReadingCycle);
 
-			_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
+			//_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
+			//_cycleReader.Ain2TelemetryReaded += CycleReaderOnAin2TelemetryReaded;
+			//_cycleReader.Ain3TelemetryReaded += CycleReaderOnAin3TelemetryReaded;
 
 
 			_currentAinsCountToRead = _ainsCounter.SelectedAinsCount;
 			_ainsCounter.AinsCountInSystemHasBeenChanged += AinsCounterOnAinsCountInSystemHasBeenChanged;
 		}
+
+
 
 		private void AinsCounterOnAinsCountInSystemHasBeenChanged() {
 			var newAinsCount = _ainsCounter.SelectedAinsCount;
@@ -85,26 +89,26 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				if (_isReadingCycle) {
 					if (_currentAinsCountToRead == 1) {
 						if (newAinsCount > 1) {
-							_cycleReader.AskToStartReadAin2TelemetryCycle();
+							StartReadCycleAin2Params();
 							if (newAinsCount > 2) {
-								_cycleReader.AskToStartReadAin3TelemetryCycle();
+								StartReadCycleAin3Params();
 							}
 						}
 					}
 					else if (_currentAinsCountToRead == 2) {
 						if (newAinsCount > 2) {
-							_cycleReader.AskToStartReadAin3TelemetryCycle();
+							StartReadCycleAin3Params();
 						}
 						else if (newAinsCount < 2) {
-							_cycleReader.AskToStopReadAin2TelemetryCycle();
+							StopReadCycleAin2TelemetryAndResetParams();
 						}
 					}
 
 					else if (_currentAinsCountToRead == 3) {
 						if (newAinsCount < 3) {
-							_cycleReader.AskToStopReadAin3TelemetryCycle();
+							StopReadCycleAin3TelemetryAndResetParams();
 							if (newAinsCount < 2) {
-								_cycleReader.AskToStopReadAin2TelemetryCycle();
+								StopReadCycleAin2TelemetryAndResetParams();
 							}
 						}
 					}
@@ -112,6 +116,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				_currentAinsCountToRead = newAinsCount;
 			}
 		}
+
+
 
 		private void CycleReaderOnAin1TelemetryReaded(IAinTelemetry ainTelemetry) {
 			if (_isReadingCycle) {
@@ -135,20 +141,90 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
+		private void CycleReaderOnAin2TelemetryReaded(IAinTelemetry ainTelemetry) {
+			Parameter08Vm.CurrentValue = ainTelemetry.RadiatorTemperature;
+			Parameter11Vm.CurrentValue = ainTelemetry.ExternalTemperature;
+		}
+
+		private void CycleReaderOnAin3TelemetryReaded(IAinTelemetry ainTelemetry) {
+			Parameter09Vm.CurrentValue = ainTelemetry.RadiatorTemperature;
+			Parameter12Vm.CurrentValue = ainTelemetry.ExternalTemperature;
+		}
+
+
+		private void StartReadCycleAin1Params()
+		{
+			_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
+			_cycleReader.AskToStartReadAin1TelemetryCycle();
+		}
+
+		private void StartReadCycleAin2Params() {
+			_cycleReader.Ain2TelemetryReaded += CycleReaderOnAin2TelemetryReaded;
+			_cycleReader.AskToStartReadAin2TelemetryCycle();
+		}
+
+		private void StartReadCycleAin3Params() {
+			_cycleReader.Ain3TelemetryReaded += CycleReaderOnAin3TelemetryReaded;
+			_cycleReader.AskToStartReadAin3TelemetryCycle();
+		}
+
+
+
+		private void StopReadCycleAin1TelemetryAndResetParams() {
+			_cycleReader.Ain1TelemetryReaded -= CycleReaderOnAin1TelemetryReaded;
+			_cycleReader.AskToStopReadAin1TelemetryCycle();
+
+			Parameter01Vm.CurrentValue = null;
+			Parameter02Vm.CurrentValue = null;
+			Parameter03Vm.CurrentValue = null;
+			Parameter04Vm.CurrentValue = null;
+			Parameter05Vm.CurrentValue = null;
+			Parameter06Vm.CurrentValue = null;
+
+			Parameter07Vm.CurrentValue = null;
+			// TODO: params 8 and 9
+			Parameter10Vm.CurrentValue = null;
+			// TODO: params 11 and 12
+
+			Parameter13Vm.CurrentValue = null;
+			Parameter14Vm.CurrentValue = null;
+
+			Parameter15Vm.CurrentValue = null;
+		}
+
+		private void StopReadCycleAin2TelemetryAndResetParams() {
+			_cycleReader.Ain2TelemetryReaded -= CycleReaderOnAin2TelemetryReaded;
+			_cycleReader.AskToStopReadAin2TelemetryCycle();
+
+			Parameter08Vm.CurrentValue = null;
+			Parameter11Vm.CurrentValue = null;
+		}
+
+		private void StopReadCycleAin3TelemetryAndResetParams() {
+			_cycleReader.Ain3TelemetryReaded -= CycleReaderOnAin3TelemetryReaded;
+			_cycleReader.AskToStopReadAin3TelemetryCycle();
+
+			Parameter09Vm.CurrentValue = null;
+			Parameter12Vm.CurrentValue = null;
+		}
+
+
+
+
+
 		private void StopReadCycle() {
 			_logger.Log("Завершение циклического опроса");
 			_isReadingCycle = false;
+
 			StopReadCycleCmd.RaiseCanExecuteChanged();
-			_cycleReader.AskToStopReadAin1TelemetryCycle();
-			//_currentAinsCountToRead = 1;
+
+			StopReadCycleAin1TelemetryAndResetParams();
 			if (_currentAinsCountToRead > 1) {
 				_logger.Log("Завершение циклического опроса 2");
-				_cycleReader.AskToStopReadAin2TelemetryCycle();
-				//_currentAinsCountToRead = 2;
+				StopReadCycleAin2TelemetryAndResetParams();
 				if (_currentAinsCountToRead > 2) {
 					_logger.Log("Завершение циклического опроса 3");
-					_cycleReader.AskToStopReadAin3TelemetryCycle();
-					//_currentAinsCountToRead = 3;
+					StopReadCycleAin3TelemetryAndResetParams();
 				}
 			}
 
@@ -158,18 +234,19 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadCycle() {
 			_logger.Log("Начало циклического опроса");
 			_isReadingCycle = true;
+
 			ReadCycleCmd.RaiseCanExecuteChanged();
-			_cycleReader.AskToStartReadAin1TelemetryCycle();
+
+			StartReadCycleAin1Params();
 			if (_currentAinsCountToRead > 1) {
 				_logger.Log("Начало циклического опроса 2");
-				_cycleReader.AskToStartReadAin2TelemetryCycle();
-				_currentAinsCountToRead = 2;
+				StartReadCycleAin2Params();
 				if (_currentAinsCountToRead > 2) {
 					_logger.Log("Начало циклического опроса 3");
-					_cycleReader.AskToStartReadAin3TelemetryCycle();
-					_currentAinsCountToRead = 3;
+					StartReadCycleAin3Params();
 				}
 			}
+
 			StopReadCycleCmd.RaiseCanExecuteChanged();
 		}
 	}
