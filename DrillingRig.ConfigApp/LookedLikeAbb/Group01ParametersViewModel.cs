@@ -96,15 +96,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							_cycleReader.AskToStartReadAin3TelemetryCycle();
 						}
 						else if (newAinsCount < 2) {
-							_cycleReader.AskToStopReadAin1TelemetryCycle();
+							_cycleReader.AskToStopReadAin2TelemetryCycle();
 						}
 					}
 
 					else if (_currentAinsCountToRead == 3) {
 						if (newAinsCount < 3) {
-							_cycleReader.AskToStopReadAin2TelemetryCycle();
+							_cycleReader.AskToStopReadAin3TelemetryCycle();
 							if (newAinsCount < 2) {
-								_cycleReader.AskToStopReadAin1TelemetryCycle();
+								_cycleReader.AskToStopReadAin2TelemetryCycle();
 							}
 						}
 					}
@@ -140,15 +140,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_isReadingCycle = false;
 			StopReadCycleCmd.RaiseCanExecuteChanged();
 			_cycleReader.AskToStopReadAin1TelemetryCycle();
-			_currentAinsCountToRead = 1;
+			//_currentAinsCountToRead = 1;
 			if (_currentAinsCountToRead > 1) {
 				_logger.Log("Завершение циклического опроса 2");
 				_cycleReader.AskToStopReadAin2TelemetryCycle();
-				_currentAinsCountToRead = 2;
+				//_currentAinsCountToRead = 2;
 				if (_currentAinsCountToRead > 2) {
 					_logger.Log("Завершение циклического опроса 3");
 					_cycleReader.AskToStopReadAin3TelemetryCycle();
-					_currentAinsCountToRead = 3;
+					//_currentAinsCountToRead = 3;
 				}
 			}
 
