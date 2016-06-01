@@ -12,6 +12,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
+		private readonly INotifySendingEnabled _notifySendingEnabled;
 		private readonly IWorker<Action> _backWorker;
 
 		private readonly TimeSpan _defaultTimeout;
@@ -24,11 +25,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private int _ain2TelemetryReadAsksCount;
 		private int _ain3TelemetryReadAsksCount;
 
-		public CycleReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger) {
+		public CycleReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
+			_notifySendingEnabled = notifySendingEnabled;
 
 
 			_ain1TelemetryReadAsksCountSync = new object();
@@ -49,102 +51,103 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadCycleInBackground() {
 			var signal = new AutoResetEvent(false);
 			while (true) {
-				bool isAin1TelemtryReadNeeded;
-				lock (_ain1TelemetryReadAsksCountSync) {
-					isAin1TelemtryReadNeeded = _ain1TelemetryReadAsksCount > 0;
-				}
-				if (isAin1TelemtryReadNeeded) {
-					var readTelemetryCmd = new ReadAinTelemetryCommand(0);
-					_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
-						(exc, replyBytes) => {
-							if (exc != null) {
-								_logger.Log("Ошибка при чтении телеметрии АИН1");
-								// TODO: show exception in console
-								signal.Set();
-								return;
-							}
-
-
-							try {
-								var result = readTelemetryCmd.GetResult(replyBytes);
-								_userInterfaceRoot.Notifier.Notify(() => {
-									var evnt = Ain1TelemetryReaded;
-									evnt?.Invoke(result);
-								});
-							}
-							catch (Exception ex) {
-								_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН1");
-								// TODO: show exception in console
-							}
-							signal.Set();
-						});
-					signal.WaitOne();
-				}
-				//-------------------------------------------------------------------
-				bool isAin2TelemtryReadNeeded;
-				lock (_ain2TelemetryReadAsksCountSync) {
-					isAin2TelemtryReadNeeded = _ain2TelemetryReadAsksCount > 0;
-				}
-				if (isAin2TelemtryReadNeeded) {
-					var readTelemetryCmd = new ReadAinTelemetryCommand(1);
-					_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
-						(exc, replyBytes) => {
-							if (exc != null) {
-								_logger.Log("Ошибка при чтении телеметрии АИН2");
-								// TODO: show exception in console
-								signal.Set();
-								return;
-							}
-
-
-							try {
-								var result = readTelemetryCmd.GetResult(replyBytes);
-								_userInterfaceRoot.Notifier.Notify(() => {
-									var evnt = Ain2TelemetryReaded;
-									evnt?.Invoke(result);
-								});
-							}
-							catch (Exception ex) {
-								_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН2");
-								// TODO: show exception in console
-							}
-							signal.Set();
-						});
-					signal.WaitOne();
-				}
-				//-------------------------------------------------------------------
-				bool isAin3TelemtryReadNeeded;
-				lock (_ain3TelemetryReadAsksCountSync) {
-					isAin3TelemtryReadNeeded = _ain3TelemetryReadAsksCount > 0;
-				}
-				if (isAin3TelemtryReadNeeded) {
-					var readTelemetryCmd = new ReadAinTelemetryCommand(2);
-					_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
-						(exc, replyBytes) => {
-							if (exc != null) {
-								_logger.Log("Ошибка при чтении телеметрии АИН3");
+				if (_notifySendingEnabled.IsSendingEnabled) {
+					bool isAin1TelemtryReadNeeded;
+					lock (_ain1TelemetryReadAsksCountSync) {
+						isAin1TelemtryReadNeeded = _ain1TelemetryReadAsksCount > 0;
+					}
+					if (isAin1TelemtryReadNeeded) {
+						var readTelemetryCmd = new ReadAinTelemetryCommand(0);
+						_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
+							(exc, replyBytes) => {
+								if (exc != null) {
+									_logger.Log("Ошибка при чтении телеметрии АИН1");
 									// TODO: show exception in console
 									signal.Set();
-								return;
-							}
+									return;
+								}
 
 
-							try {
-								var result = readTelemetryCmd.GetResult(replyBytes);
-								_userInterfaceRoot.Notifier.Notify(() => {
-									var evnt = Ain3TelemetryReaded;
-									evnt?.Invoke(result);
-								});
-							}
-							catch (Exception ex) {
-								_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН3");
+								try {
+									var result = readTelemetryCmd.GetResult(replyBytes);
+									_userInterfaceRoot.Notifier.Notify(() => {
+										var evnt = Ain1TelemetryReaded;
+										evnt?.Invoke(result);
+									});
+								}
+								catch (Exception ex) {
+									_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН1");
 									// TODO: show exception in console
 								}
-							signal.Set();
-						});
-					signal.WaitOne();
-				}
+								signal.Set();
+							});
+						signal.WaitOne();
+					}
+					//-------------------------------------------------------------------
+					bool isAin2TelemtryReadNeeded;
+					lock (_ain2TelemetryReadAsksCountSync) {
+						isAin2TelemtryReadNeeded = _ain2TelemetryReadAsksCount > 0;
+					}
+					if (isAin2TelemtryReadNeeded) {
+						var readTelemetryCmd = new ReadAinTelemetryCommand(1);
+						_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
+							(exc, replyBytes) => {
+								if (exc != null) {
+									_logger.Log("Ошибка при чтении телеметрии АИН2");
+									// TODO: show exception in console
+									signal.Set();
+									return;
+								}
 
+
+								try {
+									var result = readTelemetryCmd.GetResult(replyBytes);
+									_userInterfaceRoot.Notifier.Notify(() => {
+										var evnt = Ain2TelemetryReaded;
+										evnt?.Invoke(result);
+									});
+								}
+								catch (Exception ex) {
+									_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН2");
+									// TODO: show exception in console
+								}
+								signal.Set();
+							});
+						signal.WaitOne();
+					}
+					//-------------------------------------------------------------------
+					bool isAin3TelemtryReadNeeded;
+					lock (_ain3TelemetryReadAsksCountSync) {
+						isAin3TelemtryReadNeeded = _ain3TelemetryReadAsksCount > 0;
+					}
+					if (isAin3TelemtryReadNeeded) {
+						var readTelemetryCmd = new ReadAinTelemetryCommand(2);
+						_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readTelemetryCmd, _defaultTimeout,
+							(exc, replyBytes) => {
+								if (exc != null) {
+									_logger.Log("Ошибка при чтении телеметрии АИН3");
+									// TODO: show exception in console
+									signal.Set();
+									return;
+								}
+
+
+								try {
+									var result = readTelemetryCmd.GetResult(replyBytes);
+									_userInterfaceRoot.Notifier.Notify(() => {
+										var evnt = Ain3TelemetryReaded;
+										evnt?.Invoke(result);
+									});
+								}
+								catch (Exception ex) {
+									_logger.Log("Ошибка при разборе ответа команды чтения телеметрии АИН3");
+									// TODO: show exception in console
+								}
+								signal.Set();
+							});
+						signal.WaitOne();
+					}
+				}
 
 				Thread.Sleep(50);
 			}
@@ -192,21 +195,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public event AinTelemetryReadedDelegate Ain1TelemetryReaded;
 		public event AinTelemetryReadedDelegate Ain2TelemetryReaded;
 		public event AinTelemetryReadedDelegate Ain3TelemetryReaded;
-	}
-
-	internal interface ICycleReader {
-		void AskToStartReadAin1TelemetryCycle();
-		void AskToStopReadAin1TelemetryCycle();
-
-		void AskToStartReadAin2TelemetryCycle();
-		void AskToStopReadAin2TelemetryCycle();
-
-		void AskToStartReadAin3TelemetryCycle();
-		void AskToStopReadAin3TelemetryCycle();
-
-		event AinTelemetryReadedDelegate Ain1TelemetryReaded;
-		event AinTelemetryReadedDelegate Ain2TelemetryReaded;
-		event AinTelemetryReadedDelegate Ain3TelemetryReaded;
 	}
 
 	delegate void AinTelemetryReadedDelegate(IAinTelemetry ainTelemetry);

@@ -26,6 +26,9 @@ using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter {
+		public IThreadNotifier Notifier { get; }
+		private readonly IWindowSystem _windowSystem;
+
 		private const string TestComPortName = "ТЕСТ";
 
 		private List<string> _comPortsAvailable;
@@ -33,9 +36,6 @@ namespace DrillingRig.ConfigApp {
 
 		private IRrModbusCommandSender _commandSender;
 		private ICommandSenderController _commandSenderController;
-
-		private readonly IWindowSystem _windowSystem;
-
 
 		private readonly ProgramLogViewModel _programLogVm;
 		private readonly AinTelemetriesViewModel _ainTelemetriesVm;
@@ -50,26 +50,33 @@ namespace DrillingRig.ConfigApp {
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
-		private readonly RelayCommand _getPortsAvailableCommand;
 
 		private bool _isPortOpened;
 		private byte _targetAddress;
 
 		private readonly ILogger _logger;
+
+		private readonly object _isSendingEnabledSyncObject;
 		private bool _isSendingEnabled;
+
+
 		private readonly List<ICyclePart> _cycleParts;
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
+			Notifier = notifier;
+			_windowSystem = windowSystem;
+
 			_targetAddress = 1;
 
 			_commandSender = null;
 			_commandSenderController = null;
 
 			_isPortOpened = false;
-			Notifier = notifier;
-			_windowSystem = windowSystem;
+
+			_isSendingEnabled = false;
+			_isSendingEnabledSyncObject = new object();
 
 			_cycleParts = new List<ICyclePart>();
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
@@ -117,11 +124,17 @@ namespace DrillingRig.ConfigApp {
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
-			_getPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
+			GetPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 
-			var cycleReader = new CycleReader(this, this, this, _programLogVm);
-			Group01ParametersVm = new Group01ParametersViewModel(this, _programLogVm, cycleReader, this);
-			Group20SettingsVm = new Group20SettingsViewModel(this);
+
+			// ABB way:
+			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
+			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this);
+
+			var ainSettingsReadedWriter = new AinSettingsReader(this, this, this, _logger, this); // TODO: move to field
+			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+
+
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
@@ -213,11 +226,13 @@ namespace DrillingRig.ConfigApp {
 		public event SendingEnabledChangedDelegate SendingEnabledChanged;
 
 		public bool IsSendingEnabled {
-			get { return _isSendingEnabled; }
+			get { lock (_isSendingEnabledSyncObject) return _isSendingEnabled; }
 			set {
-				if (_isSendingEnabled != value) {
-					_isSendingEnabled = value;
-					RaisePropertyChanged(() => IsSendingEnabled);
+				lock (_isSendingEnabledSyncObject) {
+					if (_isSendingEnabled != value) {
+						_isSendingEnabled = value;
+						RaisePropertyChanged(() => IsSendingEnabled);
+					}
 				}
 			}
 		}
@@ -248,21 +263,13 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-		public RelayCommand OpenPortCommand {
-			get { return _openPortCommand; }
-		}
+		public RelayCommand OpenPortCommand => _openPortCommand;
 
-		public RelayCommand ClosePortCommand {
-			get { return _closePortCommand; }
-		}
+		public RelayCommand ClosePortCommand => _closePortCommand;
 
-		public RelayCommand GetPortsAvailableCommand {
-			get { return _getPortsAvailableCommand; }
-		}
+		public RelayCommand GetPortsAvailableCommand { get; }
 
-		public IRrModbusCommandSender Sender {
-			get { return _commandSender; }
-		}
+		public IRrModbusCommandSender Sender => _commandSender;
 
 		public byte TargetAddress {
 			get { return _targetAddress; }
@@ -274,7 +281,7 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-		public IThreadNotifier Notifier { get; }
+		
 
 		public ProgramLogViewModel ProgramLogVm => _programLogVm;
 
