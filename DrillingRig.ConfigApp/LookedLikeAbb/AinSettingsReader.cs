@@ -71,16 +71,61 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				});
 		}
 
-		public void WriteSettingsAsync(IAinSettings settings, Action<Exception> callback) {
+		public void WriteSettingsAsync(IAinSettingsPart settingsPart, Action<Exception> callback) {
 			int ainsCountToWriteSettings = AinsCountThreadSafe;
-			ReadSettingsAsync((readSettingsException, ainSettings) => {
+
+			ReadSettingsAsync((readSettingsException, readedAin1Settings) => {
 				if (readSettingsException != null) {
 					callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении", readSettingsException));
 					return;
 				}
+				// TODO: build AIN settingsPart
 
-				//settings.Imcw
+				// TODO: нужно записать настройки АИН модифицировав Imcw для каждого прибора
+				var settingsForAin1 = new AinSettingsWritable(readedAin1Settings);
+				settingsForAin1.ModifyFromPart(settingsPart);
 
+				settingsForAin1.Imcw = (short) (settingsForAin1.Imcw & 0xFCFF); // биты 8 и 9 занулены, ведущий
+
+				if (ainsCountToWriteSettings == 1) {
+					settingsForAin1.Imcw = (short) (settingsForAin1.Imcw & 0xF3FF); // биты 10 и 11 занулены, одиночая работа
+					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
+					_commandSenderHost.Sender.SendCommandAsync(
+						_targerAddressHost.TargetAddress,
+						writeAin1SettingsCmd,
+						_writeSettingsTimeout,
+						(sendException, replyBytes) => {
+							callback(sendException != null ? new Exception("Ошибка отправки команды записи настроек АИН1", sendException) : null);
+						});
+				}
+
+				else if (ainsCountToWriteSettings == 2) {
+					settingsForAin1.Imcw = (short) (settingsForAin1.Imcw & 0xF3FF); // бит 10 взведен, бит 11 занулен, два АИНа в системе
+					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0xF7FF); // бит 10 взведен, бит 11 занулен, два АИНа в системе
+
+					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
+					_commandSenderHost.Sender.SendCommandAsync(
+						_targerAddressHost.TargetAddress,
+						writeAin1SettingsCmd,
+						_writeSettingsTimeout,
+						(sendException, replyBytes) => {
+							if (sendException != null) {
+								callback(new Exception("Ошибка отправки команды записи настроек АИН1", sendException));
+								return;
+							}
+							
+							var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
+							settingsForAin2.Imcw = (short)(settingsForAin1.Imcw & 0xFCFF); // бит 8 взведен, бит 9 занулен, ведомый 1
+							settingsForAin2.Imcw = (short)(settingsForAin1.Imcw | 0xFDFF); // бит 8 взведен, бит 9 занулен, ведомый 1
+							// TODO: write AIN2 settings
+						});
+				}
+				else if (ainsCountToWriteSettings == 3) {
+					// TODO: write AIN 1, 2 and 3 settings
+				}
+				else {
+					callback.Invoke(new Exception("Неподдердживаемое число блоков АИН: " + ainsCountToWriteSettings + ", поддерживается 1, 2 и 3 блока АИН"));
+				}
 			});
 		}
 	}

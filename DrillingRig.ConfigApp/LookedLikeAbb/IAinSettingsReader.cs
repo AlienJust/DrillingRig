@@ -8,6 +8,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	/// </summary>
 	internal interface IAinSettingsReader {
 		void ReadSettingsAsync(Action<Exception, IAinSettings> callback);
-		void WriteSettingsAsync(IAinSettings settings, Action<Exception> callback);
+		void WriteSettingsAsync(IAinSettingsPart settings, Action<Exception> callback);
 	}
 }
