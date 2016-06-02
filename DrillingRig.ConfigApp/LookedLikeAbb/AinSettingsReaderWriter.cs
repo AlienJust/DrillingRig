@@ -36,8 +36,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public void ReadSettingsAsync(Action<Exception, IAinSettings> callback) {
 			// чтение настроек производится только для первого АИН
+			var sender = _commandSenderHost.Sender;
+			if (sender == null) throw new NullReferenceException("Порт передачи данных не открыт");
+
 			var readSettingsCmd = new ReadAinSettingsCommand(0);
-			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
+			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
 				(sendException, replyBytes) => {
 					if (sendException != null) {
 						var errorMessage = "Произошла ошибка во время чтения настрок АИН1";
@@ -72,6 +75,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		public void WriteSettingsAsync(IAinSettingsPart settingsPart, Action<Exception> callback) {
+			var sender = _commandSenderHost.Sender;
+			if (sender == null) throw new NullReferenceException("Порт передачи данных не открыт");
+
 			int ainsCountToWriteSettings = AinsCountThreadSafe;
 
 			ReadSettingsAsync((readSettingsException, readedAin1Settings) => {
@@ -91,7 +97,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					// Когда в системе один блок АИН
 					settingsForAin1.Imcw = (short) (settingsForAin1.Imcw & 0xF3FF); // биты 10 и 11 занулены, одиночая работа
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
-					_commandSenderHost.Sender.SendCommandAsync(
+					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
 						_writeSettingsTimeout,
@@ -108,7 +114,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					settingsForAin1.Imcw = (short) (settingsForAin1.Imcw | 0x0400); // бит 10 взведен, бит 11 занулен, два АИНа в системе
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
-					_commandSenderHost.Sender.SendCommandAsync(
+					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
 						_writeSettingsTimeout,
@@ -123,7 +129,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0100); // бит 8 взведен, бит 9 занулен, ведомый 1
 
 							var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
-							_commandSenderHost.Sender.SendCommandAsync(
+							sender.SendCommandAsync(
 								_targerAddressHost.TargetAddress,
 								writeAin2SettingsCmd,
 								_writeSettingsTimeout,
@@ -141,7 +147,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0800); // бит 10 занулен, бит 11 взведен, три АИНа в системе
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
-					_commandSenderHost.Sender.SendCommandAsync(
+					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
 						_writeSettingsTimeout,
@@ -158,7 +164,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0100); // бит 8 взведен, бит 9 занулен, ведомый 1
 
 							var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
-							_commandSenderHost.Sender.SendCommandAsync(
+							sender.SendCommandAsync(
 								_targerAddressHost.TargetAddress,
 								writeAin2SettingsCmd,
 								_writeSettingsTimeout,
@@ -175,7 +181,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 									settingsForAin3.Imcw = (short)(settingsForAin3.Imcw | 0x0200); // бит 8 занулен, бит 9 взведен, ведомый 2
 
 									var writeAin3SettingsCmd = new WriteAinSettingsCommand(2, settingsForAin2);
-									_commandSenderHost.Sender.SendCommandAsync(
+									sender.SendCommandAsync(
 										_targerAddressHost.TargetAddress,
 										writeAin3SettingsCmd,
 										_writeSettingsTimeout,

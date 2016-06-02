@@ -64,6 +64,8 @@ namespace DrillingRig.ConfigApp {
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
+		public ChartControlViewModel ChartControlVm { get; }
+
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
 			_windowSystem = windowSystem;
@@ -134,7 +136,7 @@ namespace DrillingRig.ConfigApp {
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 
-
+			ChartControlVm = new ChartControlViewModel();
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
@@ -143,7 +145,7 @@ namespace DrillingRig.ConfigApp {
 
 		private void CycleWork() {
 			while (true) {
-				int currentCycleActionsCount = 0;
+				//int currentCycleActionsCount = 0;
 				foreach (var cyclePart in _cycleParts) {
 					if (!cyclePart.Cancel) {
 						try {
@@ -153,12 +155,12 @@ namespace DrillingRig.ConfigApp {
 						catch {
 							continue; /*can show exception in log*/
 						}
-						finally {
-							currentCycleActionsCount++;
-						}
+						//finally {
+							//currentCycleActionsCount++;
+						//}
 					}
 				}
-				Console.WriteLine("currentCycleActionsCount=" + currentCycleActionsCount);
+				//Console.WriteLine("currentCycleActionsCount=" + currentCycleActionsCount);
 			}
 		}
 

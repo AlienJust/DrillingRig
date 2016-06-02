@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dnv.Utils</name>
+    </assembly>
+    <members>
+        <member name="T:Dnv.Utils.Behaviors.MoveInputBindingsToParentWindowBehavior">
+            <summary>
+            Moves FrameworkElement's InputBindings to the parent window. May be used to move UserControl keybord shortcarts to the main window.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.Binding.BindingProxy" -->
+        <member name="T:Dnv.Utils.Collections.ObservableCollectionsConnector`2">
+            <summary>
+            Класс связывает две коллекции типа ObservableCollection между собой так, 
+            что изменения (добавление и удаление элементов) в исходной коллекции автоматически отображаются на 
+            назначаемой коллекции. Отслеживается только добавление и удаление. Перемещение не отслеживается.
+            </summary>
+            <typeparam name="TSourceItemType">Тип исходной коллекции.</typeparam>
+            <typeparam name="TDestItemType">Тип коллекции, в которой нужно отобразить изменения исходной коллекции</typeparam>
+        </member>
+        <member name="M:Dnv.Utils.Collections.ObservableCollectionsConnector`2.#ctor(System.Collections.ObjectModel.ObservableCollection{`0},System.Collections.ObjectModel.ObservableCollection{`1},System.Func{`0,`1},System.Func{`0,`1})">
+            <summary>
+            Конструктор. После создания экземпляра изменения в коллекциях связываются автоматически.
+            </summary>
+            <param name="sourceCollection">Исходная коллекция, изменения в которой нужно отслеживать.</param>
+            <param name="destCollection">Коллекция, в которой нужно отобразить изменения исходной.</param>
+            <param name="constructDestItem">Функция, которая конструирует новый элемент типа DestItemType на 
+            основе SourceItemType. Может возвращать null, тогда объект не будет добавляться.</param>
+            <param name="getDestItem">Фу-я должна возвращать объект из конечной коллекции, который соответствует 
+            объекту из исходной коллекции</param>
+        </member>
+        <member name="T:Dnv.Utils.Collections.ObservableCollectionsLinkerNr`2">
+            <summary>
+            Класс связывает две коллекции типа ObservableCollection между собой так, 
+            что изменения (добавление и удаление элементов) в исходной коллекции автоматически отображаются на 
+            назначаемой коллекции. Отслеживается только добавление новых элементов и очищение всей коллекции (Clear()). 
+            Перемещение не отслеживается.
+            </summary>
+            <typeparam name="TSourceItemType">Тип исходной коллекции.</typeparam>
+            <typeparam name="TDestItemType">Тип коллекции, в которой нужно отобразить изменения исходной коллекции</typeparam>
+        </member>
+        <member name="M:Dnv.Utils.Collections.ObservableCollectionsLinkerNr`2.#ctor(System.Collections.ObjectModel.ObservableCollection{`0},System.Collections.ObjectModel.ObservableCollection{`1},System.Func{`0,`1})">
+            <summary>
+            Конструктор. После создания экземпляра изменения в коллекциях связываются автоматически.
+            </summary>
+            <param name="sourceCollection">Исходная коллекция, изменения в которой нужно отслеживать.</param>
+            <param name="destCollection">Коллекция, в которой нужно отобразить изменения исходной.</param>
+            <param name="constructDestItem">Функция, которая конструирует новый элемент типа DestItemType на 
+            основе SourceItemType. Может возвращать null, тогда объект не будет добавляться.</param>
+        </member>
+        <member name="T:Dnv.Utils.Collections.ObservableCollectionsLinker`2">
+            <summary>
+            Класс связывает две коллекции типа ObservableCollection между собой так, 
+            что изменения (добавление и удаление элементов) в исходной коллекции автоматически отображаются на 
+            назначаемой коллекции. При этом колленции должны друг на друга строго по порядку следования.
+            Отслеживается только добавление и удаление. Перемещение не отслеживается.
+            </summary>
+            <typeparam name="TSourceItemType">Тип исходной коллекции.</typeparam>
+            <typeparam name="TDestItemType">Тип коллекции, в которой нужно отобразить изменения исходной коллекции</typeparam>
+        </member>
+        <member name="M:Dnv.Utils.Collections.ObservableCollectionsLinker`2.#ctor(System.Collections.ObjectModel.ObservableCollection{`0},System.Collections.ObjectModel.ObservableCollection{`1},System.Func{`0,`1})">
+            <summary>
+            Конструктор. После создания экземпляра изменения в коллекциях связываются автоматически.
+            </summary>
+            <param name="sourceCollection">Исходная коллекция, изменения в которой нужно отслеживать.</param>
+            <param name="destCollection">Коллекция, в которой нужно отобразить изменения исходной.</param>
+            <param name="constructDestItem">Функция, которая конструирует новый элемент типа DestItemType на 
+            основе SourceItemType. Может возвращать null, тогда объект не будет добавляться.</param>
+        </member>
+        <member name="T:Dnv.Utils.Converters.BooleanToVisibilityConverter">
+            <summary>
+            Преобразователь Bool в Visibility.
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Converters.DictionaryConverter">
+            <summary>
+            Позволяет получать объекты из словаря при использовании с MultiBinding. 
+            Объявления биндингов в MultiBinding должны идти в порядке: словарь, ключ.
+            ConverterParameter может указывать на название свойства объекта, которое требуется возвратить из полученного значения Value .
+            Пример:
+            <para/>
+            <example>
+            <code>
+            class ViewModel{ public Dictionary&lt;string, DateTime&gt; Dict {get;} } 
+            <para/>
+            &lt;DictionaryConverter x:Key="dictionaryConverter"/&gt;
+            &lt;object&gt;
+                &lt;object.Property&gt;  
+                    &lt;MultiBinding Converter="{StaticResource dictionaryConverter}"
+                                  ConverterParameter="Millisecond"
+                                  UpdateSourceTrigger="PropertyChanged"&gt;
+                        &lt;Binding Path="{Binding Path=Dict}"/&gt;
+                        &lt;Binding Path="Key"/&gt;
+                    &lt;/MultiBinding&gt;  
+                &lt;/object.Property&gt;    
+            &lt;/object&gt;
+            </code>
+            </example>
+            </summary> 
+        </member>
+        <member name="T:Dnv.Utils.Converters.CollectionItemsCountToVisibilityConverter">
+            <summary>
+            Converts System.Collections.ICollection to System.Windows.Visibility.
+            If ICollection.Count > 0, return Visibility.Visible else Visibility.Collapsed.
+            Unfortunately does not works when items count changes.
+            </summary>
+        </member>
+        <member name="M:Dnv.Utils.Converters.CollectionItemsCountToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="targetType"></param>
+            <param name="parameter"></param>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.Converters.EnumToBooleanConverter" -->
+        <member name="T:Dnv.Utils.Converters.FileSizeConverter">
+            <summary>
+            Преобразует число размер файла в human readable form.
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Converters.InverseBooleanConverter">
+            <summary>
+            Преобразует true в false и наоборот. За счет расширения MarkupExtension можно использовать без создания отдельного экземпляра в ресурсах.
+            
+            <example>
+            <code>
+            IsHitTestVisible="{Binding Path=IsOpen, Converter={namespace:InverseBooleanConverter}, ElementName=modifiersPopup}"
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Converters.SolidColorBrushToBooleanConverter">
+            <summary>
+            Преобразователь SolidColorBrush в Bool.
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Converters.VisibilityToBooleanConverter">
+            <summary>
+            Преобразователь Bool в Visibility.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.Messages.DialogMessage`1" -->
+        <member name="M:Dnv.Utils.Messages.DialogMessage`1.#ctor(System.Object,`0,System.Action{Dnv.Utils.Messages.DialogMessage{`0}.DialogMessageResult})">
+            <summary>
+            Конструктор.
+            </summary>
+            <param name="dialog">Сконфигурированный диалог</param>
+            <param name="resultCallback">Колбэк, который будет вызван после показа диалога.</param>
+        </member>
+        <member name="M:Dnv.Utils.Messages.DialogMessage`1.ProcessResult">
+            <summary>
+            Обработать результат. Вызывается принимающей стороной.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.Dialog">
+            <summary>
+            Сам диалог. Используется принимающей сторонй для отображения.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.Sender">
+            <summary>
+            Отправитель сообщения.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.Result">
+            <summary>
+            Результат отображения диалога.
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult">
+            <summary>
+            Результат отображения диалога.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.DialogResult">
+            <summary>
+            Результат вызова метода DialogType.ShowDialog();
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.Dialog">
+            <summary>
+            Диалог. используется для извлечения результатов отображения (имя файла, папки, цвет и т.п.)
+            </summary>
+        </member>
+        <member name="T:Dnv.Utils.Messages.MessageBoxMessage">
+            <summary>
+            Сообщение для отображения MessageBox
+            </summary>
+        </member>
+        <member name="M:Dnv.Utils.Messages.MessageBoxMessage.ProcessResult">
+            <summary>
+            Обработать результат. Вызывается принимающей стороной.
+            </summary>
+        </member>
+        <member name="M:Dnv.Utils.Settings.IApplicationSettingsBase.Save">
+            <summary>
+            Save settings.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Settings.IApplicationSettingsBase.IsFirstInitialization">
+            <summary>
+            First application run.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Dnv.Utils.Settings.ApplicationSettingsBase.LocalApplicationDataPath" -->
+        <member name="T:Dnv.Utils.Settings.ApplicationSettingsBase`1">
+            <summary>
+            Базовый класс для управления настройками приложения. 
+            </summary>
+            <typeparam name="TSettingsPdo">PDO класс используемый для сохранения настроек. 
+            Должен содержать только свойства.</typeparam>
+        </member>
+        <member name="F:Dnv.Utils.Settings.ApplicationSettingsBase`1.SettingsPdo">
+            <summary>
+            PDO класс используемый для сохранения настроек. 
+            </summary>
+        </member>
+        <member name="M:Dnv.Utils.Settings.ApplicationSettingsBase`1.#ctor(System.String)">
+            <summary>
+            Конструктор. Создаёт файл настроек или загружает его если он имеется. 
+            Название компании и продукта берутся из информации о сборке приложения, 
+            которое загрузило эту сборку. </summary>
+            <param name="settingsFileName">Имя файла настроек.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.TemplateSelectors.InterfaceDataTemplateSelector" -->
+        <member name="P:Dnv.Utils.TemplateSelectors.InterfaceDataTemplateSelector.InterfaceName">
+            <summary>
+            Interface name. 
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.TemplateSelectors.InterfaceDataTemplateSelector.DataTemplateName">
+            <summary>
+            Name of DataTemplate.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.TemplateSelectors.MutlipleInterfaceDataTemplateSelector" -->
+    </members>
+</doc>

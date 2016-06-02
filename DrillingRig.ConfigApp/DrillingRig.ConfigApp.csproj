@@ -42,6 +42,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abt.Controls.SciChart.Wpf.2.2, Version=2.2.5076.36477, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\SciChartControl\Release\Abt.Controls.SciChart.Wpf.2.2.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Adaptation.WindowsPresentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
@@ -89,6 +93,10 @@
     <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="RPD.SciChartControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\SciChartControl\Release\RPD.SciChartControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -209,6 +217,7 @@
     <Compile Include="LookedLikeAbb\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
+    <Compile Include="LookedLikeAbb\ChartControlViewModel.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
