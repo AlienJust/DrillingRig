@@ -253,10 +253,11 @@
 							</TabControl>
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Графики" CanClose="False">
-							<rpd:ChartControl DataContext="{Binding Path=ChartControlVm, Mode=OneTime}"/>
+							<!--<rpd:ChartControl DataContext="{Binding Path=ChartControlVm, Mode=OneTime}"/>-->
+							<rpd:ChartControl AnalogSeries="{Binding Path=ChartControlVm.AnalogSeries}" DiscreteSeries="{Binding Path=ChartControlVm.DiscreteSeries}" AnalogSeriesAdditionalData="{Binding Path=ChartControlVm.AnalogSeriesAdditionalData}" DiscreteSeriesAdditionalData="{Binding Path=ChartControlVm.DiscreteSeriesAdditionalData}"/>
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Дополнительно" CanClose="False">
-							
+
 						</xcad:LayoutDocument>
 					</xcad:LayoutDocumentPane>
 				</xcad:LayoutDocumentPaneGroup>

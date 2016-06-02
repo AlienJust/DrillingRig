@@ -64,7 +64,7 @@ namespace DrillingRig.ConfigApp {
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
-		public ChartControlViewModel ChartControlVm { get; }
+		public ChartViewModel ChartControlVm { get; }
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
@@ -136,7 +136,11 @@ namespace DrillingRig.ConfigApp {
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 
-			ChartControlVm = new ChartControlViewModel();
+			ChartControlVm = new ChartViewModel();
+			var sampleSeries = ChartViewModel.GenerateExampleSeries(DateTime.Now.AddHours(-1), 1.0, "Пример серии точек");
+			
+			ChartControlVm.AnalogSeries.Add();
+			
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);

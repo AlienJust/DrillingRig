@@ -437,9 +437,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AnySettingsView\" />
+    <Folder Include="LookedLikeAbb\Chart\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="intelecon x gray.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SciChartLicense.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
