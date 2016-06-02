@@ -172,7 +172,7 @@
     </Compile>
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsPartWritable.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsReader.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsWritable.cs" />
     <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
     <Compile Include="ICyclePart.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="LookedLikeAbb\Group01ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group20SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\IAinSettingsPart.cs" />
-    <Compile Include="LookedLikeAbb\IAinSettingsReader.cs" />
+    <Compile Include="LookedLikeAbb\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">

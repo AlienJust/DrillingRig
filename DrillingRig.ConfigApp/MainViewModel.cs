@@ -131,7 +131,7 @@ namespace DrillingRig.ConfigApp {
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
 			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this);
 
-			var ainSettingsReadedWriter = new AinSettingsReader(this, this, this, _logger, this); // TODO: move to field
+			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 
 

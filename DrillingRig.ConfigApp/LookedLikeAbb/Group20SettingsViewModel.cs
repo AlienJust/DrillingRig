@@ -5,7 +5,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group20SettingsViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
-		private readonly IAinSettingsReader _reader;
+		private readonly IAinSettingsReaderWriter _readerWriter;
 
 		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
@@ -16,10 +16,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public RelayCommand ReadSettingsCmd { get; }
 
-		public Group20SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReader reader) {
+		public Group20SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
-			_reader = reader;
+			_readerWriter = readerWriter;
 
 			Parameter01Vm = new ParameterDoubleEditableViewModel("20.01. Номинальная частота", "f0", -10000, 10000, null);
 			Parameter02Vm = new ParameterDoubleEditableViewModel("20.02. Максимальная частота", "f0", -10000, 10000, null);
@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void ReadSettings() {
-			_reader.ReadSettingsAsync((exception, settings) => {
+			_readerWriter.ReadSettingsAsync((exception, settings) => {
 				_uiRoot.Notifier.Notify(() => {
 					if (exception != null) {
 						_logger.Log("Не удалось прочитать настройки АИН");
