@@ -1,10 +1,9 @@
-﻿using System;
-using AlienJust.Support.Loggers.Contracts;
+﻿using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group02ParametersViewModel : ViewModelBase {
+	class Group03ParametersViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ICycleReader _cycleReader;
 		private readonly IAinsCounter _ainsCounter;
@@ -26,27 +25,28 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
 
-		public Group02ParametersViewModel(IUserInterfaceRoot uiRoot, ILogger logger, ICycleReader cycleReader, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+		public Group03ParametersViewModel(IUserInterfaceRoot uiRoot, ILogger logger, ICycleReader cycleReader, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_cycleReader = cycleReader;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01 Выход задатчика интенсивности частоты [об/мин]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02 Выход задатчика интенсивности после фильтра [об/мин]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Уставка потока [%]", "f2", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01 Коэффициент модуляции ШИМ [%]", "f2", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренный поток [%]", "f2", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02 Выход регулятора тока D [%]", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Выход регулятора тока Q [%]", "f2", null, parameterLogger);
 
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренный поток после фильтра [%]", "f2", null, parameterLogger);
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06 Задание моментного тока [А]", "f0", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренная составляющая тока D [%]", "f2", null, parameterLogger);
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренная составляющая тока Q [%]", "f2", null, parameterLogger);
 
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07 Задание тока возбуждения [А]", "f0", null, parameterLogger);
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("02.08 Пропорциональная часть регулятора тока D [А]", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09 Пропорциональная часть регулятора тока Q [А]", "f0", null, parameterLogger);
+			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06 Выход регулятора компенсатора вычислителя потока D [В]", "f0", null, parameterLogger);
+			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07 Выход регулятора компенсатора вычислителя потока Q [В]", "f0", null, parameterLogger);
 
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10 Пропорциональная часть регулятора скорости [об/мин]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 Пропорциональная часть регулятора потока [%]", "f2", null, parameterLogger);
+			Parameter08Vm = new ParameterDoubleReadonlyViewModel("02.08 Вспомогательная ячейка №1 АИН1", "f0", null, parameterLogger);
+			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09 Вспомогательная ячейка №2 АИН1", "f0", null, parameterLogger);
+
+			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10 Вычисленное текущее значение теплового показателя двигателя [А^2*c]", "f0", null, parameterLogger); // TODO: ask Marat
+			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 (Ведомый привод) Уставка моментного тока (Выход регулятора скорости) [%]", "f2", null, parameterLogger); // TODO: ask Marat
 
 			_isReadingCycle = false;
 			ReadCycleCmd = new RelayCommand(ReadCycle, ()=>!_isReadingCycle);
@@ -101,20 +101,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void CycleReaderOnAin1TelemetryReaded(IAinTelemetry ainTelemetry) {
 			if (_isReadingCycle) {
-				Parameter01Vm.CurrentValue = ainTelemetry.FriquencyIntensitySetpointOutput;
-				Parameter02Vm.CurrentValue = ainTelemetry.AfterFilterFset;
+				Parameter01Vm.CurrentValue = ainTelemetry.PwmModulationCoefficient;
 
-				Parameter03Vm.CurrentValue = ainTelemetry.FlowSetting;
-				Parameter04Vm.CurrentValue = ainTelemetry.MeasuredFlow;
-				Parameter05Vm.CurrentValue = ainTelemetry.AfterFilterFimag;
+				Parameter02Vm.CurrentValue = ainTelemetry.RegulatorCurrentDoutput;
+				Parameter03Vm.CurrentValue = ainTelemetry.RegulatorCurrentQoutput;
 
-				Parameter06Vm.CurrentValue = ainTelemetry.MomentumCurrentSetting;
-				Parameter07Vm.CurrentValue = ainTelemetry.SettingExcitationCurrent;
+				Parameter04Vm.CurrentValue = ainTelemetry.CurrentDpartMeasured;
+				Parameter05Vm.CurrentValue = ainTelemetry.CurrentQpartMeasured;
 
-				Parameter08Vm.CurrentValue = ainTelemetry.DCurrentRegulatorProportionalPart;
-				Parameter09Vm.CurrentValue = ainTelemetry.QcurrentRegulatorProportionalPart;
-				Parameter10Vm.CurrentValue = ainTelemetry.SpeedRegulatorProportionalPart;
-				Parameter11Vm.CurrentValue = ainTelemetry.FlowRegulatorProportionalPart;
+				Parameter06Vm.CurrentValue = ainTelemetry.CalculatorDflowRegulatorOutput;
+				Parameter07Vm.CurrentValue = ainTelemetry.CalculatorQflowRegulatorOutput;
+
+				Parameter08Vm.CurrentValue = ainTelemetry.Aux1;
+				Parameter09Vm.CurrentValue = ainTelemetry.Aux2;
+				//Parameter10Vm.CurrentValue = ainTelemetry.SpeedRegulatorProportionalPart; // TODO: ask Marat
+				//Parameter11Vm.CurrentValue = ainTelemetry.FlowRegulatorProportionalPart; // TODO: ask Marat
 			}
 		}
 
@@ -159,8 +160,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter07Vm.CurrentValue = null;
 			Parameter08Vm.CurrentValue = null;
 			Parameter09Vm.CurrentValue = null;
-			Parameter10Vm.CurrentValue = null;
-			Parameter11Vm.CurrentValue = null;
+			// Parameter10Vm.CurrentValue = null; // TODO: ASK Marat
+			// Parameter11Vm.CurrentValue = null; // TODO: ASK Marat
 
 		}
 

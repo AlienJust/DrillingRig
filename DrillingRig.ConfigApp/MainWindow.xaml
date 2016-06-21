@@ -141,68 +141,23 @@
 			<xcad:LayoutPanel Orientation="Vertical">
 				<xcad:LayoutDocumentPaneGroup Orientation="Vertical">
 					<xcad:LayoutDocumentPane >
-						<xcad:LayoutDocument Title="Старый вариант" CanClose="False">
-							<Grid>
-								<!--<Grid.RowDefinitions>
-									<RowDefinition Height="4*"/>
-									<RowDefinition Height="1*"/>
-								</Grid.RowDefinitions>-->
-								<TabControl Grid.Row="0" Background="Transparent" TabStripPlacement="Left">
-									<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
-										<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Номиналы БС-Ethernet" Style="{StaticResource AzureTabItem}">
-										<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Телеметрия АИН" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
-										<!--Header="Телеметрия АИН"-->
-										<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
-									</TabItem>
-
-									<TabItem Header="Команда АИН1" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Команда АИН2" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Команда АИН3" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Система" Style="{StaticResource AzureTabItem}" BorderBrush="Blue">
-										<Grid>
-											<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
-										</Grid>
-									</TabItem>
-									<TabItem Header="Выпрямители" Style="{StaticResource AzureTabItem}">
-										<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Модуль охлаждения" Style="{StaticResource AzureTabItem}">
-										<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-								</TabControl>
-								<!--<GridSplitter Grid.Row="1" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
-								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>-->
-							</Grid>
-						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="Телеметрия" CanClose="False">
+						<xcad:LayoutDocument Title="Текущие сигналы" CanClose="False">
 							<TabControl Background="Transparent" TabStripPlacement="Left">
-								<TabItem Header="01. Текущие сигналы. Основные" Style="{StaticResource AzureTabItem}" >
-									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"></lookedLikeAbb:Group01ParametersView>
+								<TabItem Header="01. Основные" Style="{StaticResource AzureTabItem}" >
+									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="02. Текущие сигналы. Скорость и момент" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group02ParametersView DataContext="{Binding Path=Group02ParametersVm, Mode=OneTime}"></lookedLikeAbb:Group02ParametersView>
+								<TabItem Header="02. Скорость и момент" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group02ParametersView DataContext="{Binding Path=Group02ParametersVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="03. Текущие сигналы. Внутренние параметры" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="09. Текущие сигналы. Слова отказов" Style="{StaticResource AzureTabItem}"  BorderBrush="Red"></TabItem>
+								<TabItem Header="03. Внутренние параметры" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group03ParametersView DataContext="{Binding Path=Group03ParametersVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="04. Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+									<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}"  BorderBrush="Red"></TabItem>
 								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
 							</TabControl>
 						</xcad:LayoutDocument>
@@ -260,6 +215,58 @@
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Дополнительно" CanClose="False">
 
+						</xcad:LayoutDocument>
+						<xcad:LayoutDocument Title="Старый вариант" CanClose="False">
+							<Grid>
+								<!--<Grid.RowDefinitions>
+									<RowDefinition Height="4*"/>
+									<RowDefinition Height="1*"/>
+								</Grid.RowDefinitions>-->
+								<TabControl Grid.Row="0" Background="Transparent" TabStripPlacement="Left">
+									<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
+										<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Номиналы БС-Ethernet" Style="{StaticResource AzureTabItem}">
+										<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Телеметрия АИН" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+										<!--Header="Телеметрия АИН"-->
+										<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
+										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
+										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
+										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
+									</TabItem>
+
+									<TabItem Header="Команда АИН1" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Команда АИН2" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Команда АИН3" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Система" Style="{StaticResource AzureTabItem}" BorderBrush="Blue">
+										<Grid>
+											<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
+										</Grid>
+									</TabItem>
+									<TabItem Header="Выпрямители" Style="{StaticResource AzureTabItem}">
+										<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
+									</TabItem>
+									<TabItem Header="Модуль охлаждения" Style="{StaticResource AzureTabItem}">
+										<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
+									</TabItem>
+								</TabControl>
+								<!--<GridSplitter Grid.Row="1" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
+								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>-->
+							</Grid>
 						</xcad:LayoutDocument>
 					</xcad:LayoutDocumentPane>
 				</xcad:LayoutDocumentPaneGroup>

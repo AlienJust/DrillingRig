@@ -6,7 +6,7 @@ using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using RPD.SciChartControl;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 	public class ChartViewModel {
 		private const int MaxPoints = 10000;
 
@@ -39,8 +39,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				dt2 += TimeSpan.FromMilliseconds(20);
 			}
 
-			var series = new FastLineRenderableSeries { DataSeries = dataSeries };
-			series.SeriesColor = Colors.Green;
+			var series = new FastLineRenderableSeries {
+				DataSeries = dataSeries,
+				SeriesColor = Colors.Green
+			};
 
 			return new ChartSeriesViewModel(dataSeries, series);
 		}

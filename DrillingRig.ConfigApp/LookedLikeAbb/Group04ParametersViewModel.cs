@@ -1,10 +1,9 @@
-﻿using System;
-using AlienJust.Support.Loggers.Contracts;
+﻿using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group02ParametersViewModel : ViewModelBase {
+	class Group04ParametersViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ICycleReader _cycleReader;
 		private readonly IAinsCounter _ainsCounter;
@@ -12,50 +11,25 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter04Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter05Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter06Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter07Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter08Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter09Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter10Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter11Vm { get; }
 
 		private bool _isReadingCycle;
 		private int _currentAinsCountToRead;
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
 
-		public Group02ParametersViewModel(IUserInterfaceRoot uiRoot, ILogger logger, ICycleReader cycleReader, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+		public Group04ParametersViewModel(IUserInterfaceRoot uiRoot, ILogger logger, ICycleReader cycleReader, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_cycleReader = cycleReader;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01 Выход задатчика интенсивности частоты [об/мин]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02 Выход задатчика интенсивности после фильтра [об/мин]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Уставка потока [%]", "f2", null, parameterLogger);
-
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренный поток [%]", "f2", null, parameterLogger);
-
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренный поток после фильтра [%]", "f2", null, parameterLogger);
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06 Задание моментного тока [А]", "f0", null, parameterLogger);
-
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07 Задание тока возбуждения [А]", "f0", null, parameterLogger);
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("02.08 Пропорциональная часть регулятора тока D [А]", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09 Пропорциональная часть регулятора тока Q [А]", "f0", null, parameterLogger);
-
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10 Пропорциональная часть регулятора скорости [об/мин]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 Пропорциональная часть регулятора потока [%]", "f2", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("04.01 Версия ПО (АИН)", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("04.02 Дата билда ПО (АИН)", "f0", null, parameterLogger); // TODO: view as DateTime
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", "f0", null, parameterLogger);
 
 			_isReadingCycle = false;
 			ReadCycleCmd = new RelayCommand(ReadCycle, ()=>!_isReadingCycle);
 			StopReadCycleCmd = new RelayCommand(StopReadCycle, () => _isReadingCycle);
-
-			//_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
-			//_cycleReader.Ain2TelemetryReaded += CycleReaderOnAin2TelemetryReaded;
-			//_cycleReader.Ain3TelemetryReaded += CycleReaderOnAin3TelemetryReaded;
-
 
 			_currentAinsCountToRead = _ainsCounter.SelectedAinsCount;
 			_ainsCounter.AinsCountInSystemHasBeenChanged += AinsCounterOnAinsCountInSystemHasBeenChanged;
@@ -75,6 +49,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							}
 						}
 					}
+					// TODO: remove if AIN2 and AIN3 are not used:
 					else if (_currentAinsCountToRead == 2) {
 						if (newAinsCount > 2) {
 							StartReadCycleAin3Params();
@@ -101,20 +76,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void CycleReaderOnAin1TelemetryReaded(IAinTelemetry ainTelemetry) {
 			if (_isReadingCycle) {
-				Parameter01Vm.CurrentValue = ainTelemetry.FriquencyIntensitySetpointOutput;
-				Parameter02Vm.CurrentValue = ainTelemetry.AfterFilterFset;
+				Parameter01Vm.CurrentValue = ainTelemetry.Pver;
 
-				Parameter03Vm.CurrentValue = ainTelemetry.FlowSetting;
-				Parameter04Vm.CurrentValue = ainTelemetry.MeasuredFlow;
-				Parameter05Vm.CurrentValue = ainTelemetry.AfterFilterFimag;
-
-				Parameter06Vm.CurrentValue = ainTelemetry.MomentumCurrentSetting;
-				Parameter07Vm.CurrentValue = ainTelemetry.SettingExcitationCurrent;
-
-				Parameter08Vm.CurrentValue = ainTelemetry.DCurrentRegulatorProportionalPart;
-				Parameter09Vm.CurrentValue = ainTelemetry.QcurrentRegulatorProportionalPart;
-				Parameter10Vm.CurrentValue = ainTelemetry.SpeedRegulatorProportionalPart;
-				Parameter11Vm.CurrentValue = ainTelemetry.FlowRegulatorProportionalPart;
+				Parameter02Vm.CurrentValue = ainTelemetry.PvDate?.Ticks;
+				
+				Parameter03Vm.CurrentValue = null; // TODO: ask Marat, откуда брать версию ПО БС-Ehternet
 			}
 		}
 
@@ -152,16 +118,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter01Vm.CurrentValue = null;
 			Parameter02Vm.CurrentValue = null;
 			Parameter03Vm.CurrentValue = null;
-			Parameter04Vm.CurrentValue = null;
-			Parameter05Vm.CurrentValue = null;
-			Parameter06Vm.CurrentValue = null;
-
-			Parameter07Vm.CurrentValue = null;
-			Parameter08Vm.CurrentValue = null;
-			Parameter09Vm.CurrentValue = null;
-			Parameter10Vm.CurrentValue = null;
-			Parameter11Vm.CurrentValue = null;
-
 		}
 
 		private void StopReadCycleAin2TelemetryAndResetParams() {

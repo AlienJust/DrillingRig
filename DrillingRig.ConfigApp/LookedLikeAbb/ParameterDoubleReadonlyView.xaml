@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="25" d:DesignWidth="300">
-	<CheckBox HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+	<CheckBox HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" IsChecked="{Binding Path=IsChecked, Mode=TwoWay}">
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>

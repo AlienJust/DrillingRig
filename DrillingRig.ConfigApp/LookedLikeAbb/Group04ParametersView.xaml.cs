@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	public partial class Group01ParametersView : UserControl {
-		public Group01ParametersView() {
+	public partial class Group04ParametersView : UserControl {
+		public Group04ParametersView() {
 			InitializeComponent();
 		}
 	}

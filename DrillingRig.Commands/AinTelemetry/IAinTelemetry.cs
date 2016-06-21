@@ -5,19 +5,72 @@ namespace DrillingRig.Commands.AinTelemetry {
 		ushort CommonFaultState { get; }
 		ushort CommonEngineState { get; }
 
+		/// <summary>
+		/// Fe, Вычисленная частота вращения (электрическая)
+		/// </summary>
 		double RotationFriquencyCalculated { get; }
+
+		/// <summary>
+		///Uout, Коэффициент модуляции ШИМ
+		/// </summary>
 		double PwmModulationCoefficient { get; }
+
+		/// <summary>
+		/// IQset, Задание моментного тока
+		/// </summary>
 		double MomentumCurrentSetting { get; }
+
+		/// <summary>
+		/// T, Температура радиатора
+		/// </summary>
 		double RadiatorTemperature { get; }
+
+		/// <summary>
+		/// Udc, Напряжение шины DC
+		/// </summary>
 		double DcBusVoltage { get; }
+
+		/// <summary>
+		/// Isum, Амплитуда огибающей тока по всем фазам
+		/// </summary>
 		double AllPhasesCurrentAmplitudeEnvelopeCurve { get; }
+
+		/// <summary>
+		/// Ud, Выход регулятора тока D
+		/// </summary>
 		double RegulatorCurrentDoutput { get; }
+
+		/// <summary>
+		/// Uq, Выход регулятора тока Q
+		/// </summary>
 		double RegulatorCurrentQoutput { get; }
+
+		/// <summary>
+		/// Fout, Выход задатчика интенсивности частоты (электрической)
+		/// </summary>
 		double FriquencyIntensitySetpointOutput { get; }
+
+		/// <summary>
+		/// Flset, Уставка потока
+		/// </summary>
 		double FlowSetting { get; }
+
+		/// <summary>
+		/// Torq, Измеренный момент
+		/// </summary>
 		double MeasuredMoment { get; }
+
+		/// <summary>
+		/// Mout, Выход рерулятора скорости или уставка моментного тока
+		/// </summary>
 		double SpeedRegulatorOutputOrMomentSetting { get; }
+
+		/// <summary>
+		/// Flmag, Измеренный поток
+		/// </summary>
 		double MeasuredFlow { get; }
+
+
 		double SettingExcitationCurrent { get; }
 
 		ModeSetRunModeBits12 RunModeBits12 { get; }

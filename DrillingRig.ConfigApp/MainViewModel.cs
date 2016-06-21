@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
@@ -21,6 +22,7 @@ using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.LookedLikeAbb;
+using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
@@ -130,18 +132,17 @@ namespace DrillingRig.ConfigApp {
 
 
 			// ABB way:
+			ChartControlVm = new ChartViewModel();
+			var paramLogger = new ParameterLogger(this, ChartControlVm);
+
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
-			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this);
-			Group02ParametersVm = new Group02ParametersViewModel(this, _logger, cycleReader, this);
+			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group02ParametersVm = new Group02ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group03ParametersVm = new Group03ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group04ParametersVm = new Group04ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-
-			ChartControlVm = new ChartViewModel();
-			var sampleSeries = ChartViewModel.GenerateExampleSeries(DateTime.Now.AddHours(-1), 1.0, "Пример серии точек");
-			
-			//ChartControlVm.AnalogSeries.Add();
-			
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
@@ -347,6 +348,8 @@ namespace DrillingRig.ConfigApp {
 
 		public Group01ParametersViewModel Group01ParametersVm { get; }
 		public Group02ParametersViewModel Group02ParametersVm { get; }
+		public Group03ParametersViewModel Group03ParametersVm { get; }
+		public Group04ParametersViewModel Group04ParametersVm { get; }
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 	}
 }

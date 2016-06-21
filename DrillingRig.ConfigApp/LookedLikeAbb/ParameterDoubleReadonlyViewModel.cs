@@ -5,14 +5,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public string Name { get; }
 		public string Format { get; }
 		private double? _currentValue;
+		private readonly IParameterLogger _parameterLogger;
 		private bool _isChecked;
 
-		public ParameterDoubleReadonlyViewModel(string name, string format, double? currentValue) {
+		public ParameterDoubleReadonlyViewModel(string name, string format, double? currentValue, IParameterLogger parameterLogger) {
 			Name = name;
 			Format = format;
 
 			_isChecked = false;
 			_currentValue = currentValue;
+			_parameterLogger = parameterLogger;
 		}
 
 		public double? CurrentValue {
@@ -22,6 +24,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					_currentValue = value;
 					RaisePropertyChanged(() => CurrentValue);
 					RaisePropertyChanged(()=>FormattedValue);
+				}
+				if (_isChecked) {
+					_parameterLogger.LogParameter(Name, value);
 				}
 			}
 		}
@@ -37,5 +42,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				}
 			}
 		}
+	}
+
+	internal interface IParameterLogger {
+		void LogParameter(string parameterName, double? value);
 	}
 }

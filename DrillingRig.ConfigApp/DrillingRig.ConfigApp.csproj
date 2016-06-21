@@ -182,6 +182,14 @@
     <Compile Include="LookedLikeAbb\AinSettingsPartWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsWritable.cs" />
+    <Compile Include="LookedLikeAbb\Group04ParametersView.xaml.cs">
+      <DependentUpon>Group04ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group03ParametersView.xaml.cs">
+      <DependentUpon>Group03ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group04ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group03ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group02ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group02ParametersView.xaml.cs">
       <DependentUpon>Group02ParametersView.xaml</DependentUpon>
@@ -221,7 +229,7 @@
     <Compile Include="LookedLikeAbb\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
-    <Compile Include="LookedLikeAbb\ChartControlViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -230,6 +238,8 @@
     </Compile>
     <Compile Include="LookedLikeAbb\ParameterDoubleEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Chart\ParameterLogger.cs" />
+    <Compile Include="LookedLikeAbb\Chart\PointsSeriesAndAdditionalData.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
@@ -240,6 +250,7 @@
     </Compile>
     <Compile Include="SendingEnabledChangedDelegate.cs" />
     <Compile Include="ILinkContol.cs" />
+    <Compile Include="LookedLikeAbb\Chart\SeriesAdditionalData.cs" />
     <Compile Include="SystemControl\ConvertHelp.cs" />
     <Compile Include="SystemControl\DebugParametersTrendView.xaml.cs">
       <DependentUpon>DebugParametersTrendView.xaml</DependentUpon>
@@ -289,6 +300,14 @@
     <Page Include="BsEthernetSettings\BsEthernetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Group04ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group03ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group02ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -445,7 +464,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AnySettingsView\" />
-    <Folder Include="LookedLikeAbb\Chart\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="intelecon x gray.ico" />
