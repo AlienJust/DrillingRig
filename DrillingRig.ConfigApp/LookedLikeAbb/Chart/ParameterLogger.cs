@@ -19,23 +19,26 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		}
 
 		public void LogParameter(string parameterName, double? value) {
-			if (value.HasValue) {
-				if (!_logs.ContainsKey(parameterName)) {
-					var dataSeries = new XyDataSeries<DateTime, double> {SeriesName = parameterName};
-					dataSeries.Append(DateTime.Today, 0.0);
-					dataSeries.Append(DateTime.Now, value.Value);
+			_uiRoot.Notifier.Notify(() => {
+				if (value.HasValue) {
+					if (!_logs.ContainsKey(parameterName)) {
+						var dataSeries = new XyDataSeries<DateTime, double> {SeriesName = parameterName};
+						dataSeries.Append(DateTime.Today, 0.0);
+						dataSeries.Append(DateTime.Now, value.Value);
 
-					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = Colors.Green };
-					var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
+						var renderSeries = new FastLineRenderableSeries {DataSeries = dataSeries, SeriesColor = Colors.Green};
+						var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
 
-					var metadata = new SeriesAdditionalData(vm);
+						var metadata = new SeriesAdditionalData(vm);
 
-					_chart.AnalogSeries.Add(vm);
-					_chart.AnalogSeriesAdditionalData.Add(metadata);
-					_logs.Add(parameterName, new PointsSeriesAndAdditionalData(vm, metadata, dataSeries, renderSeries));
+						//_chart.AddDataCommandExecute(0.3, parameterName);
+						_chart.AnalogSeries.Add(vm);
+						_chart.AnalogSeriesAdditionalData.Add(metadata);
+						_logs.Add(parameterName, new PointsSeriesAndAdditionalData(vm, metadata, dataSeries, renderSeries));
+					}
+					//_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
 				}
-				//_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
-			}
+			});
 		}
 	}
 }

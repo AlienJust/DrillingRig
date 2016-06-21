@@ -16,6 +16,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 			AnalogSeriesAdditionalData = new ObservableCollection<ISeriesAdditionalData>();
 			DiscreteSeriesAdditionalData = new ObservableCollection<ISeriesAdditionalData>();
+
+			AddDataCommandExecute(0.5, "ololo");
+			AddDataCommandExecute(0.1, "trololo");
+			AddDataCommandExecute(0.9, "wtfwtf");
 		}
 
 		#region View Model Public Properties
@@ -60,6 +64,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 			var series = new FastLineRenderableSeries { DataSeries = dataSeries };
 			return new ChartSeriesViewModel(dataSeries, series);
+		}
+
+		public void AddDataCommandExecute(double koeff, string name) {
+			var startDateTime = DateTime.Now;
+
+			var vm = GenerateExampleSeries(startDateTime, koeff, name);
+			var metadata = new SeriesAdditionalData(vm);
+
+			AnalogSeries.Add(vm);
+			AnalogSeriesAdditionalData.Add(metadata);
 		}
 	}
 }
