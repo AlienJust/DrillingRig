@@ -132,6 +132,7 @@ namespace DrillingRig.ConfigApp {
 			// ABB way:
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
 			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this);
+			Group02ParametersVm = new Group02ParametersViewModel(this, _logger, cycleReader, this);
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
@@ -139,7 +140,7 @@ namespace DrillingRig.ConfigApp {
 			ChartControlVm = new ChartViewModel();
 			var sampleSeries = ChartViewModel.GenerateExampleSeries(DateTime.Now.AddHours(-1), 1.0, "Пример серии точек");
 			
-			ChartControlVm.AnalogSeries.Add();
+			//ChartControlVm.AnalogSeries.Add();
 			
 
 			_logger.Log("Программа загружена");
@@ -345,6 +346,7 @@ namespace DrillingRig.ConfigApp {
 		public event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
 
 		public Group01ParametersViewModel Group01ParametersVm { get; }
+		public Group02ParametersViewModel Group02ParametersVm { get; }
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 	}
 }

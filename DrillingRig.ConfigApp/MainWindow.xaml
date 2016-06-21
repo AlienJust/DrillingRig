@@ -198,7 +198,9 @@
 								<TabItem Header="01. Текущие сигналы. Основные" Style="{StaticResource AzureTabItem}" >
 									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"></lookedLikeAbb:Group01ParametersView>
 								</TabItem>
-								<TabItem Header="02. Текущие сигналы. Скорость и момент" Style="{StaticResource AzureTabItem}"></TabItem>
+								<TabItem Header="02. Текущие сигналы. Скорость и момент" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group02ParametersView DataContext="{Binding Path=Group02ParametersVm, Mode=OneTime}"></lookedLikeAbb:Group02ParametersView>
+								</TabItem>
 								<TabItem Header="03. Текущие сигналы. Внутренние параметры" Style="{StaticResource AzureTabItem}"></TabItem>
 								<TabItem Header="09. Текущие сигналы. Слова отказов" Style="{StaticResource AzureTabItem}"  BorderBrush="Red"></TabItem>
 								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>

@@ -182,6 +182,10 @@
     <Compile Include="LookedLikeAbb\AinSettingsPartWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsWritable.cs" />
+    <Compile Include="LookedLikeAbb\Group02ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group02ParametersView.xaml.cs">
+      <DependentUpon>Group02ParametersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
     <Compile Include="ICyclePart.cs" />
     <Compile Include="ICycleThreadHolder.cs" />
@@ -285,6 +289,10 @@
     <Page Include="BsEthernetSettings\BsEthernetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Group02ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group01ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
