@@ -11,11 +11,14 @@ using DrillingRig.CommandSenders.Contracts;
 
 namespace DrillingRig.CommandSenders.TestCommandSender {
 	public class NothingBasedCommandSender : IRrModbusCommandSender, ICommandSenderController {
-		private readonly IStoppableWorker<Action> _backWorker;
+		private readonly IStoppableWorker _backWorkerStoppable;
+		private readonly IWorker<Action> _backWorker;
 		//private readonly IStoppableWorker<Action> _notifyWorker;
 
 		public NothingBasedCommandSender() {
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("BackWorker > "), new DateTimeFormatter(" > ")})));
+			var backWorker = new SingleThreadedRelayQueueWorker<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> {new PreffixTextFormatter("BackWorker > "), new DateTimeFormatter(" > ")})));
+			_backWorker = backWorker;
+			_backWorkerStoppable = backWorker;
 			//_notifyWorker = new SingleThreadedRelayQueueWorker<Action>("NbNotifyWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("NtfyWorker > "), new DateTimeFormatter(" > ") })));
 		}
 
@@ -55,8 +58,10 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			//_notifyWorker.StopSynchronously();
 			//Console.WriteLine("notify worker stopped OK");
 
-			_backWorker.StopAsync();
+			_backWorkerStoppable.StopAsync();
 			Console.WriteLine("backworker stopasync was called");
+			_backWorkerStoppable.WaitStopComplete();
+			Console.WriteLine("backworker has been stopped");
 		}
 
 		public override string ToString() {

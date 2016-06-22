@@ -16,6 +16,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 			_uiRoot = uiRoot;
 			_logs = new Dictionary<string, PointsSeriesAndAdditionalData>();
 			_chart = charVm;
+
+			AddDataCommandExecute(DateTime.Now, _rand.NextDouble(), "Now line");
+			AddDataCommandExecute(DateTime.Today, _rand.NextDouble(), "Today line");
+			AddDataCommandExecute(DateTime.Today.AddDays(1), _rand.NextDouble(), "Tomorrow line");
+
+			AddDiscreeteCommandExecute(DateTime.Now, _rand.NextDouble(), "Now bits");
 		}
 
 		public void LogParameter(string parameterName, double? value) {
@@ -26,9 +32,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 						dataSeries.Append(DateTime.Today, 0.0);
 						dataSeries.Append(DateTime.Now, value.Value);
 
-						var renderSeries = new FastLineRenderableSeries {DataSeries = dataSeries, SeriesColor = Colors.Green};
+						var renderSeries = new FastLineRenderableSeries {DataSeries = dataSeries/*, SeriesColor = Colors.Green*/};
 						var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
-
 						var metadata = new SeriesAdditionalData(vm);
 
 						//_chart.AddDataCommandExecute(0.3, parameterName);
@@ -39,6 +44,24 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 					//_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
 				}
 			});
+		}
+
+		public void AddDataCommandExecute(DateTime startDateTime, double koeff, string name) {
+
+			var vm = ChartViewModel.GenerateExampleSeries(startDateTime, koeff, name);
+			var metadata = new SeriesAdditionalData(vm);
+
+			_chart.AnalogSeries.Add(vm);
+			_chart.AnalogSeriesAdditionalData.Add(metadata);
+		}
+
+		public void AddDiscreeteCommandExecute(DateTime startDateTime, double koeff, string name) {
+
+			var vm = ChartViewModel.GenerateExampleDiscreteSeries(startDateTime, koeff, name);
+			var metadata = new SeriesAdditionalData(vm);
+
+			_chart.AnalogSeries.Add(vm);
+			_chart.AnalogSeriesAdditionalData.Add(metadata);
 		}
 	}
 }

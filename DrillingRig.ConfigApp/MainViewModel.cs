@@ -136,7 +136,9 @@ namespace DrillingRig.ConfigApp {
 			var paramLogger = new ParameterLogger(this, ChartControlVm);
 
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
-			Group01ParametersVm = new Group01ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, paramLogger);
+			RegisterAsCyclePart(Group01ParametersVm);
+
 			Group02ParametersVm = new Group02ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
 			Group03ParametersVm = new Group03ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
 			Group04ParametersVm = new Group04ParametersViewModel(this, _logger, cycleReader, this, paramLogger);

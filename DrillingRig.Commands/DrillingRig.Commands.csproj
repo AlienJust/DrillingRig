@@ -72,6 +72,9 @@
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
     <Compile Include="RtuModbus\RtuModbusPresetSingleRegisterCommand.cs" />
     <Compile Include="RtuModbus\RtuModbusReadHoldingRegistersCommand.cs" />
+    <Compile Include="RtuModbus\Telemetry01\ITelemetry01.cs" />
+    <Compile Include="RtuModbus\Telemetry01\ReadTelemetry01Command.cs" />
+    <Compile Include="RtuModbus\Telemetry01\Telemetry01Simple.cs" />
     <Compile Include="SystemControl\ReadDebugInfoCommand.cs" />
     <Compile Include="SystemControl\SetBootloaderCommand.cs" />
     <Compile Include="SystemControl\RestartCommand.cs" />

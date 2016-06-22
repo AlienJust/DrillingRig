@@ -44,7 +44,7 @@
   <ItemGroup>
     <Reference Include="Abt.Controls.SciChart.Wpf.2.2, Version=2.2.5076.36477, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\SciChartControl\Release\Abt.Controls.SciChart.Wpf.2.2.dll</HintPath>
+      <HintPath>..\References\Abt.Controls.SciChart.Wpf.2.2.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Adaptation.WindowsPresentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -96,19 +96,13 @@
     </Reference>
     <Reference Include="RPD.SciChartControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\SciChartControl\Release\RPD.SciChartControl.dll</HintPath>
+      <HintPath>..\References\RPD.SciChartControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>

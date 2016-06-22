@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
+using DrillingRig.Commands.RtuModbus.Telemetry01;
+using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group01ParametersViewModel : ViewModelBase {
+	class Group01ParametersViewModel : ViewModelBase, ICyclePart {
+		private readonly ICommandSenderHost _commandSenderHost;
+		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
-		private readonly ICycleReader _cycleReader;
 		private readonly IAinsCounter _ainsCounter;
 		private readonly ILogger _logger;
 		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
@@ -29,15 +33,18 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleReadonlyViewModel Parameter18Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter19Vm { get; }
 
-		private bool _isReadingCycle;
-		private int _currentAinsCountToRead;
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
 
-		public Group01ParametersViewModel(IUserInterfaceRoot uiRoot, ILogger logger, ICycleReader cycleReader, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+		private readonly object _syncCancel;
+		private bool _cancel;
+		private bool _readingInProgress;
+
+		public Group01ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+			_commandSenderHost = commandSenderHost;
+			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
-			_cycleReader = cycleReader;
 			_ainsCounter = ainsCounter;
 
 			Parameter01Vm = new ParameterDoubleReadonlyViewModel("01.01 Вычисленная частота вращения [об/мин]", "f1", null, parameterLogger);
@@ -68,186 +75,106 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			Parameter19Vm = new ParameterDoubleReadonlyViewModel("01.19 Активный режим регулирования (Управление по скорости/Управление крутящим моментом)", "f0", null, parameterLogger); // (0 – регулятор скорости, 1 – внешний момент, 2 – их сумма, 3 - 0 )
 
-			_isReadingCycle = false;
-			ReadCycleCmd = new RelayCommand(ReadCycle, ()=>!_isReadingCycle);
-			StopReadCycleCmd = new RelayCommand(StopReadCycle, () => _isReadingCycle);
+			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
+			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
 
-			//_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
-			//_cycleReader.Ain2TelemetryReaded += CycleReaderOnAin2TelemetryReaded;
-			//_cycleReader.Ain3TelemetryReaded += CycleReaderOnAin3TelemetryReaded;
-
-
-			_currentAinsCountToRead = _ainsCounter.SelectedAinsCount;
-			_ainsCounter.AinsCountInSystemHasBeenChanged += AinsCounterOnAinsCountInSystemHasBeenChanged;
+			_syncCancel = new object();
+			_cancel = true;
+			_readingInProgress = false;
 		}
 
 
+		private void StopReadingFunc() {
+			Cancel = true;
+			_readingInProgress = false;
 
-		private void AinsCounterOnAinsCountInSystemHasBeenChanged() {
-			var newAinsCount = _ainsCounter.SelectedAinsCount;
-			if (newAinsCount != _currentAinsCountToRead) {
-				if (_isReadingCycle) {
-					if (_currentAinsCountToRead == 1) {
-						if (newAinsCount > 1) {
-							StartReadCycleAin2Params();
-							if (newAinsCount > 2) {
-								StartReadCycleAin3Params();
-							}
-						}
-					}
-					else if (_currentAinsCountToRead == 2) {
-						if (newAinsCount > 2) {
-							StartReadCycleAin3Params();
-						}
-						else if (newAinsCount < 2) {
-							StopReadCycleAin2TelemetryAndResetParams();
-						}
-					}
-
-					else if (_currentAinsCountToRead == 3) {
-						if (newAinsCount < 3) {
-							StopReadCycleAin3TelemetryAndResetParams();
-							if (newAinsCount < 2) {
-								StopReadCycleAin2TelemetryAndResetParams();
-							}
-						}
-					}
-				}
-				_currentAinsCountToRead = newAinsCount;
-			}
-		}
-
-
-
-		private void CycleReaderOnAin1TelemetryReaded(IAinTelemetry ainTelemetry) {
-			if (_isReadingCycle) {
-				//_logger.Log("Readed in cycle");
-				Parameter01Vm.CurrentValue = ainTelemetry.RotationFriquencyCalculated;
-				Parameter02Vm.CurrentValue = ainTelemetry.RotationFriquencyMeasuredDcv;
-				Parameter03Vm.CurrentValue = ainTelemetry.AfterFilterSpeedControllerFeedbackFriquency;
-				Parameter04Vm.CurrentValue = ainTelemetry.AllPhasesCurrentAmplitudeEnvelopeCurve;
-				Parameter05Vm.CurrentValue = ainTelemetry.PwmModulationCoefficient;
-				Parameter06Vm.CurrentValue = ainTelemetry.DcBusVoltage;
-
-				Parameter07Vm.CurrentValue = ainTelemetry.RadiatorTemperature;
-				// TODO: params 8 and 9
-				Parameter10Vm.CurrentValue = ainTelemetry.ExternalTemperature;
-				// TODO: params 11 and 12
-
-				Parameter13Vm.CurrentValue = ainTelemetry.MeasuredMoment;
-				Parameter14Vm.CurrentValue = ainTelemetry.AfterFilterTorq;
-
-				Parameter15Vm.CurrentValue = ainTelemetry.SpeedRegulatorOutputOrMomentSetting;
-			}
-		}
-
-		private void CycleReaderOnAin2TelemetryReaded(IAinTelemetry ainTelemetry) {
-			Parameter08Vm.CurrentValue = ainTelemetry.RadiatorTemperature;
-			Parameter11Vm.CurrentValue = ainTelemetry.ExternalTemperature;
-		}
-
-		private void CycleReaderOnAin3TelemetryReaded(IAinTelemetry ainTelemetry) {
-			Parameter09Vm.CurrentValue = ainTelemetry.RadiatorTemperature;
-			Parameter12Vm.CurrentValue = ainTelemetry.ExternalTemperature;
-		}
-
-
-		private void StartReadCycleAin1Params()
-		{
-			_cycleReader.Ain1TelemetryReaded += CycleReaderOnAin1TelemetryReaded;
-			_cycleReader.AskToStartReadAin1TelemetryCycle();
-		}
-
-		private void StartReadCycleAin2Params() {
-			_cycleReader.Ain2TelemetryReaded += CycleReaderOnAin2TelemetryReaded;
-			_cycleReader.AskToStartReadAin2TelemetryCycle();
-		}
-
-		private void StartReadCycleAin3Params() {
-			_cycleReader.Ain3TelemetryReaded += CycleReaderOnAin3TelemetryReaded;
-			_cycleReader.AskToStartReadAin3TelemetryCycle();
-		}
-
-
-
-		private void StopReadCycleAin1TelemetryAndResetParams() {
-			_cycleReader.Ain1TelemetryReaded -= CycleReaderOnAin1TelemetryReaded;
-			_cycleReader.AskToStopReadAin1TelemetryCycle();
-
-			Parameter01Vm.CurrentValue = null;
-			Parameter02Vm.CurrentValue = null;
-			Parameter03Vm.CurrentValue = null;
-			Parameter04Vm.CurrentValue = null;
-			Parameter05Vm.CurrentValue = null;
-			Parameter06Vm.CurrentValue = null;
-
-			Parameter07Vm.CurrentValue = null;
-			// TODO: params 8 and 9
-			Parameter10Vm.CurrentValue = null;
-			// TODO: params 11 and 12
-
-			Parameter13Vm.CurrentValue = null;
-			Parameter14Vm.CurrentValue = null;
-
-			Parameter15Vm.CurrentValue = null;
-		}
-
-		private void StopReadCycleAin2TelemetryAndResetParams() {
-			_cycleReader.Ain2TelemetryReaded -= CycleReaderOnAin2TelemetryReaded;
-			_cycleReader.AskToStopReadAin2TelemetryCycle();
-
-			Parameter08Vm.CurrentValue = null;
-			Parameter11Vm.CurrentValue = null;
-		}
-
-		private void StopReadCycleAin3TelemetryAndResetParams() {
-			_cycleReader.Ain3TelemetryReaded -= CycleReaderOnAin3TelemetryReaded;
-			_cycleReader.AskToStopReadAin3TelemetryCycle();
-
-			Parameter09Vm.CurrentValue = null;
-			Parameter12Vm.CurrentValue = null;
-		}
-
-
-
-
-
-		private void StopReadCycle() {
-			_logger.Log("Завершение циклического опроса");
-			_isReadingCycle = false;
-
-			StopReadCycleCmd.RaiseCanExecuteChanged();
-
-			StopReadCycleAin1TelemetryAndResetParams();
-			if (_currentAinsCountToRead > 1) {
-				_logger.Log("Завершение циклического опроса 2");
-				StopReadCycleAin2TelemetryAndResetParams();
-				if (_currentAinsCountToRead > 2) {
-					_logger.Log("Завершение циклического опроса 3");
-					StopReadCycleAin3TelemetryAndResetParams();
-				}
-			}
-
+			_logger.Log("Взведен внутренний флаг прерывания циклического опроса");
 			ReadCycleCmd.RaiseCanExecuteChanged();
+			StopReadCycleCmd.RaiseCanExecuteChanged();
 		}
 
-		private void ReadCycle() {
-			_logger.Log("Начало циклического опроса");
-			_isReadingCycle = true;
+		private void ReadCycleFunc() {
+			_logger.Log("Запуск циклического опроса телеметрии");
+			Cancel = false;
 
+			_readingInProgress = true;
 			ReadCycleCmd.RaiseCanExecuteChanged();
+			StopReadCycleCmd.RaiseCanExecuteChanged();
+		}
 
-			StartReadCycleAin1Params();
-			if (_currentAinsCountToRead > 1) {
-				_logger.Log("Начало циклического опроса 2");
-				StartReadCycleAin2Params();
-				if (_currentAinsCountToRead > 2) {
-					_logger.Log("Начало циклического опроса 3");
-					StartReadCycleAin3Params();
+		public void InCycleAction() {
+			var waiter = new ManualResetEvent(false);
+			var cmd = new ReadTelemetry01Command();
+			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
+				cmd, TimeSpan.FromSeconds(0.1),
+				(exception, bytes) => {
+					ITelemetry01 telemetry = null;
+					try {
+						if (exception != null) {
+							throw new Exception("Произошла ошибка во время обмена", exception);
+						}
+						var result = cmd.GetResult(bytes);
+						telemetry = result;
+					}
+					catch (Exception ex) {
+						telemetry = null;
+							_logger.Log("Ошибка: " + ex.Message);
+						Console.WriteLine(ex);
+					}
+					finally {
+						_uiRoot.Notifier.Notify(() => {
+							Console.WriteLine("UserInterface thread begin action =============================");
+							Console.WriteLine("Now update telemetry Group01...");
+							// TODO: result update telemetry
+							UpdateTelemetry(telemetry);
+							Console.WriteLine("Done");
+							//if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAin1Status(ainTelemetry?.Status);
+							Console.WriteLine("UserInterface thread end action ===============================");
+						});
+						waiter.Set();
+					}
+				});
+			waiter.WaitOne();
+			waiter.Reset();
+		}
+
+		private void UpdateTelemetry(ITelemetry01 telemetry01) {
+			Parameter01Vm.CurrentValue = telemetry01?.We;
+			Parameter02Vm.CurrentValue = telemetry01?.Wm;
+			Parameter03Vm.CurrentValue = telemetry01?.WfbF;
+			Parameter04Vm.CurrentValue = telemetry01?.Isum;
+			Parameter05Vm.CurrentValue = telemetry01?.Uout;
+			Parameter06Vm.CurrentValue = telemetry01?.Udc;
+
+			Parameter07Vm.CurrentValue = telemetry01?.T1;
+			Parameter08Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry01?.T2 : null;
+			Parameter09Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry01?.T3 : null;
+			
+			Parameter10Vm.CurrentValue = telemetry01?.Text1;
+			Parameter11Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry01?.Text2 : null;
+			Parameter12Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry01?.Text3 : null;
+
+			Parameter13Vm.CurrentValue = telemetry01?.Torq;
+			Parameter14Vm.CurrentValue = telemetry01?.TorqF;
+			Parameter15Vm.CurrentValue = telemetry01?.Mout;
+
+			Parameter16Vm.CurrentValue = telemetry01?.P;
+			Parameter17Vm.CurrentValue = telemetry01?.Din;
+			Parameter18Vm.CurrentValue = telemetry01?.Dout;
+			Parameter19Vm.CurrentValue = telemetry01?.SelTorq;
+		}
+
+		public bool Cancel {
+			get {
+				lock (_syncCancel) {
+					return _cancel;
 				}
 			}
-
-			StopReadCycleCmd.RaiseCanExecuteChanged();
+			set {
+				lock (_syncCancel) {
+					_cancel = value;
+				}
+			}
 		}
 	}
 }

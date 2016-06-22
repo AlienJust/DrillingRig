@@ -4,10 +4,11 @@ using System.Windows.Media;
 using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
+using AlienJust.Support.ModelViewViewModel;
 using RPD.SciChartControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
-	public class ChartViewModel {
+	public class ChartViewModel : ViewModelBase {
 		private const int MaxPoints = 10000;
 
 		public ChartViewModel() {
@@ -16,10 +17,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 			AnalogSeriesAdditionalData = new ObservableCollection<ISeriesAdditionalData>();
 			DiscreteSeriesAdditionalData = new ObservableCollection<ISeriesAdditionalData>();
-
-			AddDataCommandExecute(0.5, "ololo");
-			AddDataCommandExecute(0.1, "trololo");
-			AddDataCommandExecute(0.9, "wtfwtf");
 		}
 
 		#region View Model Public Properties
@@ -39,16 +36,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 			var dt2 = startDateTime;
 			for (int i = 0; i < MaxPoints; i++) {
-				dataSeries.Append(dt2, Math.Sin(2 * Math.PI * i / 1000 + koeff));
-				dt2 += TimeSpan.FromMilliseconds(20);
+				dataSeries.Append(dt2, Math.Sin(2 * Math.PI * i / 1000 + koeff) * koeff);
+				dt2 += TimeSpan.FromSeconds(1);
 			}
 
-			var series = new FastLineRenderableSeries {
-				DataSeries = dataSeries,
-				SeriesColor = Colors.Green
+			var renderableSeries = new FastLineRenderableSeries {
+				DataSeries = dataSeries
+				/*, SeriesColor = Colors.Green*/
 			};
 
-			return new ChartSeriesViewModel(dataSeries, series);
+			return new ChartSeriesViewModel(dataSeries, renderableSeries);
 		}
 
 		public static ChartSeriesViewModel GenerateExampleDiscreteSeries(DateTime startDateTime, double koeff, string seriesName) {
@@ -64,16 +61,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 			var series = new FastLineRenderableSeries { DataSeries = dataSeries };
 			return new ChartSeriesViewModel(dataSeries, series);
-		}
-
-		public void AddDataCommandExecute(double koeff, string name) {
-			var startDateTime = DateTime.Now;
-
-			var vm = GenerateExampleSeries(startDateTime, koeff, name);
-			var metadata = new SeriesAdditionalData(vm);
-
-			AnalogSeries.Add(vm);
-			AnalogSeriesAdditionalData.Add(metadata);
 		}
 	}
 }
