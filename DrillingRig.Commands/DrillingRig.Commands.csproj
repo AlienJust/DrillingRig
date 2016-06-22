@@ -70,8 +70,12 @@
     <Compile Include="Cooler\ICoolerTelemetry.cs" />
     <Compile Include="Rectifier\ReadRectifierTelemetriesCommand.cs" />
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
+    <Compile Include="RtuModbus\BytesPair.cs" />
     <Compile Include="RtuModbus\RtuModbusPresetSingleRegisterCommand.cs" />
     <Compile Include="RtuModbus\RtuModbusReadHoldingRegistersCommand.cs" />
+    <Compile Include="RtuModbus\Telemetry02\ITelemetry02.cs" />
+    <Compile Include="RtuModbus\Telemetry02\ReadTelemetry02Command.cs" />
+    <Compile Include="RtuModbus\Telemetry02\Telemetry02Simple.cs" />
     <Compile Include="RtuModbus\Telemetry01\ITelemetry01.cs" />
     <Compile Include="RtuModbus\Telemetry01\ReadTelemetry01Command.cs" />
     <Compile Include="RtuModbus\Telemetry01\Telemetry01Simple.cs" />

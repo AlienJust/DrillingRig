@@ -139,7 +139,9 @@ namespace DrillingRig.ConfigApp {
 			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, paramLogger);
 			RegisterAsCyclePart(Group01ParametersVm);
 
-			Group02ParametersVm = new Group02ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group02ParametersVm = new Group02ParametersViewModel(this, this, this, _logger, paramLogger);
+			RegisterAsCyclePart(Group02ParametersVm);
+
 			Group03ParametersVm = new Group03ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
 			Group04ParametersVm = new Group04ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
 

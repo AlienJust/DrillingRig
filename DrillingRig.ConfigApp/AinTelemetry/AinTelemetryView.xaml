@@ -183,7 +183,7 @@
 			<TextBlock Margin="4,2,2,2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" FontWeight="SemiBold" Text="17. Ffb_f, Частота на ОС регулятора скорости после фильтра"/>
 			<TextBlock Margin="4,2,2,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding Path=AfterFilterSpeedControllerFeedbackFriquency, Mode=OneWay}"/>
 
-			<TextBlock Margin="4,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" FontWeight="SemiBold" Text="18. FImag_f, FImag после фильтра"/>
+			<TextBlock Margin="4,2,2,2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" FontWeight="SemiBold" Text="18. FImagF, FImag после фильтра"/>
 			<TextBlock Margin="4,2,2,2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding Path=AfterFilterFimag, Mode=OneWay}"/>
 
 			<TextBlock Margin="4,2,2,2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" FontWeight="SemiBold" Text="19. Id, Измеренная составляющая тока D"/>

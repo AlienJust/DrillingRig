@@ -2,9 +2,7 @@
 using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.Commands.AinTelemetry;
 using DrillingRig.Commands.RtuModbus.Telemetry01;
-using DrillingRig.Commands.SystemControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group01ParametersViewModel : ViewModelBase, ICyclePart {
