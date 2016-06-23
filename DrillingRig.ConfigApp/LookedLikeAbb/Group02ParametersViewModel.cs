@@ -37,11 +37,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01 Выход задатчика интенсивности частоты [об/мин]", "f0", null, parameterLogger);
 			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02 Выход задатчика интенсивности после фильтра [об/мин]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Уставка потока [%]", "f2", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Уставка потока [%]", "f0", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренный поток [%]", "f2", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренный поток [%]", "f0", null, parameterLogger);
 
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренный поток после фильтра [%]", "f2", null, parameterLogger);
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренный поток после фильтра [%]", "f0", null, parameterLogger);
 			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06 Задание моментного тока [А]", "f0", null, parameterLogger);
 
 			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07 Задание тока возбуждения [А]", "f0", null, parameterLogger);
@@ -49,7 +49,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09 Пропорциональная часть регулятора тока Q [А]", "f0", null, parameterLogger);
 
 			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10 Пропорциональная часть регулятора скорости [об/мин]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 Пропорциональная часть регулятора потока [%]", "f2", null, parameterLogger);
+			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 Пропорциональная часть регулятора потока [%]", "f0", null, parameterLogger);
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
@@ -114,21 +114,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			waiter.Reset();
 		}
 
-		private void UpdateTelemetry(ITelemetry02 telemetry01) {
-			Parameter01Vm.CurrentValue = telemetry01?.Wout;
-			Parameter02Vm.CurrentValue = telemetry01?.WsetF;
+		private void UpdateTelemetry(ITelemetry02 telemetry) {
+			Parameter01Vm.CurrentValue = telemetry?.Wout;
+			Parameter02Vm.CurrentValue = telemetry?.WsetF;
 
-			Parameter03Vm.CurrentValue = telemetry01?.FIset;
-			Parameter04Vm.CurrentValue = telemetry01?.FImag;
-			Parameter05Vm.CurrentValue = telemetry01?.FImagF;
+			Parameter03Vm.CurrentValue = telemetry?.FIset;
+			Parameter04Vm.CurrentValue = telemetry?.FImag;
+			Parameter05Vm.CurrentValue = telemetry?.FImagF;
 
-			Parameter06Vm.CurrentValue = telemetry01?.IqSet;
-			Parameter07Vm.CurrentValue = telemetry01?.IdSet;
+			Parameter06Vm.CurrentValue = telemetry?.IqSet;
+			Parameter07Vm.CurrentValue = telemetry?.IdSet;
 
-			Parameter08Vm.CurrentValue = telemetry01?.Ed;
-			Parameter09Vm.CurrentValue = telemetry01?.Eq;
-			Parameter10Vm.CurrentValue = telemetry01?.Ef;
-			Parameter11Vm.CurrentValue = telemetry01?.Efi;
+			Parameter08Vm.CurrentValue = telemetry?.Ed;
+			Parameter09Vm.CurrentValue = telemetry?.Eq;
+			Parameter10Vm.CurrentValue = telemetry?.Ef;
+			Parameter11Vm.CurrentValue = telemetry?.Efi;
 		}
 
 		public bool Cancel {

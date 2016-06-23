@@ -12,15 +12,9 @@ namespace DrillingRig.Commands.AinSettings {
 			_zeroBasedAinNumber = zeroBasedAinNumber;
 		}
 
-		public byte CommandCode
-		{
-			get { return 0x8F; }
-		}
+		public byte CommandCode => 0x8F;
 
-		public string Name
-		{
-			get { return "Чтение настроек АИН #" + (_zeroBasedAinNumber + 1); }
-		}
+		public string Name => "Чтение настроек АИН #" + (_zeroBasedAinNumber + 1);
 
 		public byte[] Serialize()
 		{
@@ -94,17 +88,17 @@ namespace DrillingRig.Commands.AinSettings {
 
 				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
 				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
-				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8))
+				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8)),
+
+				//status byte:
+				(replyWithoutAinNumber[114] & 0x01) == 0x01,
+				(replyWithoutAinNumber[114] & 0x02) == 0x02,
+				(replyWithoutAinNumber[114] & 0x04) == 0x04
 				);
 				
 		}
 
-		public int ReplyLength
-		{
-			get {
-				return 1 + 114; // ain number + settings
-			}
-		}
+		public int ReplyLength => 1 + 114 + 1; // ain number + settings + ain link fault flags
 
 		public byte[] GetTestReply() {
 			var rnd = new Random();

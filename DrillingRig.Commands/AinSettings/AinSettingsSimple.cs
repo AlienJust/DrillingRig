@@ -1,58 +1,5 @@
 ﻿namespace DrillingRig.Commands.AinSettings {
 	public class AinSettingsSimple : IAinSettings {
-		private readonly int _kpW;
-		private readonly int _kiW;
-		private readonly short _fiNom;
-		private readonly short _imax;
-		private readonly short _udcMax;
-		private readonly short _udcMin;
-		private readonly short _fnom;
-		private readonly short _fmax;
-
-		private readonly short _empty10;
-		private readonly short _empty11;
-		
-		private readonly short _ioutMax;
-		private readonly short _fiMin;
-		private readonly short _dacCh;
-		private readonly short _imcw;
-		private readonly short _ia0;
-		private readonly short _ib0;
-		private readonly short _ic0;
-		private readonly short _udc0;
-		private readonly short _tauR;
-		private readonly short _lm;
-		private readonly short _lsl;
-		private readonly short _lrl;
-		private readonly int _kpFi;
-		private readonly int _kiFi;
-		private readonly int _kpId;
-		private readonly int _kiId;
-		private readonly int _kpIq;
-		private readonly int _kiIq;
-		private readonly short _accDfDt;
-		private readonly short _decDfDt;
-		private readonly short _unom;
-
-		private readonly short _empty39;
-		
-		private readonly short _rs;
-		private readonly short _fmin;
-		private readonly short _tauM;
-		private readonly short _tauF;
-		private readonly short _tauFSet;
-		private readonly short _tauFi;
-		private readonly short _idSetMin;
-		private readonly short _idSetMax;
-		private readonly int _kpFe;
-		private readonly int _kiFe;
-		private readonly short _np;
-
-		private readonly short _empty53;
-
-		private readonly short _emdecDfdt;
-		private readonly short _textMax;
-		private readonly short _toHl;
 		public AinSettingsSimple(
 			int kpW, 
 			int kiW, 
@@ -106,252 +53,162 @@
 
 			short emdecDfdt, 
 			short textMax, 
-			short toHl) {
-			_kpW = kpW;
-			_kiW = kiW;
-			_fiNom = fiNom;
-			_imax = imax;
-			_udcMax = udcMax;
-			_udcMin = udcMin;
-			_fnom = fnom;
-			_fmax = fmax;
+			short toHl, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault) {
+			KpW = kpW;
+			KiW = kiW;
+			FiNom = fiNom;
+			Imax = imax;
+			UdcMax = udcMax;
+			UdcMin = udcMin;
+			Fnom = fnom;
+			Fmax = fmax;
 			
-			_empty10 = empty10;
-			_empty11 = empty11;
+			Empty10 = empty10;
+			Empty11 = empty11;
 
-			_ioutMax = ioutMax;
-			_fiMin = fiMin;
-			_dacCh = dacCh;
-			_imcw = imcw;
-			_ia0 = ia0;
-			_ib0 = ib0;
-			_ic0 = ic0;
-			_udc0 = udc0;
-			_tauR = tauR;
-			_lm = lm;
-			_lsl = lsl;
-			_lrl = lrl;
-			_kpFi = kpFi;
-			_kiFi = kiFi;
-			_kpId = kpId;
-			_kiId = kiId;
-			_kpIq = kpIq;
-			_kiIq = kiIq;
-			_accDfDt = accDfDt;
-			_decDfDt = decDfDt;
-			_unom = unom;
+			IoutMax = ioutMax;
+			FiMin = fiMin;
+			DacCh = dacCh;
+			Imcw = imcw;
+			Ia0 = ia0;
+			Ib0 = ib0;
+			Ic0 = ic0;
+			Udc0 = udc0;
+			TauR = tauR;
+			Lm = lm;
+			Lsl = lsl;
+			Lrl = lrl;
+			KpFi = kpFi;
+			KiFi = kiFi;
+			KpId = kpId;
+			KiId = kiId;
+			KpIq = kpIq;
+			KiIq = kiIq;
+			AccDfDt = accDfDt;
+			DecDfDt = decDfDt;
+			Unom = unom;
 
-			_empty39 = empty39;
+			Empty39 = empty39;
 
-			_rs = rs;
-			_fmin = fmin;
-			_tauM = tauM;
-			_tauF = tauF;
-			_tauFSet = tauFSet;
-			_tauFi = tauFi;
-			_idSetMin = idSetMin;
-			_idSetMax = idSetMax;
-			_kpFe = kpFe;
-			_kiFe = kiFe;
+			Rs = rs;
+			Fmin = fmin;
+			TauM = tauM;
+			TauF = tauF;
+			TauFSet = tauFSet;
+			TauFi = tauFi;
+			IdSetMin = idSetMin;
+			IdSetMax = idSetMax;
+			KpFe = kpFe;
+			KiFe = kiFe;
 			
-			_np = np;
+			Np = np;
 
-			_empty53 = empty53;
+			Empty53 = empty53;
 
-			_emdecDfdt = emdecDfdt;
-			_textMax = textMax;
-			_toHl = toHl;
+			EmdecDfdt = emdecDfdt;
+			TextMax = textMax;
+			ToHl = toHl;
+			Ain1LinkFault = ain1LinkFault;
+			Ain2LinkFault = ain2LinkFault;
+			Ain3LinkFault = ain3LinkFault;
 		}
 
-		public int KpW {
-			get { return _kpW; }
-		}
+		public int KpW { get; }
 
-		public int KiW {
-			get { return _kiW; }
-		}
+		public int KiW { get; }
 
-		public short FiNom {
-			get { return _fiNom; }
-		}
+		public short FiNom { get; }
 
-		public short Imax {
-			get { return _imax; }
-		}
+		public short Imax { get; }
 
-		public short UdcMax {
-			get { return _udcMax; }
-		}
+		public short UdcMax { get; }
 
-		public short UdcMin {
-			get { return _udcMin; }
-		}
+		public short UdcMin { get; }
 
-		public short Fnom {
-			get { return _fnom; }
-		}
+		public short Fnom { get; }
 
-		public short Fmax {
-			get { return _fmax; }
-		}
+		public short Fmax { get; }
 
-		public short Empty10 {
-			get { return _empty10; }
-		}
+		public short Empty10 { get; }
 
-		public short Empty11
-		{
-			get { return _empty11; }
-		}
+		public short Empty11 { get; }
 
-		public short IoutMax {
-			get { return _ioutMax; }
-		}
+		public short IoutMax { get; }
 
-		public short FiMin {
-			get { return _fiMin; }
-		}
+		public short FiMin { get; }
 
-		public short DacCh {
-			get { return _dacCh; }
-		}
+		public short DacCh { get; }
 
-		public short Imcw {
-			get { return _imcw; }
-		}
+		public short Imcw { get; }
 
-		public short Ia0 {
-			get { return _ia0; }
-		}
+		public short Ia0 { get; }
 
-		public short Ib0 {
-			get { return _ib0; }
-		}
+		public short Ib0 { get; }
 
-		public short Ic0 {
-			get { return _ic0; }
-		}
+		public short Ic0 { get; }
 
-		public short Udc0 {
-			get { return _udc0; }
-		}
+		public short Udc0 { get; }
 
-		public short TauR {
-			get { return _tauR; }
-		}
+		public short TauR { get; }
 
-		public short Lm {
-			get { return _lm; }
-		}
+		public short Lm { get; }
 
-		public short Lsl {
-			get { return _lsl; }
-		}
+		public short Lsl { get; }
 
-		public short Lrl {
-			get { return _lrl; }
-		}
+		public short Lrl { get; }
 
-		public int KpFi {
-			get { return _kpFi; }
-		}
+		public int KpFi { get; }
 
-		public int KiFi {
-			get { return _kiFi; }
-		}
+		public int KiFi { get; }
 
-		public int KpId {
-			get { return _kpId; }
-		}
+		public int KpId { get; }
 
-		public int KiId {
-			get { return _kiId; }
-		}
+		public int KiId { get; }
 
-		public int KpIq {
-			get { return _kpIq; }
-		}
+		public int KpIq { get; }
 
-		public int KiIq {
-			get { return _kiIq; }
-		}
+		public int KiIq { get; }
 
-		public short AccDfDt {
-			get { return _accDfDt; }
-		}
+		public short AccDfDt { get; }
 
-		public short DecDfDt {
-			get { return _decDfDt; }
-		}
+		public short DecDfDt { get; }
 
-		public short Unom {
-			get { return _unom; }
-		}
+		public short Unom { get; }
 
-		public short Empty39
-		{
-			get { return _empty39; }
-		}
+		public short Empty39 { get; }
 
-		public short Rs {
-			get { return _rs; }
-		}
+		public short Rs { get; }
 
-		public short Fmin {
-			get { return _fmin; }
-		}
+		public short Fmin { get; }
 
-		public short TauM {
-			get { return _tauM; }
-		}
+		public short TauM { get; }
 
-		public short TauF {
-			get { return _tauF; }
-		}
+		public short TauF { get; }
 
-		public short TauFSet {
-			get { return _tauFSet; }
-		}
+		public short TauFSet { get; }
 
-		public short TauFi {
-			get { return _tauFi; }
-		}
+		public short TauFi { get; }
 
-		public short IdSetMin {
-			get { return _idSetMin; }
-		}
+		public short IdSetMin { get; }
 
-		public short IdSetMax {
-			get { return _idSetMax; }
-		}
+		public short IdSetMax { get; }
 
-		public int KpFe {
-			get { return _kpFe; }
-		}
+		public int KpFe { get; }
 
-		public int KiFe {
-			get { return _kiFe; }
-		}
+		public int KiFe { get; }
 
-		public short Np {
-			get { return _np; }
-		}
+		public short Np { get; }
 
-		public short Empty53
-		{
-			get { return _empty53; }
-		}
+		public short Empty53 { get; }
 
-		public short EmdecDfdt {
-			get { return _emdecDfdt; }
-		}
+		public short EmdecDfdt { get; }
 
-		public short TextMax {
-			get { return _textMax; }
-		}
+		public short TextMax { get; }
 
-		public short ToHl {
-			get { return _toHl; }
-		}
+		public short ToHl { get; }
+
+		public bool Ain1LinkFault { get; }
+		public bool Ain2LinkFault { get; }
+		public bool Ain3LinkFault { get; }
 	}
 }

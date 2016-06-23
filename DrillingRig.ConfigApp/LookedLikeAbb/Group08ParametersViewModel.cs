@@ -2,10 +2,10 @@
 using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.Commands.RtuModbus.Telemetry03;
+using DrillingRig.Commands.RtuModbus.Telemetry08;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group03ParametersViewModel : ViewModelBase, ICyclePart {
+	class Group08ParametersViewModel : ViewModelBase, ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
@@ -16,11 +16,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleReadonlyViewModel Parameter04Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter05Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter06Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter07Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter08Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter09Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter10Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter11Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
@@ -29,26 +24,19 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private bool _cancel;
 		private bool _readingInProgress;
 
-		public Group03ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
+		public Group08ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("03.01 Коэффициент модуляции ШИМ [%]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("03.02 Выход регулятора тока D [%]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("03.03 Выход регулятора тока Q [%]", "f0", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("08.01 MAIN STATUS WORD Главное слово состояния.", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("08.02 AUX STATUS WORD Вспомогательное слово состояния", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("08.03 Этап работы с частотным приводом.", "f0", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("08.04 MSW Ведомого привода.", "f0", null, parameterLogger);
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("08.05 ASW Ведомого привода.", "f0", null, parameterLogger);
+			Parameter06Vm = new ParameterDoubleReadonlyViewModel("08.06 (Ведомый привод) Этап работы с частотным приводом.", "f0", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("03.04 Измеренная составляющая тока D [%]", "f0", null, parameterLogger);
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("03.05 Измеренная составляющая тока Q [%]", "f0", null, parameterLogger);
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("03.06 Выход регулятора компенсатора вычислителя потока D [В]", "f0", null, parameterLogger);
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("03.07 Выход регулятора компенсатора вычислителя потока Q [В]", "f0", null, parameterLogger);
-
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("03.08 Вспомогательная ячейка №1 АИН1", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("03.09 Вспомогательная ячейка №2 АИН1", "f0", null, parameterLogger);
-
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("03.10 Вычисленное текущее значение теплового показателя двигателя [А^2*c]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("03.11 (Ведомый привод) Уставка моментного тока (Выход регулятора скорости) [%]", "f0", null, parameterLogger);
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
@@ -79,11 +67,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
-			var cmd = new ReadTelemetry03Command();
+			var cmd = new ReadTelemetry08Command();
 			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
-					ITelemetry03 telemetry = null;
+					ITelemetry08 telemetry = null;
 					try {
 						if (exception != null) {
 							throw new Exception("Произошла ошибка во время обмена", exception);
@@ -112,21 +100,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			waiter.Reset();
 		}
 
-		private void UpdateTelemetry(ITelemetry03 telemetry) {
-			Parameter01Vm.CurrentValue = telemetry?.Kpwm;
-			Parameter02Vm.CurrentValue = telemetry?.Ud;
+		private void UpdateTelemetry(ITelemetry08 telemetry) {
+			Parameter01Vm.CurrentValue = telemetry?.Msw;
+			Parameter02Vm.CurrentValue = telemetry?.Asw;
 
-			Parameter03Vm.CurrentValue = telemetry?.Uq;
-			Parameter04Vm.CurrentValue = telemetry?.Id;
-			Parameter05Vm.CurrentValue = telemetry?.Iq;
+			Parameter03Vm.CurrentValue = telemetry?.EngineState;
+			Parameter04Vm.CurrentValue = telemetry?.FollowMsw;
+			Parameter05Vm.CurrentValue = telemetry?.FollowAsw;
 
-			Parameter06Vm.CurrentValue = telemetry?.UcompD;
-			Parameter07Vm.CurrentValue = telemetry?.UCompQ;
-
-			Parameter08Vm.CurrentValue = telemetry?.Aux1;
-			Parameter09Vm.CurrentValue = telemetry?.Aux2;
-			Parameter10Vm.CurrentValue = telemetry?.I2t;
-			Parameter11Vm.CurrentValue = telemetry?.FollowMout;
+			Parameter06Vm.CurrentValue = telemetry?.FollowEngineState;
 		}
 
 		public bool Cancel {

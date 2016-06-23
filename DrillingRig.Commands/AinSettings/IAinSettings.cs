@@ -66,5 +66,10 @@ namespace DrillingRig.Commands.AinSettings {
 		short EmdecDfdt { get; }
 		short TextMax { get; }
 		short ToHl { get; }
+
+
+		bool Ain1LinkFault { get; }
+		bool Ain2LinkFault { get; }
+		bool Ain3LinkFault { get; }
 	}
 }

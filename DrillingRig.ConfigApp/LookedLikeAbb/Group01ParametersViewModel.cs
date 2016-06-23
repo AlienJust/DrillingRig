@@ -45,8 +45,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("01.01 Вычисленная частота вращения [об/мин]", "f1", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("01.02 Частота вращения, измеренная ДЧВ [об/мин]", "f1", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("01.01 Вычисленная частота вращения [об/мин]", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("01.02 Частота вращения, измеренная ДЧВ [об/мин]", "f0", null, parameterLogger);
 			Parameter03Vm = new ParameterDoubleReadonlyViewModel("01.03 Частота на ОС регулятора скорости после фильтра [об/мин]", "f0", null, parameterLogger);
 
 			Parameter04Vm = new ParameterDoubleReadonlyViewModel("01.04 Измеренный ток двигателя [А]", "f0", null, parameterLogger);
@@ -136,30 +136,30 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			waiter.Reset();
 		}
 
-		private void UpdateTelemetry(ITelemetry01 telemetry01) {
-			Parameter01Vm.CurrentValue = telemetry01?.We;
-			Parameter02Vm.CurrentValue = telemetry01?.Wm;
-			Parameter03Vm.CurrentValue = telemetry01?.WfbF;
-			Parameter04Vm.CurrentValue = telemetry01?.Isum;
-			Parameter05Vm.CurrentValue = telemetry01?.Uout;
-			Parameter06Vm.CurrentValue = telemetry01?.Udc;
+		private void UpdateTelemetry(ITelemetry01 telemetry) {
+			Parameter01Vm.CurrentValue = telemetry?.We;
+			Parameter02Vm.CurrentValue = telemetry?.Wm;
+			Parameter03Vm.CurrentValue = telemetry?.WfbF;
+			Parameter04Vm.CurrentValue = telemetry?.Isum;
+			Parameter05Vm.CurrentValue = telemetry?.Uout;
+			Parameter06Vm.CurrentValue = telemetry?.Udc;
 
-			Parameter07Vm.CurrentValue = telemetry01?.T1;
-			Parameter08Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry01?.T2 : null;
-			Parameter09Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry01?.T3 : null;
+			Parameter07Vm.CurrentValue = telemetry?.T1;
+			Parameter08Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.T2 : null;
+			Parameter09Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.T3 : null;
 			
-			Parameter10Vm.CurrentValue = telemetry01?.Text1;
-			Parameter11Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry01?.Text2 : null;
-			Parameter12Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry01?.Text3 : null;
+			Parameter10Vm.CurrentValue = telemetry?.Text1;
+			Parameter11Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.Text2 : null;
+			Parameter12Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.Text3 : null;
 
-			Parameter13Vm.CurrentValue = telemetry01?.Torq;
-			Parameter14Vm.CurrentValue = telemetry01?.TorqF;
-			Parameter15Vm.CurrentValue = telemetry01?.Mout;
+			Parameter13Vm.CurrentValue = telemetry?.Torq;
+			Parameter14Vm.CurrentValue = telemetry?.TorqF;
+			Parameter15Vm.CurrentValue = telemetry?.Mout;
 
-			Parameter16Vm.CurrentValue = telemetry01?.P;
-			Parameter17Vm.CurrentValue = telemetry01?.Din;
-			Parameter18Vm.CurrentValue = telemetry01?.Dout;
-			Parameter19Vm.CurrentValue = telemetry01?.SelTorq;
+			Parameter16Vm.CurrentValue = telemetry?.P;
+			Parameter17Vm.CurrentValue = telemetry?.Din;
+			Parameter18Vm.CurrentValue = telemetry?.Dout;
+			Parameter19Vm.CurrentValue = telemetry?.SelTorq;
 		}
 
 		public bool Cancel {

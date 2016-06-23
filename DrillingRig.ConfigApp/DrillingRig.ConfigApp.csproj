@@ -176,14 +176,26 @@
     <Compile Include="LookedLikeAbb\AinSettingsPartWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsWritable.cs" />
+    <Compile Include="LookedLikeAbb\Group09ParametersView.xaml.cs">
+      <DependentUpon>Group09ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group08ParametersView.xaml.cs">
+      <DependentUpon>Group08ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group09ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group08ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group07ParametersView.xaml.cs">
+      <DependentUpon>Group07ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group07ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group04ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group03ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group04ParametersView.xaml.cs">
       <DependentUpon>Group04ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group03ParametersView.xaml.cs">
       <DependentUpon>Group03ParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Group04ParametersViewModel.cs" />
-    <Compile Include="LookedLikeAbb\Group03ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group02ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group02ParametersView.xaml.cs">
       <DependentUpon>Group02ParametersView.xaml</DependentUpon>
@@ -294,6 +306,18 @@
     <Page Include="BsEthernetSettings\BsEthernetSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Group09ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group08ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group07ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group04ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>

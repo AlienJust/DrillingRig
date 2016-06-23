@@ -155,9 +155,15 @@
 								<TabItem Header="04. Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
 									<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}"  BorderBrush="Red"></TabItem>
+								<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group07ParametersView DataContext="{Binding Path=Group07ParametersVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group08ParametersView DataContext="{Binding Path=Group08ParametersVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
+									<lookedLikeAbb:Group09ParametersView DataContext="{Binding Path=Group09ParametersVm, Mode=OneTime}"/>
+								</TabItem>
 								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
 							</TabControl>
 						</xcad:LayoutDocument>

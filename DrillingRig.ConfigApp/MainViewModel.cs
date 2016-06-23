@@ -142,8 +142,20 @@ namespace DrillingRig.ConfigApp {
 			Group02ParametersVm = new Group02ParametersViewModel(this, this, this, _logger, paramLogger);
 			RegisterAsCyclePart(Group02ParametersVm);
 
-			Group03ParametersVm = new Group03ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
-			Group04ParametersVm = new Group04ParametersViewModel(this, _logger, cycleReader, this, paramLogger);
+			Group03ParametersVm = new Group03ParametersViewModel(this, this, this, _logger, paramLogger);
+			RegisterAsCyclePart(Group03ParametersVm);
+
+			Group04ParametersVm = new Group04ParametersViewModel(this, this, this, _logger, paramLogger);
+			RegisterAsCyclePart(Group04ParametersVm);
+
+			Group07ParametersVm = new Group07ParametersViewModel(this, this, this, _logger, paramLogger);
+			RegisterAsCyclePart(Group07ParametersVm);
+
+			Group08ParametersVm = new Group08ParametersViewModel(this, this, this, _logger, paramLogger);
+			RegisterAsCyclePart(Group08ParametersVm);
+
+			Group09ParametersVm = new Group09ParametersViewModel(this, this, this, _logger, this, paramLogger);
+			RegisterAsCyclePart(Group09ParametersVm);
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
@@ -354,6 +366,10 @@ namespace DrillingRig.ConfigApp {
 		public Group02ParametersViewModel Group02ParametersVm { get; }
 		public Group03ParametersViewModel Group03ParametersVm { get; }
 		public Group04ParametersViewModel Group04ParametersVm { get; }
+		public Group07ParametersViewModel Group07ParametersVm { get; }
+		public Group08ParametersViewModel Group08ParametersVm { get; }
+		public Group09ParametersViewModel Group09ParametersVm { get; }
+
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 	}
 }

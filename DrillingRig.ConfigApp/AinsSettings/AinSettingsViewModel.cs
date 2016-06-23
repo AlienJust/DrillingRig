@@ -17,8 +17,6 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private readonly RelayCommand _readSettingsCommand;
 		private readonly RelayCommand _writeSettingsCommand;
-		private readonly ICommand _importSettingCommand;
-		private readonly ICommand _exportSettingsCommand;
 
 		private int? _kpW;
 		private int? _kiW;
@@ -94,8 +92,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			_readSettingsCommand = new RelayCommand(ReadSettings, () => _sendingEnabledControl.IsSendingEnabled);
 			_writeSettingsCommand = new RelayCommand(WriteSettings, () => _sendingEnabledControl.IsSendingEnabled);
 
-			_importSettingCommand = new RelayCommand(ImportSettings);
-			_exportSettingsCommand = new RelayCommand(ExportSettings);
+			ImportSettingsCommand = new RelayCommand(ImportSettings);
+			ExportSettingsCommand = new RelayCommand(ExportSettings);
 
 
 			KpW = null; // 0 1
@@ -178,7 +176,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private void WriteSettings() {
 			try {
-				_logger.Log("Подготовка к чтению настроек АИН");
+				_logger.Log("Подготовка к записи настроек АИН");
 				IAinSettings ainSettings;
 				try {
 				ainSettings = new AinSettingsSimple(
@@ -228,7 +226,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					Empty53.Value,
 					EmdecDfdt.Value,
 					TextMax.Value,
-					ToHl.Value);
+					ToHl.Value, false, false, false);
 				}
 				catch (Exception ex)
 				{
@@ -370,24 +368,13 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		}
 
 
-		public ICommand ReadSettingsCommand {
-			get { return _readSettingsCommand; }
-		}
+		public ICommand ReadSettingsCommand => _readSettingsCommand;
 
-		public ICommand WriteSettingsCommand
-		{
-			get { return _writeSettingsCommand; }
-		}
+		public ICommand WriteSettingsCommand => _writeSettingsCommand;
 
-		public ICommand ImportSettingsCommand
-		{
-			get { return _importSettingCommand; }
-		}
+		public ICommand ImportSettingsCommand { get; }
 
-		public ICommand ExportSettingsCommand
-		{
-			get { return _exportSettingsCommand; }
-		}
+		public ICommand ExportSettingsCommand { get; }
 
 		public int? KpW {
 			get { return _kpW; }

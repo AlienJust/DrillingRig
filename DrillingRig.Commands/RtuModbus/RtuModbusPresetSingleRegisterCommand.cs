@@ -15,15 +15,9 @@ namespace DrillingRig.Commands.RtuModbus
 			_valueToSet = valueToSet;
 		}
 
-		public byte CommandCode
-		{
-			get { return 0x06; }
-		}
+		public byte CommandCode => 0x06;
 
-		public string Name
-		{
-			get { return "Preset Single Register at address: " + _registerAddress + ", value to set: " + _valueToSet; }
-		}
+		public string Name => "Preset Single Register at address: " + _registerAddress + ", value to set: " + _valueToSet;
 
 		public byte[] Serialize() {
 			var result = new byte[4];

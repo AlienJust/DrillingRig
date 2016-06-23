@@ -2,17 +2,15 @@
 using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.Commands.RtuModbus.Telemetry04;
+using DrillingRig.Commands.RtuModbus.Telemetry07;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group04ParametersViewModel : ViewModelBase, ICyclePart {
+	class Group07ParametersViewModel : ViewModelBase, ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
 		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
@@ -21,17 +19,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private bool _cancel;
 		private bool _readingInProgress;
 
-		public Group04ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
+		public Group07ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("04.01 Версия ПО (АИН)", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("04.02 Дата билда ПО (АИН)", "f0", null, parameterLogger); // TODO: change to display datetime
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", "f0", null, parameterLogger);
-
-			
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("07.01 MAIN CONTROL WORD Главное управляющее слово", "f0", null, parameterLogger);
+	
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
@@ -62,11 +57,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
-			var cmd = new ReadTelemetry04Command();
+			var cmd = new ReadTelemetry07Command();
 			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
-					ITelemetry04 telemetry = null;
+					ITelemetry07 telemetry = null;
 					try {
 						if (exception != null) {
 							throw new Exception("Произошла ошибка во время обмена", exception);
@@ -95,10 +90,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			waiter.Reset();
 		}
 
-		private void UpdateTelemetry(ITelemetry04 telemetry) {
-			Parameter01Vm.CurrentValue = telemetry?.Pver;
-			Parameter02Vm.CurrentValue = telemetry?.PvDate;
-			Parameter03Vm.CurrentValue = telemetry?.BsVer;
+		private void UpdateTelemetry(ITelemetry07 telemetry) {
+			Parameter01Vm.CurrentValue = telemetry?.Mcw;
 		}
 
 		public bool Cancel {

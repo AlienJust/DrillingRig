@@ -49,6 +49,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public short EmdecDfdt { get; set; }
 		public short TextMax { get; set; }
 		public short ToHl { get; set; }
+		public bool Ain1LinkFault { get; set; }
+		public bool Ain2LinkFault { get; set; }
+		public bool Ain3LinkFault { get; set; }
+
 
 		public AinSettingsWritable(IAinSettings settings) {
 			FiNom = settings.FiNom;
@@ -96,6 +100,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			EmdecDfdt = settings.EmdecDfdt;
 			TextMax = settings.TextMax;
 			ToHl = settings.ToHl;
+			Ain1LinkFault = settings.Ain1LinkFault;
+			Ain2LinkFault = settings.Ain2LinkFault;
+			Ain3LinkFault = settings.Ain3LinkFault;
 		}
 
 		public void ModifyFromPart(IAinSettingsPart part) {
@@ -144,6 +151,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (part.EmdecDfdt.HasValue) EmdecDfdt = part.EmdecDfdt.Value;
 			if (part.TextMax.HasValue) TextMax = part.TextMax.Value;
 			if (part.ToHl.HasValue) ToHl = part.ToHl.Value;
+
+			if (part.Ain1LinkFault.HasValue) Ain1LinkFault = part.Ain1LinkFault.Value;
+			if (part.Ain2LinkFault.HasValue) Ain2LinkFault = part.Ain2LinkFault.Value;
+			if (part.Ain3LinkFault.HasValue) Ain3LinkFault = part.Ain3LinkFault.Value;
 		}
 	}
 }

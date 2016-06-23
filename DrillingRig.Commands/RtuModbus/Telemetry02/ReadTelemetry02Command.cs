@@ -1,6 +1,4 @@
-﻿using System;
-using DrillingRid.Commands.Contracts;
-using DrillingRig.Commands.RtuModbus.Telemetry01;
+﻿using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.RtuModbus.Telemetry02 {
 	public class ReadTelemetry02Command : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<ITelemetry02>, IRrModbusCommandWithTestReply {
