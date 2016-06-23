@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using DrillingRid.Commands.Contracts;
 
@@ -92,9 +91,7 @@ namespace DrillingRig.Commands.AinSettings {
 			return result;
 		}
 
-		private byte OneBasedAinNumber {
-			get { return (byte)(_zeroBasedAinNumber + 1); }
-		}
+		private byte OneBasedAinNumber => (byte)(_zeroBasedAinNumber + 1);
 
 		public bool GetResult(byte[] reply)
 		{
@@ -112,21 +109,6 @@ namespace DrillingRig.Commands.AinSettings {
 		public byte[] GetTestReply() {
 			var result = new[]{OneBasedAinNumber};
 			return result;
-		}
-	}
-
-	static class IlistExtensions {
-		public static void SerializeInt(this IList<byte> container, int position, int value)
-		{
-			container[position + 0] = (byte)(value & 0xFF);
-			container[position + 1] = (byte)((value >> 8) & 0xFF);
-			container[position + 2] = (byte)((value >> 16) & 0xFF);
-			container[position + 3] = (byte)((value >> 24) & 0xFF);
-		}
-		public static void SerializeShort(this IList<byte> container, int position, short value)
-		{
-			container[position + 0] = (byte)(value & 0xFF);
-			container[position + 1] = (byte)((value >> 8) & 0xFF);
 		}
 	}
 }

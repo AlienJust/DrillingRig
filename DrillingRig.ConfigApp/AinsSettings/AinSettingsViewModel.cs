@@ -234,7 +234,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 				}
 				var cmd = new WriteAinSettingsCommand(_zeroBasedAinNumber, ainSettings);
 
-				_logger.Log("Команда чтения настроек АИН" + (_zeroBasedAinNumber + 1) + " поставлена в очередь");
+				_logger.Log("Команда записи настроек АИН" + (_zeroBasedAinNumber + 1) + " поставлена в очередь");
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd

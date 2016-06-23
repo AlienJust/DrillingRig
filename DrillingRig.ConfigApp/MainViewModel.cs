@@ -21,6 +21,7 @@ using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
+using DrillingRig.ConfigApp.EngineSettings;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.RectifierTelemetry;
@@ -125,6 +126,8 @@ namespace DrillingRig.ConfigApp {
 			RegisterAsCyclePart(RectifierTelemetriesVm);
 
 			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
+
+			EngineSettingsVm = new EngineSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -332,6 +335,8 @@ namespace DrillingRig.ConfigApp {
 		public AinSettingsViewModel Ain2SettingsVm { get; }
 
 		public AinSettingsViewModel Ain3SettingsVm { get; }
+
+		public EngineSettingsViewModel EngineSettingsVm { get; }
 
 		public void CloseComPort() {
 			ClosePort();

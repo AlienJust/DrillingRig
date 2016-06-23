@@ -161,6 +161,10 @@
     <Compile Include="AinCommand\AinCommandViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
+    <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
+      <DependentUpon>EngineSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EngineSettings\EngineSettingsViewModel.cs" />
     <Compile Include="AinsSettings\AinSettingsViewModel.cs" />
     <Compile Include="AinsSettings\NullableShortToNullableDoubleConverter01.cs" />
     <Compile Include="AinTelemetry\AinTelemetryExpandedView.xaml.cs">
@@ -276,6 +280,10 @@
     </Compile>
     <Compile Include="SystemControl\TrendControlViewModel.cs" />
     <Page Include="AinCommand\AinCommandView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EngineSettings\EngineSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

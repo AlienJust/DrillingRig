@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="DrillingRig.ConfigApp.EngineSettings.EngineSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500">
+	<UserControl.Resources>
+		<ainsSettings:NullableShortToNullableDoubleConverter01 x:Key="DoubleConverter01"/>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<ScrollViewer>
+		<StackPanel Orientation="Vertical">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный ток, при котором остывание равно нагреву (RMS) [А]"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Icontinious, Mode=TwoWay}"/>
+			</Grid>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="ГРАНИЦА ПЕРЕГРЕВА, [АМПЕР^2 *0.1сек]"/>
+					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=I2Tmax, Mode=TwoWay}"/>
+			</Grid>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный моментный ток [Ампер]"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Mnom, Mode=TwoWay}"/>
+			</Grid>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальная Мощность двигателя [Вт]"/>
+					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=Pnom, Mode=TwoWay}"/>
+			</Grid>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="*0.1Гц Скорость вращения (электрическая) ниже нулевого предела (ZERO_SPEED)"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=ZeroF, Mode=TwoWay}"/>
+			</Grid>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="3*"/>
+						<ColumnDefinition Width="1*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Контрольная сумма"/>
+					<xctk:ByteUpDown Grid.Column="1" Value="{Binding Path=Ks, Mode=TwoWay}"/>
+				</Grid>
+			</StackPanel>
+		</ScrollViewer>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0" Content="Импорт..." Command="{Binding Path=ImportSettingsCommand, Mode=OneTime}" Style="{DynamicResource SquareButtonStyle}" Margin="2,2,2,2"/>
+			<Button Grid.Column="1" Content="Экспорт..." Command="{Binding Path=ExportSettingsCommand, Mode=OneTime}" Style="{DynamicResource SquareButtonStyle}" Margin="2,2,2,2"/>
+			<Button Grid.Column="2" Content="Прочитать" Command="{Binding Path=ReadSettingsCommand, Mode=OneTime}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="2,2,2,2"/>
+			<Button Grid.Column="3" Content="Записать" Command="{Binding Path=WriteSettingsCommand, Mode=OneTime}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="2,2,2,2"/>
+		</Grid>
+	</Grid>
+</UserControl>
