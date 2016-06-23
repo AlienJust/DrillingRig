@@ -38,6 +38,9 @@ namespace DrillingRig.ConfigApp.SystemControl {
 			_cmdFlash = new RelayCommand(Flash, () => _sendingEnabledControl.IsSendingEnabled);
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
+
+			DebugParametersTrendVm = new DebugParametersTrendViewModel();
+			DebugParametersVm = new DebugParametersViewModel();
 		}
 
 		private void SendingEnabledControlOnSendingEnabledChanged(bool issendingenabled) {
@@ -141,7 +144,8 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		public void ShowBytes(IList<byte> bytes) {
 			//todo: notify child wms about ShowBytes()
-			
+			DebugParametersTrendVm.ShowBytes(bytes);
+			DebugParametersVm.ShowBytes(bytes);
 		}
 		
 
@@ -149,5 +153,9 @@ namespace DrillingRig.ConfigApp.SystemControl {
 
 		
 		public TelemetryCommonViewModel CommonTelemetryVm { get; }
+
+		public DebugParametersTrendViewModel DebugParametersTrendVm { get; }
+
+		public DebugParametersViewModel DebugParametersVm { get; }
 	}
 }
