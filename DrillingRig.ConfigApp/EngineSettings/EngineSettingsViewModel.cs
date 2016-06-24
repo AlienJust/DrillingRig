@@ -22,7 +22,6 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		private ushort? _mnom;
 		private uint? _pnom;
 		private ushort? _zeroF;
-		private byte? _ks;
 		
 		public EngineSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
 		{
@@ -45,7 +44,6 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 			_mnom = null;
 			_pnom = null;
 			_zeroF = null;
-			_ks = null;
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 		}
@@ -75,8 +73,7 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 						I2Tmax = I2Tmax.Value,
 						Mnom = Mnom.Value,
 						Pnom = Pnom.Value,
-						ZeroF = ZeroF.Value,
-						Ks = Ks.Value,
+						ZeroF = ZeroF.Value
 					};
 				}
 				catch (Exception ex)
@@ -155,7 +152,6 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 									Mnom = result.Mnom;
 									Pnom = result.Pnom;
 									ZeroF = result.ZeroF;
-									Ks = result.Ks;
 								});
 								_logger.Log("Настройки двигателя успешно прочитаны");
 							}
@@ -209,11 +205,6 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		public ushort? ZeroF {
 			get { return _zeroF; }
 			set { if (_zeroF != value) { _zeroF = value; RaisePropertyChanged(() => ZeroF); } }
-		}
-
-		public byte? Ks {
-			get { return _ks; }
-			set { if (_ks != value) { _ks = value; RaisePropertyChanged(() => Ks); } }
 		}
 	}
 }

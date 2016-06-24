@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 
 namespace DrillingRig.Commands.AinTelemetry {
 	internal class AinTelemetrySimple : IAinTelemetry {

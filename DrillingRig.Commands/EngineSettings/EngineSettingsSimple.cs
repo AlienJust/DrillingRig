@@ -5,6 +5,5 @@
 		public ushort Mnom { get; set; }
 		public uint Pnom { get; set; }
 		public ushort ZeroF { get; set; }
-		public byte Ks { get; set; }
 	}
 }
