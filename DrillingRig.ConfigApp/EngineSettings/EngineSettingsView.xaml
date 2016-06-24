@@ -4,12 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:ainsSettings="clr-namespace:DrillingRig.ConfigApp.AinsSettings"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="500">
-	<UserControl.Resources>
-		<ainsSettings:NullableShortToNullableDoubleConverter01 x:Key="DoubleConverter01"/>
-	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -22,8 +18,8 @@
 						<ColumnDefinition Width="3*"/>
 						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный ток, при котором остывание равно нагреву (RMS) [А]"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Icontinious, Mode=TwoWay}"/>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальная Мощность двигателя [Вт]"/>
+					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=Pnom, Mode=TwoWay}"/>
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -38,16 +34,16 @@
 						<ColumnDefinition Width="3*"/>
 						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный моментный ток [Ампер]"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Mnom, Mode=TwoWay}"/>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный ток, при котором остывание равно нагреву (RMS) [А]"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Icontinious, Mode=TwoWay}"/>
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="3*"/>
 						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальная Мощность двигателя [Вт]"/>
-					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=Pnom, Mode=TwoWay}"/>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный моментный ток [Ампер]"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Mnom, Mode=TwoWay}"/>
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>

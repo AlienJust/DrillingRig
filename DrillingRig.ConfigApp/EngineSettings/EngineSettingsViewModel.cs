@@ -17,14 +17,13 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		private readonly RelayCommand _readSettingsCommand;
 		private readonly RelayCommand _writeSettingsCommand;
 
-		private ushort? _icontinious;
 		private uint? _i2Tmax;
-		private ushort? _mnom;
 		private uint? _pnom;
+		private ushort? _icontinious;
+		private ushort? _mnom;
 		private ushort? _zeroF;
-		
-		public EngineSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
-		{
+
+		public EngineSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -39,10 +38,10 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 			ExportSettingsCommand = new RelayCommand(ExportSettings);
 
 
-			_icontinious = null;
 			_i2Tmax = null;
-			_mnom = null;
 			_pnom = null;
+			_icontinious = null;
+			_mnom = null;
 			_zeroF = null;
 
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
@@ -69,15 +68,14 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 				IEngineSettings engineSettings;
 				try {
 					engineSettings = new EngineSettingsSimple {
-						Icontinious = Icontinious.Value,
 						I2Tmax = I2Tmax.Value,
-						Mnom = Mnom.Value,
 						Pnom = Pnom.Value,
+						Icontinious = Icontinious.Value,
+						Mnom = Mnom.Value,
 						ZeroF = ZeroF.Value
 					};
 				}
-				catch (Exception ex)
-				{
+				catch (Exception ex) {
 					throw new Exception("убедитесь, что все значения настроек заполнены", ex);
 				}
 				var cmd = new WriteEngineSettingsCommand(engineSettings);
@@ -87,17 +85,13 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
 							}
 
-							try
-							{
+							try {
 								var result = cmd.GetResult(bytes);
 								if (result) {
 									_logger.Log("Настройки двигателя успешно записаны");
@@ -106,14 +100,12 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 									throw new Exception("странно, флаг записи результата = False");
 								}
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
@@ -124,8 +116,7 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		}
 
 		private void ReadSettings() {
-			try
-			{
+			try {
 				_logger.Log("Подготовка к чтению настроек АИН");
 
 				var cmd = new ReadEngineSettingsCommand();
@@ -135,40 +126,34 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
 							}
 
 							try {
 								var result = cmd.GetResult(bytes);
 								_userInterfaceRoot.Notifier.Notify(() => {
-									Icontinious = result.Icontinious;
 									I2Tmax = result.I2Tmax;
-									Mnom = result.Mnom;
 									Pnom = result.Pnom;
+									Icontinious = result.Icontinious;
+									Mnom = result.Mnom;
 									ZeroF = result.ZeroF;
 								});
 								_logger.Log("Настройки двигателя успешно прочитаны");
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду чтения настроек БС-Ethernet в очередь: " + ex.Message);
 			}
 		}
@@ -182,26 +167,23 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 
 		public ICommand ExportSettingsCommand { get; }
 
-		public ushort? Icontinious {
-			get { return _icontinious; }
-			set { if (_icontinious != value) { _icontinious = value; RaisePropertyChanged(() => Icontinious); } }
-		}
 
 		public uint? I2Tmax {
 			get { return _i2Tmax; }
 			set { if (_i2Tmax != value) { _i2Tmax = value; RaisePropertyChanged(() => I2Tmax); } }
 		}
-
-		public ushort? Mnom {
-			get { return _mnom; }
-			set { if (_mnom != value) { _mnom = value; RaisePropertyChanged(() => Mnom); } }
-		}
-
 		public uint? Pnom {
 			get { return _pnom; }
 			set { if (_pnom != value) { _pnom = value; RaisePropertyChanged(() => Pnom); } }
 		}
-
+		public ushort? Icontinious {
+			get { return _icontinious; }
+			set { if (_icontinious != value) { _icontinious = value; RaisePropertyChanged(() => Icontinious); } }
+		}
+		public ushort? Mnom {
+			get { return _mnom; }
+			set { if (_mnom != value) { _mnom = value; RaisePropertyChanged(() => Mnom); } }
+		}
 		public ushort? ZeroF {
 			get { return _zeroF; }
 			set { if (_zeroF != value) { _zeroF = value; RaisePropertyChanged(() => ZeroF); } }

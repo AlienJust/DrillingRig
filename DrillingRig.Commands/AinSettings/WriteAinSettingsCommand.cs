@@ -15,75 +15,69 @@ namespace DrillingRig.Commands.AinSettings {
 			_settings = settings;
 		}
 
-		public byte CommandCode
-		{
-			get { return 0x8E; }
-		}
+		public byte CommandCode => 0x8E;
 
-		public string Name
-		{
-			get { return "Запись настроек АИН #" + (_zeroBasedAinNumber + 1); }
-		}
+		public string Name => "Запись настроек АИН #" + (_zeroBasedAinNumber + 1);
 
 		public byte[] Serialize() {
 			var settingsSerialized = new byte[114];
-			settingsSerialized.SerializeInt(0, _settings.KpW);
-			settingsSerialized.SerializeInt(4, _settings.KiW);
-			settingsSerialized.SerializeShort(8, _settings.FiNom);
-			settingsSerialized.SerializeShort(10, _settings.Imax);
-			settingsSerialized.SerializeShort(12, _settings.UdcMax);
-			settingsSerialized.SerializeShort(14, _settings.UdcMin);
-			settingsSerialized.SerializeShort(16, _settings.Fnom);
-			settingsSerialized.SerializeShort(18, _settings.Fmax);
+			settingsSerialized.SerializeIntLowFirst(0, _settings.KpW);
+			settingsSerialized.SerializeIntLowFirst(4, _settings.KiW);
+			settingsSerialized.SerializeShortLowFirst(8, _settings.FiNom);
+			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
+			settingsSerialized.SerializeShortLowFirst(12, _settings.UdcMax);
+			settingsSerialized.SerializeShortLowFirst(14, _settings.UdcMin);
+			settingsSerialized.SerializeShortLowFirst(16, _settings.Fnom);
+			settingsSerialized.SerializeShortLowFirst(18, _settings.Fmax);
 
-			settingsSerialized.SerializeShort(20, _settings.Empty10);
-			settingsSerialized.SerializeShort(22, _settings.Empty11);
+			settingsSerialized.SerializeShortLowFirst(20, _settings.Empty10);
+			settingsSerialized.SerializeShortLowFirst(22, _settings.Empty11);
 			
-			settingsSerialized.SerializeShort(24, _settings.IoutMax);
-			settingsSerialized.SerializeShort(26, _settings.FiMin);
-			settingsSerialized.SerializeShort(28, _settings.DacCh);
-			settingsSerialized.SerializeShort(30, _settings.Imcw);
-			settingsSerialized.SerializeShort(32, _settings.Ia0);
-			settingsSerialized.SerializeShort(34, _settings.Ib0);
-			settingsSerialized.SerializeShort(36, _settings.Ic0);
-			settingsSerialized.SerializeShort(38, _settings.Udc0);
-			settingsSerialized.SerializeShort(40, _settings.TauR);
-			settingsSerialized.SerializeShort(42, _settings.Lm);
-			settingsSerialized.SerializeShort(44, _settings.Lsl);
-			settingsSerialized.SerializeShort(46, _settings.Lrl);
+			settingsSerialized.SerializeShortLowFirst(24, _settings.IoutMax);
+			settingsSerialized.SerializeShortLowFirst(26, _settings.FiMin);
+			settingsSerialized.SerializeShortLowFirst(28, _settings.DacCh);
+			settingsSerialized.SerializeShortLowFirst(30, _settings.Imcw);
+			settingsSerialized.SerializeShortLowFirst(32, _settings.Ia0);
+			settingsSerialized.SerializeShortLowFirst(34, _settings.Ib0);
+			settingsSerialized.SerializeShortLowFirst(36, _settings.Ic0);
+			settingsSerialized.SerializeShortLowFirst(38, _settings.Udc0);
+			settingsSerialized.SerializeShortLowFirst(40, _settings.TauR);
+			settingsSerialized.SerializeShortLowFirst(42, _settings.Lm);
+			settingsSerialized.SerializeShortLowFirst(44, _settings.Lsl);
+			settingsSerialized.SerializeShortLowFirst(46, _settings.Lrl);
 
-			settingsSerialized.SerializeInt(48, _settings.KpFi);
-			settingsSerialized.SerializeInt(52, _settings.KiFi);
+			settingsSerialized.SerializeIntLowFirst(48, _settings.KpFi);
+			settingsSerialized.SerializeIntLowFirst(52, _settings.KiFi);
 
-			settingsSerialized.SerializeInt(56, _settings.KpId);
-			settingsSerialized.SerializeInt(60, _settings.KiId);
+			settingsSerialized.SerializeIntLowFirst(56, _settings.KpId);
+			settingsSerialized.SerializeIntLowFirst(60, _settings.KiId);
 
-			settingsSerialized.SerializeInt(64, _settings.KpIq);
-			settingsSerialized.SerializeInt(68, _settings.KiIq);
+			settingsSerialized.SerializeIntLowFirst(64, _settings.KpIq);
+			settingsSerialized.SerializeIntLowFirst(68, _settings.KiIq);
 
-			settingsSerialized.SerializeShort(72, _settings.AccDfDt);
-			settingsSerialized.SerializeShort(74, _settings.DecDfDt);
-			settingsSerialized.SerializeShort(76, _settings.Unom);
+			settingsSerialized.SerializeShortLowFirst(72, _settings.AccDfDt);
+			settingsSerialized.SerializeShortLowFirst(74, _settings.DecDfDt);
+			settingsSerialized.SerializeShortLowFirst(76, _settings.Unom);
 
-			settingsSerialized.SerializeShort(78, _settings.Empty39);
+			settingsSerialized.SerializeShortLowFirst(78, _settings.Empty39);
 
-			settingsSerialized.SerializeShort(80, _settings.Rs);
-			settingsSerialized.SerializeShort(82, _settings.Fmin);
-			settingsSerialized.SerializeShort(84, _settings.TauM);
-			settingsSerialized.SerializeShort(86, _settings.TauF);
-			settingsSerialized.SerializeShort(88, _settings.TauFSet);
-			settingsSerialized.SerializeShort(90, _settings.TauFi);
-			settingsSerialized.SerializeShort(92, _settings.IdSetMin);
-			settingsSerialized.SerializeShort(94, _settings.IdSetMax);
+			settingsSerialized.SerializeShortLowFirst(80, _settings.Rs);
+			settingsSerialized.SerializeShortLowFirst(82, _settings.Fmin);
+			settingsSerialized.SerializeShortLowFirst(84, _settings.TauM);
+			settingsSerialized.SerializeShortLowFirst(86, _settings.TauF);
+			settingsSerialized.SerializeShortLowFirst(88, _settings.TauFSet);
+			settingsSerialized.SerializeShortLowFirst(90, _settings.TauFi);
+			settingsSerialized.SerializeShortLowFirst(92, _settings.IdSetMin);
+			settingsSerialized.SerializeShortLowFirst(94, _settings.IdSetMax);
 
-			settingsSerialized.SerializeInt(96, _settings.KpFe);
-			settingsSerialized.SerializeInt(100, _settings.KiFe);
+			settingsSerialized.SerializeIntLowFirst(96, _settings.KpFe);
+			settingsSerialized.SerializeIntLowFirst(100, _settings.KiFe);
 
-			settingsSerialized.SerializeShort(104, _settings.Np);
-			settingsSerialized.SerializeShort(106, _settings.Empty53);
-			settingsSerialized.SerializeShort(108, _settings.EmdecDfdt);
-			settingsSerialized.SerializeShort(110, _settings.TextMax);
-			settingsSerialized.SerializeShort(112, _settings.ToHl);
+			settingsSerialized.SerializeShortLowFirst(104, _settings.Np);
+			settingsSerialized.SerializeShortLowFirst(106, _settings.Empty53);
+			settingsSerialized.SerializeShortLowFirst(108, _settings.EmdecDfdt);
+			settingsSerialized.SerializeShortLowFirst(110, _settings.TextMax);
+			settingsSerialized.SerializeShortLowFirst(112, _settings.ToHl);
 
 			var result = new byte[115];
 			result[0] = OneBasedAinNumber;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DrillingRig.Commands.RtuModbus {
+namespace DrillingRig.Commands {
 	/// <summary>
 	/// Пара байтов
 	/// </summary>
@@ -51,6 +51,26 @@ namespace DrillingRig.Commands.RtuModbus {
 		public short HighFirstSignedValue {
 			get {
 				var tempByteArray = GetArrayForBitConverterAccodringToCurrentArchitectureEndian(First, Second);
+				return BitConverter.ToInt16(tempByteArray, 0);
+			}
+		}
+
+		/// <summary>
+		/// Возвращает значение структуры как беззнаковое двухбайтное число считая первый байт младшим
+		/// </summary>
+		public ushort LowFirstUnsignedValue {
+			get {
+				var tempByteArray = GetArrayForBitConverterAccodringToCurrentArchitectureEndian(Second, First);
+				return BitConverter.ToUInt16(tempByteArray, 0);
+			}
+		}
+
+		/// <summary>
+		/// Возвращает значение структуры как знаковое двухбайтное число считая первый байт младшим
+		/// </summary>
+		public short LowFirstSignedValue {
+			get {
+				var tempByteArray = GetArrayForBitConverterAccodringToCurrentArchitectureEndian(Second, First);
 				return BitConverter.ToInt16(tempByteArray, 0);
 			}
 		}

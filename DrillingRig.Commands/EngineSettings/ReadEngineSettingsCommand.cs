@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DrillingRid.Commands.Contracts;
+using DrillingRig.Commands.RtuModbus;
 
 namespace DrillingRig.Commands.EngineSettings {
 	public class ReadEngineSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IEngineSettings>, IRrModbusCommandWithTestReply
@@ -13,15 +14,13 @@ namespace DrillingRig.Commands.EngineSettings {
 			return new byte[0];
 		}
 
-		public IEngineSettings GetResult(byte[] reply)
-		{
-			var replyWithoutAinNumber = reply.Skip(1).ToList();
+		public IEngineSettings GetResult(byte[] reply) {
 			return new EngineSettingsSimple {
-				Icontinious = (ushort) (reply[0] + (reply[1] << 8)),
-				I2Tmax = (uint) (replyWithoutAinNumber[2] + (replyWithoutAinNumber[3] << 8) + (replyWithoutAinNumber[4] << 16) + (replyWithoutAinNumber[5] << 24)),
-				Mnom = (ushort) (reply[6] + (reply[7] << 8)),
-				Pnom = (uint) (replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] << 8) + (replyWithoutAinNumber[10] << 16) + (replyWithoutAinNumber[11] << 24)),
-				ZeroF = (ushort) (reply[12] + (reply[13] << 8))
+				I2Tmax = new BytesQuad(reply[0], reply[1], reply[2], reply[3]).LowFirstUnsignedValue,
+				Pnom = new BytesQuad(reply[4], reply[5], reply[6], reply[7]).LowFirstUnsignedValue,
+				Icontinious = new BytesPair(reply[8], reply[9]).LowFirstUnsignedValue,
+				Mnom = new BytesPair(reply[10], reply[11]).LowFirstUnsignedValue,
+				ZeroF = new BytesPair(reply[12], reply[13]).LowFirstUnsignedValue
 			};
 		}
 

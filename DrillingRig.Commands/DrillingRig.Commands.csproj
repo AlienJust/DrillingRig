@@ -75,7 +75,8 @@
     <Compile Include="Cooler\ICoolerTelemetry.cs" />
     <Compile Include="Rectifier\ReadRectifierTelemetriesCommand.cs" />
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
-    <Compile Include="RtuModbus\BytesPair.cs" />
+    <Compile Include="BytesPair.cs" />
+    <Compile Include="BytesQuad.cs" />
     <Compile Include="RtuModbus\RtuModbusPresetSingleRegisterCommand.cs" />
     <Compile Include="RtuModbus\RtuModbusReadHoldingRegistersCommand.cs" />
     <Compile Include="RtuModbus\Telemetry09\ITelemetry09.cs" />

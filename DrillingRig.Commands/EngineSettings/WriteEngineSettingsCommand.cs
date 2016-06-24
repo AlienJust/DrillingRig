@@ -1,4 +1,5 @@
-﻿using DrillingRid.Commands.Contracts;
+﻿using System;
+using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.EngineSettings {
 	public class WriteEngineSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply
@@ -16,11 +17,12 @@ namespace DrillingRig.Commands.EngineSettings {
 
 		public byte[] Serialize() {
 			var settingsSerialized = new byte[14];
-			settingsSerialized.SerializeUshort(0, _settings.Icontinious);
-			settingsSerialized.SerializeUint(2, _settings.I2Tmax);
-			settingsSerialized.SerializeUshort(6, _settings.Mnom);
-			settingsSerialized.SerializeUint(8, _settings.Pnom);
-			settingsSerialized.SerializeUshort(12, _settings.ZeroF);
+
+			settingsSerialized.SerializeUintLowFirst(0, _settings.I2Tmax);
+			settingsSerialized.SerializeUintLowFirst(4, _settings.Pnom);
+			settingsSerialized.SerializeUshortLowFirst(8, _settings.Icontinious);
+			settingsSerialized.SerializeUshortLowFirst(10, _settings.Mnom);
+			settingsSerialized.SerializeUshortLowFirst(12, _settings.ZeroF);
 			return settingsSerialized;
 		}
 
