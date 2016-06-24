@@ -1,5 +1,4 @@
-﻿using System;
-using DrillingRid.Commands.Contracts;
+﻿using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.EngineSettings {
 	public class WriteEngineSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply

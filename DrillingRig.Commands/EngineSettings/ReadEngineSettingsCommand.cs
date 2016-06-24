@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using DrillingRid.Commands.Contracts;
-using DrillingRig.Commands.RtuModbus;
 
 namespace DrillingRig.Commands.EngineSettings {
 	public class ReadEngineSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IEngineSettings>, IRrModbusCommandWithTestReply
