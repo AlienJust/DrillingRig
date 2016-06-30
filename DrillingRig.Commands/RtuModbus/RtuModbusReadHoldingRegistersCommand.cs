@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AlienJust.Support.Collections;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.RtuModbus {

@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlienJust.Support.Collections">
+      <HintPath>..\References\AlienJust.Support.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,7 +46,6 @@
     <Compile Include="AinSettings\AinSettingsSimple.cs" />
     <Compile Include="AinSettings\IAinSettings.cs" />
     <Compile Include="EngineSettings\ReadEngineSettingsCommand.cs" />
-    <Compile Include="IlistExtensions.cs" />
     <Compile Include="AinSettings\WriteAinSettingsCommand.cs" />
     <Compile Include="AinSettings\ReadAinSettingsCommand.cs" />
     <Compile Include="AinTelemetry\AinTelemetrySimple.cs" />
@@ -75,8 +77,6 @@
     <Compile Include="Cooler\ICoolerTelemetry.cs" />
     <Compile Include="Rectifier\ReadRectifierTelemetriesCommand.cs" />
     <Compile Include="Rectifier\RectifierTelemetrySimple.cs" />
-    <Compile Include="BytesPair.cs" />
-    <Compile Include="BytesQuad.cs" />
     <Compile Include="RtuModbus\RtuModbusPresetSingleRegisterCommand.cs" />
     <Compile Include="RtuModbus\RtuModbusReadHoldingRegistersCommand.cs" />
     <Compile Include="RtuModbus\Telemetry09\ITelemetry09.cs" />

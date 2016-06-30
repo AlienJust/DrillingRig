@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
+using AlienJust.Support.Collections;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinSettings {
@@ -93,12 +92,7 @@ namespace DrillingRig.Commands.AinSettings {
 			return true;
 		}
 
-		public int ReplyLength
-		{
-			get {
-				return 1 ; // ain number
-			}
-		}
+		public int ReplyLength => 1;
 
 		public byte[] GetTestReply() {
 			var result = new[]{OneBasedAinNumber};
