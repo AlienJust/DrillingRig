@@ -22,15 +22,9 @@ namespace DrillingRig.Commands.AinCommand {
 			_mmax = mmax;
 		}
 
-		public byte CommandCode
-		{
-			get { return 0x86; }
-		}
+		public byte CommandCode => 0x86;
 
-		public string Name
-		{
-			get { return "Команда для АИН #" + (_zeroBasedAinNumber + 1); }
-		}
+		public string Name => "Команда для АИН #" + (_zeroBasedAinNumber + 1);
 
 		public byte[] Serialize()
 		{

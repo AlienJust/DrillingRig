@@ -204,6 +204,38 @@
     <Compile Include="LookedLikeAbb\Group02ParametersView.xaml.cs">
       <DependentUpon>Group02ParametersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LookedLikeAbb\Group100SettingsView.xaml.cs">
+      <DependentUpon>Group100SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group100SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group101SettingsView.xaml.cs">
+      <DependentUpon>Group101SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group101SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group27SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group25SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group25SettingsView.xaml.cs">
+      <DependentUpon>Group25SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group26SettingsView.xaml.cs">
+      <DependentUpon>Group26SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group26SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group24SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group23SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group23SettingsView.xaml.cs">
+      <DependentUpon>Group23SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group22SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group27SettingsView.xaml.cs">
+      <DependentUpon>Group27SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group24SettingsView.xaml.cs">
+      <DependentUpon>Group24SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group22SettingsView.xaml.cs">
+      <DependentUpon>Group22SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
     <Compile Include="ICyclePart.cs" />
     <Compile Include="ICycleThreadHolder.cs" />
@@ -340,6 +372,38 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group01ParametersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group100SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group101SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group25SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group26SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group23SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group27SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group24SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group22SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -173,45 +173,29 @@
 								<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
 									<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="22. УСКОРЕН/ЗАМЕДЛЕН" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="23. ЗАДАНИЕ СКОРОСТИ" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="24. РЕГУЛИР СКОРОСТИ" Style="{StaticResource AzureTabItem}"></TabItem>
-								<TabItem Header="26. ОПЕР ЗДН МОМЕНТА" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen"></TabItem>
-								<TabItem Header="100. Рома" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<StackPanel Orientation="Vertical">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="3*"/>
-												<ColumnDefinition Width="1*"/>
-											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.01 Пропорциональный коэф. регулятора тока D"/>
-											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpId, Mode=TwoWay}"/>
-										</Grid>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="3*"/>
-												<ColumnDefinition Width="1*"/>
-											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.02 Интегральный коэф. регулятора тока D"/>
-											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KiId, Mode=TwoWay}"/>
-										</Grid>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="3*"/>
-												<ColumnDefinition Width="1*"/>
-											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.03 Пропорциональный коэф. регулятора тока Q"/>
-											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpIq, Mode=TwoWay}"/>
-										</Grid>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="3*"/>
-												<ColumnDefinition Width="1*"/>
-											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="100.04 Интегральный коэф. регулятора тока Q"/>
-											<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KiIq, Mode=TwoWay}"/>
-										</Grid>
-									</StackPanel>
+								<TabItem Header="22. Ускорение/замедление" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group22SettingsView DataContext="{Binding Path=Group22SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="23. Задание скорости" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group23SettingsView DataContext="{Binding Path=Group23SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="24. Регулировка скорости" Style="{StaticResource AzureTabItem}">
+									<lookedLikeAbb:Group24SettingsView DataContext="{Binding Path=Group24SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="25. Задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+									<lookedLikeAbb:Group25SettingsView DataContext="{Binding Path=Group25SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="26. Оперативное задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+									<lookedLikeAbb:Group26SettingsView DataContext="{Binding Path=Group26SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="27. Управление магнитным потоком" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+									<lookedLikeAbb:Group27SettingsView DataContext="{Binding Path=Group27SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="100. Регулировка тока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group100SettingsView DataContext="{Binding Path=Group100SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="101. Регулировка потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group101SettingsVm, Mode=OneTime}"/>
 								</TabItem>
 								<TabItem Header="110. Марат" Style="{StaticResource AzureTabItem}" BorderBrush="Red"></TabItem>
 							</TabControl>
