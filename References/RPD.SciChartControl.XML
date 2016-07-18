@@ -31,11 +31,6 @@
             Кисти цветов используемые по-умолчанию для отображения серий на графике.
             </summary>
         </member>
-        <member name="T:RPD.SciChartControl.DropDownButton">
-            <summary>
-            source taken from the website by Andrew Wilkinson
-            </summary>
-        </member>
         <member name="T:RPD.SciChartControl.Events.SeriesColorChangedEventArgs">
             <summary>
             
@@ -122,11 +117,6 @@
         <member name="P:RPD.SciChartControl.ISeriesAdditionalData.ChartSeries">
             <summary>
             Модель представления серии на графике.
-            </summary>
-        </member>
-        <member name="T:RPD.SciChartControl.Messages.ViewAction">
-            <summary>
-            
             </summary>
         </member>
         <member name="T:Abt.Controls.SciChart.Example.Data.DoubleSeries">
@@ -334,6 +324,9 @@
         <member name="T:RPD.SciChartControl.Views.BookmarkNameView">
             <summary>
             Interaction logic for BookmarkNameView.xaml
+            </summary>
+            <summary>
+            BookmarkNameView
             </summary>
         </member>
         <member name="M:RPD.SciChartControl.Views.BookmarkNameView.InitializeComponent">
