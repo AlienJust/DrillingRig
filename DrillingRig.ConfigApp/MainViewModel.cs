@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
@@ -136,7 +135,7 @@ namespace DrillingRig.ConfigApp {
 
 			// ABB way:
 			ChartControlVm = new ChartViewModel();
-			var paramLogger = new ParameterLogger(this, ChartControlVm);
+			var paramLogger = new ParameterLogger(ChartControlVm);
 
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
 			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, paramLogger);

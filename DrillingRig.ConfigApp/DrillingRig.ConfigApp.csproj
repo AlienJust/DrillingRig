@@ -272,6 +272,7 @@
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
+    <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>

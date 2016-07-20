@@ -1,0 +1,58 @@
+﻿<controls:MetroWindow  x:Class="DrillingRig.RpdChartTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DrillingRig.RpdChartTestApp"
+        xmlns:views="clr-namespace:RPD.SciChartControl.Views;assembly=RPD.SciChartControl"
+        xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button Content="Add static chart" Command="{Binding Path=AddChartStatic, Mode=OneTime}"/>
+			<Button Grid.Column="1" Content="Add bits chart" Command="{Binding Path=AddChartBits, Mode=OneTime}"/>
+			<Button Grid.Column="2" Content="Add dynamic chart" Command="{Binding Path=AddChartDynamic, Mode=OneTime}"/>
+			<Button Grid.Column="3" Content="Add really dynamic chart" Command="{Binding Path=AddChartDynamicReally, Mode=OneTime}"/>
+		</Grid>
+		<xcad:DockingManager Grid.Row="1">
+			<xcad:DockingManager.Theme>
+				<xcad:MetroTheme />
+				<!--<xcad:VS2010Theme/>-->
+				<!--<xcad:GenericTheme/>-->
+			</xcad:DockingManager.Theme>
+			<xcad:LayoutRoot>
+				<xcad:LayoutPanel Orientation="Vertical">
+					<xcad:LayoutDocumentPaneGroup Orientation="Vertical">
+						<xcad:LayoutDocumentPane >
+							<xcad:LayoutDocument Title="Текущие сигналы" CanClose="False">
+								<lookedLikeAbb:ParameterDoubleReadonlyView  DataContext="{Binding Path=ParamVm, Mode=OneTime}"/>
+							</xcad:LayoutDocument>
+							<xcad:LayoutDocument Title="Графики" CanClose="False">
+								<views:ChartControl
+			AnalogSeries="{Binding Path=ChartControlVm.AnalogSeries, Mode=OneTime}"
+			DiscreteSeries="{Binding Path=ChartControlVm.DiscreteSeries, Mode=OneTime}"
+			AnalogSeriesAdditionalData="{Binding Path=ChartControlVm.AnalogSeriesAdditionalData, Mode=OneTime}"
+			DiscreteSeriesAdditionalData="{Binding Path=ChartControlVm.DiscreteSeriesAdditionalData, Mode=OneTime}"/>
+							</xcad:LayoutDocument>
+						</xcad:LayoutDocumentPane>
+					</xcad:LayoutDocumentPaneGroup>
+				</xcad:LayoutPanel>
+			</xcad:LayoutRoot>
+		</xcad:DockingManager>
+
+	</Grid>
+</controls:MetroWindow>
+

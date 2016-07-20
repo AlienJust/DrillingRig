@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands", "Dri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.TestCommandSender", "DrillingRig.CommandSenders.TestCommandSender\DrillingRig.CommandSenders.TestCommandSender.csproj", "{490F02E4-3826-4FE8-8E98-405271E18C5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.RpdChartTestApp", "DrillingRig.RpdChartTestApp\DrillingRig.RpdChartTestApp.csproj", "{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
