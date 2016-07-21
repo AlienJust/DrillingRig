@@ -4,7 +4,7 @@ using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
-	class PointsSeriesAndAdditionalData {
+	public class PointsSeriesAndAdditionalData {
 		public PointsSeriesAndAdditionalData(ChartSeriesViewModel seriesViewModel, SeriesAdditionalData additionalData, XyDataSeries<DateTime, double> dataSeries, FastLineRenderableSeries renderSeries) {
 			SeriesVm = seriesViewModel;
 			Metadata = additionalData;

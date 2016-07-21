@@ -38,7 +38,7 @@
 					<xcad:LayoutDocumentPaneGroup Orientation="Vertical">
 						<xcad:LayoutDocumentPane >
 							<xcad:LayoutDocument Title="Текущие сигналы" CanClose="False">
-								<lookedLikeAbb:ParameterDoubleReadonlyView  DataContext="{Binding Path=ParamVm, Mode=OneTime}"/>
+								<lookedLikeAbb:ParameterDoubleReadonlyView DataContext="{Binding Path=ParamVm, Mode=OneTime}"/>
 							</xcad:LayoutDocument>
 							<xcad:LayoutDocument Title="Графики" CanClose="False">
 								<views:ChartControl

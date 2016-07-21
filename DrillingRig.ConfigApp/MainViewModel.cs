@@ -66,7 +66,7 @@ namespace DrillingRig.ConfigApp {
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
-		public ChartViewModel ChartControlVm { get; }
+		public ChartViewModel ChartControlVm { get; set; }
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
@@ -134,29 +134,28 @@ namespace DrillingRig.ConfigApp {
 
 
 			// ABB way:
-			ChartControlVm = new ChartViewModel();
-			var paramLogger = new ParameterLogger(ChartControlVm);
-
+			ChartControlVm = new ChartViewModel(this);
+			
 			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
-			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, paramLogger);
+			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, ChartControlVm);
 			RegisterAsCyclePart(Group01ParametersVm);
 
-			Group02ParametersVm = new Group02ParametersViewModel(this, this, this, _logger, paramLogger);
+			Group02ParametersVm = new Group02ParametersViewModel(this, this, this, _logger, ChartControlVm);
 			RegisterAsCyclePart(Group02ParametersVm);
 
-			Group03ParametersVm = new Group03ParametersViewModel(this, this, this, _logger, paramLogger);
+			Group03ParametersVm = new Group03ParametersViewModel(this, this, this, _logger, ChartControlVm);
 			RegisterAsCyclePart(Group03ParametersVm);
 
-			Group04ParametersVm = new Group04ParametersViewModel(this, this, this, _logger, paramLogger);
+			Group04ParametersVm = new Group04ParametersViewModel(this, this, this, _logger, ChartControlVm);
 			RegisterAsCyclePart(Group04ParametersVm);
 
-			Group07ParametersVm = new Group07ParametersViewModel(this, this, this, _logger, paramLogger);
+			Group07ParametersVm = new Group07ParametersViewModel(this, this, this, _logger, ChartControlVm);
 			RegisterAsCyclePart(Group07ParametersVm);
 
-			Group08ParametersVm = new Group08ParametersViewModel(this, this, this, _logger, paramLogger);
+			Group08ParametersVm = new Group08ParametersViewModel(this, this, this, _logger, ChartControlVm);
 			RegisterAsCyclePart(Group08ParametersVm);
 
-			Group09ParametersVm = new Group09ParametersViewModel(this, this, this, _logger, this, paramLogger);
+			Group09ParametersVm = new Group09ParametersViewModel(this, this, this, _logger, this, ChartControlVm);
 			RegisterAsCyclePart(Group09ParametersVm);
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field

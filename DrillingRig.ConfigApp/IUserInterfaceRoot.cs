@@ -1,7 +1,7 @@
 ﻿using AlienJust.Support.Concurrent.Contracts;
 
 namespace DrillingRig.ConfigApp {
-	internal interface IUserInterfaceRoot {
+	public interface IUserInterfaceRoot {
 		IThreadNotifier Notifier { get; }
 	}
 }

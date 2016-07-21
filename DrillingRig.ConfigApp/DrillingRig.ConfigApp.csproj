@@ -281,7 +281,6 @@
     </Compile>
     <Compile Include="LookedLikeAbb\ParameterDoubleEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyViewModel.cs" />
-    <Compile Include="LookedLikeAbb\Chart\ParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\Chart\PointsSeriesAndAdditionalData.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />

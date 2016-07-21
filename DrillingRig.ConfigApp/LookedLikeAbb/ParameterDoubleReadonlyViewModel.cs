@@ -26,7 +26,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					RaisePropertyChanged(()=>FormattedValue);
 				}
 				if (_isChecked) {
-					_parameterLogger.LogParameter(Name, value);
+					_parameterLogger.LogAnalogueParameter(Name, value);
 				}
 			}
 		}
