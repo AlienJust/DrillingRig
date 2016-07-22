@@ -208,10 +208,34 @@
       <DependentUpon>Group100SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group100SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group104SettingsView.xaml.cs">
+      <DependentUpon>Group104SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group103SettingsView.xaml.cs">
+      <DependentUpon>Group103SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group104SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group103SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group102SettingsView.xaml.cs">
+      <DependentUpon>Group102SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LookedLikeAbb\Group101SettingsView.xaml.cs">
       <DependentUpon>Group101SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LookedLikeAbb\Group102SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group101SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group106SettingsView.xaml.cs">
+      <DependentUpon>Group106SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group105SettingsView.xaml.cs">
+      <DependentUpon>Group105SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group106SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group105SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group99SettingsView.xaml.cs">
+      <DependentUpon>Group99SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group99SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group27SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group25SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group25SettingsView.xaml.cs">
@@ -379,7 +403,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="LookedLikeAbb\Group104SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group103SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group102SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LookedLikeAbb\Group101SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group106SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group105SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group99SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

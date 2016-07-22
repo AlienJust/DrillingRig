@@ -3,7 +3,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group22SettingsViewModel : ViewModelBase {
+	class Group106SettingsViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
 		private readonly IAinSettingsReaderWriter _readerWriter;
@@ -11,18 +11,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter04Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group22SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter) {
+		public Group106SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("22.01. Темп нарастания частоты для задатчика интенсивности", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("22.02. Темп спада частоты для задатчика интенсивности", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("22.03. Темп спада частоты при аварийном останове привода", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("106.01. Каналы ЦАП", "f0", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("106.02. Внутреннее слово режимов", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditableViewModel("106.04. Применить параметры и сохранить в EEPROM", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
@@ -31,9 +33,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					AccDfDt = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					DecDfDt = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					EmdecDfdt = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
+					DacCh = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
+					Imcw = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					ToHl = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
+					//, Apply = ConvertDoubleToShort(Parameter04Vm.CurrentValue) // TODO
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -59,12 +62,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						Parameter01Vm.CurrentValue = null;
 						Parameter02Vm.CurrentValue = null;
 						Parameter03Vm.CurrentValue = null;
+						// Parameter04Vm.CurrentValue = null; // TODO
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.AccDfDt;
-					Parameter02Vm.CurrentValue = settings.DecDfDt;
-					Parameter03Vm.CurrentValue = settings.EmdecDfdt;
+					Parameter01Vm.CurrentValue = settings.DacCh;
+					Parameter02Vm.CurrentValue = settings.Imcw;
+					Parameter03Vm.CurrentValue = settings.ToHl;
+					// Parameter04Vm.CurrentValue = settings.Apply; // TODO
 				});
 			});
 			}

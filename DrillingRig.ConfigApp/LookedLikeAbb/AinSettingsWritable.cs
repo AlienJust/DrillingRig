@@ -10,8 +10,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public short UdcMin { get; set; }
 		public short Fnom { get; set; }
 		public short Fmax { get; set; }
-		public short Empty10 { get; set; }
-		public short Empty11 { get; set; }
+		public short DflLim { get; set; }
+		public short FlMinMin { get; set; }
 		public short IoutMax { get; set; }
 		public short FiMin { get; set; }
 		public short DacCh { get; set; }
@@ -33,7 +33,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public short AccDfDt { get; set; }
 		public short DecDfDt { get; set; }
 		public short Unom { get; set; }
-		public short Empty39 { get; set; }
+		public short TauFlLim { get; set; }
 		public short Rs { get; set; }
 		public short Fmin { get; set; }
 		public short TauM { get; set; }
@@ -45,7 +45,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public int KpFe { get; set; }
 		public int KiFe { get; set; }
 		public short Np { get; set; }
-		public short Empty53 { get; set; }
+		public short UmodThr { get; set; }
 		public short EmdecDfdt { get; set; }
 		public short TextMax { get; set; }
 		public short ToHl { get; set; }
@@ -61,8 +61,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			UdcMin = settings.UdcMin;
 			Fnom = settings.Fnom;
 			Fmax = settings.Fmax;
-			Empty10 = settings.Empty10;
-			Empty11 = settings.Empty11;
+			DflLim = settings.DflLim;
+			FlMinMin = settings.FlMinMin;
 			IoutMax = settings.IoutMax;
 			FiMin = settings.FiMin;
 			DacCh = settings.DacCh;
@@ -84,7 +84,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			AccDfDt = settings.AccDfDt;
 			DecDfDt = settings.DecDfDt;
 			Unom = settings.Unom;
-			Empty39 = settings.Empty39;
+			TauFlLim = settings.TauFlLim;
 			Rs = settings.Rs;
 			Fmin = settings.Fmin;
 			TauM = settings.TauM;
@@ -96,7 +96,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			KpFe = settings.KpFe;
 			KiFe = settings.KiFe;
 			Np = settings.Np;
-			Empty53 = settings.Empty53;
+			UmodThr = settings.UmodThr;
 			EmdecDfdt = settings.EmdecDfdt;
 			TextMax = settings.TextMax;
 			ToHl = settings.ToHl;
@@ -112,8 +112,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (part.UdcMin.HasValue) UdcMin = part.UdcMin.Value;
 			if (part.Fnom.HasValue) Fnom = part.Fnom.Value;
 			if (part.Fmax.HasValue) Fmax = part.Fmax.Value;
-			if (part.Empty10.HasValue) Empty10 = part.Empty10.Value;
-			if (part.Empty11.HasValue) Empty11 = part.Empty11.Value;
+			if (part.DflLim.HasValue) DflLim = part.DflLim.Value;
+			if (part.FlMinMin.HasValue) FlMinMin = part.FlMinMin.Value;
 			if (part.IoutMax.HasValue) IoutMax = part.IoutMax.Value;
 			if (part.FiMin.HasValue) FiMin = part.FiMin.Value;
 			if (part.DacCh.HasValue) DacCh = part.DacCh.Value;
@@ -135,7 +135,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (part.AccDfDt.HasValue) AccDfDt = part.AccDfDt.Value;
 			if (part.DecDfDt.HasValue) DecDfDt = part.DecDfDt.Value;
 			if (part.Unom.HasValue) Unom = part.Unom.Value;
-			if (part.Empty39.HasValue) Empty39 = part.Empty39.Value;
+			if (part.TauFlLim.HasValue) TauFlLim = part.TauFlLim.Value;
 			if (part.Rs.HasValue) Rs = part.Rs.Value;
 			if (part.Fmin.HasValue) Fmin = part.Fmin.Value;
 			if (part.TauM.HasValue) TauM = part.TauM.Value;
@@ -147,7 +147,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (part.KpFe.HasValue) KpFe = part.KpFe.Value;
 			if (part.KiFe.HasValue) KiFe = part.KiFe.Value;
 			if (part.Np.HasValue) Np = part.Np.Value;
-			if (part.Empty53.HasValue) Empty53 = part.Empty53.Value;
+			if (part.UmodThr.HasValue) UmodThr = part.UmodThr.Value;
 			if (part.EmdecDfdt.HasValue) EmdecDfdt = part.EmdecDfdt.Value;
 			if (part.TextMax.HasValue) TextMax = part.TextMax.Value;
 			if (part.ToHl.HasValue) ToHl = part.ToHl.Value;

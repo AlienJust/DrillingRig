@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Group22SettingsView"
+﻿<UserControl x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Group99SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,8 +14,6 @@
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
 				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
-				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
-				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

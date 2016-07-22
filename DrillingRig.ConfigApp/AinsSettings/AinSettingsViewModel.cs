@@ -307,8 +307,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									UdcMin = result.UdcMin;
 									Fnom = result.Fnom;
 									Fmax = result.Fmax;
-									Empty10 = result.Empty10;
-									Empty11 = result.Empty11;
+									Empty10 = result.DflLim;
+									Empty11 = result.FlMinMin;
 									IoutMax = result.IoutMax;
 									FiMin = result.FiMin;
 									DacCh = result.DacCh;
@@ -330,7 +330,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									AccDfDt = result.AccDfDt;
 									DecDfDt = result.DecDfDt;
 									Unom = result.Unom;
-									Empty39 = result.Empty39;
+									Empty39 = result.TauFlLim;
 									Rs = result.Rs;
 									Fmin = result.Fmin;
 									TauM = result.TauM;
@@ -342,7 +342,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									KpFe = result.KpFe;
 									KiFe = result.KiFe;
 									Np = result.Np;
-									Empty53 = result.Empty53;
+									Empty53 = result.UmodThr;
 									EmdecDfdt = result.EmdecDfdt;
 									TextMax = result.TextMax;
 									ToHl = result.ToHl;

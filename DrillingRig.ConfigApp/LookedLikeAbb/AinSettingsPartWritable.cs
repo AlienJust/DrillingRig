@@ -11,8 +11,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public short? UdcMin { get; set; }
 		public short? Fnom { get; set; }
 		public short? Fmax { get; set; }
-		public short? Empty10 { get; set; }
-		public short? Empty11 { get; set; }
+		public short? DflLim { get; set; }
+		public short? FlMinMin { get; set; }
 		public short? IoutMax { get; set; }
 		public short? FiMin { get; set; }
 		public short? DacCh { get; set; }
@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public short? AccDfDt { get; set; }
 		public short? DecDfDt { get; set; }
 		public short? Unom { get; set; }
-		public short? Empty39 { get; set; }
+		public short? TauFlLim { get; set; }
 		public short? Rs { get; set; }
 		public short? Fmin { get; set; }
 		public short? TauM { get; set; }
@@ -46,7 +46,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public int? KpFe { get; set; }
 		public int? KiFe { get; set; }
 		public short? Np { get; set; }
-		public short? Empty53 { get; set; }
+		public short? UmodThr { get; set; }
 		public short? EmdecDfdt { get; set; }
 		public short? TextMax { get; set; }
 		public short? ToHl { get; set; }
@@ -77,8 +77,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (settings.UdcMin != settingsReReaded.UdcMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UdcMin)");
 			if (settings.Fnom != settingsReReaded.Fnom) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fnom)");
 			if (settings.Fmax != settingsReReaded.Fmax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fmax)");
-			if (settings.Empty10 != settingsReReaded.Empty10) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Empty10)");
-			if (settings.Empty11 != settingsReReaded.Empty11) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Empty11)");
+			if (settings.DflLim != settingsReReaded.DflLim) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DflLim)");
+			if (settings.FlMinMin != settingsReReaded.FlMinMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FlMinMin)");
 			if (settings.IoutMax != settingsReReaded.IoutMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр IoutMax)");
 			if (settings.FiMin != settingsReReaded.FiMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FiMin)");
 			if (settings.DacCh != settingsReReaded.DacCh) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DacCh)");
@@ -100,7 +100,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (settings.AccDfDt != settingsReReaded.AccDfDt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр AccDfDt)");
 			if (settings.DecDfDt != settingsReReaded.DecDfDt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DecDfDt)");
 			if (settings.Unom != settingsReReaded.Unom) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Unom)");
-			if (settings.Empty39 != settingsReReaded.Empty39) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Empty39)");
+			if (settings.TauFlLim != settingsReReaded.TauFlLim) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauFlLim)");
 			if (settings.Rs != settingsReReaded.Rs) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Rs)");
 			if (settings.Fmin != settingsReReaded.Fmin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fmin)");
 			if (settings.TauM != settingsReReaded.TauM) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauM)");
@@ -112,7 +112,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (settings.KpFe != settingsReReaded.KpFe) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KpFe)");
 			if (settings.KiFe != settingsReReaded.KiFe) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KiFe)");
 			if (settings.Np != settingsReReaded.Np) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np)");
-			if (settings.Empty53 != settingsReReaded.Empty53) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Empty53)");
+			if (settings.UmodThr != settingsReReaded.UmodThr) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UmodThr)");
 			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр EmdecDfdt)");
 			if (settings.TextMax != settingsReReaded.TextMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TextMax)");
 			if (settings.ToHl != settingsReReaded.ToHl) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр ToHl)");

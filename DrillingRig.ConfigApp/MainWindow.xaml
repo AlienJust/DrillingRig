@@ -191,13 +191,31 @@
 								<TabItem Header="27. Управление магнитным потоком" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
 									<lookedLikeAbb:Group27SettingsView DataContext="{Binding Path=Group27SettingsVm, Mode=OneTime}"/>
 								</TabItem>
+								<TabItem Header="99. Номиналы" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
+									<lookedLikeAbb:Group99SettingsView DataContext="{Binding Path=Group99SettingsVm, Mode=OneTime}"/>
+								</TabItem>
 								<TabItem Header="100. Регулировка тока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 									<lookedLikeAbb:Group100SettingsView DataContext="{Binding Path=Group100SettingsVm, Mode=OneTime}"/>
 								</TabItem>
 								<TabItem Header="101. Регулировка потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group101SettingsVm, Mode=OneTime}"/>
 								</TabItem>
-								<TabItem Header="110. Марат" Style="{StaticResource AzureTabItem}" BorderBrush="Red"></TabItem>
+								<TabItem Header="102. Индуктивность и сопр." Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group102SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="103. Фильтрация" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group103SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="104. Компенсация потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group104SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="105. Калибровка нулей" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group105SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="106. Система" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								
 							</TabControl>
 						</xcad:LayoutDocument>
 						<xcad:LayoutDocument Title="Графики" CanClose="False">

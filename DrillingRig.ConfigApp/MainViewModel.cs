@@ -167,8 +167,14 @@ namespace DrillingRig.ConfigApp {
 			Group25SettingsVm = new Group25SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 			Group26SettingsVm = new Group26SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 			Group27SettingsVm = new Group27SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group99SettingsVm = new Group99SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 			Group100SettingsVm = new Group100SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 			Group101SettingsVm = new Group101SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group102SettingsVm = new Group102SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group103SettingsVm = new Group103SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group104SettingsVm = new Group104SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group105SettingsVm = new Group105SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+			Group106SettingsVm = new Group106SettingsViewModel(this, _logger, ainSettingsReadedWriter);
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
@@ -390,7 +396,13 @@ namespace DrillingRig.ConfigApp {
 		public Group26SettingsViewModel Group26SettingsVm { get; }
 		public Group27SettingsViewModel Group27SettingsVm { get; }
 
+		public Group99SettingsViewModel Group99SettingsVm { get; }
 		public Group100SettingsViewModel Group100SettingsVm { get; }
 		public Group101SettingsViewModel Group101SettingsVm { get; }
+		public Group102SettingsViewModel Group102SettingsVm { get; }
+		public Group103SettingsViewModel Group103SettingsVm { get; }
+		public Group104SettingsViewModel Group104SettingsVm { get; }
+		public Group105SettingsViewModel Group105SettingsVm { get; }
+		public Group106SettingsViewModel Group106SettingsVm { get; }
 	}
 }

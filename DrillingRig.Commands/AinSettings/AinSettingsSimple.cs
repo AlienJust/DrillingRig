@@ -10,8 +10,8 @@
 			short fnom, 
 			short fmax,
 
-			short empty10,
-			short empty11,
+			short dflLim,
+			short flMinMin,
 
 			short ioutMax, 
 			short fiMin, 
@@ -35,7 +35,7 @@
 			short decDfDt, 
 			short unom,
 
-			short empty39,
+			short tauFlLim,
 
 			short rs, 
 			short fmin, 
@@ -49,7 +49,7 @@
 			int kiFe, 
 			short np,
 
-			short empty53,
+			short umodThr,
 
 			short emdecDfdt, 
 			short textMax, 
@@ -63,8 +63,8 @@
 			Fnom = fnom;
 			Fmax = fmax;
 			
-			Empty10 = empty10;
-			Empty11 = empty11;
+			DflLim = dflLim;
+			FlMinMin = flMinMin;
 
 			IoutMax = ioutMax;
 			FiMin = fiMin;
@@ -88,7 +88,7 @@
 			DecDfDt = decDfDt;
 			Unom = unom;
 
-			Empty39 = empty39;
+			TauFlLim = tauFlLim;
 
 			Rs = rs;
 			Fmin = fmin;
@@ -103,7 +103,7 @@
 			
 			Np = np;
 
-			Empty53 = empty53;
+			UmodThr = umodThr;
 
 			EmdecDfdt = emdecDfdt;
 			TextMax = textMax;
@@ -129,9 +129,9 @@
 
 		public short Fmax { get; }
 
-		public short Empty10 { get; }
+		public short DflLim { get; }
 
-		public short Empty11 { get; }
+		public short FlMinMin { get; }
 
 		public short IoutMax { get; }
 
@@ -175,7 +175,7 @@
 
 		public short Unom { get; }
 
-		public short Empty39 { get; }
+		public short TauFlLim { get; }
 
 		public short Rs { get; }
 
@@ -199,7 +199,7 @@
 
 		public short Np { get; }
 
-		public short Empty53 { get; }
+		public short UmodThr { get; }
 
 		public short EmdecDfdt { get; }
 

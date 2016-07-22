@@ -9,8 +9,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		short? Fnom { get; }
 		short? Fmax { get; }
 
-		short? Empty10 { get; }
-		short? Empty11 { get; }
+		short? DflLim { get; }
+		short? FlMinMin { get; }
 
 		short? IoutMax { get; }
 		short? FiMin { get; }
@@ -42,7 +42,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		short? Unom { get; }
 
-		short? Empty39 { get; }
+		short? TauFlLim { get; }
 
 		short? Rs { get; }
 		short? Fmin { get; }
@@ -60,7 +60,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		short? Np { get; }
 
-		short? Empty53 { get; }
+		short? UmodThr { get; }
 
 		short? EmdecDfdt { get; }
 		short? TextMax { get; }
