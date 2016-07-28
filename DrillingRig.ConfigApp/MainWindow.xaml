@@ -11,7 +11,7 @@
         xmlns:coolerTelemetry="clr-namespace:DrillingRig.ConfigApp.CoolerTelemetry"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
-        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
         xmlns:rpd="clr-namespace:RPD.SciChartControl.Views;assembly=RPD.SciChartControl"
@@ -132,17 +132,17 @@
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
 
-	<xcad:DockingManager>
-		<xcad:DockingManager.Theme>
-			<xcad:MetroTheme />
+	<ad:DockingManager>
+		<ad:DockingManager.Theme>
+			<ad:MetroTheme />
 			<!--<xcad:VS2010Theme/>-->
 			<!--<xcad:GenericTheme/>-->
-		</xcad:DockingManager.Theme>
-		<xcad:LayoutRoot>
-			<xcad:LayoutPanel Orientation="Vertical">
-				<xcad:LayoutDocumentPaneGroup Orientation="Vertical">
-					<xcad:LayoutDocumentPane >
-						<xcad:LayoutDocument Title="Текущие сигналы" CanClose="False">
+		</ad:DockingManager.Theme>
+		<ad:LayoutRoot>
+			<ad:LayoutPanel>
+				<!--<xcad:LayoutDocumentPaneGroup Orientation="Vertical">-->
+				<ad:LayoutDocumentPane >
+					<ad:LayoutDocument Title="Текущие сигналы" CanClose="False">
 							<TabControl Background="Transparent" TabStripPlacement="Left">
 								<TabItem Header="01. Основные" Style="{StaticResource AzureTabItem}" >
 									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"/>
@@ -167,8 +167,8 @@
 								</TabItem>
 								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
 							</TabControl>
-						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="Настройки" CanClose="False">
+						</ad:LayoutDocument>
+						<ad:LayoutDocument Title="Настройки" CanClose="False">
 							<TabControl Background="Transparent" TabStripPlacement="Left">
 								<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
 									<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
@@ -217,15 +217,15 @@
 								</TabItem>
 								
 							</TabControl>
-						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="Графики" CanClose="False">
+						</ad:LayoutDocument>
+						<ad:LayoutDocument Title="Графики" CanClose="False">
 							<rpd:ChartControl 
 								AnalogSeries="{Binding ChartControlVm.AnalogSeries}"
 								DiscreteSeries="{Binding ChartControlVm.DiscreteSeries}"
 								AnalogSeriesAdditionalData="{Binding ChartControlVm.AnalogSeriesAdditionalData}"
 								DiscreteSeriesAdditionalData="{Binding ChartControlVm.DiscreteSeriesAdditionalData}"/>
-						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="Дополнительно" CanClose="False">
+						</ad:LayoutDocument>
+						<ad:LayoutDocument Title="Дополнительно" CanClose="False">
 							<Grid>
 								<!--<Grid.RowDefinitions>
 									<RowDefinition Height="4*"/>
@@ -279,22 +279,62 @@
 								<!--<GridSplitter Grid.Row="1" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
 								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>-->
 							</Grid>
-						</xcad:LayoutDocument>
-						<xcad:LayoutDocument Title="О программе" CanClose="False">
+						</ad:LayoutDocument>
+						<ad:LayoutDocument Title="Команда" CanClose="False">
 							<TextBlock>Программа настройки! версия №2</TextBlock>
-						</xcad:LayoutDocument>
-					</xcad:LayoutDocumentPane>
-				</xcad:LayoutDocumentPaneGroup>
-			</xcad:LayoutPanel>
-			<xcad:LayoutRoot.BottomSide>
-				<xcad:LayoutAnchorSide>
-					<xcad:LayoutAnchorGroup>
-						<xcad:LayoutAnchorable Title="Журнал" CanClose="False" CanHide="False">
+						</ad:LayoutDocument>
+					</ad:LayoutDocumentPane>
+				<!--</xcad:LayoutDocumentPaneGroup>-->
+			</ad:LayoutPanel>
+			<ad:LayoutRoot.RightSide>
+				<ad:LayoutAnchorSide>
+					<ad:LayoutAnchorGroup>
+						<ad:LayoutAnchorable Title="Команда" CanClose="False" CanHide="False" CanFloat="True" CanAutoHide="False">
 							<configApp:ProgramLogView DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
-						</xcad:LayoutAnchorable>
-					</xcad:LayoutAnchorGroup>
-				</xcad:LayoutAnchorSide>
-			</xcad:LayoutRoot.BottomSide>
-		</xcad:LayoutRoot>
-	</xcad:DockingManager>
+						</ad:LayoutAnchorable>
+					</ad:LayoutAnchorGroup>
+				</ad:LayoutAnchorSide>
+			</ad:LayoutRoot.RightSide>
+			<ad:LayoutRoot.BottomSide>
+				<ad:LayoutAnchorSide>
+					<ad:LayoutAnchorGroup>
+						<ad:LayoutAnchorable Title="Журнал" CanClose="False" CanHide="False">
+							<configApp:ProgramLogView DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"/>
+						</ad:LayoutAnchorable>
+					</ad:LayoutAnchorGroup>
+				</ad:LayoutAnchorSide>
+			</ad:LayoutRoot.BottomSide>
+		</ad:LayoutRoot>
+	</ad:DockingManager>
 </controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
