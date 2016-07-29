@@ -1,4 +1,4 @@
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 	interface IAinSettingsPart {
 		int? KpW { get; }
 		int? KiW { get; }

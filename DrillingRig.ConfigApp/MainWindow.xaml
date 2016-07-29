@@ -124,16 +124,21 @@
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<StackPanel Orientation="Horizontal">
+				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
+				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
+				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="АИН:" VerticalAlignment="Center"/>
 				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding AinsCountInSystem}" SelectedItem="{Binding SelectedAinsCount}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="Порт:" VerticalAlignment="Center"/>
 				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
-				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15" Foreground="{StaticResource WhiteColorBrush}"/>
+				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15" Style="{DynamicResource AccentedSquareButtonStyle}"/>
 			</StackPanel>
-			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}" Foreground="{StaticResource WhiteColorBrush}"/>
-			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}" Foreground="{StaticResource WhiteColorBrush}"/>
+			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}" Style="{DynamicResource AccentedSquareButtonStyle}"/>
+			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}" Style="{DynamicResource AccentedSquareButtonStyle}"/>
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
 

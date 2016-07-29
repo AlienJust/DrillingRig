@@ -1,6 +1,7 @@
 ﻿using System;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group105SettingsViewModel : ViewModelBase {
@@ -55,7 +56,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync((exception, settings) => {
+			_readerWriter.ReadSettingsAsync(0, (exception, settings) => {
 				_uiRoot.Notifier.Notify(() => {
 					if (exception != null) {
 						_logger.Log("Не удалось прочитать настройки АИН");

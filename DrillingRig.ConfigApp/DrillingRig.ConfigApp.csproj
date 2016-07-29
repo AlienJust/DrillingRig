@@ -183,9 +183,16 @@
       <DependentUpon>TelemetryCommonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsPartWritable.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsReaderWriter.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsWritable.cs" />
+    <Compile Include="IAinsLinkControlViewModel.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsPartWritable.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReader.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReaderWriter.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadingWasAttemptedDelegate.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWritable.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWriter.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReadedBroadcaster.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReader.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsWriter.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
@@ -300,8 +307,8 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Group01ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group20SettingsViewModel.cs" />
-    <Compile Include="LookedLikeAbb\IAinSettingsPart.cs" />
-    <Compile Include="LookedLikeAbb\IAinSettingsReaderWriter.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsPart.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />

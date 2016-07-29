@@ -23,6 +23,7 @@ using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.EngineSettings;
 using DrillingRig.ConfigApp.LookedLikeAbb;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.NewLook.Archive;
 using DrillingRig.ConfigApp.OldLook;
@@ -32,7 +33,7 @@ using DrillingRig.ConfigApp.SystemControl;
 using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter {
+	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter /*, IAinsLinkControlViewModel*/ {
 		public IThreadNotifier Notifier { get; }
 		private readonly IWindowSystem _windowSystem;
 
@@ -109,7 +110,9 @@ namespace DrillingRig.ConfigApp {
 
 			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
-			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
+			var ainSettingsReader = new AinSettingsReader(this, this, _logger);
+			var ainSettingsWriter = new AinSettingsWriter(this, this, this, ainSettingsReader);
+			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
 
 
 

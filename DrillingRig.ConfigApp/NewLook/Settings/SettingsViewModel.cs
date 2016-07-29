@@ -1,6 +1,7 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.Settings {
 	class SettingsViewModel : DockWindowViewModel {

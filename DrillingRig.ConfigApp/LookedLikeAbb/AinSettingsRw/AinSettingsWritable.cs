@@ -1,6 +1,6 @@
 using DrillingRig.Commands.AinSettings;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 	class AinSettingsWritable : IAinSettings {
 		public int KpW { get; set; }
 		public int KiW { get; set; }
