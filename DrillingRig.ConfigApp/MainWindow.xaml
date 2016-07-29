@@ -16,7 +16,12 @@
         xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
         xmlns:rpd="clr-namespace:RPD.SciChartControl.Views;assembly=RPD.SciChartControl"
         xmlns:engineSettings="clr-namespace:DrillingRig.ConfigApp.EngineSettings"
-        Title="Конфигурация БС-Ethernet " Height="600" Width="800" ResizeMode="CanResizeWithGrip">
+        xmlns:chart="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
+        xmlns:telemetry="clr-namespace:DrillingRig.ConfigApp.Telemetry"
+        xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
+        xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook"
+        xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
+        Title="Конфигурация БС-Ethernet " Height="700" Width="900" ResizeMode="CanResizeWithGrip">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -125,166 +130,210 @@
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="Порт:" VerticalAlignment="Center"/>
 				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
-				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15"/>
+				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15" Foreground="{StaticResource WhiteColorBrush}"/>
 			</StackPanel>
-			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}"/>
-			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}"/>
+			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}" Foreground="{StaticResource WhiteColorBrush}"/>
+			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}" Foreground="{StaticResource WhiteColorBrush}"/>
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
 
-	<ad:DockingManager>
+	<ad:DockingManager DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents}" AnchorablesSource="{Binding Anchorables}">
 		<ad:DockingManager.Theme>
 			<ad:MetroTheme />
-			<!--<xcad:VS2010Theme/>-->
-			<!--<xcad:GenericTheme/>-->
 		</ad:DockingManager.Theme>
+		<ad:DockingManager.Resources>
+
+			<!-- add views for specific ViewModels -->
+			<DataTemplate DataType="{x:Type ainCommand:AinCommandViewModel}">
+				<ainCommand:AinCommandView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type ainsSettings:AinSettingsViewModel}">
+				<ainsSettings:AinSettingsView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type ainTelemetry:AinTelemetriesViewModel}">
+				<ainTelemetry:AinTelemetriesView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type lookedLikeAbb:Group01ParametersViewModel}">
+				<lookedLikeAbb:Group01ParametersView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type telemetry:TelemetryViewModel}">
+				<telemetry:TelemetryView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type settings:SettingsViewModel}">
+				<settings:SettingsView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type chart:ChartViewModel}">
+				<chart:ChartView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type ainCommand:AinCommandOnlyViewModel}">
+				<ainCommand:AinCommandOnlyView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type oldLook:OldLookViewModel}">
+				<oldLook:OldLookView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type configApp:ProgramLogViewModel}">
+				<configApp:ProgramLogView />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type archive:ArchivesViewModel}">
+				<archive:ArchivesView />
+			</DataTemplate>
+			
+
+
+		</ad:DockingManager.Resources>
+		<ad:DockingManager.LayoutItemContainerStyle>
+			<Style TargetType="{x:Type ad:LayoutItem}" >
+				<Setter Property="Title" Value="{Binding Model.Title}" />
+				<Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+				<Setter Property="CanClose" Value="{Binding Model.CanClose}" />
+			</Style>
+		</ad:DockingManager.LayoutItemContainerStyle>
 		<ad:LayoutRoot>
+			<ad:LayoutPanel Orientation="Vertical">
+				<ad:LayoutDocumentPane/>
+				<ad:LayoutAnchorablePane Name="ToolsPane" DockHeight="300"  DockMinHeight="250" FloatingHeight="250">
+				</ad:LayoutAnchorablePane>
+			</ad:LayoutPanel>
+		</ad:LayoutRoot>
+
+		<!--<ad:LayoutRoot>
 			<ad:LayoutPanel>
-				<!--<xcad:LayoutDocumentPaneGroup Orientation="Vertical">-->
 				<ad:LayoutDocumentPane >
 					<ad:LayoutDocument Title="Текущие сигналы" CanClose="False">
-							<TabControl Background="Transparent" TabStripPlacement="Left">
-								<TabItem Header="01. Основные" Style="{StaticResource AzureTabItem}" >
-									<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="02. Скорость и момент" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group02ParametersView DataContext="{Binding Path=Group02ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="03. Внутренние параметры" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group03ParametersView DataContext="{Binding Path=Group03ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="04. Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
-									<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group07ParametersView DataContext="{Binding Path=Group07ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group08ParametersView DataContext="{Binding Path=Group08ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
-									<lookedLikeAbb:Group09ParametersView DataContext="{Binding Path=Group09ParametersVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
-							</TabControl>
-						</ad:LayoutDocument>
-						<ad:LayoutDocument Title="Настройки" CanClose="False">
-							<TabControl Background="Transparent" TabStripPlacement="Left">
-								<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
-									<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="22. Ускорение/замедление" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group22SettingsView DataContext="{Binding Path=Group22SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="23. Задание скорости" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group23SettingsView DataContext="{Binding Path=Group23SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="24. Регулировка скорости" Style="{StaticResource AzureTabItem}">
-									<lookedLikeAbb:Group24SettingsView DataContext="{Binding Path=Group24SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="25. Задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
-									<lookedLikeAbb:Group25SettingsView DataContext="{Binding Path=Group25SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="26. Оперативное задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
-									<lookedLikeAbb:Group26SettingsView DataContext="{Binding Path=Group26SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="27. Управление магнитным потоком" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
-									<lookedLikeAbb:Group27SettingsView DataContext="{Binding Path=Group27SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="99. Номиналы" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
-									<lookedLikeAbb:Group99SettingsView DataContext="{Binding Path=Group99SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="100. Регулировка тока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group100SettingsView DataContext="{Binding Path=Group100SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="101. Регулировка потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group101SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="102. Индуктивность и сопр." Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group102SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="103. Фильтрация" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group103SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="104. Компенсация потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group104SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="105. Калибровка нулей" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group105SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								<TabItem Header="106. Система" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-									<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
-								</TabItem>
-								
-							</TabControl>
-						</ad:LayoutDocument>
-						<ad:LayoutDocument Title="Графики" CanClose="False">
-							<rpd:ChartControl 
+						<TabControl Background="Transparent" TabStripPlacement="Left">
+							<TabItem Header="01. Основные" Style="{StaticResource AzureTabItem}" >
+								<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="02. Скорость и момент" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group02ParametersView DataContext="{Binding Path=Group02ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="03. Внутренние параметры" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group03ParametersView DataContext="{Binding Path=Group03ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="04. Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+								<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group07ParametersView DataContext="{Binding Path=Group07ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group08ParametersView DataContext="{Binding Path=Group08ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
+								<lookedLikeAbb:Group09ParametersView DataContext="{Binding Path=Group09ParametersVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
+						</TabControl>
+					</ad:LayoutDocument>
+					<ad:LayoutDocument Title="Настройки" CanClose="False">
+						<TabControl Background="Transparent" TabStripPlacement="Left">
+							<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
+								<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="22. Ускорение/замедление" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group22SettingsView DataContext="{Binding Path=Group22SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="23. Задание скорости" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group23SettingsView DataContext="{Binding Path=Group23SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="24. Регулировка скорости" Style="{StaticResource AzureTabItem}">
+								<lookedLikeAbb:Group24SettingsView DataContext="{Binding Path=Group24SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="25. Задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+								<lookedLikeAbb:Group25SettingsView DataContext="{Binding Path=Group25SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="26. Оперативное задание момента" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+								<lookedLikeAbb:Group26SettingsView DataContext="{Binding Path=Group26SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="27. Управление магнитным потоком" Style="{StaticResource AzureTabItem}"  BorderBrush="LimeGreen">
+								<lookedLikeAbb:Group27SettingsView DataContext="{Binding Path=Group27SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="99. Номиналы" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
+								<lookedLikeAbb:Group99SettingsView DataContext="{Binding Path=Group99SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="100. Регулировка тока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group100SettingsView DataContext="{Binding Path=Group100SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="101. Регулировка потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group101SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="102. Индуктивность и сопр." Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group102SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="103. Фильтрация" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group103SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="104. Компенсация потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group104SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="105. Калибровка нулей" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group105SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+							<TabItem Header="106. Система" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+								<lookedLikeAbb:Group101SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
+							</TabItem>
+
+						</TabControl>
+					</ad:LayoutDocument>
+					<ad:LayoutDocument Title="Графики" CanClose="False">
+						<rpd:ChartControl 
 								AnalogSeries="{Binding ChartControlVm.AnalogSeries}"
 								DiscreteSeries="{Binding ChartControlVm.DiscreteSeries}"
 								AnalogSeriesAdditionalData="{Binding ChartControlVm.AnalogSeriesAdditionalData}"
 								DiscreteSeriesAdditionalData="{Binding ChartControlVm.DiscreteSeriesAdditionalData}"/>
-						</ad:LayoutDocument>
-						<ad:LayoutDocument Title="Дополнительно" CanClose="False">
-							<Grid>
-								<!--<Grid.RowDefinitions>
-									<RowDefinition Height="4*"/>
-									<RowDefinition Height="1*"/>
-								</Grid.RowDefinitions>-->
-								<TabControl Grid.Row="0" Background="Transparent" TabStripPlacement="Left">
-									<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
-										<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Номиналы БС-Ethernet" Style="{StaticResource AzureTabItem}">
-										<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Телеметрия АИН" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
-										<!--Header="Телеметрия АИН"-->
-										<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
-										<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
-									</TabItem>
+					</ad:LayoutDocument>
+					<ad:LayoutDocument Title="Дополнительно" CanClose="False">
+						<Grid>
+							<TabControl Grid.Row="0" Background="Transparent" TabStripPlacement="Left">
+								<TabItem Header="Настройка БС-Ethernet" Style="{StaticResource AzureTabItem}">
+									<configApp:BsEthernetSettingsView DataContext="{Binding Path=BsEthernetSettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Номиналы БС-Ethernet" Style="{StaticResource AzureTabItem}">
+									<bsEthernetNominals:BsEthernetNominalsView DataContext="{Binding Path=BsEthernetNominalsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Телеметрия АИН" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+									<ainTelemetry:AinTelemetriesView DataContext="{Binding Path=AinTelemetriesVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Настройки АИН1" Style="{StaticResource AzureTabItem}">
+									<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Настройки АИН2" Style="{StaticResource AzureTabItem}">
+									<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2SettingsVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Настройки АИН3" Style="{StaticResource AzureTabItem}">
+									<ainsSettings:AinSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3SettingsVm, Mode=OneTime}"/>
+								</TabItem>
 
-									<TabItem Header="Команда АИН1" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Команда АИН2" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Команда АИН3" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
-										<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Система" Style="{StaticResource AzureTabItem}" BorderBrush="Blue">
-										<Grid>
-											<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
-										</Grid>
-									</TabItem>
-									<TabItem Header="Выпрямители" Style="{StaticResource AzureTabItem}">
-										<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Модуль охлаждения" Style="{StaticResource AzureTabItem}">
-										<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
-									</TabItem>
-									<TabItem Header="Настройки двигателя" Style="{StaticResource AzureTabItem}">
-										<engineSettings:EngineSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=EngineSettingsVm, Mode=OneTime}"/>
-									</TabItem>
-								</TabControl>
-								<!--<GridSplitter Grid.Row="1" Height="4" BorderBrush="DeepSkyBlue" BorderThickness="1" VerticalAlignment="Top" Background="DeepSkyBlue" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
-								<configApp:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,6,4"/>-->
-							</Grid>
-						</ad:LayoutDocument>
-						<ad:LayoutDocument Title="Команда" CanClose="False">
-							<TextBlock>Программа настройки! версия №2</TextBlock>
-						</ad:LayoutDocument>
-					</ad:LayoutDocumentPane>
-				<!--</xcad:LayoutDocumentPaneGroup>-->
+								<TabItem Header="Команда АИН1" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+									<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain1CommandVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Команда АИН2" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+									<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain2CommandVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Команда АИН3" Style="{StaticResource AzureTabItem}" BorderBrush="DarkOrange">
+									<ainCommand:AinCommandView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=Ain3CommandVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Система" Style="{StaticResource AzureTabItem}" BorderBrush="Blue">
+									<Grid>
+										<systemControl:SystemControlView DataContext="{Binding Path=SystemControlVm, Mode=OneTime}"/>
+									</Grid>
+								</TabItem>
+								<TabItem Header="Выпрямители" Style="{StaticResource AzureTabItem}">
+									<rectifierTelemetry:RectifierTelemetriesView DataContext="{Binding Path=RectifierTelemetriesVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Модуль охлаждения" Style="{StaticResource AzureTabItem}">
+									<coolerTelemetry:CoolerTelemetriesView DataContext="{Binding Path= CoolerTelemetriesVm, Mode=OneTime}"/>
+								</TabItem>
+								<TabItem Header="Настройки двигателя" Style="{StaticResource AzureTabItem}">
+									<engineSettings:EngineSettingsView ScrollViewer.CanContentScroll="True" DataContext="{Binding Path=EngineSettingsVm, Mode=OneTime}"/>
+								</TabItem>
+							</TabControl>
+						</Grid>
+					</ad:LayoutDocument>
+					<ad:LayoutDocument Title="Команда" CanClose="False">
+						<TextBlock>Программа настройки! версия №2</TextBlock>
+					</ad:LayoutDocument>
+				</ad:LayoutDocumentPane>
 			</ad:LayoutPanel>
 			<ad:LayoutRoot.RightSide>
 				<ad:LayoutAnchorSide>
@@ -304,9 +353,105 @@
 					</ad:LayoutAnchorGroup>
 				</ad:LayoutAnchorSide>
 			</ad:LayoutRoot.BottomSide>
-		</ad:LayoutRoot>
+		</ad:LayoutRoot>-->
 	</ad:DockingManager>
 </controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -3,9 +3,10 @@ using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry01;
+using DrillingRig.ConfigApp.AvaDock;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group01ParametersViewModel : ViewModelBase, ICyclePart {
+	class Group01ParametersViewModel : DockWindowViewModel, ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;

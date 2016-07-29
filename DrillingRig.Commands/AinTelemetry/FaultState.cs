@@ -15,8 +15,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 		CanLinkError, //10 Потеря связи по линии CAN.
 		ChangedAinMode, //11 Изменился режим работы (Одиночный/ведущий/ведомый).
 		SlaveNotReady, //12 В режиме Ведущий  не готов Ведомый.
-		RelayBlocking,
-		RelayAlarmMo, //
+		RelayBlocking, //13
+		RelayAlarmMo, //14
+		OverheatProtection, //15 Сработала тепловая защита
+		SystemStart, // 16 Старт системы. Неопределенное состояние АИН (после включения/рестарта)
 	}
 
 	public static class FaultStateExtensions {
@@ -55,6 +57,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 13;
 				case FaultState.RelayAlarmMo:
 					return 14;
+
+				case FaultState.OverheatProtection:
+					return 15;
+				case FaultState.SystemStart:
+					return 16;
 
 				default:
 					throw new Exception("Cannot convert such state to ushort");
@@ -96,6 +103,12 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "RELAY_BLOCKING";
 				case FaultState.RelayAlarmMo:
 					return "RELAY_ALARM_MO";
+
+				case FaultState.OverheatProtection:
+					return "OVERHEAT_PROTECTION";
+				case FaultState.SystemStart:
+					return "SYSTEM_START";
+
 				default:
 					throw new Exception("Cannot convert such state to string");
 			}
@@ -136,6 +149,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.RelayBlocking;
 				case 14:
 					return FaultState.RelayAlarmMo;
+				case 15:
+					return FaultState.OverheatProtection;
+				case 16:
+					return FaultState.SystemStart;
 
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (FaultState).Name);

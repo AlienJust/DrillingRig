@@ -2,10 +2,11 @@
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.AvaDock;
 
 namespace DrillingRig.ConfigApp
 {
-	internal class ProgramLogViewModel : ViewModelBase, ILogger {
+	internal class ProgramLogViewModel : DockWindowViewModel, ILogger {
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ObservableCollection<ILogLine> _logLines;
 

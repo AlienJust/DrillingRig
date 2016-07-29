@@ -33,6 +33,10 @@
     <Reference Include="AlienJust.Support.Collections">
       <HintPath>..\References\AlienJust.Support.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Numeric, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Numeric.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +71,9 @@
     <Compile Include="EngineSettings\EngineSettingsSimple.cs" />
     <Compile Include="EngineSettings\IEngineSettings.cs" />
     <Compile Include="EngineSettings\WriteEngineSettingsCommand.cs" />
+    <Compile Include="FaultArchive\ArchiveRecordSimple.cs" />
+    <Compile Include="FaultArchive\IArchiveRecord.cs" />
+    <Compile Include="FaultArchive\ReadArchiveCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BsEthernetSettings\ReadBsEthernetSettingsCommand.cs" />
     <Compile Include="BsEthernetSettings\WriteBsEthernetSettingsCommand.cs" />

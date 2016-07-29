@@ -7,11 +7,11 @@ using System.Windows.Media;
 using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
-using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.AvaDock;
 using RPD.SciChartControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
-	public class ChartViewModel : ViewModelBase, IParameterLogger {
+	public class ChartViewModel : DockWindowViewModel, IParameterLogger {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly Dictionary<string, PointsSeriesAndAdditionalData> _logs;
 		private readonly Random _colorRandom;

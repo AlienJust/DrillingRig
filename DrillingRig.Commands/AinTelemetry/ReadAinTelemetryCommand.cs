@@ -11,15 +11,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 			_zeroBasedAinNumber = zeroBasedAinNumber;
 		}
 
-		public byte CommandCode
-		{
-			get { return 0x85; }
-		}
+		public byte CommandCode => 0x85;
 
-		public string Name
-		{
-			get { return "Чтение телеметрии АИН #" + (_zeroBasedAinNumber + 1); }
-		}
+		public string Name => "Чтение телеметрии АИН #" + (_zeroBasedAinNumber + 1);
 
 		public byte[] Serialize()
 		{

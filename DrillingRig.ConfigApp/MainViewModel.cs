@@ -17,14 +17,19 @@ using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinsSettings;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.EngineSettings;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
+using DrillingRig.ConfigApp.NewLook.Archive;
+using DrillingRig.ConfigApp.OldLook;
 using DrillingRig.ConfigApp.RectifierTelemetry;
+using DrillingRig.ConfigApp.Settings;
 using DrillingRig.ConfigApp.SystemControl;
+using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter {
@@ -40,15 +45,7 @@ namespace DrillingRig.ConfigApp {
 		private ICommandSenderController _commandSenderController;
 
 		private readonly ProgramLogViewModel _programLogVm;
-		private readonly AinTelemetriesViewModel _ainTelemetriesVm;
 
-		private readonly AinTelemetryViewModel _ain1TelemetryVm;
-		private readonly AinTelemetryViewModel _ain2TelemetryVm;
-		private readonly AinTelemetryViewModel _ain3TelemetryVm;
-
-		private readonly SystemControlViewModel _systemControlVm;
-
-		private readonly TelemetryCommonViewModel _commonTelemetryVm;
 
 		private readonly RelayCommand _openPortCommand;
 		private readonly RelayCommand _closePortCommand;
@@ -62,11 +59,15 @@ namespace DrillingRig.ConfigApp {
 		private bool _isSendingEnabled;
 
 
+		private readonly object _cyclePartsSync;
 		private readonly List<ICyclePart> _cycleParts;
 		private SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
+
 		public ChartViewModel ChartControlVm { get; set; }
+
+		public DockManagerViewModel DockManagerViewModel { get; private set; }
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
@@ -82,6 +83,7 @@ namespace DrillingRig.ConfigApp {
 			_isSendingEnabled = false;
 			_isSendingEnabledSyncObject = new object();
 
+			_cyclePartsSync = new object();
 			_cycleParts = new List<ICyclePart>();
 			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
 
@@ -92,41 +94,10 @@ namespace DrillingRig.ConfigApp {
 			SelectedAinsCount = AinsCountInSystem.First();
 
 			// Лог программы:
-			_programLogVm = new ProgramLogViewModel(this);
+			_programLogVm = new ProgramLogViewModel(this) { Title = "Журнал" };
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
 
-			_commonTelemetryVm = new TelemetryCommonViewModel(_logger);
 
-			BsEthernetSettingsVm = new BsEthernetSettingsViewModel(this, this, this, _logger, _windowSystem, this);
-			BsEthernetNominalsVm = new BsEthernetNominalsViewModel(this, this, this, _logger, _windowSystem, this);
-
-			_systemControlVm = new SystemControlViewModel(this, this, this, _logger, _windowSystem, this, this, _commonTelemetryVm);
-
-			_ain1TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 0, this, _programLogVm, this);
-			_ain2TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 1, this, _programLogVm, this);
-			_ain3TelemetryVm = new AinTelemetryViewModel(_commonTelemetryVm, 2, this, _programLogVm, this);
-
-			_ainTelemetriesVm = new AinTelemetriesViewModel(this, this, this, _logger, _windowSystem, _systemControlVm, _commonTelemetryVm, _ain1TelemetryVm, _ain2TelemetryVm, _ain3TelemetryVm); // TODO: sending enabled control?
-
-			RegisterAsCyclePart(_ain1TelemetryVm);
-			RegisterAsCyclePart(_ain2TelemetryVm);
-			RegisterAsCyclePart(_ain3TelemetryVm);
-			RegisterAsCyclePart(_ainTelemetriesVm);
-
-			Ain1CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 0, _commonTelemetryVm, _ain1TelemetryVm, _ainTelemetriesVm);
-			Ain2CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 1, _commonTelemetryVm, _ain2TelemetryVm, _ainTelemetriesVm);
-			Ain3CommandVm = new AinCommandViewModel(this, this, this, _logger, _windowSystem, this, 2, _commonTelemetryVm, _ain3TelemetryVm, _ainTelemetriesVm);
-
-			Ain1SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 0);
-			Ain2SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 1);
-			Ain3SettingsVm = new AinSettingsViewModel(this, this, this, _logger, _windowSystem, this, 2);
-
-			RectifierTelemetriesVm = new RectifierTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
-			RegisterAsCyclePart(RectifierTelemetriesVm);
-
-			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(this, this, this, _logger, _windowSystem); // TODO: sending enabled control?
-
-			EngineSettingsVm = new EngineSettingsViewModel(this, this, this, _logger, _windowSystem, this);
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -134,68 +105,48 @@ namespace DrillingRig.ConfigApp {
 
 
 			// ABB way:
-			ChartControlVm = new ChartViewModel(this);
-			
-			var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: move to field
-			Group01ParametersVm = new Group01ParametersViewModel(this, this, this, _logger, this, ChartControlVm);
-			RegisterAsCyclePart(Group01ParametersVm);
+			ChartControlVm = new ChartViewModel(this) { Title = "Графики", CanClose = false };
 
-			Group02ParametersVm = new Group02ParametersViewModel(this, this, this, _logger, ChartControlVm);
-			RegisterAsCyclePart(Group02ParametersVm);
-
-			Group03ParametersVm = new Group03ParametersViewModel(this, this, this, _logger, ChartControlVm);
-			RegisterAsCyclePart(Group03ParametersVm);
-
-			Group04ParametersVm = new Group04ParametersViewModel(this, this, this, _logger, ChartControlVm);
-			RegisterAsCyclePart(Group04ParametersVm);
-
-			Group07ParametersVm = new Group07ParametersViewModel(this, this, this, _logger, ChartControlVm);
-			RegisterAsCyclePart(Group07ParametersVm);
-
-			Group08ParametersVm = new Group08ParametersViewModel(this, this, this, _logger, ChartControlVm);
-			RegisterAsCyclePart(Group08ParametersVm);
-
-			Group09ParametersVm = new Group09ParametersViewModel(this, this, this, _logger, this, ChartControlVm);
-			RegisterAsCyclePart(Group09ParametersVm);
+			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(this, this, this, _logger, this); // TODO: move to field
 
-			Group20SettingsVm = new Group20SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group22SettingsVm = new Group22SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group23SettingsVm = new Group23SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group24SettingsVm = new Group24SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group25SettingsVm = new Group25SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group26SettingsVm = new Group26SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group27SettingsVm = new Group27SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group99SettingsVm = new Group99SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group100SettingsVm = new Group100SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group101SettingsVm = new Group101SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group102SettingsVm = new Group102SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group103SettingsVm = new Group103SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group104SettingsVm = new Group104SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group105SettingsVm = new Group105SettingsViewModel(this, _logger, ainSettingsReadedWriter);
-			Group106SettingsVm = new Group106SettingsViewModel(this, _logger, ainSettingsReadedWriter);
+
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);
+
+			var documents = new List<DockWindowViewModel> {
+				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
+				new SettingsViewModel(this, _logger, ainSettingsReadedWriter) {Title = "Настройки", CanClose = false},
+				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
+				new ArchivesViewModel(
+					new ArchiveViewModel(this,this,this,_logger, this, 0),
+					new ArchiveViewModel(this,this,this,_logger, this, 1)) {Title="Архив",CanClose = false},
+				new OldLookViewModel(this, _windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
+			};
+			var anchorables = new List<DockWindowViewModel> { ChartControlVm, _programLogVm };
+			DockManagerViewModel = new DockManagerViewModel(documents, anchorables);
 		}
 
 
 		private void CycleWork() {
 			while (true) {
 				//int currentCycleActionsCount = 0;
-				foreach (var cyclePart in _cycleParts) {
-					if (!cyclePart.Cancel) {
-						try {
-							cyclePart.InCycleAction();
-							Thread.Sleep(50);
-						}
-						catch {
-							continue; /*can show exception in log*/
-						}
-						//finally {
+				lock (_cyclePartsSync) {
+					foreach (var cyclePart in _cycleParts) {
+						if (!cyclePart.Cancel) {
+							try {
+								cyclePart.InCycleAction();
+								Thread.Sleep(50);
+							}
+							catch {
+								continue; /*can show exception in log*/
+							}
+							//finally {
 							//currentCycleActionsCount++;
-						//}
+							//}
+						}
 					}
 				}
 				//Console.WriteLine("currentCycleActionsCount=" + currentCycleActionsCount);
@@ -279,8 +230,7 @@ namespace DrillingRig.ConfigApp {
 
 		private void RaiseSendingEnabledChanged(bool isSendingEnabled) {
 			var eve = SendingEnabledChanged;
-			if (eve != null)
-				eve.Invoke(isSendingEnabled);
+			eve?.Invoke(isSendingEnabled);
 		}
 
 		public List<string> ComPortsAvailable {
@@ -321,57 +271,33 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-		
+
 
 		public ProgramLogViewModel ProgramLogVm => _programLogVm;
 
-		public BsEthernetSettingsViewModel BsEthernetSettingsVm { get; }
 
-		public BsEthernetNominalsViewModel BsEthernetNominalsVm { get; }
-
-		public AinTelemetriesViewModel AinTelemetriesVm => _ainTelemetriesVm;
-
-		public AinCommandViewModel Ain1CommandVm { get; }
-
-		public AinCommandViewModel Ain2CommandVm { get; }
-
-		public AinCommandViewModel Ain3CommandVm { get; }
-
-		public SystemControlViewModel SystemControlVm => _systemControlVm;
-
-		public RectifierTelemetriesViewModel RectifierTelemetriesVm { get; }
-
-		public CoolerTelemetriesViewModel CoolerTelemetriesVm { get; }
-
-		public AinSettingsViewModel Ain1SettingsVm { get; }
-
-		public AinSettingsViewModel Ain2SettingsVm { get; }
-
-		public AinSettingsViewModel Ain3SettingsVm { get; }
-
-		public EngineSettingsViewModel EngineSettingsVm { get; }
 
 		public void CloseComPort() {
 			ClosePort();
 		}
 
 		public void RegisterAsCyclePart(ICyclePart part) {
-			_cycleParts.Add(part);
+			lock (_cyclePartsSync) {
+				_cycleParts.Add(part);
+			}
 		}
 
 
 
 		public List<int> AinsCountInSystem { get; }
 
-		public int SelectedAinsCount
-		{
+		public int SelectedAinsCount {
 			get { return _selectedAinsCount; }
-			set
-			{
+			set {
 				if (value != 1 && value != 2 && value != 3) throw new ArgumentOutOfRangeException("Поддерживаемое число блоков АИН в системе может быть только 1, 2 или 3, получено ошибочное число: " + value);
 				if (value != _selectedAinsCount) {
 					_selectedAinsCount = value;
-					RaisePropertyChanged(()=>SelectedAinsCount);
+					RaisePropertyChanged(() => SelectedAinsCount);
 					var evnt = AinsCountInSystemHasBeenChanged;
 					evnt?.Invoke();
 				}
@@ -380,29 +306,6 @@ namespace DrillingRig.ConfigApp {
 
 		public event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
 
-		public Group01ParametersViewModel Group01ParametersVm { get; }
-		public Group02ParametersViewModel Group02ParametersVm { get; }
-		public Group03ParametersViewModel Group03ParametersVm { get; }
-		public Group04ParametersViewModel Group04ParametersVm { get; }
-		public Group07ParametersViewModel Group07ParametersVm { get; }
-		public Group08ParametersViewModel Group08ParametersVm { get; }
-		public Group09ParametersViewModel Group09ParametersVm { get; }
 
-		public Group20SettingsViewModel Group20SettingsVm { get; }
-		public Group22SettingsViewModel Group22SettingsVm { get; }
-		public Group23SettingsViewModel Group23SettingsVm { get; }
-		public Group24SettingsViewModel Group24SettingsVm { get; }
-		public Group25SettingsViewModel Group25SettingsVm { get; }
-		public Group26SettingsViewModel Group26SettingsVm { get; }
-		public Group27SettingsViewModel Group27SettingsVm { get; }
-
-		public Group99SettingsViewModel Group99SettingsVm { get; }
-		public Group100SettingsViewModel Group100SettingsVm { get; }
-		public Group101SettingsViewModel Group101SettingsVm { get; }
-		public Group102SettingsViewModel Group102SettingsVm { get; }
-		public Group103SettingsViewModel Group103SettingsVm { get; }
-		public Group104SettingsViewModel Group104SettingsVm { get; }
-		public Group105SettingsViewModel Group105SettingsVm { get; }
-		public Group106SettingsViewModel Group106SettingsVm { get; }
 	}
 }
