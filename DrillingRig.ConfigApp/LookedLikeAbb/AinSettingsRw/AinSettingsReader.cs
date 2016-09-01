@@ -3,11 +3,14 @@ using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.Commands.AinSettings;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
-	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadedBroadcaster {
+	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly ILogger _logger;
 		private readonly TimeSpan _readSettingsTimeout;
+
+		public event AinSettingsReadCompleteDelegate AinSettingsReadComplete;
+		public event AinSettingsReadStartedDelegate AinSettingsReadStarted;
 
 		public AinSettingsReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, ILogger logger) {
 			_commandSenderHost = commandSenderHost;
@@ -22,6 +25,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 			if (sender == null) throw new NullReferenceException("Порт передачи данных не открыт");
 
 			var readSettingsCmd = new ReadAinSettingsCommand(zeroBasedAinNumber);
+
+			FireEventAinSettingsReadStarted(zeroBasedAinNumber);
 			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
 				(sendException, replyBytes) => {
 					if (sendException != null) {
@@ -30,7 +35,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 						try {
 							var ex = new Exception(errorMessage, sendException);
 							callback.Invoke(ex, null);
-							FireEvent(zeroBasedAinNumber, ex, null);
+							FireEventAinSettingsReadComplete(zeroBasedAinNumber, ex, null);
 						}
 						catch (Exception ex) {
 							_logger.Log("Не удалось совершить обратный вызов после неудачного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
@@ -44,7 +49,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 
 						try {
 							callback.Invoke(null, result);
-							FireEvent(zeroBasedAinNumber, null, result);
+							FireEventAinSettingsReadComplete(zeroBasedAinNumber, null, result);
 						}
 						catch (Exception ex) {
 							_logger.Log("Не удалось совершить обратный вызов после успешного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
@@ -58,7 +63,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 						try {
 							var ex = new Exception(errorMessage, resultGetException);
 							callback.Invoke(ex, null);
-							FireEvent(zeroBasedAinNumber, ex, null);
+							FireEventAinSettingsReadComplete(zeroBasedAinNumber, ex, null);
 						}
 						catch (Exception ex) {
 							_logger.Log("Не удалось совершить обратный вызов после неудачного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
@@ -67,12 +72,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 					}
 				});
 		}
-
-		public event AinSettingsReadingWasAttemptedDelegate AinSettingsReadingWasAttempted;
-
-		private void FireEvent(byte zbAinNumber, Exception innerException, IAinSettings settings) {
-			var eve = AinSettingsReadingWasAttempted;
+		
+		private void FireEventAinSettingsReadComplete(byte zbAinNumber, Exception innerException, IAinSettings settings) {
+			var eve = AinSettingsReadComplete;
 			eve?.Invoke(zbAinNumber, innerException, settings);
+		}
+
+		private void FireEventAinSettingsReadStarted(byte zbAinNumber) {
+			var eve = AinSettingsReadStarted;
+			eve?.Invoke(zbAinNumber);
 		}
 	}
 }

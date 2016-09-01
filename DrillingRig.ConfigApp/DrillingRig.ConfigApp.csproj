@@ -187,10 +187,10 @@
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsPartWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReader.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReaderWriter.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadingWasAttemptedDelegate.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadCompleteDelegate.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWriter.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReadedBroadcaster.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReadNotify.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReader.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsWriter.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">

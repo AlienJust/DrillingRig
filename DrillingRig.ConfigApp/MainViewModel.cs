@@ -33,9 +33,15 @@ using DrillingRig.ConfigApp.SystemControl;
 using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase, ICommandSenderHost, ITargetAddressHost, IUserInterfaceRoot, INotifySendingEnabled, ILinkContol, ICycleThreadHolder, IAinsCounter /*, IAinsLinkControlViewModel*/ {
+	internal class MainViewModel : ViewModelBase
+		, ICommandSenderHost
+		, ITargetAddressHost
+		, IUserInterfaceRoot
+		, INotifySendingEnabled
+		, ILinkContol
+		, ICycleThreadHolder
+		, IAinsCounter /*, IAinsLinkControlViewModel*/ {
 		public IThreadNotifier Notifier { get; }
-		private readonly IWindowSystem _windowSystem;
 
 		private const string TestComPortName = "ТЕСТ";
 
@@ -62,7 +68,7 @@ namespace DrillingRig.ConfigApp {
 
 		private readonly object _cyclePartsSync;
 		private readonly List<ICyclePart> _cycleParts;
-		private SingleThreadedRelayQueueWorker<Action> _backWorker;
+		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
 
@@ -72,7 +78,6 @@ namespace DrillingRig.ConfigApp {
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
-			_windowSystem = windowSystem;
 
 			_targetAddress = 1;
 
@@ -126,7 +131,7 @@ namespace DrillingRig.ConfigApp {
 				new ArchivesViewModel(
 					new ArchiveViewModel(this,this,this,_logger, this, 0),
 					new ArchiveViewModel(this,this,this,_logger, this, 1)) {Title="Архив",CanClose = false},
-				new OldLookViewModel(this, _windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
+				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
 			};
 			var anchorables = new List<DockWindowViewModel> { ChartControlVm, _programLogVm };
 			DockManagerViewModel = new DockManagerViewModel(documents, anchorables);
@@ -212,9 +217,9 @@ namespace DrillingRig.ConfigApp {
 		private void GetPortsAvailable() {
 			var ports = new List<string>();
 			ports.AddRange(SerialPort.GetPortNames());
+			ports.Add(TestComPortName); // TODO: extract constant);
 			ComPortsAvailable = ports;
 			if (ComPortsAvailable.Count > 0) SelectedComName = ComPortsAvailable[0];
-			ports.Add(TestComPortName); // TODO: extract constant);
 		}
 
 		public event SendingEnabledChangedDelegate SendingEnabledChanged;
