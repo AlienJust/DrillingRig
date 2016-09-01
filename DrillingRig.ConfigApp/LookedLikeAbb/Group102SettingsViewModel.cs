@@ -24,10 +24,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("102.01. Постоянная времени ротора", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("102.02. Индуктивность намагничивания", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("102.03. Индуктивность рассеяния статора", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("102.04. Индуктивность рассеяния ротора", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("102.01. Постоянная времени ротора", "f4", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("102.02. Индуктивность намагничивания", "f5", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("102.03. Индуктивность рассеяния статора", "f6", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditableViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null);
 			Parameter05Vm = new ParameterDoubleEditableViewModel("102.05. Активное сопротивление статора", "f0", -10000, 10000, null);
 			Parameter06Vm = new ParameterDoubleEditableViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", -10000, 10000, null);
 
@@ -38,10 +38,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					TauR = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					Lm = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					Lsl = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					Lrl = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					TauR = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10000.0),
+					Lm = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 100000.0),
+					Lsl = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 1000000.0),
+					Lrl = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 1000000.0),
 					Rs = ConvertDoubleToShort(Parameter05Vm.CurrentValue),
 					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue),
 				};
@@ -75,10 +75,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.TauR;
-					Parameter02Vm.CurrentValue = settings.Lm;
-					Parameter03Vm.CurrentValue = settings.Lsl;
-					Parameter04Vm.CurrentValue = settings.Lrl;
+					Parameter01Vm.CurrentValue = settings.TauR * 0.0001;
+					Parameter02Vm.CurrentValue = settings.Lm * 0.00001;
+					Parameter03Vm.CurrentValue = settings.Lsl * 0.000001;
+					Parameter04Vm.CurrentValue = settings.Lrl * 0.000001;
 					Parameter05Vm.CurrentValue = settings.Rs;
 					Parameter06Vm.CurrentValue = settings.Np;
 				});

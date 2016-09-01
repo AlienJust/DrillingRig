@@ -22,10 +22,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("103.01. Постоянная времени фильтра момента", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("103.02. Постоянная времени фильтра частоты", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("103.03. Постоянная времени фильтра уставки частоты", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("103.04. Постоянная времени фильтра потока", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("103.01. Постоянная времени фильтра момента", "f4", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("103.02. Постоянная времени фильтра частоты", "f4", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("103.03. Постоянная времени фильтра уставки частоты", "f4", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditableViewModel("103.04. Постоянная времени фильтра потока", "f4", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
@@ -34,10 +34,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					TauM = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					TauF = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					TauFSet = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					TauFi = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					TauM = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10000.0),
+					TauF = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 10000.0),
+					TauFSet = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 10000.0),
+					TauFi = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 10000.0),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -67,10 +67,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.TauM;
-					Parameter02Vm.CurrentValue = settings.TauF;
-					Parameter03Vm.CurrentValue = settings.TauFSet;
-					Parameter04Vm.CurrentValue = settings.TauFi;
+					Parameter01Vm.CurrentValue = settings.TauM * 0.0001;
+					Parameter02Vm.CurrentValue = settings.TauF * 0.0001;
+					Parameter03Vm.CurrentValue = settings.TauFSet * 0.0001;
+					Parameter04Vm.CurrentValue = settings.TauFi * 0.0001;
 				});
 			});
 			}

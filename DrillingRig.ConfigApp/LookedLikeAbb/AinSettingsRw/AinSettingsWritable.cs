@@ -55,6 +55,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 
 
 		public AinSettingsWritable(IAinSettings settings) {
+            KpW = settings.KpW;
+            KiW = settings.KiW;
 			FiNom = settings.FiNom;
 			Imax = settings.Imax;
 			UdcMax = settings.UdcMax;

@@ -20,8 +20,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("27.01. Поток без ослабления поля", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("27.02. Минимальный поток с ослаблением поля", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("27.01. Поток без ослабления поля", "f3", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("27.02. Минимальный поток с ослаблением поля", "f3", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
@@ -30,8 +30,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					FiNom = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					FiMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					FiNom = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 1000.0),
+					FiMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 1000.0),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -59,8 +59,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.FiNom;
-					Parameter02Vm.CurrentValue = settings.FiMin;
+					Parameter01Vm.CurrentValue = settings.FiNom * 0.001;
+					Parameter02Vm.CurrentValue = settings.FiMin * 0.001;
 				});
 			});
 			}

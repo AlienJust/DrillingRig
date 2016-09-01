@@ -21,9 +21,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("22.01. Темп нарастания частоты для задатчика интенсивности", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("22.02. Темп спада частоты для задатчика интенсивности", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("22.03. Темп спада частоты при аварийном останове привода", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("22.01. Темп нарастания частоты для задатчика интенсивности", "f1", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("22.02. Темп спада частоты для задатчика интенсивности", "f1", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("22.03. Темп спада частоты при аварийном останове привода", "f1", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
@@ -32,9 +32,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					AccDfDt = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					DecDfDt = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					EmdecDfdt = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
+					AccDfDt = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10.0),
+					DecDfDt = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 10.0),
+					EmdecDfdt = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 10.0)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -63,9 +63,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.AccDfDt;
-					Parameter02Vm.CurrentValue = settings.DecDfDt;
-					Parameter03Vm.CurrentValue = settings.EmdecDfdt;
+					Parameter01Vm.CurrentValue = settings.AccDfDt * 0.1;
+					Parameter02Vm.CurrentValue = settings.DecDfDt * 0.1;
+					Parameter03Vm.CurrentValue = settings.EmdecDfdt * 0.1;
 				});
 			});
 			}

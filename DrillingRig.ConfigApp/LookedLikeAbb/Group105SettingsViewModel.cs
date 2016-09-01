@@ -23,8 +23,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_readerWriter = readerWriter;
 
 			Parameter01Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
 			Parameter04Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM

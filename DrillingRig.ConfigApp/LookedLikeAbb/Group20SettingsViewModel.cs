@@ -24,11 +24,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("20.01. Номинальная частота", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("20.02. Максимальная частота", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("20.01. Номинальная частота", "f1", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("20.02. Максимальная частота", "f1", -10000, 10000, null);
 
 			Parameter03Vm = new ParameterDoubleEditableViewModel("20.03. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("20.04. Минимальная частота (электрическая)", "f0", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditableViewModel("20.04. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
 
 			Parameter05Vm = new ParameterDoubleEditableViewModel("20.05. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
 			Parameter06Vm = new ParameterDoubleEditableViewModel("20.06. Максимальный момент", "f0", -10000, 10000, null); 
@@ -40,10 +40,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					FiNom = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					Fmax = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+                    Fnom = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10.0),
+					Fmax = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 10.0),
 					IoutMax = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					Fmin = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					Fmin = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 10.0),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -75,10 +75,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						return;
 					}
 
-					Parameter01Vm.CurrentValue = settings.FiNom;
-					Parameter02Vm.CurrentValue = settings.Fmax;
+                    Parameter01Vm.CurrentValue = settings.Fnom * 0.1; // MGF FiNom;
+					Parameter02Vm.CurrentValue = settings.Fmax * 0.1;
 					Parameter03Vm.CurrentValue = settings.IoutMax;
-					Parameter04Vm.CurrentValue = settings.Fmin;
+					Parameter04Vm.CurrentValue = settings.Fmin * 0.1;
 
 					
 					//Parameter05Vm.CurrentValue = settings.Fmax;
