@@ -15,21 +15,13 @@ using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
-using DrillingRig.ConfigApp.AinsSettings;
-using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AvaDock;
-using DrillingRig.ConfigApp.BsEthernetNominals;
-using DrillingRig.ConfigApp.BsEthernetSettings;
-using DrillingRig.ConfigApp.CoolerTelemetry;
-using DrillingRig.ConfigApp.EngineSettings;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.NewLook.Archive;
 using DrillingRig.ConfigApp.OldLook;
-using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.Settings;
-using DrillingRig.ConfigApp.SystemControl;
 using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
@@ -71,6 +63,7 @@ namespace DrillingRig.ConfigApp {
 		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
+		private readonly OnConnectSettingsReader _onConnectSettingsReader;
 
 		public ChartViewModel ChartControlVm { get; set; }
 
@@ -119,7 +112,8 @@ namespace DrillingRig.ConfigApp {
 			var ainSettingsWriter = new AinSettingsWriter(this, this, this, ainSettingsReader);
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
 
-
+			_onConnectSettingsReader = new OnConnectSettingsReader(this, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
+			
 
 			_logger.Log("Программа загружена");
 			_backWorker.AddWork(CycleWork);

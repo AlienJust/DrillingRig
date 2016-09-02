@@ -188,6 +188,7 @@
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReader.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadCompleteDelegate.cs" />
+    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadStartedDelegate.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWriter.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReadNotify.cs" />
@@ -339,6 +340,7 @@
       <DependentUpon>OldLookView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\OldLook\OldLookViewModel.cs" />
+    <Compile Include="OnConnectSettingsReader.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
