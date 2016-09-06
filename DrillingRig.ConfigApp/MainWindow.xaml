@@ -119,14 +119,15 @@
 
 			<BooleanToVisibilityConverter x:Key="BtwConverter"/>
 			<converters1:BooleanToVisibilityConverter x:Key="InvertedBtwConverter" InvertVisibility="True"/>
+			<converters1:ColorsEnumToBrushConverter x:Key="ColorsToBrushConverter"/>
 		</ResourceDictionary>
 	</Window.Resources>
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<StackPanel Orientation="Horizontal">
-				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
-				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
-				<Ellipse Fill="Red" Width="10" Height="10" VerticalAlignment="Center"/>
+				<Ellipse Fill="{Binding Path=Ain1StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10" VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain1IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}"/>
+				<Ellipse Fill="{Binding Path=Ain2StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10" VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain2IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}"/>
+				<Ellipse Fill="{Binding Path=Ain3StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10" VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain3IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="АИН:" VerticalAlignment="Center"/>
@@ -135,7 +136,7 @@
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="2,2,2,2" Text="Порт:" VerticalAlignment="Center"/>
 				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
-				<Button Margin="2,2,2,2" Content="⟳" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="15" Style="{DynamicResource AccentedSquareButtonStyle}"/>
+				<Button Margin="2,2,2,2" Content=" ↻ " Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="12" Style="{DynamicResource AccentedSquareButtonStyle}"/>
 			</StackPanel>
 			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}" Style="{DynamicResource AccentedSquareButtonStyle}"/>
 			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл." Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}" Style="{DynamicResource AccentedSquareButtonStyle}"/>

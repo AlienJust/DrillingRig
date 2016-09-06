@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using AlienJust.Adaptation.WindowsPresentation.Converters;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
@@ -63,7 +64,13 @@ namespace DrillingRig.ConfigApp {
 		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
 		private int _selectedAinsCount;
 
-		private readonly OnConnectSettingsReader _onConnectSettingsReader;
+		private readonly AutoSettingsReader _autoSettingsReader;
+		private Colors _ain1StateColor;
+		private Colors _ain2StateColor;
+		private Colors _ain3StateColor;
+		private bool _ain1IsUsed;
+		private bool _ain2IsUsed;
+		private bool _ain3IsUsed;
 
 		public ChartViewModel ChartControlVm { get; set; }
 
@@ -112,23 +119,72 @@ namespace DrillingRig.ConfigApp {
 			var ainSettingsWriter = new AinSettingsWriter(this, this, this, ainSettingsReader);
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
 
-			_onConnectSettingsReader = new OnConnectSettingsReader(this, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
-			
+			_autoSettingsReader = new AutoSettingsReader(this, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
 
-			_logger.Log("Программа загружена");
-			_backWorker.AddWork(CycleWork);
 
 			var documents = new List<DockWindowViewModel> {
 				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
 				new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader) {Title = "Настройки", CanClose = false},
 				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
 				new ArchivesViewModel(
-					new ArchiveViewModel(this,this,this,_logger, this, 0),
-					new ArchiveViewModel(this,this,this,_logger, this, 1)) {Title="Архив",CanClose = false},
+					new ArchiveViewModel(this, this, this, _logger, this, 0),
+					new ArchiveViewModel(this, this, this, _logger, this, 1)) {Title = "Архив", CanClose = false},
 				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
 			};
 			var anchorables = new List<DockWindowViewModel> { ChartControlVm, _programLogVm };
 			DockManagerViewModel = new DockManagerViewModel(documents, anchorables);
+
+			_ain1StateColor = Colors.Gray;
+			_ain2StateColor = Colors.Gray;
+			_ain3StateColor = Colors.Gray;
+
+			_ain1IsUsed = true;
+			_ain2IsUsed = false;
+			_ain3IsUsed = false;
+
+			AinsCountInSystemHasBeenChanged += () => {
+				switch (SelectedAinsCount) {
+					case 1:
+						Ain1IsUsed = true;
+						Ain2IsUsed = false;
+						Ain3IsUsed = false;
+						break;
+					case 2:
+						Ain1IsUsed = true;
+						Ain2IsUsed = true;
+						Ain3IsUsed = false;
+						break;
+					case 3:
+						Ain1IsUsed = true;
+						Ain2IsUsed = true;
+						Ain3IsUsed = true;
+						break;
+					default:
+						throw new Exception("Такое число АИН в системе не поддерживается");
+				}
+			};
+
+			ainSettingsReader.AinSettingsReadComplete += (zeroBasedAinNumber, exception, settings) => {
+				if (exception != null) {
+					Ain1StateColor = Colors.Gray;
+					Ain2StateColor = Colors.Gray;
+					Ain3StateColor = Colors.Gray;
+				}
+				else {
+					Ain1StateColor = settings.Ain1LinkFault ? Colors.Red : Colors.YellowGreen;
+					Ain2StateColor = settings.Ain2LinkFault ? Colors.Red : Colors.YellowGreen;
+					Ain3StateColor = settings.Ain3LinkFault ? Colors.Red : Colors.YellowGreen;
+				}
+			};
+
+			SendingEnabledChanged += isEnabled => {
+				Ain1StateColor = Colors.Gray;
+				Ain2StateColor = Colors.Gray;
+				Ain3StateColor = Colors.Gray;
+			};
+
+			_backWorker.AddWork(CycleWork);
+			_logger.Log("Программа загружена");
 		}
 
 
@@ -219,7 +275,9 @@ namespace DrillingRig.ConfigApp {
 		public event SendingEnabledChangedDelegate SendingEnabledChanged;
 
 		public bool IsSendingEnabled {
-			get { lock (_isSendingEnabledSyncObject) return _isSendingEnabled; }
+			get {
+				lock (_isSendingEnabledSyncObject) return _isSendingEnabled;
+			}
 			set {
 				lock (_isSendingEnabledSyncObject) {
 					if (_isSendingEnabled != value) {
@@ -289,8 +347,6 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-
-
 		public List<int> AinsCountInSystem { get; }
 
 		public int SelectedAinsCount {
@@ -308,6 +364,64 @@ namespace DrillingRig.ConfigApp {
 
 		public event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
 
+		public Colors Ain1StateColor {
+			get { return _ain1StateColor; }
+			set {
+				if (_ain1StateColor != value) {
+					_ain1StateColor = value;
+					RaisePropertyChanged(() => Ain1StateColor);
+				}
+			}
+		}
 
+		public Colors Ain2StateColor {
+			get { return _ain2StateColor; }
+			set {
+				if (_ain2StateColor != value) {
+					_ain2StateColor = value;
+					RaisePropertyChanged(() => Ain2StateColor);
+				}
+			}
+		}
+
+		public Colors Ain3StateColor {
+			get { return _ain3StateColor; }
+			set {
+				if (_ain3StateColor != value) {
+					_ain3StateColor = value;
+					RaisePropertyChanged(() => Ain3StateColor);
+				}
+			}
+		}
+		
+		public bool Ain1IsUsed {
+			get { return _ain1IsUsed; }
+			set {
+				if (_ain1IsUsed != value) {
+					_ain1IsUsed = value;
+					RaisePropertyChanged(() => Ain1IsUsed);
+				}
+			}
+		}
+
+		public bool Ain2IsUsed {
+			get { return _ain2IsUsed; }
+			set {
+				if (_ain2IsUsed != value) {
+					_ain2IsUsed = value;
+					RaisePropertyChanged(() => Ain2IsUsed);
+				}
+			}
+		}
+
+		public bool Ain3IsUsed {
+			get { return _ain3IsUsed; }
+			set {
+				if (_ain3IsUsed != value) {
+					_ain3IsUsed = value;
+					RaisePropertyChanged(() => Ain3IsUsed);
+				}
+			}
+		}
 	}
 }
