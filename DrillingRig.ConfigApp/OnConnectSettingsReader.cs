@@ -6,7 +6,7 @@ namespace DrillingRig.ConfigApp {
 	class OnConnectSettingsReader {
 		private readonly IAinsCounter _ainsCounter;
 		private readonly IAinSettingsReader _ainSettingsReader;
-		private ILogger _logger;
+		private readonly ILogger _logger;
 
 		public OnConnectSettingsReader(INotifySendingEnabled sendingEnabledNotifier, IAinsCounter ainsCounter, IAinSettingsReader ainSettingsReader, ILogger logger) {
 			_ainsCounter = ainsCounter;

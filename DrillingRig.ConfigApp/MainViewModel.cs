@@ -120,7 +120,7 @@ namespace DrillingRig.ConfigApp {
 
 			var documents = new List<DockWindowViewModel> {
 				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
-				new SettingsViewModel(this, _logger, ainSettingsReadedWriter) {Title = "Настройки", CanClose = false},
+				new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader) {Title = "Настройки", CanClose = false},
 				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
 				new ArchivesViewModel(
 					new ArchiveViewModel(this,this,this,_logger, this, 0),
