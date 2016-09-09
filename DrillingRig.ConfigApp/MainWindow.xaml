@@ -12,10 +12,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
         xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
-        xmlns:rpd="clr-namespace:RPD.SciChartControl.Views;assembly=RPD.SciChartControl"
-        xmlns:engineSettings="clr-namespace:DrillingRig.ConfigApp.EngineSettings"
         xmlns:chart="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
         xmlns:telemetry="clr-namespace:DrillingRig.ConfigApp.Telemetry"
         xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
@@ -183,7 +180,7 @@
 			<DataTemplate DataType="{x:Type archive:ArchivesViewModel}">
 				<archive:ArchivesView />
 			</DataTemplate>
-			
+
 
 
 		</ad:DockingManager.Resources>
