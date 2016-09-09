@@ -125,13 +125,13 @@ namespace DrillingRig.ConfigApp {
 			var documents = new List<DockWindowViewModel> {
 				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
 				new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader) {Title = "Настройки", CanClose = false},
-				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
+				//new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
 				new ArchivesViewModel(
 					new ArchiveViewModel(this, this, this, _logger, this, 0),
 					new ArchiveViewModel(this, this, this, _logger, this, 1)) {Title = "Архив", CanClose = false},
 				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
 			};
-			var anchorables = new List<DockWindowViewModel> { ChartControlVm, _programLogVm };
+			var anchorables = new List<DockWindowViewModel> { /*ChartControlVm,*/ _programLogVm };
 			DockManagerViewModel = new DockManagerViewModel(documents, anchorables);
 
 			_ain1StateColor = Colors.Gray;
@@ -422,6 +422,11 @@ namespace DrillingRig.ConfigApp {
 					RaisePropertyChanged(() => Ain3IsUsed);
 				}
 			}
+		}
+
+		public ILogger Logger
+		{
+			get { return _logger; }
 		}
 	}
 }

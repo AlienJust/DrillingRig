@@ -163,10 +163,14 @@
     <Compile Include="AinCommand\AinCommandOnlyView.xaml.cs">
       <DependentUpon>AinCommandOnlyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AinCommand\CommandWindowViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
     <Compile Include="AvaDock\DockManagerViewModel.cs" />
     <Compile Include="AvaDock\DockWindowViewModel.cs" />
+    <Compile Include="AinCommand\CommandWindow.xaml.cs">
+      <DependentUpon>CommandWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
     </Compile>
@@ -197,6 +201,10 @@
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LookedLikeAbb\Chart\WindowChart.xaml.cs">
+      <DependentUpon>WindowChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group09ParametersView.xaml.cs">
       <DependentUpon>Group09ParametersView.xaml</DependentUpon>
     </Compile>
@@ -386,6 +394,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AinCommand\CommandWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EngineSettings\EngineSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -419,6 +431,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LookedLikeAbb\Chart\ChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Chart\WindowChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

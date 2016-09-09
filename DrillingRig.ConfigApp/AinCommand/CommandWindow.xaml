@@ -1,0 +1,12 @@
+﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.AinCommand.CommandWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DrillingRig.ConfigApp"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
+        mc:Ignorable="d"
+        Title="Команда" Height="360" Width="460" ShowCloseButton="False" IsCloseButtonEnabled="False" ShowMaxRestoreButton="False" IsMaxRestoreButtonEnabled="False" SizeToContent="WidthAndHeight" Closing="MetroWindow_Closing" ResizeMode="CanMinimize">
+	<ainCommand:AinCommandOnlyView DataContext="{Binding Path=AinCommandViewVm, Mode=OneTime}"/>
+</controls:MetroWindow>

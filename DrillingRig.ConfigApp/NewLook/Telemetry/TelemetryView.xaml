@@ -107,6 +107,7 @@
 			<converters:BooleanToVisibilityConverter x:Key="InvertedBtwConverter" InvertVisibility="True"/>
 		</ResourceDictionary>
 	</UserControl.Resources>
+	<ScrollViewer>
 	<TabControl Background="Transparent" TabStripPlacement="Left">
 		<TabItem Header="01. Основные" Style="{StaticResource AzureTabItem}" >
 			<lookedLikeAbb:Group01ParametersView DataContext="{Binding Path=Group01ParametersVm, Mode=OneTime}"/>
@@ -131,4 +132,5 @@
 		</TabItem>
 		<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
 	</TabControl>
+	</ScrollViewer>
 </UserControl>

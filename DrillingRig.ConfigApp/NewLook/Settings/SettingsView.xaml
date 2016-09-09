@@ -107,6 +107,7 @@
 			<converters:BooleanToVisibilityConverter x:Key="InvertedBtwConverter" InvertVisibility="True"/>
 		</ResourceDictionary>
 	</UserControl.Resources>
+	<ScrollViewer CanContentScroll="True">
 	<TabControl Background="Transparent" TabStripPlacement="Left">
 		<TabItem Header="20. Пределы" Style="{StaticResource AzureTabItem}" >
 			<lookedLikeAbb:Group20SettingsView DataContext="{Binding Path=Group20SettingsVm, Mode=OneTime}"/>
@@ -155,4 +156,5 @@
 		</TabItem>
 
 	</TabControl>
+	</ScrollViewer>
 </UserControl>
