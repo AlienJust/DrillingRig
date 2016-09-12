@@ -3,7 +3,7 @@ using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
-namespace DrillingRig.ConfigApp.Settings {
+namespace DrillingRig.ConfigApp.NewLook.Settings {
 	class SettingsViewModel : DockWindowViewModel {
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 		public Group22SettingsViewModel Group22SettingsVm { get; }

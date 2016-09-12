@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using AlienJust.Adaptation.WindowsPresentation.Converters;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
@@ -20,7 +22,9 @@ using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
+using DrillingRig.ConfigApp.MnemonicCheme;
 using DrillingRig.ConfigApp.NewLook.Archive;
+using DrillingRig.ConfigApp.NewLook.Settings;
 using DrillingRig.ConfigApp.OldLook;
 using DrillingRig.ConfigApp.Settings;
 using DrillingRig.ConfigApp.Telemetry;
@@ -129,7 +133,7 @@ namespace DrillingRig.ConfigApp {
 				new ArchivesViewModel(
 					new ArchiveViewModel(this, this, this, _logger, this, 0),
 					new ArchiveViewModel(this, this, this, _logger, this, 1)) {Title = "Архив", CanClose = false},
-					new MnemonicChemeViewModel {Title = "Мнемосхема", CanClose = false },
+					new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory,"mnemoniccheme.png")) {Title = "Мнемосхема", CanClose = false },
 				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
 			};
 			var anchorables = new List<DockWindowViewModel> { /*ChartControlVm,*/ _programLogVm };
@@ -425,11 +429,6 @@ namespace DrillingRig.ConfigApp {
 			}
 		}
 
-		public ILogger Logger
-		{
-			get { return _logger; }
-		}
+		public ILogger Logger => _logger;
 	}
-
-	internal class MnemonicChemeViewModel : DockWindowViewModel {}
 }

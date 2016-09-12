@@ -18,7 +18,9 @@
         xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
         xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook"
         xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
-        Title="Конфигурация БС-Ethernet " Height="900" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
+        xmlns:settings1="clr-namespace:DrillingRig.ConfigApp.NewLook.Settings"
+        xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme"
+        Title="Конфигурация БС-Ethernet " Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -162,7 +164,7 @@
 			<DataTemplate DataType="{x:Type telemetry:TelemetryViewModel}">
 				<telemetry:TelemetryView />
 			</DataTemplate>
-			<DataTemplate DataType="{x:Type settings:SettingsViewModel}">
+			<DataTemplate DataType="{x:Type settings1:SettingsViewModel}">
 				<settings:SettingsView />
 			</DataTemplate>
 			<DataTemplate DataType="{x:Type chart:ChartViewModel}">
@@ -180,7 +182,9 @@
 			<DataTemplate DataType="{x:Type archive:ArchivesViewModel}">
 				<archive:ArchivesView />
 			</DataTemplate>
-
+			<DataTemplate DataType="{x:Type mnemonicCheme:MnemonicChemeViewModel}">
+				<mnemonicCheme:MnemonicChemeView />
+			</DataTemplate>
 
 
 		</ad:DockingManager.Resources>

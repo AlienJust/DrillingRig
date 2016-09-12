@@ -331,6 +331,10 @@
     <Compile Include="LookedLikeAbb\ParameterDoubleEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyViewModel.cs" />
     <Compile Include="LookedLikeAbb\Chart\PointsSeriesAndAdditionalData.cs" />
+    <Compile Include="MnemonicCheme\MnemonicChemeView.xaml.cs">
+      <DependentUpon>MnemonicChemeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MnemonicCheme\MnemonicChemeViewModel.cs" />
     <Compile Include="NewLook\Archive\ArchiveRecordView.xaml.cs">
       <DependentUpon>ArchiveRecordView.xaml</DependentUpon>
     </Compile>
@@ -573,6 +577,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MnemonicCheme\MnemonicChemeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NewLook\Archive\ArchiveRecordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -699,6 +707,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SciChartLicense.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mnemoniccheme.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -79,7 +79,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void UpdateSettingsInUiThread(Exception readInnerException, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (readInnerException != null) {
-					_logger.Log("Не удалось прочитать настройки АИН");
+					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter02Vm.CurrentValue = null;
 					Parameter03Vm.CurrentValue = null;
