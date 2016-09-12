@@ -129,6 +129,7 @@ namespace DrillingRig.ConfigApp {
 				new ArchivesViewModel(
 					new ArchiveViewModel(this, this, this, _logger, this, 0),
 					new ArchiveViewModel(this, this, this, _logger, this, 1)) {Title = "Архив", CanClose = false},
+					new MnemonicChemeViewModel {Title = "Мнемосхема", CanClose = false },
 				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
 			};
 			var anchorables = new List<DockWindowViewModel> { /*ChartControlVm,*/ _programLogVm };
@@ -429,4 +430,6 @@ namespace DrillingRig.ConfigApp {
 			get { return _logger; }
 		}
 	}
+
+	internal class MnemonicChemeViewModel : DockWindowViewModel {}
 }

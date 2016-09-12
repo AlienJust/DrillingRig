@@ -18,7 +18,7 @@
         xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
         xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook"
         xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
-        Title="Конфигурация БС-Ethernet " Height="700" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
+        Title="Конфигурация БС-Ethernet " Height="900" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -194,7 +194,7 @@
 		<ad:LayoutRoot>
 			<ad:LayoutPanel Orientation="Vertical">
 				<ad:LayoutDocumentPane/>
-				<ad:LayoutAnchorablePane Name="ToolsPane" DockHeight="300"  DockMinHeight="250" FloatingHeight="250">
+				<ad:LayoutAnchorablePane Name="ToolsPane" DockHeight="150"  DockMinHeight="50" FloatingHeight="150">
 				</ad:LayoutAnchorablePane>
 			</ad:LayoutPanel>
 		</ad:LayoutRoot>
