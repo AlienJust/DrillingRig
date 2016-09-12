@@ -16,7 +16,7 @@
 				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
-				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>
+				<!--<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>-->
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">
