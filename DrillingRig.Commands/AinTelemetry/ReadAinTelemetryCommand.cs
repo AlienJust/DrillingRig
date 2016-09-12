@@ -104,12 +104,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 				(oldReply[69] & 0x04) == 0x04);
 		}
 
-		public int ReplyLength
-		{
-			get {
-				return 74;
-			}
-		}
+		public int ReplyLength => 74;
 
 		public byte[] GetTestReply() {
 			var rnd = new Random();

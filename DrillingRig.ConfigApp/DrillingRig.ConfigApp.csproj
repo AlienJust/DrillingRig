@@ -50,6 +50,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Adaptation.WindowsPresentation.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.Concurrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.dll</HintPath>
@@ -69,6 +73,10 @@
     <Reference Include="AlienJust.Support.ModelViewViewModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.ModelViewViewModel.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienJust.Support.Numeric, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Numeric.dll</HintPath>
     </Reference>
     <Reference Include="AlienJust.Support.Text, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -155,10 +163,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AinCommand\AinCommandAndCommonTelemetryView.xaml.cs">
+      <DependentUpon>AinCommandAndCommonTelemetryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AinCommand\AinCommandView.xaml.cs">
       <DependentUpon>AinCommandView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinCommand\AinCommandOnlyViewModel.cs" />
+    <Compile Include="AinCommand\AinCommandAndCommonTelemetryViewModel.cs" />
     <Compile Include="AinCommand\AinCommandViewModel.cs" />
     <Compile Include="AinCommand\AinCommandOnlyView.xaml.cs">
       <DependentUpon>AinCommandOnlyView.xaml</DependentUpon>
@@ -322,15 +334,19 @@
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
-    <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml.cs">
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\ParameterDoubleEditableView.xaml.cs">
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableView.xaml.cs">
       <DependentUpon>ParameterDoubleEditableView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\ParameterDoubleEditableViewModel.cs" />
-    <Compile Include="LookedLikeAbb\ParameterDoubleReadonlyViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyViewModel.cs" />
     <Compile Include="LookedLikeAbb\Chart\PointsSeriesAndAdditionalData.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterStringReadonly\ParameterStringReadonlyView.xaml.cs">
+      <DependentUpon>ParameterStringReadonlyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterStringReadonly\ParameterStringReadonlyViewModel.cs" />
     <Compile Include="MnemonicCheme\MnemonicChemeView.xaml.cs">
       <DependentUpon>MnemonicChemeView.xaml</DependentUpon>
     </Compile>
@@ -390,6 +406,10 @@
       <DependentUpon>TelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\Telemetry\TelemetryViewModel.cs" />
+    <Page Include="AinCommand\AinCommandAndCommonTelemetryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AinCommand\AinCommandView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -530,13 +550,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LookedLikeAbb\ParameterDoubleReadonlyView.xaml">
+    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LookedLikeAbb\ParameterDoubleEditableView.xaml">
+    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterStringReadonly\ParameterStringReadonlyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
+using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry04;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group04ParametersViewModel : ViewModelBase, ICyclePart {
@@ -10,8 +12,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
-		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
+		public ParameterStringReadonlyViewModel Parameter01Vm { get; }
+		public ParameterStringReadonlyViewModel Parameter02Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
@@ -27,8 +29,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("04.01 Версия ПО (АИН)", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("04.02 Дата билда ПО (АИН)", "f0", null, parameterLogger); // TODO: change to display datetime
+			Parameter01Vm = new ParameterStringReadonlyViewModel("04.01 Версия ПО (АИН)", string.Empty);
+			Parameter02Vm = new ParameterStringReadonlyViewModel("04.02 Дата билда ПО (АИН)", string.Empty); // TODO: change to display datetime
 			Parameter03Vm = new ParameterDoubleReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", "f0", null, parameterLogger);
 
 			
@@ -96,8 +98,26 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry04 telemetry) {
-			Parameter01Vm.CurrentValue = telemetry?.Pver;
-			Parameter02Vm.CurrentValue = telemetry?.PvDate;
+			if (telemetry == null) {
+				Parameter01Vm.CurrentValue = "--";
+				Parameter02Vm.CurrentValue = "--";
+			}
+			else {
+				var bp = BytesPair.FromSignedShortHighFirst(telemetry.Pver);
+				Parameter01Vm.CurrentValue = bp.First.ToString("d2") + "." + bp.Second.ToString("d2");
+
+				var year = (telemetry.PvDate & 0xFE00) >> 9;
+				var month = (telemetry.PvDate & 0x01E0) >> 5;
+				var day = telemetry.PvDate & 0x001F;
+				try {
+					Parameter02Vm.CurrentValue = new DateTime(year + 2000, month, day).ToString("yyyy.MM.dd");
+				}
+				catch {
+					// В приборах со старой версией прошивки (до 23.10.2015) значения версии и даты бессмысленны (c) Roma
+					Parameter02Vm.CurrentValue = telemetry.PvDate.ToString();
+				}
+			}
+			
 			Parameter03Vm.CurrentValue = telemetry?.BsVer;
 		}
 

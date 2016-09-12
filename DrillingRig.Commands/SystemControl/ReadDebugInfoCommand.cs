@@ -4,13 +4,9 @@ using DrillingRid.Commands.Contracts;
 namespace DrillingRig.Commands.SystemControl {
 	public class ReadDebugInfoCommand : IRrModbusCommandWithReply, IRrModbusCommandWithTestReply
 	{
-		public byte CommandCode {
-			get { return 0x8A; }
-		}
+		public byte CommandCode => 0x8A;
 
-		public string Name {
-			get { return "Чтение отладочной информации"; }
-		}
+		public string Name => "Чтение отладочной информации";
 
 		public byte[] Serialize() {
 			return new byte[0];
