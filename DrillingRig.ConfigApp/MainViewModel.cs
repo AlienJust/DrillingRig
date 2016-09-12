@@ -174,20 +174,7 @@ namespace DrillingRig.ConfigApp {
 						throw new Exception("Такое число АИН в системе не поддерживается");
 				}
 			};
-			/*
-			ainSettingsReader.AinSettingsReadComplete += (zeroBasedAinNumber, exception, settings) => {
-				if (exception != null) {
-					Ain1StateColor = Colors.Gray;
-					Ain2StateColor = Colors.Gray;
-					Ain3StateColor = Colors.Gray;
-				}
-				else {
-					Ain1StateColor = settings.Ain1LinkFault ? Colors.Red : Colors.YellowGreen;
-					Ain2StateColor = settings.Ain2LinkFault ? Colors.Red : Colors.YellowGreen;
-					Ain3StateColor = settings.Ain3LinkFault ? Colors.Red : Colors.YellowGreen;
-				}
-			};
-			*/
+			
 			AinCommandAndCommonTelemetryVm.AinsLinkInformationHasBeenUpdated += (ain1Error, ain2Error, ain3Error) => {
 				Ain1StateColor = ain1Error.HasValue ? ain1Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
 				Ain2StateColor = ain2Error.HasValue ? ain2Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.Telemetry"
              xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:converters="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
+             xmlns:group08Parameters="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
 	<UserControl.Resources>
@@ -125,7 +126,7 @@
 			<lookedLikeAbb:Group07ParametersView DataContext="{Binding Path=Group07ParametersVm, Mode=OneTime}"/>
 		</TabItem>
 		<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}">
-			<lookedLikeAbb:Group08ParametersView DataContext="{Binding Path=Group08ParametersVm, Mode=OneTime}"/>
+			<group08Parameters:Group08ParametersView DataContext="{Binding Path=Group08ParametersVm, Mode=OneTime}"/>
 		</TabItem>
 		<TabItem Header="09. Слова отказов" Style="{StaticResource AzureTabItem}" BorderBrush="Red">
 			<lookedLikeAbb:Group09ParametersView DataContext="{Binding Path=Group09ParametersVm, Mode=OneTime}"/>

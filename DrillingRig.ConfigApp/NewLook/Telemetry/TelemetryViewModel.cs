@@ -5,6 +5,7 @@ using System.Text;
 using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters;
 
 namespace DrillingRig.ConfigApp.Telemetry {
 	class TelemetryViewModel : DockWindowViewModel {

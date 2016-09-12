@@ -4,13 +4,13 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry08;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 	class Group08ParametersViewModel : ViewModelBase, ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
-		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
+		public MswParameterViewModel Parameter01Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter04Vm { get; }
@@ -30,7 +30,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("08.01 MAIN STATUS WORD Главное слово состояния.", "f0", null, parameterLogger);
+			Parameter01Vm = new MswParameterViewModel(parameterLogger);
 			Parameter02Vm = new ParameterDoubleReadonlyViewModel("08.02 AUX STATUS WORD Вспомогательное слово состояния", "f0", null, parameterLogger);
 			Parameter03Vm = new ParameterDoubleReadonlyViewModel("08.03 Этап работы с частотным приводом.", "f0", null, parameterLogger);
 			Parameter04Vm = new ParameterDoubleReadonlyViewModel("08.04 MSW Ведомого привода.", "f0", null, parameterLogger);
@@ -101,7 +101,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry08 telemetry) {
-			Parameter01Vm.CurrentValue = telemetry?.Msw;
+			Parameter01Vm.UpdateTelemetry(telemetry?.Msw);
 			Parameter02Vm.CurrentValue = telemetry?.Asw;
 
 			Parameter03Vm.CurrentValue = telemetry?.EngineState;

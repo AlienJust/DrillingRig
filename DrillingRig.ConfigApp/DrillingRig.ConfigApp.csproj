@@ -219,14 +219,18 @@
       <DependentUpon>WindowChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterView.xaml.cs">
+      <DependentUpon>MswParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group09ParametersView.xaml.cs">
       <DependentUpon>Group09ParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Group08ParametersView.xaml.cs">
+    <Compile Include="LookedLikeAbb\Group08Parameters\Group08ParametersView.xaml.cs">
       <DependentUpon>Group08ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group09ParametersViewModel.cs" />
-    <Compile Include="LookedLikeAbb\Group08ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group08Parameters\Group08ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group07ParametersView.xaml.cs">
       <DependentUpon>Group07ParametersView.xaml</DependentUpon>
     </Compile>
@@ -336,6 +340,10 @@
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
+      <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -464,11 +472,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LookedLikeAbb\Group09ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LookedLikeAbb\Group08ParametersView.xaml">
+    <Page Include="LookedLikeAbb\Group08Parameters\Group08ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -551,6 +563,10 @@
     <Page Include="LookedLikeAbb\Group20SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml">
       <Generator>MSBuild:Compile</Generator>
