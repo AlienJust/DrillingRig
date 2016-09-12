@@ -18,7 +18,7 @@
         xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
         xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook"
         xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
-        Title="Конфигурация БС-Ethernet " Height="700" Width="900" ResizeMode="CanResizeWithGrip">
+        Title="Конфигурация БС-Ethernet " Height="700" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Графики" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip">
+        Title="Графики" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
     <local:ChartView DataContext="{Binding Path=ChartVm, Mode=OneTime}"/>
 </controls:MetroWindow>
 
