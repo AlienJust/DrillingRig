@@ -25,11 +25,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("100.02. Интегральный коэф. регулятора тока D", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f6", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -10000, 10000, null);
 
-			Parameter03Vm = new ParameterDoubleEditableViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("100.04. Интегральный коэф. регулятора тока Q", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f6", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditableViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -10000, 10000, null);
 
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -47,10 +47,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpId = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					KiId = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					KpIq = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					KiIq = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					KpId = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 16777216.0),
+					KiId = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
+					KpIq = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 16777216.0),
+					KiIq = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 16777216.0),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -91,10 +91,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter04Vm.CurrentValue = null;
 					return;
 				}
-				Parameter01Vm.CurrentValue = settings.KpId;
-				Parameter02Vm.CurrentValue = settings.KiId;
-				Parameter03Vm.CurrentValue = settings.KpIq;
-				Parameter04Vm.CurrentValue = settings.KiIq;
+				Parameter01Vm.CurrentValue = settings.KpId / 16777216.0;
+				Parameter02Vm.CurrentValue = settings.KiId / 16777216.0;
+				Parameter03Vm.CurrentValue = settings.KpIq / 16777216.0;
+				Parameter04Vm.CurrentValue = settings.KiIq / 16777216.0;
 			});
 		}
 	}

@@ -25,8 +25,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("101.01. Пропорциональный коэф. регулятора потока", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("101.02. Интегральный коэф. регулятора потока", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("101.01. Пропорциональный коэф. регулятора потока", "f6", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -10000, 10000, null);
 
 			Parameter03Vm = new ParameterDoubleEditableViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000, null);
 			Parameter04Vm = new ParameterDoubleEditableViewModel("101.04. Ограничение выхода регулятора потока макс", "f0", -10000, 10000, null);
@@ -46,8 +46,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpFi = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					KiFi = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					KpFi = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 16777216.0),
+					KiFi = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
 					IdSetMin = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
 					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
 				};
@@ -68,7 +68,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, (exception, settings) => { });
+				_readerWriter.ReadSettingsAsync(0, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private short? ConvertDoubleToShort(double? value) {
 			if (!value.HasValue) return null;
-			return (short) value.Value;
+			return (short)value.Value;
 		}
 
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
@@ -91,8 +91,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.KpFi;
-				Parameter02Vm.CurrentValue = settings.KiFi;
+				Parameter01Vm.CurrentValue = settings.KpFi / 16777216.0;
+				Parameter02Vm.CurrentValue = settings.KiFi / 16777216.0;
 				Parameter03Vm.CurrentValue = settings.IdSetMin;
 				Parameter04Vm.CurrentValue = settings.IdSetMax;
 			});
