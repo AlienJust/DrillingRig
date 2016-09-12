@@ -9,7 +9,7 @@ using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AvaDock;
 
 namespace DrillingRig.ConfigApp.AinCommand {
-	internal class AinCommandAndCommonTelemetryViewModel : DockWindowViewModel, ICyclePart {
+	internal class AinCommandAndCommonTelemetryViewModel : DockWindowViewModel, ICyclePart, IAinsLinkControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
@@ -33,6 +33,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_notifySendingEnabled.SendingEnabledChanged += isSendingEnabled => {
 				Cancel = !isSendingEnabled;
 			};
+
+			Ain1LinkError = null;
+			Ain2LinkError = null;
+			Ain3LinkError = null;
 		}
 		
 		public TelemetryCommonViewModel CommonTelemetryVm { get; }
@@ -55,6 +59,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							CommonTelemetryVm.UpdateCommonFaultState(commonTelemetry.CommonFaultState);
 							CommonTelemetryVm.UpdateAinsLinkState(commonTelemetry.Ain1LinkFault, commonTelemetry.Ain2LinkFault, commonTelemetry.Ain3LinkFault);
 							CommonTelemetryVm.UpdateAin1Status(commonTelemetry.Ain1Status);
+							Ain1LinkError = commonTelemetry.Ain1LinkFault;
+							Ain2LinkError = commonTelemetry.Ain2LinkFault;
+							Ain3LinkError = commonTelemetry.Ain3LinkFault;
+							RaiseAinsLinkInformationHasBeenUpdated();
 						});
 					}
 					catch (Exception ex) {
@@ -63,6 +71,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							CommonTelemetryVm.UpdateCommonFaultState(null);
 							CommonTelemetryVm.UpdateAinsLinkState(null, null, null);
 							CommonTelemetryVm.UpdateAin1Status(null);
+
+							Ain1LinkError = null;
+							Ain2LinkError = null;
+							Ain3LinkError = null;
+							RaiseAinsLinkInformationHasBeenUpdated();
+
 							_logger.Log("Ошибка: " + ex.Message);
 						});
 						Console.WriteLine(ex);
@@ -86,6 +100,18 @@ namespace DrillingRig.ConfigApp.AinCommand {
 					_cancel = value;
 				}
 			}
+		}
+
+		public bool? Ain1LinkError { get; private set; }
+		public bool? Ain2LinkError { get; private set; }
+		public bool? Ain3LinkError { get; private set; }
+
+		public event AinsLinkInformationHasBeenUpdatedDelegate AinsLinkInformationHasBeenUpdated;
+
+		private void RaiseAinsLinkInformationHasBeenUpdated() {
+			_uiRoot.Notifier.Notify(()=> {
+				AinsLinkInformationHasBeenUpdated?.Invoke(Ain1LinkError, Ain2LinkError, Ain3LinkError);
+			});
 		}
 	}
 }

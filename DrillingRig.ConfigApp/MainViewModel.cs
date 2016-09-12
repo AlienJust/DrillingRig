@@ -18,6 +18,7 @@ using DrillingRig.CommandSenders.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
+using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
@@ -79,6 +80,7 @@ namespace DrillingRig.ConfigApp {
 		public ChartViewModel ChartControlVm { get; set; }
 
 		public DockManagerViewModel DockManagerViewModel { get; private set; }
+		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
 			Notifier = notifier;
@@ -125,6 +127,10 @@ namespace DrillingRig.ConfigApp {
 
 			_autoSettingsReader = new AutoSettingsReader(this, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
 
+			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
+				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0),
+				new TelemetryCommonViewModel(_logger), this, this, this, _logger, this);
+			RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 
 			var documents = new List<DockWindowViewModel> {
 				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
@@ -168,7 +174,7 @@ namespace DrillingRig.ConfigApp {
 						throw new Exception("Такое число АИН в системе не поддерживается");
 				}
 			};
-
+			/*
 			ainSettingsReader.AinSettingsReadComplete += (zeroBasedAinNumber, exception, settings) => {
 				if (exception != null) {
 					Ain1StateColor = Colors.Gray;
@@ -180,6 +186,12 @@ namespace DrillingRig.ConfigApp {
 					Ain2StateColor = settings.Ain2LinkFault ? Colors.Red : Colors.YellowGreen;
 					Ain3StateColor = settings.Ain3LinkFault ? Colors.Red : Colors.YellowGreen;
 				}
+			};
+			*/
+			AinCommandAndCommonTelemetryVm.AinsLinkInformationHasBeenUpdated += (ain1Error, ain2Error, ain3Error) => {
+				Ain1StateColor = ain1Error.HasValue ? ain1Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
+				Ain2StateColor = ain2Error.HasValue ? ain2Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
+				Ain3StateColor = ain3Error.HasValue ? ain3Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
 			};
 
 			SendingEnabledChanged += isEnabled => {

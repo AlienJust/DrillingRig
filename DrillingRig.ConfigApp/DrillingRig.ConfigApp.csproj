@@ -178,6 +178,7 @@
     <Compile Include="AinCommand\CommandWindowViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
+    <Compile Include="AinsLinkInformationHasBeenUpdatedDelegate.cs" />
     <Compile Include="AvaDock\DockManagerViewModel.cs" />
     <Compile Include="AvaDock\DockWindowViewModel.cs" />
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
@@ -199,6 +200,7 @@
       <DependentUpon>TelemetryCommonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
+    <Compile Include="IAinsLinkControl.cs" />
     <Compile Include="IAinsLinkControlViewModel.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsPartWritable.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReader.cs" />

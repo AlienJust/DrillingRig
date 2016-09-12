@@ -15,24 +15,15 @@ namespace DrillingRig.ConfigApp
 		public MainWindow()
 		{
 			InitializeComponent();
+
 			var mainViewModel = new MainViewModel(new WpfUiNotifier(Dispatcher), new WpfWindowSystem());
 			DataContext = mainViewModel;
 
-			var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(new AinCommandOnlyViewModel(mainViewModel,
-				mainViewModel,
-				mainViewModel,
-				mainViewModel.Logger,
-				mainViewModel, 0), new TelemetryCommonViewModel(mainViewModel.Logger), mainViewModel, mainViewModel, mainViewModel, mainViewModel.Logger, mainViewModel);
-
-			var cmdWindowVm = new CommandWindowViewModel(ainCommandAndCommonTelemetryVm);
-
-			var cmdWindow = new CommandWindow {DataContext = cmdWindowVm};
+			var cmdWindow = new CommandWindow {DataContext = new CommandWindowViewModel(mainViewModel.AinCommandAndCommonTelemetryVm)};
 			cmdWindow.Show();
 
 			var chartWindow = new WindowChart{DataContext = new WindowChartViewModel(mainViewModel.ChartControlVm)};
 			chartWindow.Show();
-
-			mainViewModel.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);
 		}
 	}
 }
