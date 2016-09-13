@@ -3,6 +3,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexEditable;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group106SettingsViewModel : ViewModelBase {
@@ -11,8 +12,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsReaderWriter _readerWriter;
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
 
-		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
+		public ParameterHexEditableViewModel Parameter01Vm { get; }
+		public ParameterHexEditableViewModel Parameter02Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
@@ -24,8 +25,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("106.01. Каналы ЦАП", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("106.02. Внутреннее слово режимов IMCW", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", -10000, 10000, null);
+			Parameter02Vm = new ParameterHexEditableViewModel("106.02. Внутреннее слово режимов IMCW", "X4", -10000, 10000, null);
 			Parameter03Vm = new ParameterDoubleEditableViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -43,8 +44,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					DacCh = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					Imcw = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					DacCh = (short)Parameter01Vm.CurrentValue.Value,
+					Imcw = (short)Parameter02Vm.CurrentValue.Value,
 					ToHl = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {

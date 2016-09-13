@@ -39,8 +39,8 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_fset = 0;
 			_mset = 0;
 			_set3 = 0;
-			_mmin = 0;
-			_mmax = 0;
+			_mmin = -600;
+			_mmax = 600;
 
 			_sendAinCommandOff1 = new RelayCommand(SendAinCmdOff1, () => _sendingEnabledControl.IsSendingEnabled);
 			_sendAinCommandOff2 = new RelayCommand(SendAinCmdOff2, () => _sendingEnabledControl.IsSendingEnabled);

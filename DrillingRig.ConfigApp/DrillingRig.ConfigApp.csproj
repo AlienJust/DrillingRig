@@ -322,6 +322,10 @@
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterHexEditable\ParameterHexEditableView.xaml.cs">
+      <DependentUpon>ParameterHexEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterHexEditable\ParameterHexEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -544,6 +548,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterHexEditable\ParameterHexEditableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

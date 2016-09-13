@@ -79,7 +79,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 							_logger.Log("Ошибка: " + ex.Message);
 						});
-						_debugLogger.GetLogger(3).Log(ex, new StackTrace());
+						_debugLogger.GetLogger(4).Log(ex, new StackTrace());
 					}
 					finally {
 						waiter.Set(); // set async action complete
