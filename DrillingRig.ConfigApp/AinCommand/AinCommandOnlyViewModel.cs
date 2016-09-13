@@ -2,12 +2,10 @@
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
-using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.AinCommand;
-using DrillingRig.ConfigApp.AvaDock;
 
 namespace DrillingRig.ConfigApp.AinCommand {
-	internal class AinCommandOnlyViewModel : DockWindowViewModel {
+	internal class AinCommandOnlyViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;

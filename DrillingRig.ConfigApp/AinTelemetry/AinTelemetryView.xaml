@@ -13,7 +13,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<configApp:GridControl Grid.Row="0" ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2">
+		<configApp:GridControl Grid.Row="0" ShowCustomGridLines="True" GridLineBrush="{DynamicResource AccentColorBrush}" GridLineThickness="2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="3*"/>
 				<ColumnDefinition Width="1*"/>
@@ -78,7 +78,7 @@
 			<TextBlock Margin="4,2,2,2" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding Path=SettingExcitationCurrent, Mode=OneWay}"/>
 
 		</configApp:GridControl>
-		<Border Grid.Column="0" Grid.Row="1" BorderThickness="2,0,2,1" BorderBrush="DeepSkyBlue">
+		<Border Grid.Column="0" Grid.Row="1" BorderThickness="2,0,2,1" BorderBrush="{DynamicResource AccentColorBrush}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
@@ -115,7 +115,7 @@
 				</Grid>
 			</Grid>
 		</Border>
-		<Border Grid.Column="0" Grid.Row="2" BorderThickness="2,1,2,0" BorderBrush="DeepSkyBlue">
+		<Border Grid.Column="0" Grid.Row="2" BorderThickness="2,1,2,0" BorderBrush="{DynamicResource AccentColorBrush}">
 			<Grid >
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
@@ -151,7 +151,7 @@
 				</Grid>
 			</Grid>
 		</Border>
-		<configApp:GridControl Grid.Row="3" ShowCustomGridLines="True" GridLineBrush="DeepSkyBlue" GridLineThickness="2">
+		<configApp:GridControl Grid.Row="3" ShowCustomGridLines="True" GridLineBrush="{DynamicResource AccentColorBrush}" GridLineThickness="2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="3*"/>
 				<ColumnDefinition Width="1*"/>

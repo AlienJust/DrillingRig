@@ -1,7 +1,5 @@
-using DrillingRig.ConfigApp.AvaDock;
-
 namespace DrillingRig.ConfigApp.MnemonicCheme {
-	internal class MnemonicChemeViewModel : DockWindowViewModel {
+	internal class MnemonicChemeViewModel {
 		public MnemonicChemeViewModel(string pathToImage) {
 			PathToImage = pathToImage;
 		}

@@ -17,6 +17,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
+		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly IWindowSystem _windowSystem;
 
 		private readonly RelayCommand _readCycleCommand;
@@ -32,12 +33,13 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 		private bool _readingInProgress;
 
 
-		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem)
+		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, IWindowSystem windowSystem)
 		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
+			_debugLogger = debugLogger;
 			_windowSystem = windowSystem;
 
 			_readCycleCommand = new RelayCommand(ReadCycle, () => !_readingInProgress);
@@ -45,7 +47,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 
 			_coolerTelemetryVm = new CoolerTelemetryViewModel();
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CoolerTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayLogger(null));
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CoolerTelemetryBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
 			_syncCancel = new object();
 			_cancel = false;
 			_readingInProgress = false;

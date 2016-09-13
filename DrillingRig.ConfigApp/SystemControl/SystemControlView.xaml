@@ -68,24 +68,13 @@
 		<Button Grid.Row="1" Content="Рестарт контроллера" Command="{Binding Path=CmdRestart, Mode=OneTime}" Margin="2,2,2,2"/>
 		<Button Grid.Row="2" Content="Прошивка..." Command="{Binding Path=CmdFlash, Mode=OneTime}" Margin="2,2,2,2"/>
 		<ainTelemetry:TelemetryCommonView Grid.Row="3" DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
-		<xcad:DockingManager Grid.Row="4" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" AllowMixedOrientation="True">
-			<xcad:DockingManager.Theme>
-				<xcad:MetroTheme />
-			</xcad:DockingManager.Theme>
-			<xcad:LayoutRoot>
-				<xcad:LayoutPanel Orientation="Horizontal">
-					<xcad:LayoutDocumentPaneGroup>
-						<xcad:LayoutDocumentPane >
-							<xcad:LayoutDocument Title="Отладочные параметры" CanClose="False" >
-								<systemControl:DebugParametersView DataContext="{Binding Path=DebugParametersVm, Mode=OneTime}"/>
-							</xcad:LayoutDocument>
-							<xcad:LayoutDocument Title="Графики" CanClose="False">
-								<systemControl:DebugParametersTrendView DataContext="{Binding Path=DebugParametersTrendVm, Mode=OneTime}"/>
-							</xcad:LayoutDocument>
-						</xcad:LayoutDocumentPane>
-					</xcad:LayoutDocumentPaneGroup>
-				</xcad:LayoutPanel>
-			</xcad:LayoutRoot>
-		</xcad:DockingManager>
+		<TabControl Grid.Row="4">
+			<TabItem Header="Отладочные параметры">
+				<systemControl:DebugParametersView DataContext="{Binding Path=DebugParametersVm, Mode=OneTime}"/>
+			</TabItem>
+			<TabItem Header="Графики">
+				<systemControl:DebugParametersTrendView DataContext="{Binding Path=DebugParametersTrendVm, Mode=OneTime}"/>
+			</TabItem>
+		</TabControl>
 	</Grid>
 </UserControl>

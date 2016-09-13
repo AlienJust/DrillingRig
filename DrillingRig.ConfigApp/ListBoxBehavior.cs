@@ -36,10 +36,8 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		private static void ListBoxSelectionChangedHandler(object sender, RoutedEventArgs e) {
-			if (!(sender is ListBox)) return;
-
-			var listBox = (sender as ListBox);
-			if (listBox.SelectedItem != null) {
+			var listBox = sender as ListBox;
+			if (listBox?.SelectedItem != null) {
 				listBox.Dispatcher.BeginInvoke(
 					(Action)(() => {
 						listBox.UpdateLayout();

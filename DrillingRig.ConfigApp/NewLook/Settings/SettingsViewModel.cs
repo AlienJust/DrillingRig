@@ -1,10 +1,9 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
-using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.NewLook.Settings {
-	class SettingsViewModel : DockWindowViewModel {
+	class SettingsViewModel {
 		public Group20SettingsViewModel Group20SettingsVm { get; }
 		public Group22SettingsViewModel Group22SettingsVm { get; }
 		public Group23SettingsViewModel Group23SettingsVm { get; }

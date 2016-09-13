@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AlienJust.Support.Loggers.Contracts;
-using DrillingRig.ConfigApp.AvaDock;
+﻿using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters;
 
-namespace DrillingRig.ConfigApp.Telemetry {
-	class TelemetryViewModel : DockWindowViewModel {
+namespace DrillingRig.ConfigApp.NewLook.Telemetry {
+	class TelemetryViewModel {
 		public Group01ParametersViewModel Group01ParametersVm { get; }
 		public Group02ParametersViewModel Group02ParametersVm { get; }
 		public Group03ParametersViewModel Group03ParametersVm { get; }
@@ -18,7 +13,7 @@ namespace DrillingRig.ConfigApp.Telemetry {
 		public Group09ParametersViewModel Group09ParametersVm { get; }
 
 		public TelemetryViewModel(IUserInterfaceRoot userInterfaceRoot, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, ILogger logger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
-			Group01ParametersVm = new Group01ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, ainsCounter, parameterLogger) { Title = "Группа 01" };
+			Group01ParametersVm = new Group01ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, ainsCounter, parameterLogger);
 			cycleThreadHolder.RegisterAsCyclePart(Group01ParametersVm);
 
 			Group02ParametersVm = new Group02ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);

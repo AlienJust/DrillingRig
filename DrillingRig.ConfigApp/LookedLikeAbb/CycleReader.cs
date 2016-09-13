@@ -12,6 +12,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
+		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly INotifySendingEnabled _notifySendingEnabled;
 		private readonly IWorker<Action> _backWorker;
 
@@ -25,11 +26,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private int _ain2TelemetryReadAsksCount;
 		private int _ain3TelemetryReadAsksCount;
 
-		public CycleReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled notifySendingEnabled) {
+		public CycleReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
+			_debugLogger = debugLogger;
 			_notifySendingEnabled = notifySendingEnabled;
 
 
@@ -43,7 +45,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_ain3TelemetryReadAsksCount = 0;
 
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("Read in background thread", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(logText => { }));
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("Read in background thread", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
 			_backWorker.AddWork(ReadCycleInBackground);
 			_defaultTimeout = TimeSpan.FromMilliseconds(200.0);
 		}

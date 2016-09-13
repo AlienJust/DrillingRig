@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25029.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands.Contracts", "DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj", "{C812C14E-BBDB-445A-BEC7-5703CBBD094E}"
 EndProject
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands", "DrillingRig.Commands\DrillingRig.Commands.csproj", "{316042FC-F3D0-491F-8998-8ACFCBFFA908}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.TestCommandSender", "DrillingRig.CommandSenders.TestCommandSender\DrillingRig.CommandSenders.TestCommandSender.csproj", "{490F02E4-3826-4FE8-8E98-405271E18C5E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.RpdChartTestApp", "DrillingRig.RpdChartTestApp\DrillingRig.RpdChartTestApp.csproj", "{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{535F8ED3-0097-44B9-9BCA-94A1FBE6B909}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

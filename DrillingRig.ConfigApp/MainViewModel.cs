@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
-using System.Windows;
+using AlienJust.Adaptation.ConsoleLogger;
 using AlienJust.Adaptation.WindowsPresentation.Converters;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
@@ -19,15 +19,15 @@ using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
-using DrillingRig.ConfigApp.AvaDock;
+using DrillingRig.ConfigApp.Logs;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.MnemonicCheme;
 using DrillingRig.ConfigApp.NewLook.Archive;
+using DrillingRig.ConfigApp.NewLook.OldLook;
 using DrillingRig.ConfigApp.NewLook.Settings;
-using DrillingRig.ConfigApp.OldLook;
-using DrillingRig.ConfigApp.Settings;
+using DrillingRig.ConfigApp.NewLook.Telemetry;
 using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
@@ -59,6 +59,7 @@ namespace DrillingRig.ConfigApp {
 		private byte _targetAddress;
 
 		private readonly ILogger _logger;
+		private readonly IMultiLoggerWithStackTrace _debugLogger;
 
 		private readonly object _isSendingEnabledSyncObject;
 		private bool _isSendingEnabled;
@@ -67,6 +68,7 @@ namespace DrillingRig.ConfigApp {
 		private readonly object _cyclePartsSync;
 		private readonly List<ICyclePart> _cycleParts;
 		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
+
 		private int _selectedAinsCount;
 
 		private readonly AutoSettingsReader _autoSettingsReader;
@@ -79,7 +81,6 @@ namespace DrillingRig.ConfigApp {
 
 		public ChartViewModel ChartControlVm { get; set; }
 
-		public DockManagerViewModel DockManagerViewModel { get; private set; }
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
 		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
@@ -94,22 +95,51 @@ namespace DrillingRig.ConfigApp {
 
 			_isSendingEnabled = false;
 			_isSendingEnabledSyncObject = new object();
+			
+			// Лог программы:
+			_debugLogger = new RelayMultiLoggerWithStackTraceSimple(
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.DarkRed, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Red, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Yellow, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Cyan, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.White, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+
+				new RelayLoggerWithStackTrace(
+					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Green, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")));
+
+			_programLogVm = new ProgramLogViewModel(this, _debugLogger);
+			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
+
+			// циклический опрос
 			_cyclePartsSync = new object();
 			_cycleParts = new List<ICyclePart>();
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, new RelayActionLogger(Console.WriteLine, new ChainedFormatter(new List<ITextFormatter> { new PreffixTextFormatter("TelemetryBackWorker > "), new DateTimeFormatter(" > ") })));
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
 
 			GetPortsAvailable();
 
 			// Блоки АИН в системе:
 			AinsCountInSystem = new List<int> { 1, 2, 3 };
 			SelectedAinsCount = AinsCountInSystem.First();
-
-			// Лог программы:
-			_programLogVm = new ProgramLogViewModel(this) { Title = "Журнал" };
-			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
-
-
+			
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
@@ -117,7 +147,7 @@ namespace DrillingRig.ConfigApp {
 
 
 			// ABB way:
-			ChartControlVm = new ChartViewModel(this) { Title = "Графики", CanClose = false };
+			ChartControlVm = new ChartViewModel(this);
 
 			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
@@ -129,22 +159,15 @@ namespace DrillingRig.ConfigApp {
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0),
-				new TelemetryCommonViewModel(_logger), this, this, this, _logger, this);
+				new TelemetryCommonViewModel(_logger, _debugLogger), this, this, this, _logger, _debugLogger, this);
 			RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 
-			var documents = new List<DockWindowViewModel> {
-				new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm) {Title = "Телеметрия", CanClose = false},
-				new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader) {Title = "Настройки", CanClose = false},
-				//new AinCommandOnlyViewModel(this, this, this, _logger, this, 0) {Title = "Команда", CanClose = false},
-				new ArchivesViewModel(
-					new ArchiveViewModel(this, this, this, _logger, this, 0),
-					new ArchiveViewModel(this, this, this, _logger, this, 1)) {Title = "Архив", CanClose = false},
-					new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory,"mnemoniccheme.png")) {Title = "Мнемосхема", CanClose = false },
-				new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, this, this, ChartControlVm) {Title = "Дополнительно", CanClose = false}
-			};
-			var anchorables = new List<DockWindowViewModel> { /*ChartControlVm,*/ _programLogVm };
-			DockManagerViewModel = new DockManagerViewModel(documents, anchorables);
-
+			TelemtryVm = new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm);
+			SettingsVm = new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader);
+			ArchiveVm = new ArchivesViewModel(new ArchiveViewModel(this, this, this, _logger, this, 0), new ArchiveViewModel(this, this, this, _logger, this, 1));
+			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
+			OldLookVm = new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, _debugLogger, this, this, ChartControlVm);
+			
 			_ain1StateColor = Colors.Gray;
 			_ain2StateColor = Colors.Gray;
 			_ain3StateColor = Colors.Gray;
@@ -190,6 +213,16 @@ namespace DrillingRig.ConfigApp {
 			_backWorker.AddWork(CycleWork);
 			_logger.Log("Программа загружена");
 		}
+
+		public MnemonicChemeViewModel MnemonicChemeVm { get; }
+
+		public OldLookViewModel OldLookVm { get; }
+
+		public ArchivesViewModel ArchiveVm { get; }
+
+		public SettingsViewModel SettingsVm { get; }
+
+		public TelemetryViewModel TelemtryVm { get; }
 
 
 		private void CycleWork() {
@@ -243,13 +276,13 @@ namespace DrillingRig.ConfigApp {
 
 				if (_selectedComName == TestComPortName) // TODO: extract constant
 				{
-					var sender = new NothingBasedCommandSender();
+					var sender = new NothingBasedCommandSender(_debugLogger);
 					_commandSender = sender;
 					_commandSenderController = sender;
 
 				}
 				else {
-					var sender = new SerialPortBasedCommandSender(SelectedComName);
+					var sender = new SerialPortBasedCommandSender(SelectedComName, _debugLogger);
 					_commandSender = sender;
 					_commandSenderController = sender;
 				}

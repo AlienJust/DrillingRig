@@ -3,7 +3,6 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinsSettings;
 using DrillingRig.ConfigApp.AinTelemetry;
-using DrillingRig.ConfigApp.AvaDock;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
 using DrillingRig.ConfigApp.CoolerTelemetry;
@@ -12,8 +11,8 @@ using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
-namespace DrillingRig.ConfigApp.OldLook {
-	class OldLookViewModel : DockWindowViewModel {
+namespace DrillingRig.ConfigApp.NewLook.OldLook {
+	class OldLookViewModel {
 		public BsEthernetSettingsViewModel BsEthernetSettingsVm { get; }
 
 		public BsEthernetNominalsViewModel BsEthernetNominalsVm { get; }
@@ -40,8 +39,8 @@ namespace DrillingRig.ConfigApp.OldLook {
 
 		public EngineSettingsViewModel EngineSettingsVm { get; }
 
-		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
-			var commonTelemetryVm = new TelemetryCommonViewModel(logger);
+		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+			var commonTelemetryVm = new TelemetryCommonViewModel(logger, debugLogger);
 
 			BsEthernetSettingsVm = new BsEthernetSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);
 			BsEthernetNominalsVm = new BsEthernetNominalsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);
@@ -62,9 +61,9 @@ namespace DrillingRig.ConfigApp.OldLook {
 			var ain1CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 0);
 			var ain2CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 1);
 			var ain3CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 2);
-			Ain1CommandVm = new AinCommandViewModel(ain1CommandOnlyVm, commonTelemetryVm, ain1TelemetryVm, AinTelemetriesVm) { Title = "Команда" };
-			Ain2CommandVm = new AinCommandViewModel(ain2CommandOnlyVm, commonTelemetryVm, ain2TelemetryVm, AinTelemetriesVm) { Title = "Команда АИН2" };
-			Ain3CommandVm = new AinCommandViewModel(ain3CommandOnlyVm, commonTelemetryVm, ain3TelemetryVm, AinTelemetriesVm) { Title = "Команда АИН3" };
+			Ain1CommandVm = new AinCommandViewModel(ain1CommandOnlyVm, commonTelemetryVm, ain1TelemetryVm, AinTelemetriesVm);
+			Ain2CommandVm = new AinCommandViewModel(ain2CommandOnlyVm, commonTelemetryVm, ain2TelemetryVm, AinTelemetriesVm);
+			Ain3CommandVm = new AinCommandViewModel(ain3CommandOnlyVm, commonTelemetryVm, ain3TelemetryVm, AinTelemetriesVm);
 
 			Ain1SettingsVm = new AinSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled, 0);
 			Ain2SettingsVm = new AinSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled, 1);
@@ -73,7 +72,7 @@ namespace DrillingRig.ConfigApp.OldLook {
 			RectifierTelemetriesVm = new RectifierTelemetriesViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem); // TODO: sending enabled control?
 			cycleThreadHolder.RegisterAsCyclePart(RectifierTelemetriesVm);
 
-			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem); // TODO: sending enabled control?
+			CoolerTelemetriesVm = new CoolerTelemetriesViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, debugLogger, windowSystem); // TODO: sending enabled control?
 
 			EngineSettingsVm = new EngineSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);
 		}

@@ -1,28 +1,28 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
-using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
-using DrillingRig.Commands.RtuModbus.Telemetry01;
 using DrillingRig.ConfigApp.AinTelemetry;
-using DrillingRig.ConfigApp.AvaDock;
 
 namespace DrillingRig.ConfigApp.AinCommand {
-	internal class AinCommandAndCommonTelemetryViewModel : DockWindowViewModel, ICyclePart, IAinsLinkControl {
+	internal class AinCommandAndCommonTelemetryViewModel : ViewModelBase, ICyclePart, IAinsLinkControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
+		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly INotifySendingEnabled _notifySendingEnabled;
 
 		private readonly object _syncCancel;
 		private bool _cancel;
-		public AinCommandAndCommonTelemetryViewModel(AinCommandOnlyViewModel ainCommandOnlyViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, INotifySendingEnabled notifySendingEnabled) {
+		public AinCommandAndCommonTelemetryViewModel(AinCommandOnlyViewModel ainCommandOnlyViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
+			_debugLogger = debugLogger;
 			_notifySendingEnabled = notifySendingEnabled;
 			AinCommandOnlyVm = ainCommandOnlyViewModel;
 			CommonTelemetryVm = commonTelemetryVm;
@@ -32,7 +32,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_cancel = !_notifySendingEnabled.IsSendingEnabled; // TODO: possible state loss between lines
 			_notifySendingEnabled.SendingEnabledChanged += isSendingEnabled => {
 				Cancel = !isSendingEnabled;
-			};
+			}; // TODO: unsubscribe on exit
 
 			Ain1LinkError = null;
 			Ain2LinkError = null;
@@ -79,7 +79,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 							_logger.Log("Ошибка: " + ex.Message);
 						});
-						Console.WriteLine(ex);
+						_debugLogger.GetLogger(3).Log(ex, new StackTrace());
 					}
 					finally {
 						waiter.Set(); // set async action complete
