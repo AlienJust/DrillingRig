@@ -76,12 +76,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					}
 					finally {
 						_uiRoot.Notifier.Notify(() => {
-							Console.WriteLine("UserInterface thread begin action =============================");
-							Console.WriteLine("Now update telemetry Group03...");
-							// TODO: result update telemetry
 							UpdateTelemetry(telemetry);
-							Console.WriteLine("Done");
-							Console.WriteLine("UserInterface thread end action ===============================");
 						});
 						waiter.Set();
 					}

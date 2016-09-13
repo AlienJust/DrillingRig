@@ -99,13 +99,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					}
 					finally {
 						_uiRoot.Notifier.Notify(() => {
-							Console.WriteLine("UserInterface thread begin action =============================");
-							Console.WriteLine("Now update telemetry Group02...");
 							// TODO: result update telemetry
 							UpdateTelemetry(telemetry);
-							Console.WriteLine("Done");
-							//if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAin1Status(ainTelemetry?.Status);
-							Console.WriteLine("UserInterface thread end action ===============================");
 						});
 						waiter.Set();
 					}
