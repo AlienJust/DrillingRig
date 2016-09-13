@@ -16,6 +16,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		private readonly Dictionary<string, PointsSeriesAndAdditionalData> _logs;
 		private readonly Random _colorRandom;
 		private readonly List<Color> _predefinedColors;
+		private IUpdatable _updatable;
+
 		public ChartViewModel(IUserInterfaceRoot uiRoot) {
 			_uiRoot = uiRoot;
 			_logs = new Dictionary<string, PointsSeriesAndAdditionalData>();
@@ -68,6 +70,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 				}
 				//_uiRoot.Notifier.Notify(()=> _logs[parameterName].DataSeries.Append(DateTime.Now, value.Value));
 				_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
+				_updatable?.Update();
 			}
 		}
 
@@ -87,6 +90,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 					_logs.Add(parameterName, new PointsSeriesAndAdditionalData(vm, metadata, dataSeries, renderSeries));
 				}
 				_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value ? 1.0 : 0.0);
+				_updatable?.Update();
 			}
 		}
 
@@ -104,6 +108,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		public ObservableCollection<ISeriesAdditionalData> DiscreteSeriesAdditionalData { get; set; }
 
 
-
+		public void SetUpdatable(IUpdatable updatable) {
+			_updatable = updatable;
+		}
 	}
 }

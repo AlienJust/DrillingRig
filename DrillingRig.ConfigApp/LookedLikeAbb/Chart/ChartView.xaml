@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:RPD.SciChartControl.Views;assembly=RPD.SciChartControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-	<views:ChartControl 
+	<views:ChartControl
 								AnalogSeries="{Binding AnalogSeries}"
 								DiscreteSeries="{Binding DiscreteSeries}"
 								AnalogSeriesAdditionalData="{Binding AnalogSeriesAdditionalData}"
