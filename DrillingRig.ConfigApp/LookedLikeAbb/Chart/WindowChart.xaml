@@ -7,6 +7,13 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Графики" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Loaded="MetroWindow_Loaded">
-		<local:ChartView DataContext="{Binding Path=ChartVm, Mode=OneTime}" x:Name="ChartView1"/>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<CheckBox x:Name="CheckBox1" Content="Автообновление"/>
+		<local:ChartView Grid.Row="1" DataContext="{Binding Path=ChartVm, Mode=OneTime}" x:Name="ChartView1"/>
+	</Grid>
 </controls:MetroWindow>
 

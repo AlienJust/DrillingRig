@@ -46,8 +46,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 		public void Update() {
 			_uiNotifier.Notify(() => {
-				foreach (var child in FindVisualChildren<Abt.Controls.SciChart.Visuals.SciChartSurface>(ChartView1)) {
-					child.ZoomExtents();
+				if (CheckBox1.IsChecked.HasValue && CheckBox1.IsChecked.Value) {
+					foreach (var child in FindVisualChildren<Abt.Controls.SciChart.Visuals.SciChartSurface>(ChartView1)) {
+						child.ZoomExtents();
+					}
 				}
 			});
 		}
