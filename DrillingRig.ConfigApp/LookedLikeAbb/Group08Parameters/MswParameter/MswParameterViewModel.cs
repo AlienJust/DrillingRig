@@ -26,7 +26,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 
 		public ParameterBooleanReadonlyViewModel Parameter15Vm { get; }
 		public MswParameterViewModel(IParameterLogger parameterLogger) {
-			ParameterLiteralVm = new ParameterStringReadonlyViewModel("MSW", string.Empty);
+			ParameterLiteralVm = new ParameterStringReadonlyViewModel("08.01 MSW", string.Empty);
 			Parameter01Vm = new ParameterBooleanReadonlyViewModel("MSW.01 RDY_ON (1=готов к включению)", null, parameterLogger);
 			Parameter02Vm = new ParameterBooleanReadonlyViewModel("MSW.02 RDY_RUN (1=готов к работе)", null, parameterLogger);
 			Parameter03Vm = new ParameterBooleanReadonlyViewModel("MSW.03 RDY_REF (1=работа разрешена:RUNNING)", null, parameterLogger);
