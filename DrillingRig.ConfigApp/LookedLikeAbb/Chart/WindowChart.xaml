@@ -12,7 +12,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<CheckBox x:Name="CheckBox1" Content="Автообновление"/>
+		<CheckBox x:Name="CheckBox1" Content="Автообновление" Margin="4,2,4,2"/>
 		<local:ChartView Grid.Row="1" DataContext="{Binding Path=ChartVm, Mode=OneTime}" x:Name="ChartView1"/>
 	</Grid>
 </controls:MetroWindow>

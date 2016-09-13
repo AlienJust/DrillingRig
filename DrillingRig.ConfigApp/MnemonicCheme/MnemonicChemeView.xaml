@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-	<Image Source="{Binding Path=PathToImage, Mode=OneTime}" Stretch="Fill" />
+	<Image Source="{Binding Path=PathToImage, Mode=OneTime}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 </UserControl>

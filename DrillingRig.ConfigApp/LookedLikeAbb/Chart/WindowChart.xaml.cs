@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
+using Abt.Controls.SciChart.Visuals;
 using AlienJust.Adaptation.WindowsPresentation;
 using AlienJust.Support.Concurrent.Contracts;
 using MahApps.Metro.Controls;
@@ -13,7 +11,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 	/// Interaction logic for WindowChart.xaml
 	/// </summary>
 	public partial class WindowChart : MetroWindow, IUpdatable {
-		private IThreadNotifier _uiNotifier;
+		private readonly IThreadNotifier _uiNotifier;
+		private SciChartSurface _sciChartSurface;
 		public WindowChart() {
 			InitializeComponent();
 			_uiNotifier = new WpfUiNotifier(Dispatcher);
@@ -41,15 +40,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 
 		private void MetroWindow_Loaded(object sender, RoutedEventArgs e) {
 			var cvm = DataContext as WindowChartViewModel;
-			cvm.ChartVm.SetUpdatable(this);
+			cvm?.ChartVm.SetUpdatable(this);
+
+			foreach (var child in FindVisualChildren<SciChartSurface>(ChartView1)) {
+				_sciChartSurface = child;
+				break;
+			}
 		}
 
 		public void Update() {
 			_uiNotifier.Notify(() => {
 				if (CheckBox1.IsChecked.HasValue && CheckBox1.IsChecked.Value) {
-					foreach (var child in FindVisualChildren<Abt.Controls.SciChart.Visuals.SciChartSurface>(ChartView1)) {
+					foreach (var child in FindVisualChildren<SciChartSurface>(ChartView1)) {
 						child.ZoomExtents();
 					}
+					_sciChartSurface.ZoomExtents();
 				}
 			});
 		}

@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:group08Parameters="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters"
+             xmlns:mswParameter="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters.MswParameter"
+             xmlns:aswParameter="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters.AswParameter"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
@@ -14,8 +16,8 @@
 		</Grid.RowDefinitions>
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
-				<group08Parameters:MswParameterView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
-				<local:ParameterDoubleReadonlyView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
+				<mswParameter:MswParameterView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<aswParameter:AswParameterView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleReadonlyView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleReadonlyView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleReadonlyView DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}"/>

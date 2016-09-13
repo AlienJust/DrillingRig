@@ -48,7 +48,6 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
-					
 					try {
 						if (exception != null) {
 							throw new Exception("Произошла ошибка во время обмена", exception);
@@ -79,7 +78,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 							_logger.Log("Ошибка: " + ex.Message);
 						});
-						_debugLogger.GetLogger(4).Log(ex, new StackTrace());
+						_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
 					}
 					finally {
 						waiter.Set(); // set async action complete

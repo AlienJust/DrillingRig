@@ -99,31 +99,45 @@ namespace DrillingRig.ConfigApp {
 			// Лог программы:
 			_debugLogger = new RelayMultiLoggerWithStackTraceSimple(
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.DarkRed, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.DarkRed, ConsoleColor.Black), 
+						new ChainedFormatter(new List<ITextFormatter>{new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ")})), 
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Red, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.Red, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Yellow, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.Yellow, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Cyan, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.Cyan, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.White, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.Green, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(new ColoredConsoleLogger(ConsoleColor.Green, ConsoleColor.Black), new DateTimeFormatter(" > ")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.White, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")));
 
 			_programLogVm = new ProgramLogViewModel(this, _debugLogger);
@@ -249,6 +263,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		private void ClosePort() {
+			// must be called from UI
 			try {
 				IsSendingEnabled = false;
 				RaiseSendingEnabledChanged(IsSendingEnabled);
@@ -269,14 +284,15 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		private void OpenPort() {
+			// must be called only from UI
 			try {
 				if (_isPortOpened) ClosePort();
 				_logger.Log("Открытие порта " + _selectedComName + "...");
 
 
-				if (_selectedComName == TestComPortName) // TODO: extract constant
+				if (_selectedComName == TestComPortName)
 				{
-					var sender = new NothingBasedCommandSender(_debugLogger);
+					var sender = new NothingBasedCommandSender(_debugLogger, Notifier);
 					_commandSender = sender;
 					_commandSenderController = sender;
 

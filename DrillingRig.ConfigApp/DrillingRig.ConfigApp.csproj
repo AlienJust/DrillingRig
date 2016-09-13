@@ -197,6 +197,10 @@
       <DependentUpon>WindowChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group08Parameters\AswParameter\AswParameterView.xaml.cs">
+      <DependentUpon>AswParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group08Parameters\AswParameter\AswParameterViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterView.xaml.cs">
       <DependentUpon>MswParameterView.xaml</DependentUpon>
     </Compile>
@@ -454,6 +458,10 @@
     <Page Include="LookedLikeAbb\Chart\WindowChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Group08Parameters\AswParameter\AswParameterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterView.xaml">
       <SubType>Designer</SubType>

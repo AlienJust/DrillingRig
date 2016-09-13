@@ -3,6 +3,7 @@ using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry08;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters.AswParameter;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 	class Group08ParametersViewModel : ViewModelBase, ICyclePart {
@@ -11,7 +12,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
 		public MswParameterViewModel Parameter01Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
+		public AswParameterViewModel Parameter02Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter04Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter05Vm { get; }
@@ -31,7 +32,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 			_logger = logger;
 
 			Parameter01Vm = new MswParameterViewModel(parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("08.02 AUX STATUS WORD Вспомогательное слово состояния", "f0", null, parameterLogger);
+			Parameter02Vm = new AswParameterViewModel(parameterLogger);
 			Parameter03Vm = new ParameterDoubleReadonlyViewModel("08.03 Этап работы с частотным приводом.", "f0", null, parameterLogger);
 			Parameter04Vm = new ParameterDoubleReadonlyViewModel("08.04 MSW Ведомого привода.", "f0", null, parameterLogger);
 			Parameter05Vm = new ParameterDoubleReadonlyViewModel("08.05 ASW Ведомого привода.", "f0", null, parameterLogger);
@@ -102,7 +103,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 
 		private void UpdateTelemetry(ITelemetry08 telemetry) {
 			Parameter01Vm.UpdateTelemetry(telemetry?.Msw);
-			Parameter02Vm.CurrentValue = telemetry?.Asw;
+			Parameter02Vm.UpdateTelemetry(telemetry?.Asw);
 
 			Parameter03Vm.CurrentValue = telemetry?.EngineState;
 			Parameter04Vm.CurrentValue = telemetry?.FollowMsw;

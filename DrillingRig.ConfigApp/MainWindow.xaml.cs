@@ -16,7 +16,7 @@ namespace DrillingRig.ConfigApp
 		{
 			InitializeComponent();
 
-			var mainViewModel = new MainViewModel(new WpfUiNotifier(Dispatcher), new WpfWindowSystem());
+			var mainViewModel = new MainViewModel(new WpfUiNotifierAsync(Dispatcher), new WpfWindowSystem());
 			DataContext = mainViewModel;
 
 			var cmdWindow = new CommandWindow {DataContext = new CommandWindowViewModel(mainViewModel.AinCommandAndCommonTelemetryVm)};
