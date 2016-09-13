@@ -14,7 +14,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ILogger _logger;
 		public ParameterStringReadonlyViewModel Parameter01Vm { get; }
 		public ParameterStringReadonlyViewModel Parameter02Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
+		public ParameterStringReadonlyViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
@@ -31,7 +31,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			Parameter01Vm = new ParameterStringReadonlyViewModel("04.01 Версия ПО (АИН)", string.Empty);
 			Parameter02Vm = new ParameterStringReadonlyViewModel("04.02 Дата билда ПО (АИН)", string.Empty); // TODO: change to display datetime
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterStringReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", string.Empty);
 
 			
 
@@ -101,6 +101,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			if (telemetry == null) {
 				Parameter01Vm.CurrentValue = "--";
 				Parameter02Vm.CurrentValue = "--";
+				Parameter03Vm.CurrentValue = "--";
 			}
 			else {
 				var bp = BytesPair.FromSignedShortHighFirst(telemetry.Pver);
@@ -116,9 +117,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					// В приборах со старой версией прошивки (до 23.10.2015) значения версии и даты бессмысленны (c) Roma
 					Parameter02Vm.CurrentValue = telemetry.PvDate.ToString();
 				}
+				Parameter03Vm.CurrentValue = telemetry.BsVer.ToString();
 			}
-			
-			Parameter03Vm.CurrentValue = telemetry?.BsVer;
 		}
 
 		public bool Cancel {

@@ -16,7 +16,7 @@
 			<StackPanel Orientation="Vertical">
 				<parameterStringReadonly:ParameterStringReadonlyView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
 				<parameterStringReadonly:ParameterStringReadonlyView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
-				<local:ParameterDoubleReadonlyView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
+				<parameterStringReadonly:ParameterStringReadonlyView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

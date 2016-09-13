@@ -15,7 +15,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		private SciChartSurface _sciChartSurface;
 		public WindowChart() {
 			InitializeComponent();
-			_uiNotifier = new WpfUiNotifier(Dispatcher);
+			_uiNotifier = new WpfUiNotifierAsync(Dispatcher);
 		}
 
 		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
