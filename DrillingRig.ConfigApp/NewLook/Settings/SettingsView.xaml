@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.Settings"
              xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:converters="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
+             xmlns:group106Settings="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
 	<UserControl.Resources>
@@ -59,7 +60,7 @@
 			<lookedLikeAbb:Group105SettingsView DataContext="{Binding Path=Group105SettingsVm, Mode=OneTime}"/>
 		</TabItem>
 		<TabItem Header="106. Режимы работы" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-			<lookedLikeAbb:Group106SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
+			<group106Settings:Group106SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
 		</TabItem>
 
 	</TabControl>

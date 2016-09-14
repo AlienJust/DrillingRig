@@ -249,14 +249,18 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Group102SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group101SettingsViewModel.cs" />
-    <Compile Include="LookedLikeAbb\Group106SettingsView.xaml.cs">
+    <Compile Include="LookedLikeAbb\Group106Settings\Group106SettingsView.xaml.cs">
       <DependentUpon>Group106SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group105SettingsView.xaml.cs">
       <DependentUpon>Group105SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Group106SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group106Settings\Group106SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group105SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group106Settings\ImvcParameter\ImcwParameterView.xaml.cs">
+      <DependentUpon>ImcwParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group106Settings\ImvcParameter\ImcwParameterViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group99SettingsView.xaml.cs">
       <DependentUpon>Group99SettingsView.xaml</DependentUpon>
     </Compile>
@@ -326,6 +330,10 @@
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableView.xaml.cs">
+      <DependentUpon>ParameterComboIntEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterHexEditable\ParameterHexEditableView.xaml.cs">
       <DependentUpon>ParameterHexEditableView.xaml</DependentUpon>
     </Compile>
@@ -515,11 +523,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LookedLikeAbb\Group106SettingsView.xaml">
+    <Page Include="LookedLikeAbb\Group106Settings\Group106SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group105SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group106Settings\ImvcParameter\ImcwParameterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -556,6 +568,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

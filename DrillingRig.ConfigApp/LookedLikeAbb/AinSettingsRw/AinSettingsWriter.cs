@@ -39,7 +39,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 			// Всегда читаем настройки перед записью
 			_ainSettingsReader.ReadSettingsAsync(0, (readSettingsException, readedAin1Settings) => {
 				if (readSettingsException != null) {
-					callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1", readSettingsException));
+					callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettingsException));
 					return;
 				}
 
@@ -64,7 +64,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 						_writeSettingsTimeout,
 						(sendException, replyBytes) => {
 							if (sendException != null) {
-								callback(new Exception("Ошибка отправки команды записи настроек АИН1", sendException));
+								callback(new Exception("Ошибка отправки команды записи настроек АИН1 - нет ответа от BsEthernet", sendException));
 								return;
 							}
 
@@ -75,14 +75,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, (exceptionReRead1, settings1ReReaded) => {
 								if (exceptionReRead1 != null) {
-									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания"));
+									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 									return;
 								}
 								try {
 									settingsForAin1.CompareSettingsAfterReReading(settings1ReReaded, 0);
 								}
 								catch (Exception compareEx1) {
-									callback(new Exception("Ошибка при повторном чтении настроек АИН1", compareEx1));
+									callback(new Exception("Ошибка при повторном чтении настроек АИН1: " + compareEx1.Message, compareEx1));
 									return;
 								}
 								callback(null);
@@ -113,7 +113,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 						_writeSettingsTimeout,
 						(sendException, replyBytes) => {
 							if (sendException != null) {
-								callback(new Exception("Ошибка отправки команды записи настроек АИН1", sendException));
+								callback(new Exception("Ошибка отправки команды записи настроек АИН1 - нет ответа от BsEthernet", sendException));
 								return;
 							}
 
@@ -124,14 +124,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, (exceptionReRead1, settings1ReReaded) => {
 								if (exceptionReRead1 != null) {
-									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания"));
+									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 									return;
 								}
 								try {
 									settingsForAin1.CompareSettingsAfterReReading(settings1ReReaded, 0);
 								}
 								catch (Exception compareEx1) {
-									callback(new Exception("Ошибка при повторном чтении настроек АИН1", compareEx1));
+									callback(new Exception("Ошибка при повторном чтении настроек АИН1: " + compareEx1.Message, compareEx1));
 									return;
 								}
 
@@ -158,14 +158,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 										// Проверка записи настроек АИН2 путем их повторного чтения
 										_ainSettingsReader.ReadSettingsAsync(1, (exceptionReRead2, settings2ReReaded) => {
 											if (exceptionReRead2 != null) {
-												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания"));
+												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 												return;
 											}
 											try {
 												settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
 											}
 											catch (Exception compareEx2) {
-												callback(new Exception("Ошибка при повторном чтении настроек АИН2", compareEx2));
+												callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
 												return;
 											}
 											callback(null);
@@ -188,7 +188,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 						return;
 					}
 					if (readedAin1Settings.Ain3LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН2 взведен"));
+						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН3 взведен"));
 						return;
 					}
 
@@ -213,14 +213,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, (exceptionReRead1, settings1ReReaded) => {
 								if (exceptionReRead1 != null) {
-									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания"));
+									callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН1 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 									return;
 								}
 								try {
 									settingsForAin1.CompareSettingsAfterReReading(settings1ReReaded, 0);
 								}
 								catch (Exception compareEx1) {
-									callback(new Exception("Ошибка при повторном чтении настроек АИН1", compareEx1));
+									callback(new Exception("Ошибка при повторном чтении настроек АИН1: " + compareEx1.Message, compareEx1));
 									return;
 								}
 
@@ -247,14 +247,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 										// Проверка записи настроек АИН2 путем их повторного чтения
 										_ainSettingsReader.ReadSettingsAsync(1, (exceptionReRead2, settings2ReReaded) => {
 											if (exceptionReRead2 != null) {
-												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания"));
+												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 												return;
 											}
 											try {
 												settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
 											}
 											catch (Exception compareEx2) {
-												callback(new Exception("Ошибка при повторном чтении настроек АИН2", compareEx2));
+												callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
 												return;
 											}
 
@@ -277,14 +277,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 													// Проверка записи настроек АИН3 путем их повторного чтения
 													_ainSettingsReader.ReadSettingsAsync(2, (exceptionReRead3, settings3ReReaded) => {
 														if (exceptionReRead3 != null) {
-															callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН3 путём их повтороного вычитывания"));
+															callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН3 путём их повтороного вычитывания - нет ответа от BsEthernet"));
 															return;
 														}
 														try {
 															settingsForAin3.CompareSettingsAfterReReading(settings3ReReaded, 2);
 														}
 														catch (Exception compareEx3) {
-															callback(new Exception("Ошибка при повторном чтении настроек АИН3", compareEx3));
+															callback(new Exception("Ошибка при повторном чтении настроек АИН3: " + compareEx3.Message, compareEx3));
 															return;
 														}
 														callback(null);
