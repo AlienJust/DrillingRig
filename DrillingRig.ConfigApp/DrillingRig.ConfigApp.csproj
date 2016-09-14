@@ -326,6 +326,10 @@
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
+    <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />
+    <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml.cs">
+      <DependentUpon>OscilloscopeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -564,6 +568,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group20SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
