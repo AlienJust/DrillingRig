@@ -165,6 +165,7 @@
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
       <DependentUpon>CommandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AutoTimeSetter.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>

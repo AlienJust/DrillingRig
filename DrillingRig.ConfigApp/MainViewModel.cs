@@ -82,6 +82,7 @@ namespace DrillingRig.ConfigApp {
 		public IParameterLogger ExternalParamLogger { get; set; }
 
 		private readonly IParameterLogger _relayParamLogger;
+		private AutoTimeSetter _autoTimeSetter;
 		public IParameterLoggerContainer ParamLoggerContainer { get; }
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
@@ -175,7 +176,9 @@ namespace DrillingRig.ConfigApp {
 			var ainSettingsWriter = new AinSettingsWriter(this, this, this, ainSettingsReader);
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
 
+			_autoTimeSetter = new AutoTimeSetter(this, this, this, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
 			_autoSettingsReader = new AutoSettingsReader(this, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
+			
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 				new AinCommandOnlyViewModel(this, this, this, _logger, this, 0),
