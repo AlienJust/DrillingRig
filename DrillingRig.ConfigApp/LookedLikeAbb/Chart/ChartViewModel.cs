@@ -13,18 +13,22 @@ using RPD.SciChartControl;
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 	public class ChartViewModel : ViewModelBase, IParameterLogger {
 		private readonly IUserInterfaceRoot _uiRoot;
+		private readonly List<Color> _colors;
+		//private int _currentColorIndex;
+		private readonly List<Color> _usedColors;
 		private readonly Dictionary<string, PointsSeriesAndAdditionalData> _logs;
-		private readonly Random _colorRandom;
-		private readonly List<Color> _predefinedColors;
+		
+
 		private IUpdatable _updatable;
 
-		public ChartViewModel(IUserInterfaceRoot uiRoot) {
+		public ChartViewModel(IUserInterfaceRoot uiRoot, List<Color> colors) {
 			_uiRoot = uiRoot;
+			_colors = colors;
+			_usedColors = new List<Color>();
+			//_currentColorIndex = 0;
 			_logs = new Dictionary<string, PointsSeriesAndAdditionalData>();
 
-			_colorRandom = new Random();
-			_predefinedColors = new List<Color> { Colors.Red, Colors.Coral, Colors.DeepSkyBlue, Colors.Aquamarine, Colors.DarkTurquoise, Colors.GreenYellow, Colors.HotPink, Colors.Violet};
-
+			
 			AnalogSeries = new ObservableCollection<IChartSeriesViewModel>();
 			DiscreteSeries = new ObservableCollection<IChartSeriesViewModel>();
 
@@ -55,8 +59,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 			if (value.HasValue) {
 				if (!_logs.ContainsKey(parameterName)) {
 					var dataSeries = new XyDataSeries<DateTime, double> { SeriesName = parameterName };
+					var color = _colors.First(c => _usedColors.All(uc => uc != c));
+					_usedColors.Add(color);
+					//var color = _colors[_currentColorIndex];
+					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = color};
+					//_currentColorIndex++;
 
-					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = _predefinedColors[_colorRandom.Next(_predefinedColors.Count)]};
 					var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
 					var metadata = new SeriesAdditionalData(vm);
 
@@ -71,6 +79,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 				//_uiRoot.Notifier.Notify(()=> _logs[parameterName].DataSeries.Append(DateTime.Now, value.Value));
 				_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
 				_updatable?.Update();
+				//Console.WriteLine("CurrentColorIndex=" + _currentColorIndex);
 			}
 		}
 
@@ -80,7 +89,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 				if (!_logs.ContainsKey(parameterName)) {
 					var dataSeries = new XyDataSeries<DateTime, double> { SeriesName = parameterName };
 
-					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = Colors.Red};
+					var color = _colors.First(c => _usedColors.All(uc => uc != c));
+					_usedColors.Add(color);
+					//var color = _colors[_currentColorIndex];
+					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = color};
+					//_currentColorIndex++;
+
 					var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
 					var metadata = new SeriesAdditionalData(vm);
 
@@ -91,6 +105,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 				}
 				_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value ? 1.0 : 0.0);
 				_updatable?.Update();
+				//Console.WriteLine("CurrentColorIndex=" + _currentColorIndex);
 			}
 		}
 
@@ -104,6 +119,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 			var logsToRemove = _logs.Where(log => log.Value.SeriesVm == seriesViewModel).ToList();
 			foreach (var keyValuePair in logsToRemove) {
 				_logs.Remove(keyValuePair.Key);
+				//_currentColorIndex--;
+				_usedColors.Remove(keyValuePair.Value.RenderSeries.SeriesColor);
+				AnalogSeries.Remove(keyValuePair.Value.SeriesVm);
+				DiscreteSeries.Remove(keyValuePair.Value.SeriesVm);
+				//Console.WriteLine("CurrentColorIndex=" + _currentColorIndex);
 			}
 		}
 

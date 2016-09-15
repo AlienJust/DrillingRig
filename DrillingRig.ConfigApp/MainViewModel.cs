@@ -4,8 +4,8 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
+using System.Windows.Media;
 using AlienJust.Adaptation.ConsoleLogger;
-using AlienJust.Adaptation.WindowsPresentation.Converters;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
@@ -28,6 +28,7 @@ using DrillingRig.ConfigApp.NewLook.Archive;
 using DrillingRig.ConfigApp.NewLook.OldLook;
 using DrillingRig.ConfigApp.NewLook.Settings;
 using DrillingRig.ConfigApp.NewLook.Telemetry;
+using Colors = AlienJust.Adaptation.WindowsPresentation.Converters.Colors;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase
@@ -87,8 +88,10 @@ namespace DrillingRig.ConfigApp {
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
-		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem) {
+		public readonly List<Color> _colors;
+		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem, List<Color> colors) {
 			Notifier = notifier;
+			_colors = colors;
 
 			_targetAddress = 1;
 
@@ -165,7 +168,9 @@ namespace DrillingRig.ConfigApp {
 
 
 			// ABB way:
-			ChartControlVm = new ChartViewModel(this);
+			
+
+			ChartControlVm = new ChartViewModel(this, _colors);
 			var paramLogger = new ParameterLoggerRelay(new List<IParameterLogger> { ChartControlVm});
 			_relayParamLogger = paramLogger;
 			ParamLoggerContainer = paramLogger;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media;
@@ -14,6 +15,10 @@ using MahApps.Metro.Controls;
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 	public partial class OscilloscopeWindow : MetroWindow, IParameterLogger {
 		private readonly MainWindow _mainWindow;
+		private readonly List<Color> _colors;
+		private readonly List<Color> _usedColors;
+		//private int _currentColorIndex;
+
 		private Timer _timer;
 		private VerticalLineAnnotation _annotation;
 		private double _linePosition;
@@ -29,8 +34,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private readonly Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>> _namedSeries;
 		private readonly WpfUiNotifierAsync _uiNotifier;
 
-		public OscilloscopeWindow(MainWindow mainWindow) {
+		
+		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
 			_mainWindow = mainWindow;
+			_colors = colors;
+			_usedColors = new List<Color>();
+			//_currentColorIndex = 0;
 			InitializeComponent();
 
 			_namedSeries = new Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>>();
@@ -68,9 +77,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 		}
 
-		private static FastLineRenderableSeries CreateLineSeries() {
+		private static FastLineRenderableSeries CreateLineSeries(Color color) {
 			return new FastLineRenderableSeries() {
-				SeriesColor = Colors.Lime,
+				SeriesColor = color,
 				StrokeThickness = 2,
 				AntiAliasing = true,
 				StrokeDashArray = new double[] { 2, 2 },
@@ -78,7 +87,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private void TimerOnTick(object sender, EventArgs e) {
-			// By nesting multiple updates inside a SuspendUpdates using block, you get one redraw at the end
+			// By nesting multiple updates inside a SuspendUpdates using block, you get one redraw at the end (c) Abt
 			_linePosition += _updateInterval.TotalSeconds;
 
 			_uiNotifier.Notify(() => {
@@ -91,9 +100,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 							namedDataSeries.Value.Item2.Clear();
 						}
 					}
-
 					_annotation.X1 = _linePosition;
-					//_annotation.X2 = _linePosition;
 				}
 			});
 		}
@@ -106,7 +113,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			if (value.HasValue) { 
 				_uiNotifier.Notify(() => {
 					if (!_namedSeries.ContainsKey(parameterName)) {
-						var rs = CreateLineSeries();
+						var color = _colors.First(c => _usedColors.All(uc => uc != c));
+						_usedColors.Add(color);
+						var rs = CreateLineSeries(color);
+
 						var xy = new XyDataSeries<double,double>();
 						rs.DataSeries = xy;
 						_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
@@ -121,7 +131,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			if (value.HasValue) {
 				_uiNotifier.Notify(() => {
 					if (!_namedSeries.ContainsKey(parameterName)) {
-						var rs = CreateLineSeries();
+						var color = _colors.First(c => _usedColors.All(uc => uc != c));
+						_usedColors.Add(color);
+						var rs = CreateLineSeries(color);
+
 						var xy = new XyDataSeries<double, double>();
 						rs.DataSeries = xy;
 						_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
@@ -138,7 +151,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 				_namedSeries.Remove(parameterName);
 
 				Surface.RenderableSeries.Remove(s.Item1);
+				_usedColors.Remove(s.Item1.SeriesColor);
 				s.Item2.Clear();
+				//_currentColorIndex--;
 			}
 		}
 	}
