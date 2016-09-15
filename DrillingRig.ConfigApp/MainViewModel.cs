@@ -153,7 +153,7 @@ namespace DrillingRig.ConfigApp {
 			// циклический опрос
 			_cyclePartsSync = new object();
 			_cycleParts = new List<ICyclePart>();
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
+			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.Lowest, true, null, _debugLogger.GetLogger(0));
 
 			GetPortsAvailable();
 
@@ -261,15 +261,17 @@ namespace DrillingRig.ConfigApp {
 						if (!cyclePart.Cancel) {
 							try {
 								cyclePart.InCycleAction();
-								Thread.Sleep(50);
+								Thread.Sleep(10);
 							}
 							catch {
+								Thread.Sleep(10);
 								continue; /*can show exception in log*/
 							}
 							//finally {
 							//currentCycleActionsCount++;
 							//}
 						}
+						else Thread.Sleep(5);
 					}
 				}
 				//Console.WriteLine("currentCycleActionsCount=" + currentCycleActionsCount);
