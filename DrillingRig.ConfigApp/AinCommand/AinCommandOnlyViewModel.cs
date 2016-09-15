@@ -22,7 +22,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandReset;
 		private readonly RelayCommand _sendAinCommandBits;
 
-		private short _fset;
+		private double _fset;
 		private short _mset;
 		private short _set3;
 		private short _mmin;
@@ -113,7 +113,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		{
 			try {
 				_logger.Log("Подготовка к отправке команды для АИН");
-				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, _fset, _mset, _set3, _mmin, _mmax);
+				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, (short)(_fset * 10), _mset, _set3, _mmin, _mmax);
 				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
@@ -144,7 +144,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
-		public short Fset {
+		public double Fset {
 			get { return _fset; }
 			set {
 				if (_fset != value) {
