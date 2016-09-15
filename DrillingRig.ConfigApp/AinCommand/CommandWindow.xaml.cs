@@ -5,12 +5,15 @@ namespace DrillingRig.ConfigApp.AinCommand {
 	/// Interaction logic for CommandWindow.xaml
 	/// </summary>
 	public partial class CommandWindow : MetroWindow {
-		public CommandWindow() {
+		private readonly MainWindow _mainWindow;
+
+		public CommandWindow(MainWindow mainWindow) {
+			_mainWindow = mainWindow;
 			InitializeComponent();
 		}
 
 		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			e.Cancel = true;
+			_mainWindow.Close();
 		}
 	}
 }

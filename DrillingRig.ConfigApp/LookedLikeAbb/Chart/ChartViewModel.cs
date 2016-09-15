@@ -94,6 +94,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 			}
 		}
 
+		public void RemoveSeries(string parameterName) {
+			if (_logs.ContainsKey(parameterName)) {
+				RemoveSeries(_logs[parameterName].SeriesVm);
+			}
+		}
+
 		public void RemoveSeries(IChartSeriesViewModel seriesViewModel) {
 			var logsToRemove = _logs.Where(log => log.Value.SeriesVm == seriesViewModel).ToList();
 			foreach (var keyValuePair in logsToRemove) {

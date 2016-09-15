@@ -38,6 +38,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanReadonl
 				if (value != _isChecked) {
 					_isChecked = value;
 					RaisePropertyChanged(() => IsChecked);
+					if (!_isChecked) _parameterLogger.RemoveSeries(Name);
 				}
 			}
 		}

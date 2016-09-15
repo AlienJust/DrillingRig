@@ -4,6 +4,7 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry08;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters.AswParameter;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 	class Group08ParametersViewModel : ViewModelBase, ICyclePart {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Abt.Controls.SciChart;
 using AlienJust.Support.ModelViewViewModel;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
@@ -15,7 +11,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			throw new NotImplementedException(); // cannot register, or can?
 		}
 
-		public void RemoveSeries(IChartSeriesViewModel seriesViewModel) {
+		public void RemoveSeries(string parameterName) {
 			throw new NotImplementedException();
 		}
 	}

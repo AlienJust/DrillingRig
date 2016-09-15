@@ -28,7 +28,6 @@ using DrillingRig.ConfigApp.NewLook.Archive;
 using DrillingRig.ConfigApp.NewLook.OldLook;
 using DrillingRig.ConfigApp.NewLook.Settings;
 using DrillingRig.ConfigApp.NewLook.Telemetry;
-using DrillingRig.ConfigApp.Telemetry;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase
@@ -80,6 +79,10 @@ namespace DrillingRig.ConfigApp {
 		private bool _ain3IsUsed;
 
 		public ChartViewModel ChartControlVm { get; set; }
+		public IParameterLogger ExternalParamLogger { get; set; }
+
+		private readonly IParameterLogger _relayParamLogger;
+		public IParameterLoggerContainer ParamLoggerContainer { get; }
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
@@ -162,6 +165,9 @@ namespace DrillingRig.ConfigApp {
 
 			// ABB way:
 			ChartControlVm = new ChartViewModel(this);
+			var paramLogger = new ParameterLoggerRelay(new List<IParameterLogger> { ChartControlVm});
+			_relayParamLogger = paramLogger;
+			ParamLoggerContainer = paramLogger;
 
 			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
@@ -176,11 +182,11 @@ namespace DrillingRig.ConfigApp {
 				new TelemetryCommonViewModel(_logger, _debugLogger), this, this, this, _logger, _debugLogger, this);
 			RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 
-			TelemtryVm = new TelemetryViewModel(this, this, this, _logger, this, this, ChartControlVm);
+			TelemtryVm = new TelemetryViewModel(this, this, this, _logger, this, this, _relayParamLogger);
 			SettingsVm = new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader);
 			ArchiveVm = new ArchivesViewModel(new ArchiveViewModel(this, this, this, _logger, this, 0), new ArchiveViewModel(this, this, this, _logger, this, 1));
 			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
-			OldLookVm = new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, _debugLogger, this, this, ChartControlVm);
+			OldLookVm = new OldLookViewModel(this, windowSystem, this, this, this, this, _logger, _debugLogger, this, this, _relayParamLogger);
 			
 			_ain1StateColor = Colors.Gray;
 			_ain2StateColor = Colors.Gray;

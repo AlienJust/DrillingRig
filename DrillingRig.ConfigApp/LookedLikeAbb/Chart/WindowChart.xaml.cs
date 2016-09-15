@@ -11,15 +11,17 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 	/// Interaction logic for WindowChart.xaml
 	/// </summary>
 	public partial class WindowChart : MetroWindow, IUpdatable {
+		private readonly MainWindow _mainWindow;
 		private readonly IThreadNotifier _uiNotifier;
 		private SciChartSurface _sciChartSurface;
-		public WindowChart() {
+		public WindowChart(MainWindow mainWindow) {
+			_mainWindow = mainWindow;
 			InitializeComponent();
 			_uiNotifier = new WpfUiNotifierAsync(Dispatcher);
 		}
 
 		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			e.Cancel = true;
+			_mainWindow.Close();
 		}
 
 		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {

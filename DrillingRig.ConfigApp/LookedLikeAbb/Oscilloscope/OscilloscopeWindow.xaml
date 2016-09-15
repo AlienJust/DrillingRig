@@ -1,15 +1,16 @@
-﻿<Window x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope.OscilloscopeWindow"
+﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope.OscilloscopeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope"
-        xmlns:visuals="http://schemas.abtsoftware.co.uk/scichart"
+        xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="OscilloscopeWindow" Height="300" Width="300">
+        Title="Простой график" Height="300" Width="500" Loaded="Window_Loaded" Closing="Window_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
 	<Grid>
-		<visuals:SciChartSurface>
-			
-		</visuals:SciChartSurface>
+		<s:SciChartSurface x:Name="Surface"/>
 	</Grid>
-</Window>
+</controls:MetroWindow>
+

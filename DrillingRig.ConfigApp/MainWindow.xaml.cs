@@ -3,6 +3,7 @@ using AlienJust.Adaptation.WindowsPresentation;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
+using DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp
@@ -19,11 +20,16 @@ namespace DrillingRig.ConfigApp
 			var mainViewModel = new MainViewModel(new WpfUiNotifierAsync(Dispatcher), new WpfWindowSystem());
 			DataContext = mainViewModel;
 
-			var cmdWindow = new CommandWindow {DataContext = new CommandWindowViewModel(mainViewModel.AinCommandAndCommonTelemetryVm)};
+			var cmdWindow = new CommandWindow(this) {DataContext = new CommandWindowViewModel(mainViewModel.AinCommandAndCommonTelemetryVm)};
 			cmdWindow.Show();
 
-			var chartWindow = new WindowChart{DataContext = new WindowChartViewModel(mainViewModel.ChartControlVm)};
+			var chartWindow = new WindowChart(this) {DataContext = new WindowChartViewModel(mainViewModel.ChartControlVm)};
 			chartWindow.Show();
+
+			var oscilloscopeWindow = new OscilloscopeWindow(this) { DataContext = new OscilloscopeWindowSciVm()};
+			mainViewModel.ParamLoggerContainer.AddParamLogger(oscilloscopeWindow);
+
+			oscilloscopeWindow.Show();
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly {
 	class ParameterDoubleReadonlyViewModel : ViewModelBase, ICheckableParameter {
 		public string Name { get; }
 		public string Format { get; }
@@ -39,6 +39,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				if (value != _isChecked) {
 					_isChecked = value;
 					RaisePropertyChanged(() => IsChecked);
+					if (!_isChecked) _parameterLogger.RemoveSeries(Name);
 				}
 			}
 		}

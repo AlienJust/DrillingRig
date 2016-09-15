@@ -110,6 +110,10 @@
       <HintPath>..\References\RPD.SciChartControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -326,10 +330,14 @@
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
+    <Compile Include="LookedLikeAbb\IParameterLoggerContainer.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml.cs">
       <DependentUpon>OscilloscopeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowSciVm.cs" />
+    <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowVm.cs" />
+    <Compile Include="LookedLikeAbb\ParameterLoggerRelay.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
