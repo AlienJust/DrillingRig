@@ -5,6 +5,9 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandAndCommonTelemetryViewModel : ViewModelBase, ICyclePart, IAinsLinkControl {

@@ -1,4 +1,5 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 

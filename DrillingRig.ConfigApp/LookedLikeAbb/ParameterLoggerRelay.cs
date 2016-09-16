@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DrillingRig.ConfigApp.AppControl.LoggerHost;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class ParameterLoggerRelay : IParameterLogger, IParameterLoggerContainer {

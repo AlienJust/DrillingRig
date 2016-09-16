@@ -1,4 +1,4 @@
-﻿namespace DrillingRig.ConfigApp.LookedLikeAbb {
+﻿namespace DrillingRig.ConfigApp.AppControl.LoggerHost {
 	public interface IParameterLogger {
 		void LogAnalogueParameter(string parameterName, double? value);
 		void LogDiscreteParameter(string parameterName, bool? value);

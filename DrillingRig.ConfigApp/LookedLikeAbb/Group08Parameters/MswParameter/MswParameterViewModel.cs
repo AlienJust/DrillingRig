@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanReadonly;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 

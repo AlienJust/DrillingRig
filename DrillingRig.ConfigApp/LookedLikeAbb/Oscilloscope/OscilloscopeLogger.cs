@@ -1,5 +1,6 @@
 ﻿using System;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.AppControl.LoggerHost;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 	class OscilloscopeLogger : ViewModelBase, IParameterLogger {

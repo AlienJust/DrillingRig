@@ -7,6 +7,9 @@ using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.SystemControl;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.SystemControl {
 	internal class SystemControlViewModel : ViewModelBase, IDebugInformationShower {

@@ -8,5 +8,19 @@
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         mc:Ignorable="d"
         Title="Команда" Height="360" Width="460" ShowCloseButton="False" IsCloseButtonEnabled="False" ShowMaxRestoreButton="False" IsMaxRestoreButtonEnabled="False" SizeToContent="WidthAndHeight" Closing="MetroWindow_Closing" ResizeMode="CanMinimize" SaveWindowPosition="True">
+	<controls:MetroWindow.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+				<!-- Accent and AppTheme setting -->
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</controls:MetroWindow.Resources>
 	<ainCommand:AinCommandAndCommonTelemetryView DataContext="{Binding Path=AinCommandViewVm, Mode=OneTime}"/>
 </controls:MetroWindow>

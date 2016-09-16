@@ -142,7 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="AppControl\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -165,7 +165,17 @@
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
       <DependentUpon>CommandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
+    <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabledRaisable.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\NotifySendingEnabledThreadSafe.cs" />
+    <Compile Include="AppControl\ParamLogger\IParamLoggerRegistrationPoint.cs" />
+    <Compile Include="AppControl\ParamLogger\ParamLoggerRegistrationPointThreadSafe.cs" />
+    <Compile Include="AppControl\TargetAddressHost\TargetAddressHostThreadSafe.cs" />
+    <Compile Include="AppControl\TargetAddressHost\ITargetAddressHostSettable.cs" />
     <Compile Include="AutoTimeSetter.cs" />
+    <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
+    <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
@@ -306,7 +316,7 @@
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
     <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
     <Compile Include="GridControl.cs" />
-    <Compile Include="INotifySendingEnabled.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabled.cs" />
     <Compile Include="CoolerTelemetry\CoolerTelemetriesView.xaml.cs">
       <DependentUpon>CoolerTelemetriesView.xaml</DependentUpon>
     </Compile>
@@ -330,7 +340,7 @@
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
-    <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
+    <Compile Include="AppControl\LoggerHost\IParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\IParameterLoggerContainer.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml.cs">
@@ -623,7 +633,7 @@
     </Compile>
     <Compile Include="AinTelemetry\AinTelemetriesViewModel.cs" />
     <Compile Include="AinTelemetry\AinTelemetryViewModel.cs" />
-    <Compile Include="App.xaml.cs">
+    <Compile Include="AppControl\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -639,8 +649,8 @@
     <Compile Include="BsEthernetSettings\BsEthernetSettingsViewModel.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsExporter.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsImporter.cs" />
-    <Compile Include="ICommandSenderHost.cs" />
-    <Compile Include="ITargetAddressHost.cs" />
+    <Compile Include="AppControl\CommandSenderHost\ICommandSenderHost.cs" />
+    <Compile Include="AppControl\TargetAddressHost\ITargetAddressHost.cs" />
     <Compile Include="IUserInterfaceRoot.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

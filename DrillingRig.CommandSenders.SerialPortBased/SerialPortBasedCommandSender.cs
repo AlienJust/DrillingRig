@@ -14,7 +14,7 @@ using DrillingRid.Commands.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 
 namespace DrillingRig.CommandSenders.SerialPortBased {
-	public class SerialPortBasedCommandSender : IRrModbusCommandSender, ICommandSenderController {
+	public class SerialPortBasedCommandSender : ICommandSender {
 		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly SerialPort _serialPort;
 		private readonly SerialPortExtender _portExtender;

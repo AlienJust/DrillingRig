@@ -1,6 +1,9 @@
 using System;
 using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.Commands.AinCommand;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp {
 	internal class AutoTimeSetter {

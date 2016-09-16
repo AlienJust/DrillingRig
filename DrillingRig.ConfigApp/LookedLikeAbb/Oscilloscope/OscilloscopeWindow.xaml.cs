@@ -10,6 +10,7 @@ using Abt.Controls.SciChart.Visuals.Annotations;
 using Abt.Controls.SciChart.Visuals.Axes;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Adaptation.WindowsPresentation;
+using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {

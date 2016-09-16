@@ -8,6 +8,7 @@ using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using RPD.SciChartControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {

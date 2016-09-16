@@ -23,12 +23,12 @@
 			<ColumnDefinition/>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="IP address:"/>
+		<TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="IP targetAddress:"/>
 		<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Mask:"/>
 		<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Gateway:"/>
 		<TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="DNS server:"/>
-		<TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="MAC address:"/>
-		<TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Text="Modbus address:"/>
+		<TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="MAC targetAddress:"/>
+		<TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Text="Modbus targetAddress:"/>
 		<TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Text="Drive number:"/>
 		<TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Text="Address CAN:"/>
 		<TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Text="Роль ПЧ:"/>
