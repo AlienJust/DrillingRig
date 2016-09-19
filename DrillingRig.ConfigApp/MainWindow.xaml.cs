@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using AlienJust.Support.Concurrent.Contracts;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp
@@ -8,13 +9,17 @@ namespace DrillingRig.ConfigApp
 	/// </summary>
 	public partial class MainWindow : MetroWindow
 	{
-		public MainWindow()
-		{
+		private readonly IThreadNotifier _appMainThreadNotifier;
+
+		public MainWindow(IThreadNotifier appMainThreadNotifier) {
+			_appMainThreadNotifier = appMainThreadNotifier;
 			InitializeComponent();
 		}
 
 		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			Application.Current.Shutdown();
+			_appMainThreadNotifier.Notify(() => {
+				Application.Current.Shutdown();
+			});
 		}
 	}
 }

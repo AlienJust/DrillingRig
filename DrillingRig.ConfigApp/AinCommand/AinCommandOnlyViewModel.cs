@@ -58,14 +58,16 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		private void SendingEnabledControlOnSendingEnabledChanged(bool isSendingEnabled) {
-			_sendAinCommandOff1.RaiseCanExecuteChanged();
-			_sendAinCommandOff2.RaiseCanExecuteChanged();
-			_sendAinCommandOff3.RaiseCanExecuteChanged();
-			_sendAinCommandRun.RaiseCanExecuteChanged();
-			_sendAinCommandInching1.RaiseCanExecuteChanged();
-			_sendAinCommandInching2.RaiseCanExecuteChanged();
-			_sendAinCommandReset.RaiseCanExecuteChanged();
-			_sendAinCommandBits.RaiseCanExecuteChanged();
+			_userInterfaceRoot.Notifier.Notify(() => {
+				_sendAinCommandOff1.RaiseCanExecuteChanged();
+				_sendAinCommandOff2.RaiseCanExecuteChanged();
+				_sendAinCommandOff3.RaiseCanExecuteChanged();
+				_sendAinCommandRun.RaiseCanExecuteChanged();
+				_sendAinCommandInching1.RaiseCanExecuteChanged();
+				_sendAinCommandInching2.RaiseCanExecuteChanged();
+				_sendAinCommandReset.RaiseCanExecuteChanged();
+				_sendAinCommandBits.RaiseCanExecuteChanged();
+			});
 		}
 
 		private void SendAinCmdOff1() {

@@ -5,14 +5,17 @@ using System.Windows;
 using System.Windows.Media;
 using AlienJust.Adaptation.ConsoleLogger;
 using AlienJust.Adaptation.WindowsPresentation;
-using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
+using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.Text;
 using AlienJust.Support.Text.Contracts;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
@@ -25,11 +28,29 @@ namespace DrillingRig.ConfigApp.AppControl
 		//private MainViewModel _mainViewModel;
 		//private MainWindow _mainWindow;
 		private ManualResetEvent _mainWindowCreationCompleteWaiter;
-		private CommandSenderHostThreadSafe _cmdSenderHost;
-		private TargetAddressHostThreadSafe _targetAddressHost;
+
+		private ICommandSenderHostSettable _cmdSenderHostSettable;
+		private ICommandSenderHost _cmdSenderHost;
+
+		private ITargetAddressHostSettable _targetAddressHostSettable;
+		private ITargetAddressHost _targetAddressHost;
+
 		private RelayMultiLoggerWithStackTraceSimple _debugLogger;
-		private LoggerRegistrationPointThreadSafe _logger;
-		private NotifySendingEnabledThreadSafe _notifySendingEnabled;
+
+		private ILogger _commonLogger;
+		private ILoggerRegistrationPoint _loggerRegPoint;
+
+		private INotifySendingEnabledRaisable _notifySendingEnabledRaisable;
+		private INotifySendingEnabled _notifySendingEnabled;
+
+		private IParameterLogger _commonParamLogger;
+		private IParamLoggerRegistrationPoint _paramLoggerRegPoint;
+
+		private IAinsCounter _ainsCounter;
+		private IAinsCounterRaisable _ainsCounterRaisable;
+
+		private ICycleThreadHolder _cycleThreadHolder;
+
 		private void App_OnStartup(object sender, StartupEventArgs e) {
 			var colors = new List<Color> {
 				Colors.LawnGreen,
@@ -96,19 +117,41 @@ namespace DrillingRig.ConfigApp.AppControl
 						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")));
 
-			_logger = new LoggerRegistrationPointThreadSafe();
+			var loggerAndRegPoint = new LoggerRegistrationPointThreadSafe();
+			_commonLogger = loggerAndRegPoint;
+			_loggerRegPoint = loggerAndRegPoint;
 
+			var paramLoggerAndRegPoint = new ParamLoggerRegistrationPointThreadSafe();
+			_commonParamLogger = paramLoggerAndRegPoint;
+			_paramLoggerRegPoint = paramLoggerAndRegPoint;
+			
 
-			_cmdSenderHost = new CommandSenderHostThreadSafe();
-			_targetAddressHost = new TargetAddressHostThreadSafe(1);
-			_notifySendingEnabled = new NotifySendingEnabledThreadSafe(false);
+			var cmdSenderHost = new CommandSenderHostThreadSafe();
+			_cmdSenderHostSettable = cmdSenderHost;
+			_cmdSenderHost = cmdSenderHost;
+
+			var targetAddressHost = new TargetAddressHostThreadSafe(1);
+			_targetAddressHostSettable = targetAddressHost;
+			_targetAddressHost = targetAddressHost;
+			
+			var notifySendingEnabled = new NotifySendingEnabledThreadSafe(false);
+			_notifySendingEnabledRaisable = notifySendingEnabled;
+			_notifySendingEnabled = notifySendingEnabled;
+
+			var ainsCounter = new AinsCounterThreadSafe(1);
+			_ainsCounterRaisable = ainsCounter;
+			_ainsCounter = ainsCounter;
+
+			var cycleThreadHolder = new CycleThreadHolderThreadSafe(_debugLogger);
 
 			_mainWindowCreationCompleteWaiter = new ManualResetEvent(false);
+			var appThreadNotifier = new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 
 			MainWindow mainWindow = null;
-			Thread mainWindowThread = new Thread(() => {
-				var mainViewModel = new MainViewModel(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher), new WpfWindowSystem(), colors, _cmdSenderHost, _targetAddressHost, _debugLogger, _logger, _notifySendingEnabled);
-				/*var*/ mainWindow = new MainWindow { DataContext = mainViewModel };
+			var mainWindowThread = new Thread(() => {
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var mainViewModel = new MainViewModel(uiRoot, new WpfWindowSystem(), colors, _cmdSenderHostSettable, _targetAddressHost, _debugLogger, _loggerRegPoint, _notifySendingEnabledRaisable, _commonParamLogger, _ainsCounterRaisable, cycleThreadHolder);
+				/*var*/ mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
 
 				_mainWindowCreationCompleteWaiter.Set();
 				mainWindow.Show();
@@ -121,39 +164,44 @@ namespace DrillingRig.ConfigApp.AppControl
 
 			_mainWindowCreationCompleteWaiter.WaitOne();
 
-			Thread cndWindowThread = new Thread(() => {
+			var cmdWindowThread = new Thread(() => {
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
 				var cmdWindow = new CommandWindow(mainWindow) {
 					DataContext = new CommandWindowViewModel(/*_mainViewModel.AinCommandAndCommonTelemetryVm*/
 						new AinCommandAndCommonTelemetryViewModel(
-							new AinCommandOnlyViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _logger, _notifySendingEnabled, 0),
-							new TelemetryCommonViewModel(_logger, _debugLogger),
-							_cmdSenderHost, _targetAddressHost, uiRoot,_logger, _debugLogger, _notifySendingEnabled)
+							new AinCommandOnlyViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0),
+							new TelemetryCommonViewModel(_commonLogger, _debugLogger),
+							_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _debugLogger, _notifySendingEnabled)
 						)
 				};
 				cmdWindow.Show();
 
 				System.Windows.Threading.Dispatcher.Run();
 			});
-			cndWindowThread.SetApartmentState(ApartmentState.STA);
-			cndWindowThread.IsBackground = true;
-			cndWindowThread.Start();
+			cmdWindowThread.SetApartmentState(ApartmentState.STA);
+			cmdWindowThread.IsBackground = true;
+			cmdWindowThread.Start();
 
-			Thread rpdWindowThread = new Thread(() => {
-				var chartWindow = new WindowChart(mainWindow) { DataContext = new WindowChartViewModel(_mainViewModel.ChartControlVm) };
+
+			var rpdWindowThread = new Thread(() => {
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var chartVm = new ChartViewModel(uiRoot, colors);
+				_paramLoggerRegPoint.RegisterLoggegr(chartVm);
+
+				var chartWindow = new WindowChart(mainWindow) { DataContext = new WindowChartViewModel(chartVm) };
 				chartWindow.Show();
 
 				System.Windows.Threading.Dispatcher.Run();
 			});
+
 			rpdWindowThread.SetApartmentState(ApartmentState.STA);
 			rpdWindowThread.IsBackground = true;
 			rpdWindowThread.Start();
 
-			Thread sciWindowThread = new Thread(() => {
+			var sciWindowThread = new Thread(() => {
 				var oscilloscopeWindow = new OscilloscopeWindow(mainWindow, colors) { DataContext = new OscilloscopeWindowSciVm() };
-				_mainViewModel.ParamLoggerContainer.AddParamLogger(oscilloscopeWindow);
+				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
 				oscilloscopeWindow.Show();
-
 				System.Windows.Threading.Dispatcher.Run();
 			});
 			sciWindowThread.SetApartmentState(ApartmentState.STA);
@@ -161,13 +209,5 @@ namespace DrillingRig.ConfigApp.AppControl
 			sciWindowThread.Start();
 			
 		}
-	}
-
-	class SimpleUiRoot : IUserInterfaceRoot {
-		public SimpleUiRoot(IThreadNotifier notifier) {
-			Notifier = notifier;
-		}
-
-		public IThreadNotifier Notifier { get; }
 	}
 }

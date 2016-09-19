@@ -165,12 +165,17 @@
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
       <DependentUpon>CommandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppControl\AinsCounter\AinsCountInSystemHasBeenChangedDelegate.cs" />
+    <Compile Include="AppControl\AinsCounter\IAinsCounterRaisable.cs" />
+    <Compile Include="AppControl\AinsCounter\AinsCounterThreadSafe.cs" />
+    <Compile Include="AppControl\Cycle\CycleThreadHolderThreadSafe.cs" />
     <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
     <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
     <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabledRaisable.cs" />
     <Compile Include="AppControl\NotifySendingEnabled\NotifySendingEnabledThreadSafe.cs" />
     <Compile Include="AppControl\ParamLogger\IParamLoggerRegistrationPoint.cs" />
     <Compile Include="AppControl\ParamLogger\ParamLoggerRegistrationPointThreadSafe.cs" />
+    <Compile Include="AppControl\SimpleUiRoot.cs" />
     <Compile Include="AppControl\TargetAddressHost\TargetAddressHostThreadSafe.cs" />
     <Compile Include="AppControl\TargetAddressHost\ITargetAddressHostSettable.cs" />
     <Compile Include="AutoTimeSetter.cs" />
@@ -304,9 +309,9 @@
     <Compile Include="LookedLikeAbb\Group22SettingsView.xaml.cs">
       <DependentUpon>Group22SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
-    <Compile Include="ICyclePart.cs" />
-    <Compile Include="ICycleThreadHolder.cs" />
+    <Compile Include="AppControl\AinsCounter\IAinsCounter.cs" />
+    <Compile Include="AppControl\Cycle\ICyclePart.cs" />
+    <Compile Include="AppControl\Cycle\ICycleThreadHolder.cs" />
     <Compile Include="IDebugInformationShower.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
@@ -340,15 +345,13 @@
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
-    <Compile Include="AppControl\LoggerHost\IParameterLogger.cs" />
-    <Compile Include="LookedLikeAbb\IParameterLoggerContainer.cs" />
+    <Compile Include="AppControl\ParamLogger\IParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml.cs">
       <DependentUpon>OscilloscopeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowSciVm.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowVm.cs" />
-    <Compile Include="LookedLikeAbb\ParameterLoggerRelay.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -405,7 +408,7 @@
     <Compile Include="RectifierTelemetry\RectifierTelemetryView.xaml.cs">
       <DependentUpon>RectifierTelemetryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SendingEnabledChangedDelegate.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\SendingEnabledChangedDelegate.cs" />
     <Compile Include="ILinkContol.cs" />
     <Compile Include="LookedLikeAbb\Chart\SeriesAdditionalData.cs" />
     <Compile Include="NewLook\Settings\SettingsView.xaml.cs">

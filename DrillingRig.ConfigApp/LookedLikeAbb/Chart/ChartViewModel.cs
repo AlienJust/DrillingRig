@@ -8,7 +8,7 @@ using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using RPD.SciChartControl;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
@@ -26,7 +26,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 			_uiRoot = uiRoot;
 			_colors = colors;
 			_usedColors = new List<Color>();
-			//_currentColorIndex = 0;
 			_logs = new Dictionary<string, PointsSeriesAndAdditionalData>();
 
 			
@@ -57,31 +56,27 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		}
 
 		public void LogAnalogueParameter(string parameterName, double? value) {
-			if (value.HasValue) {
-				if (!_logs.ContainsKey(parameterName)) {
-					var dataSeries = new XyDataSeries<DateTime, double> { SeriesName = parameterName };
-					var color = _colors.First(c => _usedColors.All(uc => uc != c));
-					_usedColors.Add(color);
-					//var color = _colors[_currentColorIndex];
-					var renderSeries = new FastLineRenderableSeries { DataSeries = dataSeries, SeriesColor = color};
-					//_currentColorIndex++;
+			_uiRoot.Notifier.Notify(() => {
+				if (value.HasValue) {
+					if (!_logs.ContainsKey(parameterName)) {
+						var dataSeries = new XyDataSeries<DateTime, double> {SeriesName = parameterName};
+						var color = _colors.First(c => _usedColors.All(uc => uc != c));
+						_usedColors.Add(color);
+						//var color = _colors[_currentColorIndex];
+						var renderSeries = new FastLineRenderableSeries {DataSeries = dataSeries, SeriesColor = color};
+						//_currentColorIndex++;
 
-					var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
-					var metadata = new SeriesAdditionalData(vm);
+						var vm = new ChartSeriesViewModel(dataSeries, renderSeries);
+						var metadata = new SeriesAdditionalData(vm);
 
-					AnalogSeries.Add(vm);
-					AnalogSeriesAdditionalData.Add(metadata);
-
-					//uiRoot.Notifier.Notify(() => AnalogSeries.Add(vm));
-					//uiRoot.Notifier.Notify(() => AnalogSeriesAdditionalData.Add(metadata));
-
-					_logs.Add(parameterName, new PointsSeriesAndAdditionalData(vm, metadata, dataSeries, renderSeries));
+						AnalogSeries.Add(vm);
+						AnalogSeriesAdditionalData.Add(metadata);
+						_logs.Add(parameterName, new PointsSeriesAndAdditionalData(vm, metadata, dataSeries, renderSeries));
+					}
+					_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
+					_updatable?.Update();
 				}
-				//_uiRoot.Notifier.Notify(()=> _logs[parameterName].DataSeries.Append(DateTime.Now, value.Value));
-				_logs[parameterName].DataSeries.Append(DateTime.Now, value.Value);
-				_updatable?.Update();
-				//Console.WriteLine("CurrentColorIndex=" + _currentColorIndex);
-			}
+			});
 		}
 
 

@@ -1,8 +1,6 @@
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.AppControl.AinsCounter {
 	internal interface IAinsCounter {
 		int SelectedAinsCount { get; }
 		event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
 	}
-
-	delegate void AinsCountInSystemHasBeenChangedDelegate();
 }

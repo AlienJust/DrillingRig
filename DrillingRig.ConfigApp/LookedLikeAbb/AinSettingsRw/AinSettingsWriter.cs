@@ -1,5 +1,6 @@
 using System;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 

@@ -6,7 +6,7 @@ namespace DrillingRig.ConfigApp.AppControl.NotifySendingEnabled {
 
 		public NotifySendingEnabledThreadSafe(bool isSendingEnabled) {
 			_isSendingEnabledSync = new object();
-			_isSendingEnabled = isSendingEnabled
+			_isSendingEnabled = isSendingEnabled;
 		}
 
 		public bool IsSendingEnabled

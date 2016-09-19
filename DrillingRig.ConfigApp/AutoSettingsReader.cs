@@ -1,4 +1,5 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
@@ -20,7 +21,7 @@ namespace DrillingRig.ConfigApp {
 			_sendingEnabledNotifier.SendingEnabledChanged += SendingEnabledNotifierOnSendingEnabledChanged; // TODO: unsubscribe on app quit
 		}
 
-		private void AinsCounterOnAinsCountInSystemHasBeenChanged() {
+		private void AinsCounterOnAinsCountInSystemHasBeenChanged(int ainsCounter) {
 			ReadSettings(_sendingEnabledNotifier.IsSendingEnabled);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanReadonly {
 	class ParameterBooleanReadonlyViewModel : ViewModelBase, ICheckableParameter {

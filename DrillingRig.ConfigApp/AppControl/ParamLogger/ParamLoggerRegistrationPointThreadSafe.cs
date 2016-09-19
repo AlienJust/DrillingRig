@@ -1,26 +1,42 @@
 using System.Collections.Generic;
-using AlienJust.Support.Loggers.Contracts;
 
-namespace DrillingRig.ConfigApp.AppControl.LoggerHost {
-	class LoggerRegistrationPointThreadSafe : ILoggerRegistrationPoint, ILogger {
-		private readonly List<ILogger> _registredLoggers;
+namespace DrillingRig.ConfigApp.AppControl.ParamLogger {
+	class ParamLoggerRegistrationPointThreadSafe : IParamLoggerRegistrationPoint, IParameterLogger {
+		private readonly List<IParameterLogger> _registredLoggers;
 		private readonly object _syncLoggers;
 
-		public LoggerRegistrationPointThreadSafe() {
-			_registredLoggers = new List<ILogger>();
+		public ParamLoggerRegistrationPointThreadSafe() {
+			_registredLoggers = new List<IParameterLogger>();
 			_syncLoggers = new object();
 		}
 
-		public void RegisterLoggegr(ILogger logger) {
+		public void RegisterLoggegr(IParameterLogger logger) {
 			lock (_syncLoggers) {
 				_registredLoggers.Add(logger);
 			}
 		}
 
-		public void Log(object obj) {
+
+		public void LogAnalogueParameter(string parameterName, double? value) {
 			lock (_syncLoggers) {
 				foreach (var logger in _registredLoggers) {
-					logger.Log(obj);
+					logger.LogAnalogueParameter(parameterName, value);
+				}
+			}
+		}
+
+		public void LogDiscreteParameter(string parameterName, bool? value) {
+			lock (_syncLoggers) {
+				foreach (var logger in _registredLoggers) {
+					logger.LogDiscreteParameter(parameterName, value);
+				}
+			}
+		}
+
+		public void RemoveSeries(string parameterName) {
+			lock (_syncLoggers) {
+				foreach (var logger in _registredLoggers) {
+					logger.RemoveSeries(parameterName);
 				}
 			}
 		}

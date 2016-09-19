@@ -5,25 +5,25 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Windows.Media;
-using AlienJust.Adaptation.ConsoleLogger;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.Text;
-using AlienJust.Support.Text.Contracts;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.CommandSenders.SerialPortBased;
 using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.Logs;
-using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.MnemonicCheme;
@@ -34,13 +34,7 @@ using DrillingRig.ConfigApp.NewLook.Telemetry;
 using Colors = AlienJust.Adaptation.WindowsPresentation.Converters.Colors;
 
 namespace DrillingRig.ConfigApp {
-	internal class MainViewModel : ViewModelBase
-		, IUserInterfaceRoot
-		, ILinkContol
-		, ICycleThreadHolder
-		, IAinsCounter /*, IAinsLinkControlViewModel*/ {
-		public IThreadNotifier Notifier { get; }
-
+	internal class MainViewModel : ViewModelBase, ILinkContol {
 		private const string TestComPortName = "ТЕСТ";
 
 		private List<string> _comPortsAvailable;
@@ -63,11 +57,7 @@ namespace DrillingRig.ConfigApp {
 		private readonly ILoggerRegistrationPoint _loggerRegistrationPoint;
 		private readonly INotifySendingEnabledRaisable _notifySendingEnabled;
 
-		private readonly object _cyclePartsSync;
-		private readonly List<ICyclePart> _cycleParts;
-		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
-
-		private int _selectedAinsCount;
+		
 
 		private readonly AutoSettingsReader _autoSettingsReader;
 		private Colors _ain1StateColor;
@@ -80,17 +70,20 @@ namespace DrillingRig.ConfigApp {
 		public ChartViewModel ChartControlVm { get; set; }
 		public IParameterLogger ExternalParamLogger { get; set; }
 
-		private readonly IParameterLogger _relayParamLogger;
+		private readonly IParameterLogger _paramLogger;
+		private readonly IAinsCounterRaisable _ainsCounterRaisable;
+		private readonly ICycleThreadHolder _cycleThreadHolder;
+
 		private AutoTimeSetter _autoTimeSetter;
-		public IParameterLoggerContainer ParamLoggerContainer { get; }
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
+		private readonly IUserInterfaceRoot _uiRoot;
 		public readonly List<Color> _colors;
 		
 
-		public MainViewModel(IThreadNotifier notifier, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled) {
-			Notifier = notifier;
+		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder) {
+			_uiRoot = uiRoot;
 			_colors = colors;
 
 			_commandSenderHostSettable = commandSenderHostSettable;
@@ -104,54 +97,48 @@ namespace DrillingRig.ConfigApp {
 			_loggerRegistrationPoint = loggerRegistrationPoint;
 			_notifySendingEnabled = notifySendingEnabled;
 
-			_programLogVm = new ProgramLogViewModel(this, _debugLogger);
+			_programLogVm = new ProgramLogViewModel(_uiRoot, _debugLogger);
 			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
 			_loggerRegistrationPoint.RegisterLoggegr(_logger);
 
-			// циклический опрос
-			_cyclePartsSync = new object();
-			_cycleParts = new List<ICyclePart>();
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.Lowest, true, null, _debugLogger.GetLogger(0));
-
 			GetPortsAvailable();
-
-			// Блоки АИН в системе:
-			AinsCountInSystem = new List<int> { 1, 2, 3 };
-			SelectedAinsCount = AinsCountInSystem.First();
-			
 
 			_openPortCommand = new RelayCommand(OpenPort, () => !_isPortOpened);
 			_closePortCommand = new RelayCommand(ClosePort, () => _isPortOpened);
 			GetPortsAvailableCommand = new RelayCommand(GetPortsAvailable);
 
+			_paramLogger = paramLogger;
 
-			// ABB way:
-			
-			ChartControlVm = new ChartViewModel(this, _colors);
-			var paramLogger = new ParameterLoggerRelay(new List<IParameterLogger> { ChartControlVm});
-			_relayParamLogger = paramLogger;
-			ParamLoggerContainer = paramLogger;
+
+			_ainsCounterRaisable = ainsCounterRaisable;
+			_cycleThreadHolder = cycleThreadHolder;
+			// Блоки АИН в системе:
+			AinsCountInSystem = new List<int> { 1, 2, 3 };
+			SelectedAinsCount = AinsCountInSystem.First();
 
 			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
 			var ainSettingsReader = new AinSettingsReader(_commandSenderHost, _targetAddressHost, _logger);
-			var ainSettingsWriter = new AinSettingsWriter(_commandSenderHost, _targetAddressHost, this, ainSettingsReader);
+			var ainSettingsWriter = new AinSettingsWriter(_commandSenderHost, _targetAddressHost, _ainsCounterRaisable, ainSettingsReader);
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
 
-			_autoTimeSetter = new AutoTimeSetter(_commandSenderHostSettable, _notifySendingEnabled, _targetAddressHost, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
-			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, this, ainSettingsReader, _logger); // TODO: can I convert it to local variable (woudn't it be GCed)?
-			
+			_autoTimeSetter = new AutoTimeSetter(_commandSenderHostSettable, _notifySendingEnabled, _targetAddressHost, _logger); // TODO: Move to App.cs code file0
+			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, ainSettingsReader, _logger); // TODO: Move to App.cs code file
+
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
-				new AinCommandOnlyViewModel(_commandSenderHost, _targetAddressHost, this, _logger, _notifySendingEnabled, 0),
-				new TelemetryCommonViewModel(_logger, _debugLogger), _commandSenderHost, _targetAddressHost, this, _logger, _debugLogger, _notifySendingEnabled);
-			RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
+				new AinCommandOnlyViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0),
+				new TelemetryCommonViewModel(_logger, _debugLogger), _commandSenderHost, _targetAddressHost, _uiRoot, _logger, _debugLogger, _notifySendingEnabled);
 
-			TelemtryVm = new TelemetryViewModel(this, _commandSenderHost, _targetAddressHost, _logger, this, this, _relayParamLogger);
-			SettingsVm = new SettingsViewModel(this, _logger, ainSettingsReadedWriter, ainSettingsReader);
-			ArchiveVm = new ArchivesViewModel(new ArchiveViewModel(_commandSenderHost, _targetAddressHost, this, _logger, _notifySendingEnabled, 0), new ArchiveViewModel(_commandSenderHost, _targetAddressHost, this, _logger, _notifySendingEnabled, 1));
+			_cycleThreadHolder.RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
+
+			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
+			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, ainSettingsReader);
+			ArchiveVm = new ArchivesViewModel(
+				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0), 
+				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 1));
 			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
-			OldLookVm = new OldLookViewModel(this, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, this, this, _relayParamLogger);
+			OldLookVm = new OldLookViewModel(_uiRoot, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
 			
 			_ain1StateColor = Colors.Gray;
 			_ain2StateColor = Colors.Gray;
@@ -161,8 +148,8 @@ namespace DrillingRig.ConfigApp {
 			_ain2IsUsed = false;
 			_ain3IsUsed = false;
 
-			AinsCountInSystemHasBeenChanged += () => {
-				switch (SelectedAinsCount) {
+			_ainsCounterRaisable.AinsCountInSystemHasBeenChanged += ainsCount => {
+				switch (ainsCount) {
 					case 1:
 						Ain1IsUsed = true;
 						Ain2IsUsed = false;
@@ -196,7 +183,7 @@ namespace DrillingRig.ConfigApp {
 				Ain3StateColor = Colors.Gray;
 			};
 
-			_backWorker.AddWork(CycleWork);
+			
 			_logger.Log("Программа загружена");
 		}
 
@@ -211,24 +198,7 @@ namespace DrillingRig.ConfigApp {
 		public TelemetryViewModel TelemtryVm { get; }
 
 
-		private void CycleWork() {
-			while (true) {
-				lock (_cyclePartsSync) {
-					foreach (var cyclePart in _cycleParts) {
-						if (!cyclePart.Cancel) {
-							try {
-								cyclePart.InCycleAction();
-								Thread.Sleep(10);
-							}
-							catch {
-								Thread.Sleep(10);
-							}
-						}
-						else Thread.Sleep(5);
-					}
-				}
-			}
-		}
+		
 
 		private void ClosePort() {
 			try {
@@ -257,7 +227,7 @@ namespace DrillingRig.ConfigApp {
 
 				if (_selectedComName == TestComPortName)
 				{
-					var sender = new NothingBasedCommandSender(_debugLogger, Notifier);
+					var sender = new NothingBasedCommandSender(_debugLogger, _uiRoot.Notifier);
 					_commandSenderHostSettable.SetCommandSender(sender);
 
 				}
@@ -272,7 +242,7 @@ namespace DrillingRig.ConfigApp {
 				_closePortCommand.RaiseCanExecuteChanged();
 				_logger.Log("Порт " + _selectedComName + " открыт");
 
-				_notifySendingEnabled.SetIsSendingEnabledAndRaiseChange(false);
+				_notifySendingEnabled.SetIsSendingEnabledAndRaiseChange(true);
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось открыть порт " + _selectedComName + ". " + ex.Message);
@@ -319,28 +289,18 @@ namespace DrillingRig.ConfigApp {
 			ClosePort();
 		}
 
-		public void RegisterAsCyclePart(ICyclePart part) {
-			lock (_cyclePartsSync) {
-				_cycleParts.Add(part);
-			}
-		}
+		
 
 		public List<int> AinsCountInSystem { get; }
 
 		public int SelectedAinsCount {
-			get { return _selectedAinsCount; }
+			get { return _ainsCounterRaisable.SelectedAinsCount; }
 			set {
 				if (value != 1 && value != 2 && value != 3) throw new ArgumentOutOfRangeException("Поддерживаемое число блоков АИН в системе может быть только 1, 2 или 3, получено ошибочное число: " + value);
-				if (value != _selectedAinsCount) {
-					_selectedAinsCount = value;
-					RaisePropertyChanged(() => SelectedAinsCount);
-					var evnt = AinsCountInSystemHasBeenChanged;
-					evnt?.Invoke();
-				}
+				_ainsCounterRaisable.SetAinsCountAndRaiseChange(value);
+				RaisePropertyChanged(() => SelectedAinsCount);
 			}
 		}
-
-		public event AinsCountInSystemHasBeenChangedDelegate AinsCountInSystemHasBeenChanged;
 
 		public Colors Ain1StateColor {
 			get { return _ain1StateColor; }

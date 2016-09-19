@@ -11,6 +11,7 @@ using Abt.Controls.SciChart.Visuals.Axes;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Adaptation.WindowsPresentation;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
