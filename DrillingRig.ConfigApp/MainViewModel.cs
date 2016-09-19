@@ -17,6 +17,7 @@ using DrillingRig.CommandSenders.TestCommandSender;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
@@ -73,6 +74,9 @@ namespace DrillingRig.ConfigApp {
 		private readonly IParameterLogger _paramLogger;
 		private readonly IAinsCounterRaisable _ainsCounterRaisable;
 		private readonly ICycleThreadHolder _cycleThreadHolder;
+		private readonly IAinSettingsReader _ainSettingsReader;
+		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
+		private readonly IAinSettingsWriter _ainSettingsWriter;
 
 		private AutoTimeSetter _autoTimeSetter;
 
@@ -82,7 +86,7 @@ namespace DrillingRig.ConfigApp {
 		public readonly List<Color> _colors;
 		
 
-		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder) {
+		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter) {
 			_uiRoot = uiRoot;
 			_colors = colors;
 
@@ -112,18 +116,17 @@ namespace DrillingRig.ConfigApp {
 
 			_ainsCounterRaisable = ainsCounterRaisable;
 			_cycleThreadHolder = cycleThreadHolder;
+			_ainSettingsReader = ainSettingsReader;
+			_ainSettingsReadNotify = ainSettingsReadNotify;
+			_ainSettingsWriter = ainSettingsWriter;
 			// Блоки АИН в системе:
 			AinsCountInSystem = new List<int> { 1, 2, 3 };
 			SelectedAinsCount = AinsCountInSystem.First();
 
 			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
 
-			var ainSettingsReader = new AinSettingsReader(_commandSenderHost, _targetAddressHost, _logger);
-			var ainSettingsWriter = new AinSettingsWriter(_commandSenderHost, _targetAddressHost, _ainsCounterRaisable, ainSettingsReader);
-			var ainSettingsReadedWriter = new AinSettingsReaderWriter(ainSettingsReader, ainSettingsWriter);
-
-			_autoTimeSetter = new AutoTimeSetter(_commandSenderHostSettable, _notifySendingEnabled, _targetAddressHost, _logger); // TODO: Move to App.cs code file0
-			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, ainSettingsReader, _logger); // TODO: Move to App.cs code file
+			
+			var ainSettingsReadedWriter = new AinSettingsReaderWriter(_ainSettingsReader, _ainSettingsWriter);
 
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
@@ -133,10 +136,12 @@ namespace DrillingRig.ConfigApp {
 			_cycleThreadHolder.RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 
 			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
-			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, ainSettingsReader);
+			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify);
+
 			ArchiveVm = new ArchivesViewModel(
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0), 
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 1));
+
 			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
 			OldLookVm = new OldLookViewModel(_uiRoot, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
 			
@@ -289,7 +294,6 @@ namespace DrillingRig.ConfigApp {
 			ClosePort();
 		}
 
-		
 
 		public List<int> AinsCountInSystem { get; }
 

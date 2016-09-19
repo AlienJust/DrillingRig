@@ -1,4 +1,4 @@
-﻿namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+﻿namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 	/// <summary>
 	/// Сообщает о том, что настройки были прочитаны
 	/// </summary>

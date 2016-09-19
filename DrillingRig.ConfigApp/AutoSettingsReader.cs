@@ -1,8 +1,7 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
-using DrillingRig.ConfigApp.LookedLikeAbb;
-using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp {
 	class AutoSettingsReader {

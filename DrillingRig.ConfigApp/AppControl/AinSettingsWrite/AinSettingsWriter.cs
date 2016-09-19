@@ -1,6 +1,7 @@
 using System;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
@@ -138,6 +139,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 									return;
 								}
 
+								// TODO: read ain2 settings, then modify it from p
 								var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
 								settingsForAin2.ModifyFromPart(settingsPart);
 								settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,11 занулены, ведомый 1

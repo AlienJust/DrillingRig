@@ -3,8 +3,9 @@ using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;

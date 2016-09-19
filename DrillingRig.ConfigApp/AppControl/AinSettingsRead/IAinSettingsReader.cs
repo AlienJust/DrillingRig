@@ -1,7 +1,7 @@
 ﻿using System;
 using DrillingRig.Commands.AinSettings;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 	/// <summary>
 	/// Интерфейс чтения и настроек АИН
 	/// </summary>
