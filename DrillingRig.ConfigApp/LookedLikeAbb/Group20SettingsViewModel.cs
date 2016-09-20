@@ -74,7 +74,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadSettings() {
 			// TODO: remove method from each group
 			try {
-				_readerWriter.ReadSettingsAsync(0, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
+				_readerWriter.ReadSettingsAsync(0, true, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);

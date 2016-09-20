@@ -404,7 +404,7 @@
       <DependentUpon>OldLookView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\OldLook\OldLookViewModel.cs" />
-    <Compile Include="AutoSettingsReader.cs" />
+    <Compile Include="AppControl\AinSettingsRead\AutoSettingsReader.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">

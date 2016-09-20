@@ -13,6 +13,8 @@ using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
+using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
@@ -60,8 +62,10 @@ namespace DrillingRig.ConfigApp.AppControl
 		private AutoTimeSetter _autoTimeSetter;
 		private AutoSettingsReader _autoSettingsReader;
 
-		
-		
+		private IAinSettingsStorage _ainSettingsStorage;
+		private IAinSettingsStorageSettable _ainSettingsStorageSettable;
+		private IAinSettingsStorageUpdatedNotify _ainSettingsStorageUpdatedNotify;
+
 
 		private void App_OnStartup(object sender, StartupEventArgs e) {
 			var colors = new List<Color> {
@@ -156,7 +160,12 @@ namespace DrillingRig.ConfigApp.AppControl
 
 			_cycleThreadHolder = new CycleThreadHolderThreadSafe(_debugLogger);
 
-			var ainSettingsReader = new AinSettingsReader(_cmdSenderHost, _targetAddressHost, _commonLogger);
+			var ainSettingsStorage = new AinSettingsStorageThreadSafe();
+			_ainSettingsStorage = ainSettingsStorage;
+			_ainSettingsStorageSettable = ainSettingsStorage;
+			_ainSettingsStorageUpdatedNotify = ainSettingsStorage;
+
+			var ainSettingsReader = new AinSettingsReader(_cmdSenderHost, _targetAddressHost, _commonLogger, _ainSettingsStorageSettable, _debugLogger);
 			_ainSettingsReader = ainSettingsReader;
 			_ainSettingsReadNotify = ainSettingsReader;
 

@@ -69,7 +69,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-				_readerWriter.ReadSettingsAsync(0, (exception, settings) => { });
+				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
