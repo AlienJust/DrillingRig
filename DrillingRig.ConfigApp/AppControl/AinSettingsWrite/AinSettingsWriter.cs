@@ -140,43 +140,52 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-								// TODO: read ain2 settings, then modify it from p
-								var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
-								settingsForAin2.ModifyFromPart(settingsPart);
-								settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,11 занулены, ведомый 1
-								settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0500); // биты 8,10 взведены,, ведомый 1
+								// Читаем настройки АИН №2 перед записью (из хранилища, или нет - неважно)
+								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
+									if (readSettings2Exception != null) {
+										callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings2Exception));
+										return;
+									}
 
-								var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
-								sender.SendCommandAsync(
-									_targerAddressHost.TargetAddress,
-									writeAin2SettingsCmd,
-									_writeSettingsTimeout,
-									(sendException2, replyBytes2) => {
-										if (sendException2 != null) {
-											callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
-											return;
-										}
+									var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
+									settingsForAin2.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
+									settingsForAin2.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin2Settings.Ia0, Ib0 = readedAin2Settings.Ib0, Ic0 = readedAin2Settings.Ic0, Udc0 = readedAin2Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
 
-										// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
-										// а затем БС-Ethernet успел их вычитать из АИН.
-										System.Threading.Thread.Sleep(300);
+									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,11 занулены, ведомый 1
+									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0500); // биты 8,10 взведены,, ведомый 1
 
-										// Проверка записи настроек АИН2 путем их повторного чтения
-										_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
-											if (exceptionReRead2 != null) {
-												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
+									var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
+									sender.SendCommandAsync(
+										_targerAddressHost.TargetAddress,
+										writeAin2SettingsCmd,
+										_writeSettingsTimeout,
+										(sendException2, replyBytes2) => {
+											if (sendException2 != null) {
+												callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
 												return;
 											}
-											try {
-												settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
-											}
-											catch (Exception compareEx2) {
-												callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
-												return;
-											}
-											callback(null);
+
+											// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+											// а затем БС-Ethernet успел их вычитать из АИН.
+											System.Threading.Thread.Sleep(300);
+
+											// Проверка записи настроек АИН2 путем их повторного чтения
+											_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
+												if (exceptionReRead2 != null) {
+													callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
+													return;
+												}
+												try {
+													settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
+												}
+												catch (Exception compareEx2) {
+													callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
+													return;
+												}
+												callback(null);
+											});
 										});
-									});
+								});
 							});
 						});
 				}
@@ -230,74 +239,91 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-								var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
-								settingsForAin2.ModifyFromPart(settingsPart);
-								settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,10 занулены, ведомый 1
-								settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0900); // биты 8,11 взведены, ведомый 1
+								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
+									if (readSettings2Exception != null) {
+										callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings2Exception));
+										return;
+									}
 
-								var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
-								sender.SendCommandAsync(
-									_targerAddressHost.TargetAddress,
-									writeAin2SettingsCmd,
-									_writeSettingsTimeout,
-									(sendException2, replyBytes2) => {
-										if (sendException2 != null) {
-											callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
-											return;
-										}
+									var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
+									settingsForAin2.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
+									settingsForAin2.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin2Settings.Ia0, Ib0 = readedAin2Settings.Ib0, Ic0 = readedAin2Settings.Ic0, Udc0 = readedAin2Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
+									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,10 занулены, ведомый 1
+									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0900); // биты 8,11 взведены, ведомый 1
 
-										// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
-										// а затем БС-Ethernet успел их вычитать из АИН.
-										System.Threading.Thread.Sleep(300);
-
-										// Проверка записи настроек АИН2 путем их повторного чтения
-										_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
-											if (exceptionReRead2 != null) {
-												callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
-												return;
-											}
-											try {
-												settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
-											}
-											catch (Exception compareEx2) {
-												callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
+									var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
+									sender.SendCommandAsync(
+										_targerAddressHost.TargetAddress,
+										writeAin2SettingsCmd,
+										_writeSettingsTimeout,
+										(sendException2, replyBytes2) => {
+											if (sendException2 != null) {
+												callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
 												return;
 											}
 
-											var settingsForAin3 = new AinSettingsWritable(readedAin1Settings);
-											settingsForAin3.ModifyFromPart(settingsPart);
-											settingsForAin3.Imcw = (short)(settingsForAin3.Imcw & 0xF0FF); // биты 8,10 занулены, ведомый 2
-											settingsForAin3.Imcw = (short)(settingsForAin3.Imcw | 0x0A00); // биты 9,11 взведены, ведомый 2
+											// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+											// а затем БС-Ethernet успел их вычитать из АИН.
+											System.Threading.Thread.Sleep(300);
 
-											var writeAin3SettingsCmd = new WriteAinSettingsCommand(2, settingsForAin3);
-											sender.SendCommandAsync(
-												_targerAddressHost.TargetAddress,
-												writeAin3SettingsCmd,
-												_writeSettingsTimeout,
-												(sendException3, replyBytes3) => {
+											// Проверка записи настроек АИН2 путем их повторного чтения
+											_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
+												if (exceptionReRead2 != null) {
+													callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
+													return;
+												}
+												try {
+													settingsForAin2.CompareSettingsAfterReReading(settings2ReReaded, 1);
+												}
+												catch (Exception compareEx2) {
+													callback(new Exception("Ошибка при повторном чтении настроек АИН2: " + compareEx2.Message, compareEx2));
+													return;
+												}
 
-													// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
-													// а затем БС-Ethernet успел их вычитать из АИН.
-													System.Threading.Thread.Sleep(300);
 
-													// Проверка записи настроек АИН3 путем их повторного чтения
-													_ainSettingsReader.ReadSettingsAsync(2, true, (exceptionReRead3, settings3ReReaded) => {
-														if (exceptionReRead3 != null) {
-															callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН3 путём их повтороного вычитывания - нет ответа от BsEthernet"));
-															return;
-														}
-														try {
-															settingsForAin3.CompareSettingsAfterReReading(settings3ReReaded, 2);
-														}
-														catch (Exception compareEx3) {
-															callback(new Exception("Ошибка при повторном чтении настроек АИН3: " + compareEx3.Message, compareEx3));
-															return;
-														}
-														callback(null);
-													});
+												_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings3Exception, readedAin3Settings) => {
+													if (readSettings3Exception != null) {
+														callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings2Exception));
+														return;
+													}
+
+													var settingsForAin3 = new AinSettingsWritable(readedAin1Settings);
+													settingsForAin3.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
+													settingsForAin3.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin3Settings.Ia0, Ib0 = readedAin3Settings.Ib0, Ic0 = readedAin3Settings.Ic0, Udc0 = readedAin3Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
+													settingsForAin3.Imcw = (short)(settingsForAin3.Imcw & 0xF0FF); // биты 8,10 занулены, ведомый 2
+													settingsForAin3.Imcw = (short)(settingsForAin3.Imcw | 0x0A00); // биты 9,11 взведены, ведомый 2
+
+													var writeAin3SettingsCmd = new WriteAinSettingsCommand(2, settingsForAin3);
+													sender.SendCommandAsync(
+														_targerAddressHost.TargetAddress,
+														writeAin3SettingsCmd,
+														_writeSettingsTimeout,
+														(sendException3, replyBytes3) => {
+
+															// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+															// а затем БС-Ethernet успел их вычитать из АИН.
+															System.Threading.Thread.Sleep(300);
+
+															// Проверка записи настроек АИН3 путем их повторного чтения
+															_ainSettingsReader.ReadSettingsAsync(2, true, (exceptionReRead3, settings3ReReaded) => {
+																if (exceptionReRead3 != null) {
+																	callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН3 путём их повтороного вычитывания - нет ответа от BsEthernet"));
+																	return;
+																}
+																try {
+																	settingsForAin3.CompareSettingsAfterReReading(settings3ReReaded, 2);
+																}
+																catch (Exception compareEx3) {
+																	callback(new Exception("Ошибка при повторном чтении настроек АИН3: " + compareEx3.Message, compareEx3));
+																	return;
+																}
+																callback(null);
+															});
+														});
 												});
+											});
 										});
-									});
+								});
 							});
 						});
 				}

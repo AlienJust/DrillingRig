@@ -36,7 +36,10 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 
 			if (forceRead == false) {
 				var settings = _ainSettingsStorageSettable.GetSettings(zeroBasedAinNumber);
-				if (settings != null) _notifyWorker.AddWork(() => callback.Invoke(null, settings));
+				if (settings != null) {
+					_notifyWorker.AddWork(() => callback.Invoke(null, settings));
+					return;
+				}
 			}
 			var sender = _commandSenderHost.Sender;
 			if (sender == null) throw new NullReferenceException("Порт передачи данных не открыт");

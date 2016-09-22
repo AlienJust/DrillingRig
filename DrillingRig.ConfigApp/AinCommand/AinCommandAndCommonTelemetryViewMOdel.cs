@@ -79,7 +79,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							Ain3LinkError = null;
 							RaiseAinsLinkInformationHasBeenUpdated();
 
-							_logger.Log("Ошибка: " + ex.Message);
+							_debugLogger.GetLogger(4).Log("Ошибка: " + ex.Message, new StackTrace(Thread.CurrentThread, true));
 						});
 						_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
 					}

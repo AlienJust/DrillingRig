@@ -174,6 +174,23 @@ namespace DrillingRig.ConfigApp.AppControl
 			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _commonLogger);
 
 
+			
+			// обнуление хранилища настроек при отключении
+			_notifySendingEnabled.SendingEnabledChanged += enabled => {
+				if (!enabled) {
+					for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i)
+						_ainSettingsStorageSettable.SetSettings(i, null);
+				}
+			};
+			// обнуление хранилища настроек при изменении числа АИНов
+			_ainsCounter.AinsCountInSystemHasBeenChanged += count => {
+				for (byte i = (byte)count; i < 3; ++i) {
+					_ainSettingsStorageSettable.SetSettings(i, null);
+				}
+			};
+
+
+
 			_mainWindowCreationCompleteWaiter = new ManualResetEvent(false);
 			var appThreadNotifier = new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 			
@@ -196,7 +213,7 @@ namespace DrillingRig.ConfigApp.AppControl
 					_cycleThreadHolder, 
 					_ainSettingsReader, 
 					_ainSettingsReadNotify, 
-					_ainSettingsWriter);
+					_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
 
 				/*var*/ mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
 
