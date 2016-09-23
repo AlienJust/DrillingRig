@@ -57,10 +57,6 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 				if (ainsCountToWriteSettings == 1) {
 					// Когда в системе один блок АИН
 					// TODO: проверить наличие связи с АИН1
-					/*if (readedAin1Settings.Ain1LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
-						return;
-					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,10 и 11 занулены, одиночая работа
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
@@ -97,23 +93,12 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 				}
 
 
-
 				else if (ainsCountToWriteSettings == 2) {
 					// Когда в системе два блока АИН
 					// TODO: проверить наличие связи с АИНами
-					/*if (readedAin1Settings.Ain1LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
-						return;
-					}
-
-					if (readedAin1Settings.Ain2LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН2 взведен"));
-						return;
-					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,11 занулены, два АИНа в системе
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0400); // бит 10 взведен, два АИНа в системе
-					//settingsForAin1.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin1Settings.Ia0, Ib0 = readedAin1Settings.Ib0, Ic0 = readedAin1Settings.Ic0, Udc0 = readedAin1Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
 					sender.SendCommandAsync(
@@ -143,6 +128,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									callback(new Exception("Ошибка при повторном чтении настроек АИН1: " + compareEx1.Message, compareEx1));
 									return;
 								}
+
+
 
 								// Читаем настройки АИН №2 перед записью (из хранилища, или нет - неважно)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
@@ -199,18 +186,6 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 				else if (ainsCountToWriteSettings == 3) {
 					// Когда в системе три блока АИН
 					// TODO: проверить наличие связи с АИНами
-					/*if (readedAin1Settings.Ain1LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
-						return;
-					}
-					if (readedAin1Settings.Ain2LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН2 взведен"));
-						return;
-					}
-					if (readedAin1Settings.Ain3LinkFault) {
-						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН3 взведен"));
-						return;
-					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8.9.10 занулены, три АИНа в системе
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0800); // бит 11 взведен, три АИНа в системе
@@ -244,6 +219,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
+
+
+								// читаем настройки АИН2 (если нет в хранилище)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
 									if (readSettings2Exception != null) {
 										callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings2Exception));
@@ -271,7 +249,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 											// а затем БС-Ethernet успел их вычитать из АИН.
 											System.Threading.Thread.Sleep(300);
 
-											// Проверка записи настроек АИН2 путем их повторного чтения
+											// Проверка записи настроек АИН2 путем их повторного чтения:
 											_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
 												if (exceptionReRead2 != null) {
 													callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН2 путём их повтороного вычитывания - нет ответа от BsEthernet"));
@@ -286,9 +264,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 												}
 
 
-												_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings3Exception, readedAin3Settings) => {
+
+												// читаем настройки АИН3 (если нет в хранилище):
+												_ainSettingsReader.ReadSettingsAsync(2, false, (readSettings3Exception, readedAin3Settings) => {
 													if (readSettings3Exception != null) {
-														callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings2Exception));
+														callback(new Exception("Не удалось записать настройки, возникла ошибка при предварительном их чтении из блока АИН1 - нет ответа от BsEthernet", readSettings3Exception));
 														return;
 													}
 
@@ -309,7 +289,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 															// а затем БС-Ethernet успел их вычитать из АИН.
 															System.Threading.Thread.Sleep(300);
 
-															// Проверка записи настроек АИН3 путем их повторного чтения
+															// Проверка записи настроек АИН3 путем их повторного чтения:
 															_ainSettingsReader.ReadSettingsAsync(2, true, (exceptionReRead3, settings3ReReaded) => {
 																if (exceptionReRead3 != null) {
 																	callback(new Exception("Не удалось проконтролировать корректность записи настроек АИН3 путём их повтороного вычитывания - нет ответа от BsEthernet"));
