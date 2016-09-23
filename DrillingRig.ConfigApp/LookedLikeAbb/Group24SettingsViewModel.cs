@@ -5,6 +5,7 @@ using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
@@ -32,8 +33,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("24.02. Интегральный коэф. регулятора скорости", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f6", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("24.02. Интегральный коэф. регулятора скорости", "f6", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -63,8 +64,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpW = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					KiW = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					KpW = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 16777216.0),
+					KiW = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -104,8 +105,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.KpW;
-				Parameter02Vm.CurrentValue = settings.KiW;
+				Parameter01Vm.CurrentValue = settings.KpW / 16777216.0;
+				Parameter02Vm.CurrentValue = settings.KiW / 16777216.0;
 			});
 		}
 	}

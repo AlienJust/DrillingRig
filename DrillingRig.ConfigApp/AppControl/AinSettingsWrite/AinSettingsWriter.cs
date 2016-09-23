@@ -113,6 +113,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,11 занулены, два АИНа в системе
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0400); // бит 10 взведен, два АИНа в системе
+					//settingsForAin1.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin1Settings.Ia0, Ib0 = readedAin1Settings.Ib0, Ic0 = readedAin1Settings.Ic0, Udc0 = readedAin1Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
 					sender.SendCommandAsync(

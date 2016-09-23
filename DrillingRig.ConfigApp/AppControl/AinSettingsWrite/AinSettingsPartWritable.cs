@@ -1,7 +1,8 @@
 using System;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsPartWritable : IAinSettingsPart {
 		public int? KpW { get; set; }
 		public int? KiW { get; set; }
@@ -83,10 +84,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 			if (settings.FiMin != settingsReReaded.FiMin) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр FiMin)");
 			if (settings.DacCh != settingsReReaded.DacCh) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр DacCh)");
 			if (settings.Imcw != settingsReReaded.Imcw) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Imcw)");
-			if (settings.Ia0 != settingsReReaded.Ia0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ia0)");
-			if (settings.Ib0 != settingsReReaded.Ib0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ib0)");
-			if (settings.Ic0 != settingsReReaded.Ic0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ic0)");
-			if (settings.Udc0 != settingsReReaded.Udc0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Udc0)");
+			if (settings.Ia0 != settingsReReaded.Ia0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ia0), пришло значение: " + settingsReReaded.Ia0 + ", а ожидалось: " + settings.Ia0);
+			if (settings.Ib0 != settingsReReaded.Ib0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ib0), пришло значение: " + settingsReReaded.Ib0 + ", а ожидалось: " + settings.Ib0);
+			if (settings.Ic0 != settingsReReaded.Ic0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ic0), пришло значение: " + settingsReReaded.Ic0 + ", а ожидалось: " + settings.Ic0);
+			if (settings.Udc0 != settingsReReaded.Udc0) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Udc0), пришло значение: " + settingsReReaded.Udc0 + ", а ожидалось: " + settings.Udc0);
 			if (settings.TauR != settingsReReaded.TauR) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauR)");
 			if (settings.Lm != settingsReReaded.Lm) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Lm)");
 			if (settings.Lsl != settingsReReaded.Lsl) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Lsl)");
