@@ -1,7 +1,8 @@
 using DrillingRig.CommandSenders.Contracts;
 
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.CommandSenderHost {
 	internal interface ICommandSenderHost {
-		IRrModbusCommandSender Sender { get; }
+		ICommandSender Sender { get; }
+		
 	}
 }

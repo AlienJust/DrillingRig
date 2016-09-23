@@ -3,16 +3,24 @@ using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.ConfigApp.AinCommand;
 using DrillingRig.ConfigApp.AinsSettings;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.Cycle;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.ParamLogger;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.BsEthernetNominals;
 using DrillingRig.ConfigApp.BsEthernetSettings;
+using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.CoolerTelemetry;
 using DrillingRig.ConfigApp.EngineSettings;
-using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.RectifierTelemetry;
 using DrillingRig.ConfigApp.SystemControl;
 
 namespace DrillingRig.ConfigApp.NewLook.OldLook {
 	class OldLookViewModel {
+		private readonly IAinSettingsStorage _ainSettingsStorage;
+		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		public BsEthernetSettingsViewModel BsEthernetSettingsVm { get; }
 
 		public BsEthernetNominalsViewModel BsEthernetNominalsVm { get; }
@@ -39,7 +47,9 @@ namespace DrillingRig.ConfigApp.NewLook.OldLook {
 
 		public EngineSettingsViewModel EngineSettingsVm { get; }
 
-		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+			_ainSettingsStorage = ainSettingsStorage;
+			_storageUpdatedNotify = storageUpdatedNotify;
 			var commonTelemetryVm = new TelemetryCommonViewModel(logger, debugLogger);
 
 			BsEthernetSettingsVm = new BsEthernetSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);
@@ -58,9 +68,10 @@ namespace DrillingRig.ConfigApp.NewLook.OldLook {
 			cycleThreadHolder.RegisterAsCyclePart(ain3TelemetryVm);
 			cycleThreadHolder.RegisterAsCyclePart(AinTelemetriesVm);
 
-			var ain1CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 0);
-			var ain2CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 1);
-			var ain3CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 2);
+			var ain1CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 0, _ainSettingsStorage, _storageUpdatedNotify);
+			var ain2CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 1, _ainSettingsStorage, _storageUpdatedNotify);
+			var ain3CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 2, _ainSettingsStorage, _storageUpdatedNotify);
+
 			Ain1CommandVm = new AinCommandViewModel(ain1CommandOnlyVm, commonTelemetryVm, ain1TelemetryVm, AinTelemetriesVm);
 			Ain2CommandVm = new AinCommandViewModel(ain2CommandOnlyVm, commonTelemetryVm, ain2TelemetryVm, AinTelemetriesVm);
 			Ain3CommandVm = new AinCommandViewModel(ain3CommandOnlyVm, commonTelemetryVm, ain3TelemetryVm, AinTelemetriesVm);

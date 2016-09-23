@@ -5,6 +5,9 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandAndCommonTelemetryViewModel : ViewModelBase, ICyclePart, IAinsLinkControl {
@@ -76,7 +79,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							Ain3LinkError = null;
 							RaiseAinsLinkInformationHasBeenUpdated();
 
-							_logger.Log("Ошибка: " + ex.Message);
+							_debugLogger.GetLogger(4).Log("Ошибка: " + ex.Message, new StackTrace(Thread.CurrentThread, true));
 						});
 						_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
 					}

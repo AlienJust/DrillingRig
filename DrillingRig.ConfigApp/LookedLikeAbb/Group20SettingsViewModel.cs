@@ -2,6 +2,9 @@
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
+using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
@@ -10,6 +13,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ILogger _logger;
 		private readonly IAinSettingsReaderWriter _readerWriter;
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
+		private readonly IAinSettingsStorage _storage;
+		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
+		private readonly IAinsCounter _ainsCounter;
 
 		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
@@ -21,11 +27,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group20SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify) {
+		public Group20SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
+			_storage = storage;
+			_storageUpdatedNotify = storageUpdatedNotify;
+			_ainsCounter = ainsCounter;
 
 			Parameter01Vm = new ParameterDoubleEditableViewModel("20.01. Номинальная частота", "f1", -10000, 10000, null);
 			Parameter02Vm = new ParameterDoubleEditableViewModel("20.02. Максимальная частота", "f1", -10000, 10000, null);
@@ -37,9 +46,22 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter06Vm = new ParameterDoubleEditableViewModel("20.06. Максимальный момент", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
-			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
+			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
+			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
+				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
+			};
+		}
+
+		private bool IsWriteEnabled {
+			get {
+				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
+					var settings = _storage.GetSettings(i);
+					if (settings == null) return false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
+				}
+				return true;
+			}
 		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
@@ -73,7 +95,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadSettings() {
 			// TODO: remove method from each group
 			try {
-				_readerWriter.ReadSettingsAsync(0, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
+				_readerWriter.ReadSettingsAsync(0, true, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);

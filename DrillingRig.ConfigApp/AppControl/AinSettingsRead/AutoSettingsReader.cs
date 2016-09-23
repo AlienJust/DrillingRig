@@ -1,8 +1,8 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
-using DrillingRig.ConfigApp.LookedLikeAbb;
-using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 
-namespace DrillingRig.ConfigApp {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 	class AutoSettingsReader {
 		private readonly IAinsCounter _ainsCounter;
 		private readonly IAinSettingsReader _ainSettingsReader;
@@ -19,7 +19,7 @@ namespace DrillingRig.ConfigApp {
 			_sendingEnabledNotifier.SendingEnabledChanged += SendingEnabledNotifierOnSendingEnabledChanged; // TODO: unsubscribe on app quit
 		}
 
-		private void AinsCounterOnAinsCountInSystemHasBeenChanged() {
+		private void AinsCounterOnAinsCountInSystemHasBeenChanged(int ainsCounter) {
 			ReadSettings(_sendingEnabledNotifier.IsSendingEnabled);
 		}
 
@@ -32,7 +32,7 @@ namespace DrillingRig.ConfigApp {
 			if (isSendingEnabled) {
 				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; i++) {
 					_logger.Log("Автоматическое чтение настроек АИН №" + (i + 1) + " при подключении к COM-порту");
-					_ainSettingsReader.ReadSettingsAsync(i, (ex, settings) => { }); // i dont need to know whether settings were readed or exception occured, just need to initiate read process
+					_ainSettingsReader.ReadSettingsAsync(i, true, (ex, settings) => { }); // i dont need to know whether settings were readed or exception occured, just need to initiate read process
 				}
 			}
 		}

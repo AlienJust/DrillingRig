@@ -9,7 +9,7 @@ using DrillingRid.Commands.Contracts;
 using DrillingRig.CommandSenders.Contracts;
 
 namespace DrillingRig.CommandSenders.TestCommandSender {
-	public class NothingBasedCommandSender : IRrModbusCommandSender, ICommandSenderController {
+	public class NothingBasedCommandSender : ICommandSender {
 		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly IThreadNotifier _uiNotifier;
 		private readonly IStoppableWorker _backWorkerStoppable;

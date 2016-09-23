@@ -6,6 +6,8 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.SystemControl;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
 	internal class AinTelemetriesViewModel : ViewModelBase, ICommonAinTelemetryVm, IAinTelemetriesCycleControl , ICyclePart {

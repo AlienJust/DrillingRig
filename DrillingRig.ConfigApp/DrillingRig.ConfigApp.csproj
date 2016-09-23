@@ -142,7 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="AppControl\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -165,7 +165,27 @@
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
       <DependentUpon>CommandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppControl\AinsCounter\AinsCountInSystemHasBeenChangedDelegate.cs" />
+    <Compile Include="AppControl\AinsCounter\IAinsCounterRaisable.cs" />
+    <Compile Include="AppControl\AinsCounter\AinsCounterThreadSafe.cs" />
+    <Compile Include="AppControl\AinSettingsStorage\AinSettingsStorageThreadSafe.cs" />
+    <Compile Include="AppControl\AinSettingsStorage\StoredSettingsUpdatedDelegate.cs" />
+    <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageUpdatedNotify.cs" />
+    <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorage.cs" />
+    <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageSettable.cs" />
+    <Compile Include="AppControl\Cycle\CycleThreadHolderThreadSafe.cs" />
+    <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
+    <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabledRaisable.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\NotifySendingEnabledThreadSafe.cs" />
+    <Compile Include="AppControl\ParamLogger\IParamLoggerRegistrationPoint.cs" />
+    <Compile Include="AppControl\ParamLogger\ParamLoggerRegistrationPointThreadSafe.cs" />
+    <Compile Include="AppControl\SimpleUiRoot.cs" />
+    <Compile Include="AppControl\TargetAddressHost\TargetAddressHostThreadSafe.cs" />
+    <Compile Include="AppControl\TargetAddressHost\ITargetAddressHostSettable.cs" />
     <Compile Include="AutoTimeSetter.cs" />
+    <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
+    <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
@@ -185,16 +205,16 @@
     <Compile Include="AinTelemetry\TelemetryCommonViewModel.cs" />
     <Compile Include="IAinsLinkControl.cs" />
     <Compile Include="IAinsLinkControlViewModel.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsPartWritable.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReader.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\AinSettingsPartWritable.cs" />
+    <Compile Include="AppControl\AinSettingsRead\AinSettingsReader.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReaderWriter.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadCompleteDelegate.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsReadStartedDelegate.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWritable.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\AinSettingsWriter.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReadNotify.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReader.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsWriter.cs" />
+    <Compile Include="AppControl\AinSettingsRead\AinSettingsReadCompleteDelegate.cs" />
+    <Compile Include="AppControl\AinSettingsRead\AinSettingsReadStartedDelegate.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\AinSettingsWritable.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\AinSettingsWriter.cs" />
+    <Compile Include="AppControl\AinSettingsRead\IAinSettingsReadNotify.cs" />
+    <Compile Include="AppControl\AinSettingsRead\IAinSettingsReader.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\IAinSettingsWriter.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
@@ -294,9 +314,9 @@
     <Compile Include="LookedLikeAbb\Group22SettingsView.xaml.cs">
       <DependentUpon>Group22SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\IAinsCounter.cs" />
-    <Compile Include="ICyclePart.cs" />
-    <Compile Include="ICycleThreadHolder.cs" />
+    <Compile Include="AppControl\AinsCounter\IAinsCounter.cs" />
+    <Compile Include="AppControl\Cycle\ICyclePart.cs" />
+    <Compile Include="AppControl\Cycle\ICycleThreadHolder.cs" />
     <Compile Include="IDebugInformationShower.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsExporterXml.cs" />
     <Compile Include="BsEthernetNominals\BsEthernetNominalsImporterXml.cs" />
@@ -306,7 +326,7 @@
     <Compile Include="BsEthernetNominals\IBsEthernetNominalsImporter.cs" />
     <Compile Include="BsEthernetSettings\FtRoleViewModel.cs" />
     <Compile Include="GridControl.cs" />
-    <Compile Include="INotifySendingEnabled.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabled.cs" />
     <Compile Include="CoolerTelemetry\CoolerTelemetriesView.xaml.cs">
       <DependentUpon>CoolerTelemetriesView.xaml</DependentUpon>
     </Compile>
@@ -325,20 +345,18 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Group01ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group20SettingsViewModel.cs" />
-    <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsPart.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\IAinSettingsPart.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
     <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
-    <Compile Include="LookedLikeAbb\IParameterLogger.cs" />
-    <Compile Include="LookedLikeAbb\IParameterLoggerContainer.cs" />
+    <Compile Include="AppControl\ParamLogger\IParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml.cs">
       <DependentUpon>OscilloscopeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowSciVm.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowVm.cs" />
-    <Compile Include="LookedLikeAbb\ParameterLoggerRelay.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -386,7 +404,7 @@
       <DependentUpon>OldLookView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\OldLook\OldLookViewModel.cs" />
-    <Compile Include="AutoSettingsReader.cs" />
+    <Compile Include="AppControl\AinSettingsRead\AutoSettingsReader.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
@@ -395,7 +413,7 @@
     <Compile Include="RectifierTelemetry\RectifierTelemetryView.xaml.cs">
       <DependentUpon>RectifierTelemetryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SendingEnabledChangedDelegate.cs" />
+    <Compile Include="AppControl\NotifySendingEnabled\SendingEnabledChangedDelegate.cs" />
     <Compile Include="ILinkContol.cs" />
     <Compile Include="LookedLikeAbb\Chart\SeriesAdditionalData.cs" />
     <Compile Include="NewLook\Settings\SettingsView.xaml.cs">
@@ -623,7 +641,7 @@
     </Compile>
     <Compile Include="AinTelemetry\AinTelemetriesViewModel.cs" />
     <Compile Include="AinTelemetry\AinTelemetryViewModel.cs" />
-    <Compile Include="App.xaml.cs">
+    <Compile Include="AppControl\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -639,8 +657,8 @@
     <Compile Include="BsEthernetSettings\BsEthernetSettingsViewModel.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsExporter.cs" />
     <Compile Include="BsEthernetSettings\IBsEthernetSettingsImporter.cs" />
-    <Compile Include="ICommandSenderHost.cs" />
-    <Compile Include="ITargetAddressHost.cs" />
+    <Compile Include="AppControl\CommandSenderHost\ICommandSenderHost.cs" />
+    <Compile Include="AppControl\TargetAddressHost\ITargetAddressHost.cs" />
     <Compile Include="IUserInterfaceRoot.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -769,9 +787,7 @@
       <Name>DrillingRig.Commands</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AnySettingsView\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="intelecon x gray.ico" />
   </ItemGroup>

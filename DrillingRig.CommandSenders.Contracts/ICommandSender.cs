@@ -1,5 +1,5 @@
 ﻿namespace DrillingRig.CommandSenders.Contracts {
-	public interface ICommandSenderController
+	public interface ICommandSender : IRrModbusCommandSender
 	{
 		void EndWork();
 	}
