@@ -27,8 +27,18 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Уставка скорости" Margin="4,0,4,0"/>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=Fset, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>
+			<Grid Grid.Column="0" Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Уставка скорости, об/мин ("/>
+				<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=FsetHz, Mode=OneWay, StringFormat=f2}" Margin="4,0,4,0"/>
+				<TextBlock Grid.Column="2" VerticalAlignment="Center" Text=" Гц)"/>
+			</Grid>
+			
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=Fset, Mode=TwoWay}" Maximum="2000" Minimum="-2000"/>
 
 			<TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Уставка момента" Margin="4,0,4,0"/>
 			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding Path=Mset, Mode=TwoWay}" Maximum="32767" Minimum="-32768"/>

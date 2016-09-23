@@ -3,6 +3,7 @@ using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinCommand;
+using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
@@ -15,6 +16,8 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly ILogger _logger;
 		private readonly INotifySendingEnabled _sendingEnabledControl;
 		private readonly byte _zeroBasedAinNumber;
+		private readonly IAinSettingsStorage _ainSettingsStorage;
+		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 
 		private readonly RelayCommand _sendAinCommandOff1;
 		private readonly RelayCommand _sendAinCommandOff2;
@@ -31,13 +34,15 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private short _mmin;
 		private short _mmax;
 
-		public AinCommandOnlyViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber) {
+		public AinCommandOnlyViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
 			_logger = logger;
 			_sendingEnabledControl = sendingEnabledControl;
 			_zeroBasedAinNumber = zeroBasedAinNumber;
+			_ainSettingsStorage = ainSettingsStorage;
+			_storageUpdatedNotify = storageUpdatedNotify;
 
 			_fset = 0;
 			_mset = 0;
@@ -45,19 +50,22 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_mmin = -600;
 			_mmax = 600;
 
-			_sendAinCommandOff1 = new RelayCommand(SendAinCmdOff1, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandOff2 = new RelayCommand(SendAinCmdOff2, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandOff3 = new RelayCommand(SendAinCmdOff3, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandRun = new RelayCommand(SendAinCmdRun, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandInching1 = new RelayCommand(SendAinCmdInching1, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandInching2 = new RelayCommand(SendAinCmdInching2, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandReset = new RelayCommand(SendAinCmdReset, () => _sendingEnabledControl.IsSendingEnabled);
-			_sendAinCommandBits = new RelayCommand(SendAinCmdBits, () => _sendingEnabledControl.IsSendingEnabled);
+			_sendAinCommandOff1 = new RelayCommand(SendAinCmdOff1, () => IsSendingEnabled);
+			_sendAinCommandOff2 = new RelayCommand(SendAinCmdOff2, () => IsSendingEnabled);
+			_sendAinCommandOff3 = new RelayCommand(SendAinCmdOff3, () => IsSendingEnabled);
+			_sendAinCommandRun = new RelayCommand(SendAinCmdRun, () => IsSendingEnabled);
+			_sendAinCommandInching1 = new RelayCommand(SendAinCmdInching1, () => IsSendingEnabled);
+			_sendAinCommandInching2 = new RelayCommand(SendAinCmdInching2, () => IsSendingEnabled);
+			_sendAinCommandReset = new RelayCommand(SendAinCmdReset, () => IsSendingEnabled);
+			_sendAinCommandBits = new RelayCommand(SendAinCmdBits, () => IsSendingEnabled);
 
-			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
+			_sendingEnabledControl.SendingEnabledChanged += sendingEnabled => { SendingEnabledControlOnSendingEnabledChanged(); };
+			_storageUpdatedNotify.AinSettingsUpdated += (ainNumber, settings) => { if (ainNumber == 0) SendingEnabledControlOnSendingEnabledChanged(); };
 		}
 
-		private void SendingEnabledControlOnSendingEnabledChanged(bool isSendingEnabled) {
+		public bool IsSendingEnabled => _sendingEnabledControl.IsSendingEnabled && _ainSettingsStorage.GetSettings(0) != null;
+
+		private void SendingEnabledControlOnSendingEnabledChanged() {
 			_userInterfaceRoot.Notifier.Notify(() => {
 				_sendAinCommandOff1.RaiseCanExecuteChanged();
 				_sendAinCommandOff2.RaiseCanExecuteChanged();
@@ -67,6 +75,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				_sendAinCommandInching2.RaiseCanExecuteChanged();
 				_sendAinCommandReset.RaiseCanExecuteChanged();
 				_sendAinCommandBits.RaiseCanExecuteChanged();
+				RaisePropertyChanged(()=>FsetHz);
 			});
 		}
 
@@ -114,11 +123,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			SendCmdWithCommandMode(commandMode);
 		}
 
-		private void SendCmdWithCommandMode(ushort commandMode)
-		{
+		private void SendCmdWithCommandMode(ushort commandMode) {
 			try {
 				_logger.Log("Подготовка к отправке команды для АИН");
-				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, _fset, _mset, _set3, _mmin, _mmax);
+				if (FsetHz == null) throw new Exception("Нет настроек АИН1, необходимо их прочитать, чтобы знать число пар полюсов");
+				var fsetToSend = (short)(FsetHz.Value * 10.0);
+				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, fsetToSend, _mset, _set3, _mmin, _mmax);
 				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
@@ -155,9 +165,20 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				if (_fset != value) {
 					_fset = value;
 					RaisePropertyChanged(() => Fset);
+					RaisePropertyChanged(() => FsetHz);
 				}
 			}
 		}
+
+		public double? FsetHz {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				if (ain1Settings != null)
+					return (int)(_fset / 6.0 * ain1Settings.Np)/10.0;
+				return null;
+			}
+		}
+
 
 		public short Mset {
 			get { return _mset; }
@@ -211,7 +232,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public bool Inching1 { get; set; }
 		public bool Inching2 { get; set; }
 		public bool Remote { get; set; }
-		
+
 		public ICommand SendAinCommandOff1 => _sendAinCommandOff1;
 
 		public ICommand SendAinCommandOff2 => _sendAinCommandOff2;

@@ -131,7 +131,7 @@ namespace DrillingRig.ConfigApp {
 
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
-				new AinCommandOnlyViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0),
+				new AinCommandOnlyViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0, ainSettingsStorage, storageUpdatedNotify),
 				new TelemetryCommonViewModel(_logger, _debugLogger), _commandSenderHost, _targetAddressHost, _uiRoot, _logger, _debugLogger, _notifySendingEnabled);
 
 			_cycleThreadHolder.RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
@@ -145,7 +145,7 @@ namespace DrillingRig.ConfigApp {
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 1));
 
 			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
-			OldLookVm = new OldLookViewModel(_uiRoot, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
+			OldLookVm = new OldLookViewModel(_uiRoot, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger, ainSettingsStorage, storageUpdatedNotify);
 			
 			_ain1StateColor = Colors.Gray;
 			_ain2StateColor = Colors.Gray;

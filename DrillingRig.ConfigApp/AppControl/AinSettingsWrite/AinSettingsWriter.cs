@@ -56,10 +56,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 				if (ainsCountToWriteSettings == 1) {
 					// Когда в системе один блок АИН
-					if (readedAin1Settings.Ain1LinkFault) {
+					// TODO: проверить наличие связи с АИН1
+					/*if (readedAin1Settings.Ain1LinkFault) {
 						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
 						return;
-					}
+					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,10 и 11 занулены, одиночая работа
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
@@ -99,14 +100,16 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 				else if (ainsCountToWriteSettings == 2) {
 					// Когда в системе два блока АИН
-					if (readedAin1Settings.Ain1LinkFault) {
+					// TODO: проверить наличие связи с АИНами
+					/*if (readedAin1Settings.Ain1LinkFault) {
 						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
 						return;
 					}
+
 					if (readedAin1Settings.Ain2LinkFault) {
 						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН2 взведен"));
 						return;
-					}
+					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,11 занулены, два АИНа в системе
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0400); // бит 10 взведен, два АИНа в системе
@@ -194,7 +197,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 				else if (ainsCountToWriteSettings == 3) {
 					// Когда в системе три блока АИН
-					if (readedAin1Settings.Ain1LinkFault) {
+					// TODO: проверить наличие связи с АИНами
+					/*if (readedAin1Settings.Ain1LinkFault) {
 						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН1 взведен"));
 						return;
 					}
@@ -205,7 +209,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					if (readedAin1Settings.Ain3LinkFault) {
 						callback(new Exception("Не удалось записать настройки, при предварительном их чтении из блока АИН1 флаг наличия ошибки связи с АИН3 взведен"));
 						return;
-					}
+					}*/
 
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8.9.10 занулены, три АИНа в системе
 					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0800); // бит 11 взведен, три АИНа в системе

@@ -13,6 +13,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly ILogger _logger;
 		private readonly IAinSettingsReaderWriter _readerWriter;
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
+		private readonly IAinSettingsStorage _storage;
+		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
+		private readonly IAinsCounter _ainsCounter;
 
 		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
@@ -27,6 +30,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
+			_storage = storage;
+			_storageUpdatedNotify = storageUpdatedNotify;
+			_ainsCounter = ainsCounter;
 
 			Parameter01Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
 			Parameter02Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
@@ -34,9 +40,22 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter04Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
-			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
+			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
+			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
+				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
+			};
+		}
+
+		private bool IsWriteEnabled {
+			get {
+				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
+					var settings = _storage.GetSettings(i);
+					if (settings == null) return false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
+				}
+				return true;
+			}
 		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
