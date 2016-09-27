@@ -57,7 +57,9 @@ namespace DrillingRig.Commands.AinSettings {
 			BytesPair reserved50,
 			BytesPair reserved51,
 
-			short np,
+			int np,
+			int nimpFloorCode,
+			AinTelemetryFanWorkmode fanMode,
 
 			short umodThr,
 
@@ -123,6 +125,8 @@ namespace DrillingRig.Commands.AinSettings {
 			Reserved51 = reserved51;
 
 			Np = np;
+			NimpFloorCode = nimpFloorCode;
+			FanMode = fanMode;
 
 			UmodThr = umodThr;
 
@@ -225,7 +229,9 @@ namespace DrillingRig.Commands.AinSettings {
 		public BytesPair Reserved50 { get; }
 		public BytesPair Reserved51 { get; }
 
-		public short Np { get; }
+		public int Np { get; }
+		public int NimpFloorCode { get; }
+		public AinTelemetryFanWorkmode FanMode { get; }
 
 		public short UmodThr { get; }
 

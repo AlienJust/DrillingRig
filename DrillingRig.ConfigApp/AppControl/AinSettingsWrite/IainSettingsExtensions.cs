@@ -57,7 +57,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (settings.IdSetMax != settingsReReaded.IdSetMax) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр IdSetMax)");
 			if (settings.UchMin != settingsReReaded.UchMin) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр UchMin)");
 			if (settings.UchMax != settingsReReaded.UchMax) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр UchMax)");
+
 			if (settings.Np != settingsReReaded.Np) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np)");
+			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр NimpFloorCode)");
+			if (settings.FanMode != settingsReReaded.FanMode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр FanMode)");
+
 			if (settings.UmodThr != settingsReReaded.UmodThr) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр UmodThr)");
 			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр EmdecDfdt)");
 			if (settings.TextMax != settingsReReaded.TextMax) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр TextMax)");

@@ -1,6 +1,5 @@
 using AlienJust.Support.Collections;
 using DrillingRig.Commands.AinSettings;
-using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsWritable : IAinSettings {
@@ -52,7 +51,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public BytesPair UchMax { get; set; }
 		public BytesPair Reserved50 { get; set; }
 		public BytesPair Reserved51 { get; set; }
-		public short Np { get; set; }
+		public int Np { get; set; }
+		public int NimpFloorCode { get; set; }
+		public AinTelemetryFanWorkmode FanMode { get; set; }
 		public short UmodThr { get; set; }
 		public short EmdecDfdt { get; set; }
 		public short TextMax { get; set; }
@@ -105,7 +106,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			IdSetMax = settings.IdSetMax;
 			UchMin = settings.UchMin;
 			UchMax = settings.UchMax;
+
 			Np = settings.Np;
+			NimpFloorCode = settings.NimpFloorCode;
+			FanMode = settings.FanMode;
+
 			UmodThr = settings.UmodThr;
 			EmdecDfdt = settings.EmdecDfdt;
 			TextMax = settings.TextMax;
@@ -156,7 +161,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (part.IdSetMax.HasValue) IdSetMax = part.IdSetMax.Value;
 			if (part.UchMin.HasValue) UchMin = part.UchMin.Value;
 			if (part.UchMax.HasValue) UchMax = part.UchMax.Value;
+
 			if (part.Np.HasValue) Np = part.Np.Value;
+			if (part.NimpFloorCode.HasValue) NimpFloorCode = part.NimpFloorCode.Value;
+			if (part.FanMode.HasValue) FanMode = part.FanMode.Value;
+
 			if (part.UmodThr.HasValue) UmodThr = part.UmodThr.Value;
 			if (part.EmdecDfdt.HasValue) EmdecDfdt = part.EmdecDfdt.Value;
 			if (part.TextMax.HasValue) TextMax = part.TextMax.Value;

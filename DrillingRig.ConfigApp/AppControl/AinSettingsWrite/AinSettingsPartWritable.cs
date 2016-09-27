@@ -1,5 +1,5 @@
 using AlienJust.Support.Collections;
-using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.Commands.AinSettings;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsPartWritable : IAinSettingsPart {
@@ -45,7 +45,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short? IdSetMax { get; set; }
 		public BytesPair? UchMin { get; set; }
 		public BytesPair? UchMax { get; set; }
-		public short? Np { get; set; }
+
+		public int? Np { get; set; }
+		public int? NimpFloorCode { get; set; }
+		public AinTelemetryFanWorkmode? FanMode { get; set; }
+
 		public short? UmodThr { get; set; }
 		public short? EmdecDfdt { get; set; }
 		public short? TextMax { get; set; }

@@ -1,4 +1,5 @@
 using AlienJust.Support.Collections;
+using DrillingRig.Commands.AinSettings;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	interface IAinSettingsPart {
@@ -60,7 +61,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		BytesPair? UchMin { get; }
 		BytesPair? UchMax { get; }
 
-		short? Np { get; }
+
+		int? Np { get; }
+		int? NimpFloorCode { get; }
+		AinTelemetryFanWorkmode? FanMode { get; }
+
 
 		short? UmodThr { get; }
 

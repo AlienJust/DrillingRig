@@ -233,6 +233,10 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					BytesPair.FromSignedShortLowFirst(0), // TODO:
 					BytesPair.FromSignedShortLowFirst((short)(UchMax.Value / 65536.0)),
 					Np.Value,
+					
+					0, // TODO: NimpFloorCode
+					AinTelemetryFanWorkmode.AllwaysOff, // TODO: FanMode
+					
 					Empty53.Value,
 					EmdecDfdt.Value,
 					TextMax.Value,
@@ -351,7 +355,9 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									IdSetMax = result.IdSetMax;
 									UchMin = result.UchMin.LowFirstSignedValue;
 									UchMax = result.UchMax.LowFirstSignedValue;
-									Np = result.Np;
+									Np = (short)result.Np;
+									// TODO: nimp, fanmode
+
 									Empty53 = result.UmodThr;
 									EmdecDfdt = result.EmdecDfdt;
 									TextMax = result.TextMax;

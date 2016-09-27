@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="AinCommand\FirstAinCommand.cs" />
     <Compile Include="AinSettings\AinSettingsSimple.cs" />
+    <Compile Include="AinSettings\AinTelemetryFanWorkmode.cs" />
+    <Compile Include="AinSettings\AinTelemetryFanWorkmodeExtensions.cs" />
     <Compile Include="AinSettings\IAinSettings.cs" />
     <Compile Include="EngineSettings\ReadEngineSettingsCommand.cs" />
     <Compile Include="AinSettings\WriteAinSettingsCommand.cs" />

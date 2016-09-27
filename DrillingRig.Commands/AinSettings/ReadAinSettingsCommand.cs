@@ -30,12 +30,17 @@ namespace DrillingRig.Commands.AinSettings {
 
 			// TODO: check if reply[0] is equal oneBasedAinNumber
 			var replyWithoutAinNumber = reply.Skip(1).ToList();
+
+
+			var bp52 = new BytesPair(replyWithoutAinNumber[104], replyWithoutAinNumber[105]);
+			var np = bp52.First & 0x1F;
+			var nimpFloorCode = bp52.First & 0xE0;
+			var fanMode = AinTelemetryFanWorkmodeExtensions.FromIoBits(bp52.Second & 0x03);
+
 			return new AinSettingsSimple(
 				new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
 				new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3]), 
-				//(int)((replyWithoutAinNumber[2] << 16) + (replyWithoutAinNumber[3] << 24)),
-				//(int)(replyWithoutAinNumber[0] + (replyWithoutAinNumber[1] << 8) + (replyWithoutAinNumber[2] << 16) + (replyWithoutAinNumber[3] << 24)),
-
+				
 				(int)(replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)),
 				(short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
 				(short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
@@ -111,10 +116,14 @@ namespace DrillingRig.Commands.AinSettings {
 				
 				// reserverd 50:
 				new BytesPair(replyWithoutAinNumber[100], replyWithoutAinNumber[101]),
+				
 				// reserverd 51:
 				new BytesPair(replyWithoutAinNumber[102], replyWithoutAinNumber[103]),
-				// Np:
-				(short)(replyWithoutAinNumber[104] + (replyWithoutAinNumber[105] <<8)),
+				
+				// Param52 (np and others):
+				np,
+				nimpFloorCode,
+				fanMode,
 
 				(short)(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)),
 

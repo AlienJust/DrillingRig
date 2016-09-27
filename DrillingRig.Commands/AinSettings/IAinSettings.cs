@@ -78,7 +78,11 @@ namespace DrillingRig.Commands.AinSettings {
 
 		BytesPair Reserved50 { get; }
 		BytesPair Reserved51 { get; }
-		short Np { get; }
+
+		int Np { get; }
+		int NimpFloorCode { get; }
+		AinTelemetryFanWorkmode FanMode { get; }
+		
 
 		/// <summary>
 		/// Порог компенсации напряжения DC за счет потока

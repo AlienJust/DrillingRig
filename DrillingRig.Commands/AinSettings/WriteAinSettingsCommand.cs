@@ -20,7 +20,11 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public byte[] Serialize() {
 			var settingsSerialized = new byte[114];
-			settingsSerialized.SerializeIntLowFirst(0, _settings.KpW.LowFirstSignedValue);
+			settingsSerialized[0] = _settings.Reserved00.First;
+			settingsSerialized[1] = _settings.Reserved00.Second;
+
+			settingsSerialized[2] = _settings.KpW.First;
+			settingsSerialized[3] = _settings.KpW.Second;
 
 			settingsSerialized.SerializeIntLowFirst(4, _settings.KiW);
 			settingsSerialized.SerializeShortLowFirst(8, _settings.FiNom);
@@ -46,13 +50,29 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(44, _settings.Lsl);
 			settingsSerialized.SerializeShortLowFirst(46, _settings.Lrl);
 
-			settingsSerialized.SerializeIntLowFirst(48, _settings.KpFi.LowFirstSignedValue);
+			settingsSerialized[48] = _settings.Reserved24.First;
+			settingsSerialized[49] = _settings.Reserved24.Second;
+
+			settingsSerialized[50] = _settings.KpFi.First;
+			settingsSerialized[51] = _settings.KpFi.Second;
+			
 			settingsSerialized.SerializeIntLowFirst(52, _settings.KiFi);
 
-			settingsSerialized.SerializeIntLowFirst(56, _settings.KpId.LowFirstSignedValue);
+			settingsSerialized[56] = _settings.Reserved28.First;
+			settingsSerialized[57] = _settings.Reserved28.Second;
+
+			settingsSerialized[58] = _settings.KpId.First;
+			settingsSerialized[59] = _settings.KpId.Second;
+			
 			settingsSerialized.SerializeIntLowFirst(60, _settings.KiId);
 
-			settingsSerialized.SerializeIntLowFirst(64, _settings.KpIq.LowFirstSignedValue);
+
+			settingsSerialized[64] = _settings.Reserved32.First;
+			settingsSerialized[65] = _settings.Reserved32.Second;
+
+			settingsSerialized[66] = _settings.KpIq.First;
+			settingsSerialized[67] = _settings.KpIq.Second;
+			
 			settingsSerialized.SerializeIntLowFirst(68, _settings.KiIq);
 
 			settingsSerialized.SerializeShortLowFirst(72, _settings.AccDfDt);
@@ -70,12 +90,24 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(92, _settings.IdSetMin);
 			settingsSerialized.SerializeShortLowFirst(94, _settings.IdSetMax);
 
-			settingsSerialized.SerializeShortLowFirst(96, _settings.UchMin.LowFirstSignedValue);
-			settingsSerialized.SerializeShortLowFirst(98, _settings.UchMin.LowFirstSignedValue);
 
-			// bytespair 50 and 51 are reserved
+			settingsSerialized[96] = _settings.UchMin.First;
+			settingsSerialized[97] = _settings.UchMin.Second;
 
-			settingsSerialized.SerializeShortLowFirst(104, _settings.Np);
+			settingsSerialized[98] = _settings.UchMax.First;
+			settingsSerialized[99] = _settings.UchMax.Second;
+
+
+			settingsSerialized[100] = _settings.Reserved50.First;
+			settingsSerialized[101] = _settings.Reserved50.Second;
+
+			settingsSerialized[102] = _settings.Reserved51.First;
+			settingsSerialized[103] = _settings.Reserved51.Second;
+
+			var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | (_settings.FanMode.ToIoBits() << 8)));
+			settingsSerialized[104] = bp52.First;
+			settingsSerialized[105] = bp52.Second;
+
 			settingsSerialized.SerializeShortLowFirst(106, _settings.UmodThr);
 			settingsSerialized.SerializeShortLowFirst(108, _settings.EmdecDfdt);
 			settingsSerialized.SerializeShortLowFirst(110, _settings.TextMax);
