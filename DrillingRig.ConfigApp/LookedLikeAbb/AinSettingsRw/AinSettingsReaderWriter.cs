@@ -1,6 +1,7 @@
 ﻿using System;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
+using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 	class AinSettingsReaderWriter : IAinSettingsReaderWriter {

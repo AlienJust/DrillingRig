@@ -1,7 +1,10 @@
 ﻿
+using AlienJust.Support.Collections;
+
 namespace DrillingRig.Commands.AinSettings {
 	public interface IAinSettings {
-		int KpW { get; }
+		BytesPair Reserved00 { get; }
+		BytesPair KpW { get; }
 		int KiW { get; }
 		short FiNom { get; }
 		short Imax { get; }
@@ -30,12 +33,16 @@ namespace DrillingRig.Commands.AinSettings {
 		short Lsl { get; }
 		short Lrl { get; }
 
-		int KpFi { get; }
+		BytesPair Reserved24 { get; }
+		BytesPair KpFi { get; }
 		int KiFi { get; }
 
-		int KpId { get; }
+		BytesPair Reserved28 { get; }
+		BytesPair KpId { get; }
 		int KiId { get; }
-		int KpIq { get; }
+
+		BytesPair Reserved32 { get; }
+		BytesPair KpIq { get; }
 		int KiIq { get; }
 
 		short AccDfDt { get; }
@@ -43,6 +50,9 @@ namespace DrillingRig.Commands.AinSettings {
 
 		short Unom { get; }
 
+		/// <summary>
+		/// Постоянная времени регулятора компенсации потока
+		/// </summary>
 		short TauFlLim { get; }
 
 		short Rs { get; }
@@ -56,11 +66,23 @@ namespace DrillingRig.Commands.AinSettings {
 		short IdSetMin { get; }
 		short IdSetMax { get; }
 
-		int KpFe { get; }
-		int KiFe { get; }
+		/// <summary>
+		/// В режиме чоппера нижний порог напряжения
+		/// </summary>
+		BytesPair UchMin { get; }
 
+		/// <summary>
+		/// В режиме чоппера верхний порог напряжения
+		/// </summary>
+		BytesPair UchMax { get; }
+
+		BytesPair Reserved50 { get; }
+		BytesPair Reserved51 { get; }
 		short Np { get; }
 
+		/// <summary>
+		/// Порог компенсации напряжения DC за счет потока
+		/// </summary>
 		short UmodThr { get; }
 
 		short EmdecDfdt { get; }

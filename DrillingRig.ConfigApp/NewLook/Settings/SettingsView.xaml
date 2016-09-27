@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
              xmlns:group106Settings="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="600" d:DesignWidth="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -155,7 +155,10 @@
 		<TabItem Header="106. Режимы работы" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 			<group106Settings:Group106SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
 		</TabItem>
+			<TabItem Header="107. Режим чоппера" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+				<group106Settings:Group106SettingsView DataContext="{Binding Path=Group107SettingsVm, Mode=OneTime}"/>
+			</TabItem>
 
-	</TabControl>
+		</TabControl>
 	</ScrollViewer>
 </UserControl>

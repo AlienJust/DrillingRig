@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AlienJust.Support.Collections;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinSettings {
@@ -21,9 +22,7 @@ namespace DrillingRig.Commands.AinSettings {
 			return new[] { OneBasedAinNumber };
 		}
 
-		private byte OneBasedAinNumber {
-			get { return (byte)(_zeroBasedAinNumber + 1); }
-		}
+		private byte OneBasedAinNumber => (byte)(_zeroBasedAinNumber + 1);
 
 		public IAinSettings GetResult(byte[] reply)
 		{
@@ -32,7 +31,11 @@ namespace DrillingRig.Commands.AinSettings {
 			// TODO: check if reply[0] is equal oneBasedAinNumber
 			var replyWithoutAinNumber = reply.Skip(1).ToList();
 			return new AinSettingsSimple(
-				(int)(replyWithoutAinNumber[0] + (replyWithoutAinNumber[1] <<8) + (replyWithoutAinNumber[2] << 16) + (replyWithoutAinNumber[3] << 24)),
+				new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
+				new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3]), 
+				//(int)((replyWithoutAinNumber[2] << 16) + (replyWithoutAinNumber[3] << 24)),
+				//(int)(replyWithoutAinNumber[0] + (replyWithoutAinNumber[1] << 8) + (replyWithoutAinNumber[2] << 16) + (replyWithoutAinNumber[3] << 24)),
+
 				(int)(replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)),
 				(short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
 				(short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
@@ -57,11 +60,33 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[44] + (replyWithoutAinNumber[45] <<8)),
 				(short)(replyWithoutAinNumber[46] + (replyWithoutAinNumber[47] <<8)),
 
-				(int)(replyWithoutAinNumber[48] + (replyWithoutAinNumber[49] <<8) + (replyWithoutAinNumber[50] << 16) + (replyWithoutAinNumber[51] << 24)),
+				// reserved 24:
+				new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),
+				
+				new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51]),
+				//(int)(replyWithoutAinNumber[48] + (replyWithoutAinNumber[49] <<8) + (replyWithoutAinNumber[50] << 16) + (replyWithoutAinNumber[51] << 24)),
+
 				(int)(replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] <<8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24)),
-				(int)(replyWithoutAinNumber[56] + (replyWithoutAinNumber[57] <<8) + (replyWithoutAinNumber[58] << 16) + (replyWithoutAinNumber[59] << 24)),
+
+				// reserved 28:
+				new BytesPair(replyWithoutAinNumber[56], replyWithoutAinNumber[57]),
+				
+				// kpId:
+				new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59]),
+				//(int)(replyWithoutAinNumber[56] + (replyWithoutAinNumber[57] <<8) + (replyWithoutAinNumber[58] << 16) + (replyWithoutAinNumber[59] << 24)),
+
+
+
 				(int)(replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] <<8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24)),
-				(int)(replyWithoutAinNumber[64] + (replyWithoutAinNumber[65] <<8) + (replyWithoutAinNumber[66] << 16) + (replyWithoutAinNumber[67] << 24)),
+
+
+				// reserverd 32:
+				new BytesPair(replyWithoutAinNumber[64], replyWithoutAinNumber[65]),
+
+				// kpIq:
+				new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67]),
+				//(int)(replyWithoutAinNumber[64] + (replyWithoutAinNumber[65] <<8) + (replyWithoutAinNumber[66] << 16) + (replyWithoutAinNumber[67] << 24)),
+
 				(int)(replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] <<8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24)),
 
 				(short)(replyWithoutAinNumber[72] + (replyWithoutAinNumber[73] <<8)),
@@ -79,9 +104,16 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[92] + (replyWithoutAinNumber[93] <<8)),
 				(short)(replyWithoutAinNumber[94] + (replyWithoutAinNumber[95] <<8)),
 
-				(int)(replyWithoutAinNumber[96] + (replyWithoutAinNumber[97] <<8) + (replyWithoutAinNumber[98] << 16) + (replyWithoutAinNumber[99] << 24)),
-				(int)(replyWithoutAinNumber[100] + (replyWithoutAinNumber[101] <<8) + (replyWithoutAinNumber[102] << 16) + (replyWithoutAinNumber[103] << 24)),
-
+				new BytesPair(replyWithoutAinNumber[96], replyWithoutAinNumber[97]),
+				new BytesPair(replyWithoutAinNumber[98], replyWithoutAinNumber[99]),
+				//(int)(replyWithoutAinNumber[96] + (replyWithoutAinNumber[97] <<8) + (replyWithoutAinNumber[98] << 16) + (replyWithoutAinNumber[99] << 24)),
+				//(int)(replyWithoutAinNumber[100] + (replyWithoutAinNumber[101] <<8) + (replyWithoutAinNumber[102] << 16) + (replyWithoutAinNumber[103] << 24)),
+				
+				// reserverd 50:
+				new BytesPair(replyWithoutAinNumber[100], replyWithoutAinNumber[101]),
+				// reserverd 51:
+				new BytesPair(replyWithoutAinNumber[102], replyWithoutAinNumber[103]),
+				// Np:
 				(short)(replyWithoutAinNumber[104] + (replyWithoutAinNumber[105] <<8)),
 
 				(short)(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)),

@@ -1,4 +1,5 @@
 ﻿using System;
+using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
@@ -72,10 +73,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpId = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 16777216.0),
-					KiId = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
-					KpIq = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 16777216.0),
-					KiIq = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 16777216.0),
+					KpId = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
+					KiId = ConvertNullableDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
+					KpIq = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter03Vm.CurrentValue * 16777216.0),
+					KiIq = ConvertNullableDoubleToShort(Parameter04Vm.CurrentValue * 16777216.0)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -101,11 +102,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertNullableDoubleToShort(double? value) {
 			if (!value.HasValue) return null;
 			return (short) value.Value;
 		}
 
+		
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
@@ -116,9 +118,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter04Vm.CurrentValue = null;
 					return;
 				}
-				Parameter01Vm.CurrentValue = settings.KpId / 16777216.0;
+				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpId);
 				Parameter02Vm.CurrentValue = settings.KiId / 16777216.0;
-				Parameter03Vm.CurrentValue = settings.KpIq / 16777216.0;
+				Parameter03Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpIq);
 				Parameter04Vm.CurrentValue = settings.KiIq / 16777216.0;
 			});
 		}

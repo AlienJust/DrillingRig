@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
@@ -70,8 +71,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _idSetMin;
 		private short? _idSetMax;
 
-		private int? _kpFe;
-		private int? _kiFe;
+		private short? _uchMin;
+		private short? _uchMax;
 		private short? _np;
 
 		private short? _empty53;
@@ -148,8 +149,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			IdSetMin = null; // 
 			IdSetMax = null; // 
 
-			KpFe = null; // 
-			KiFe = null; // 
+			UchMin = null; // 
+			UchMax = null; // 
 			Np = null; // 
 
 			Empty53 = null;
@@ -183,7 +184,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 				IAinSettings ainSettings;
 				try {
 				ainSettings = new AinSettingsSimple(
-					KpW.Value,
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(KpW.Value / 65536.0)),
 					KiW.Value,
 					FiNom.Value,
 					Imax.Value,
@@ -205,11 +207,14 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					Lm.Value,
 					Lsl.Value,
 					Lrl.Value,
-					KpFi.Value,
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(KpFi.Value / 65536.0)),
 					KiFi.Value,
-					KpId.Value,
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(KpId.Value / 65536.0)),
 					KiId.Value,
-					KpIq.Value,
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(KpIq.Value / 65536.0)),
 					KiIq.Value,
 					AccDfDt.Value,
 					DecDfDt.Value,
@@ -223,8 +228,10 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					TauFi.Value,
 					IdSetMin.Value,
 					IdSetMax.Value,
-					KpFe.Value,
-					KiFe.Value,
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(UchMin.Value / 65536.0)),
+					BytesPair.FromSignedShortLowFirst(0), // TODO:
+					BytesPair.FromSignedShortLowFirst((short)(UchMax.Value / 65536.0)),
 					Np.Value,
 					Empty53.Value,
 					EmdecDfdt.Value,
@@ -302,7 +309,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 							try {
 								var result = cmd.GetResult(bytes);
 								_userInterfaceRoot.Notifier.Notify(() => {
-									KpW = result.KpW;
+									KpW = result.KpW.LowFirstSignedValue * 65536;
 									KiW = result.KiW;
 									FiNom = result.FiNom;
 									Imax = result.Imax;
@@ -324,11 +331,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									Lm = result.Lm;
 									Lsl = result.Lsl;
 									Lrl = result.Lrl;
-									KpFi = result.KpFi;
+									KpFi = result.KpFi.LowFirstSignedValue * 65536;
 									KiFi = result.KiFi;
-									KpId = result.KpId;
+									KpId = result.KpId.LowFirstSignedValue * 65536;
 									KiId = result.KiId;
-									KpIq = result.KpIq;
+									KpIq = result.KpIq.LowFirstSignedValue * 65536;
 									KiIq = result.KiIq;
 									AccDfDt = result.AccDfDt;
 									DecDfDt = result.DecDfDt;
@@ -342,8 +349,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									TauFi = result.TauFi;
 									IdSetMin = result.IdSetMin;
 									IdSetMax = result.IdSetMax;
-									KpFe = result.KpFe;
-									KiFe = result.KiFe;
+									UchMin = result.UchMin.LowFirstSignedValue;
+									UchMax = result.UchMax.LowFirstSignedValue;
 									Np = result.Np;
 									Empty53 = result.UmodThr;
 									EmdecDfdt = result.EmdecDfdt;
@@ -582,14 +589,14 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_idSetMax != value) { _idSetMax = value; RaisePropertyChanged(() => IdSetMax); } }
 		}
 
-		public int? KpFe {
-			get { return _kpFe; }
-			set { if (_kpFe != value) { _kpFe = value; RaisePropertyChanged(() => KpFe); } }
+		public short? UchMin {
+			get { return _uchMin; }
+			set { if (_uchMin != value) { _uchMin = value; RaisePropertyChanged(() => UchMin); } }
 		}
 
-		public int? KiFe {
-			get { return _kiFe; }
-			set { if (_kiFe != value) { _kiFe = value; RaisePropertyChanged(() => KiFe); } }
+		public short? UchMax {
+			get { return _uchMax; }
+			set { if (_uchMax != value) { _uchMax = value; RaisePropertyChanged(() => UchMax); } }
 		}
 
 		public short? Np {

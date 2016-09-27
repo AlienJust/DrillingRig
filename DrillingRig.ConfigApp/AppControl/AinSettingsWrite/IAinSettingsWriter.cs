@@ -1,4 +1,5 @@
 ﻿using System;
+using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 	/// <summary>

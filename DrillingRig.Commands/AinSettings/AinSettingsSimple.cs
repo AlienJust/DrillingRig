@@ -1,7 +1,10 @@
-﻿namespace DrillingRig.Commands.AinSettings {
+﻿using AlienJust.Support.Collections;
+
+namespace DrillingRig.Commands.AinSettings {
 	public class AinSettingsSimple : IAinSettings {
 		public AinSettingsSimple(
-			int kpW, 
+			BytesPair reserved00,
+			BytesPair kpW, 
 			int kiW, 
 			short fiNom, 
 			short imax, 
@@ -24,12 +27,15 @@
 			short tauR, 
 			short lm, 
 			short lsl, 
-			short lrl, 
-			int kpFi, 
-			int kiFi, 
-			int kpId, 
-			int kiId, 
-			int kpIq, 
+			short lrl,
+			BytesPair reserved24,
+			BytesPair kpFi, 
+			int kiFi,
+			BytesPair reserved28,
+			BytesPair kpId, 
+			int kiId,
+			BytesPair reserved32,
+			BytesPair kpIq, 
 			int kiIq, 
 			short accDfDt, 
 			short decDfDt, 
@@ -44,9 +50,13 @@
 			short tauFSet, 
 			short tauFi, 
 			short idSetMin, 
-			short idSetMax, 
-			int kpFe, 
-			int kiFe, 
+			short idSetMax,
+			BytesPair uchMin,
+			BytesPair uchMax,
+
+			BytesPair reserved50,
+			BytesPair reserved51,
+
 			short np,
 
 			short umodThr,
@@ -54,6 +64,8 @@
 			short emdecDfdt, 
 			short textMax, 
 			short toHl, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault) {
+
+			Reserved00 = reserved00;
 			KpW = kpW;
 			KiW = kiW;
 			FiNom = fiNom;
@@ -78,10 +90,16 @@
 			Lm = lm;
 			Lsl = lsl;
 			Lrl = lrl;
+
+			Reserved24 = reserved24;
 			KpFi = kpFi;
 			KiFi = kiFi;
+
+			Reserved28 = reserved28;
 			KpId = kpId;
 			KiId = kiId;
+
+			Reserved32 = reserved32;
 			KpIq = kpIq;
 			KiIq = kiIq;
 			AccDfDt = accDfDt;
@@ -98,9 +116,12 @@
 			TauFi = tauFi;
 			IdSetMin = idSetMin;
 			IdSetMax = idSetMax;
-			KpFe = kpFe;
-			KiFe = kiFe;
-			
+			UchMin = uchMin;
+			UchMax = uchMax;
+
+			Reserved50 = reserved50;
+			Reserved51 = reserved51;
+
 			Np = np;
 
 			UmodThr = umodThr;
@@ -108,12 +129,14 @@
 			EmdecDfdt = emdecDfdt;
 			TextMax = textMax;
 			ToHl = toHl;
+
 			Ain1LinkFault = ain1LinkFault;
 			Ain2LinkFault = ain2LinkFault;
 			Ain3LinkFault = ain3LinkFault;
 		}
+		public BytesPair Reserved00 { get; }
 
-		public int KpW { get; }
+		public BytesPair KpW { get; }
 
 		public int KiW { get; }
 
@@ -156,16 +179,19 @@
 		public short Lsl { get; }
 
 		public short Lrl { get; }
+		public BytesPair Reserved24 { get; }
 
-		public int KpFi { get; }
+		public BytesPair KpFi { get; }
 
 		public int KiFi { get; }
+		public BytesPair Reserved28 { get; }
 
-		public int KpId { get; }
+		public BytesPair KpId { get; }
 
 		public int KiId { get; }
+		public BytesPair Reserved32 { get; }
 
-		public int KpIq { get; }
+		public BytesPair KpIq { get; }
 
 		public int KiIq { get; }
 
@@ -193,9 +219,11 @@
 
 		public short IdSetMax { get; }
 
-		public int KpFe { get; }
+		public BytesPair UchMin { get; }
 
-		public int KiFe { get; }
+		public BytesPair UchMax { get; }
+		public BytesPair Reserved50 { get; }
+		public BytesPair Reserved51 { get; }
 
 		public short Np { get; }
 

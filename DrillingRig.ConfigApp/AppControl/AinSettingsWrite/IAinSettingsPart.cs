@@ -1,6 +1,8 @@
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+using AlienJust.Support.Collections;
+
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	interface IAinSettingsPart {
-		int? KpW { get; }
+		BytesPair? KpW { get; }
 		int? KiW { get; }
 		short? FiNom { get; }
 		short? Imax { get; }
@@ -29,12 +31,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 		short? Lsl { get; }
 		short? Lrl { get; }
 
-		int? KpFi { get; }
+		BytesPair? KpFi { get; }
 		int? KiFi { get; }
 
-		int? KpId { get; }
+		BytesPair? KpId { get; }
 		int? KiId { get; }
-		int? KpIq { get; }
+		BytesPair? KpIq { get; }
 		int? KiIq { get; }
 
 		short? AccDfDt { get; }
@@ -55,8 +57,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 		short? IdSetMin { get; }
 		short? IdSetMax { get; }
 
-		int? KpFe { get; }
-		int? KiFe { get; }
+		BytesPair? UchMin { get; }
+		BytesPair? UchMax { get; }
 
 		short? Np { get; }
 

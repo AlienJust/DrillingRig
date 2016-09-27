@@ -173,6 +173,7 @@
     <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageUpdatedNotify.cs" />
     <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorage.cs" />
     <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageSettable.cs" />
+    <Compile Include="AppControl\AinSettingsWrite\IainSettingsExtensions.cs" />
     <Compile Include="AppControl\Cycle\CycleThreadHolderThreadSafe.cs" />
     <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
     <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="AppControl\AinSettingsRead\IAinSettingsReadNotify.cs" />
     <Compile Include="AppControl\AinSettingsRead\IAinSettingsReader.cs" />
     <Compile Include="AppControl\AinSettingsWrite\IAinSettingsWriter.cs" />
+    <Compile Include="LookedLikeAbb\BytesPairToDoubleQ8Converter.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
@@ -274,6 +276,10 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Group102SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group101SettingsViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group107SettingsView.xaml.cs">
+      <DependentUpon>Group107SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group107SettingsViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group106Settings\Group106SettingsView.xaml.cs">
       <DependentUpon>Group106SettingsView.xaml</DependentUpon>
     </Compile>
@@ -551,6 +557,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Group101SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group107SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

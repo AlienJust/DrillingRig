@@ -69,7 +69,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpFi = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 16777216.0),
+					KpFi = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
 					KiFi = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
 					IdSetMin = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
 					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
@@ -103,6 +103,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			return (short)value.Value;
 		}
 
+
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
@@ -114,8 +115,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.KpFi / 16777216.0;
+				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpFi);
 				Parameter02Vm.CurrentValue = settings.KiFi / 16777216.0;
+
 				Parameter03Vm.CurrentValue = settings.IdSetMin;
 				Parameter04Vm.CurrentValue = settings.IdSetMax;
 			});

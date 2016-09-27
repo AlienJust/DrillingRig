@@ -343,16 +343,16 @@
 					<ColumnDefinition Width="3*"/>
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора компенсатора"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpFe , Mode=TwoWay}"/>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="В режиме чоппера нижний порог напряжения"/>
+				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=UchMin , Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="3*"/>
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Интегральный коэф. регулятора компенсатора"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KiFe, Mode=TwoWay}"/>
+					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="В режиме чоппера верхний порог напряжения"/>
+					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=UchMax, Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>

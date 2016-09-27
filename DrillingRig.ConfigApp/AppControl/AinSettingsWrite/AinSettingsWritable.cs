@@ -1,8 +1,11 @@
+using AlienJust.Support.Collections;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsWritable : IAinSettings {
-		public int KpW { get; set; }
+		public BytesPair Reserved00 { get; set; }
+		public BytesPair KpW { get; set; }
 		public int KiW { get; set; }
 		public short FiNom { get; set; }
 		public short Imax { get; set; }
@@ -24,11 +27,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 		public short Lm { get; set; }
 		public short Lsl { get; set; }
 		public short Lrl { get; set; }
-		public int KpFi { get; set; }
+		public BytesPair Reserved24 { get; set; }
+		public BytesPair KpFi { get; set; }
 		public int KiFi { get; set; }
-		public int KpId { get; set; }
+		public BytesPair Reserved28 { get; set; }
+		public BytesPair KpId { get; set; }
 		public int KiId { get; set; }
-		public int KpIq { get; set; }
+		public BytesPair Reserved32 { get; set; }
+		public BytesPair KpIq { get; set; }
 		public int KiIq { get; set; }
 		public short AccDfDt { get; set; }
 		public short DecDfDt { get; set; }
@@ -42,8 +48,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 		public short TauFi { get; set; }
 		public short IdSetMin { get; set; }
 		public short IdSetMax { get; set; }
-		public int KpFe { get; set; }
-		public int KiFe { get; set; }
+		public BytesPair UchMin { get; set; }
+		public BytesPair UchMax { get; set; }
+		public BytesPair Reserved50 { get; set; }
+		public BytesPair Reserved51 { get; set; }
 		public short Np { get; set; }
 		public short UmodThr { get; set; }
 		public short EmdecDfdt { get; set; }
@@ -95,8 +103,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 			TauFi = settings.TauFi;
 			IdSetMin = settings.IdSetMin;
 			IdSetMax = settings.IdSetMax;
-			KpFe = settings.KpFe;
-			KiFe = settings.KiFe;
+			UchMin = settings.UchMin;
+			UchMax = settings.UchMax;
 			Np = settings.Np;
 			UmodThr = settings.UmodThr;
 			EmdecDfdt = settings.EmdecDfdt;
@@ -146,8 +154,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
 			if (part.TauFi.HasValue) TauFi = part.TauFi.Value;
 			if (part.IdSetMin.HasValue) IdSetMin = part.IdSetMin.Value;
 			if (part.IdSetMax.HasValue) IdSetMax = part.IdSetMax.Value;
-			if (part.KpFe.HasValue) KpFe = part.KpFe.Value;
-			if (part.KiFe.HasValue) KiFe = part.KiFe.Value;
+			if (part.UchMin.HasValue) UchMin = part.UchMin.Value;
+			if (part.UchMax.HasValue) UchMax = part.UchMax.Value;
 			if (part.Np.HasValue) Np = part.Np.Value;
 			if (part.UmodThr.HasValue) UmodThr = part.UmodThr.Value;
 			if (part.EmdecDfdt.HasValue) EmdecDfdt = part.EmdecDfdt.Value;

@@ -1,4 +1,5 @@
 ﻿using System;
+using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
@@ -9,7 +10,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group24SettingsViewModel : ViewModelBase {
+	class Group107SettingsViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
 		private readonly IAinSettingsReaderWriter _readerWriter;
@@ -24,24 +25,25 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group24SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
+		public Group107SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, /*IAinSettingsReadNotify ainSettingsReadNotify,*/ IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
-			_ainSettingsReadNotify = ainSettingsReadNotify;
+			//_ainSettingsReadNotify = ainSettingsReadNotify;
 			_storage = storage;
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f6", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("24.02. Интегральный коэф. регулятора скорости", "f6", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("107.01. В режиме чоппера нижний порог напряжения", "f0", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditableViewModel("107.02. В режиме чоппера верхний порог напряжения", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
-			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
+			//_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
 			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
 				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
+				AinSettingsReadNotifyOnAinSettingsReadComplete(zbAinNuber, settings == null ? new Exception("Настройки недоступны") : null, settings);
 			};
 		}
 
@@ -64,8 +66,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpW = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
-					KiW = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0)
+					// TODO: null handling like in group 100 or 101 (q8)
+					UchMin = BytesPair.FromSignedShortLowFirst(ConvertDoubleToShort(Parameter01Vm.CurrentValue).Value),
+					UchMax = BytesPair.FromSignedShortLowFirst(ConvertDoubleToShort(Parameter02Vm.CurrentValue).Value),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -85,7 +88,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadSettings() {
 			try {
 				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
-			}
+		}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
 			}
@@ -105,8 +108,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpW);
-				Parameter02Vm.CurrentValue = settings.KiW / 16777216.0;
+				Parameter01Vm.CurrentValue = settings.UchMin.LowFirstSignedValue;
+				Parameter02Vm.CurrentValue = settings.UchMax.LowFirstSignedValue;
 			});
 		}
 	}
