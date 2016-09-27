@@ -62,7 +62,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(1.0)
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -91,7 +91,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(1.0)
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -99,7 +99,6 @@ namespace DrillingRig.ConfigApp.SystemControl {
 								_logger.Log("Произошла ошибка при передаче данных, но это нормально");
 							}
 							_logger.Log("Команда перехода в режим bootloader была отправлена, отключаемся от COM-порта");
-							_linkControl.CloseComPort();
 							var psi = new ProcessStartInfo("flash.bat");
 							var process = new Process {StartInfo = psi};
 							process.Start();
@@ -108,6 +107,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 							_logger.Log(ex.Message);
 						}
 					}));
+				_linkControl.CloseComPort();
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду перехода в режим bootloader в очередь: " + ex.Message);

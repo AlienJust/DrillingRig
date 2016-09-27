@@ -12,10 +12,7 @@ namespace DrillingRig.Commands.SystemControl {
 			return new byte[0];
 		}
 
-		public int ReplyLength
-		{
-			get { return 32; }
-		}
+		public int ReplyLength => 32;
 
 		public byte[] GetTestReply()
 		{

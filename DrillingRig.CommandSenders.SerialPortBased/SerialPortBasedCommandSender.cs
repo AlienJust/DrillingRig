@@ -4,8 +4,6 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using AlienJust.Support.Concurrent;
-using AlienJust.Support.Concurrent.Contracts;
-using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.Serial;
 using AlienJust.Support.Text;
@@ -18,7 +16,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly SerialPort _serialPort;
 		private readonly SerialPortExtender _portExtender;
-		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
+		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action> _backWorker;
 
 		public SerialPortBasedCommandSender(string portName, IMultiLoggerWithStackTrace debugLogger) {
 			_debugLogger = debugLogger;
@@ -26,7 +24,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 			_serialPort.Open();
 			_portExtender = new SerialPortExtender(_serialPort, text => _debugLogger.GetLogger(3).Log(text, new StackTrace()));
 
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("SpNotifyWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
+			_backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action>("SpNotifyWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
 		}
 
 		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
