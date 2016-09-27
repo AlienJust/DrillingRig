@@ -23,14 +23,24 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter04Vm { get; }
 
+		public ParameterDoubleEditableViewModel Parameter101Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter102Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter103Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter104Vm { get; }
+
+		public ParameterDoubleEditableViewModel Parameter201Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter202Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter203Vm { get; }
+		public ParameterDoubleEditableViewModel Parameter204Vm { get; }
+
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group105SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
+		public Group105SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, /*IAinSettingsReadNotify ainSettingsReadNotify,*/ IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
-			_ainSettingsReadNotify = ainSettingsReadNotify;
+			//_ainSettingsReadNotify = ainSettingsReadNotify;
 			_storage = storage;
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
@@ -40,12 +50,23 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter03Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
 			Parameter04Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
+			Parameter101Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter102Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter103Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
+			Parameter104Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+
+			Parameter201Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter202Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter203Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
+			Parameter204Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
-			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
+			//_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
 			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
 				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
+				AinSettingsReadNotifyOnAinSettingsReadComplete(zbAinNuber, settings == null ? new Exception("Настройки недоступны") : null, settings);
 			};
 		}
 
@@ -62,6 +83,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
 			if (zeroBasedAinNumber == 0) {
 				UpdateSettingsInUiThread(readInnerException, settings);
+			}
+			else if (zeroBasedAinNumber == 1) {
+				UpdateSettingsInUiThread1(readInnerException, settings);
+			}
+			else if (zeroBasedAinNumber == 2) {
+				UpdateSettingsInUiThread2(readInnerException, settings);
 			}
 		}
 
@@ -90,8 +117,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
-			}
+				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i)
+					_readerWriter.ReadSettingsAsync(i, true, (exception, settings) => { });
+		}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
 			}
@@ -117,6 +145,42 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter02Vm.CurrentValue = settings.Ib0;
 				Parameter03Vm.CurrentValue = settings.Ic0;
 				Parameter04Vm.CurrentValue = settings.Udc0;
+			});
+		}
+
+		private void UpdateSettingsInUiThread1(Exception exception, IAinSettings settings) {
+			_uiRoot.Notifier.Notify(() => {
+				if (exception != null) {
+					//_logger.Log("Не удалось прочитать настройки АИН");
+					Parameter101Vm.CurrentValue = null;
+					Parameter102Vm.CurrentValue = null;
+					Parameter103Vm.CurrentValue = null;
+					Parameter104Vm.CurrentValue = null;
+					return;
+				}
+
+				Parameter101Vm.CurrentValue = settings.Ia0;
+				Parameter102Vm.CurrentValue = settings.Ib0;
+				Parameter103Vm.CurrentValue = settings.Ic0;
+				Parameter104Vm.CurrentValue = settings.Udc0;
+			});
+		}
+
+		private void UpdateSettingsInUiThread2(Exception exception, IAinSettings settings) {
+			_uiRoot.Notifier.Notify(() => {
+				if (exception != null) {
+					//_logger.Log("Не удалось прочитать настройки АИН");
+					Parameter201Vm.CurrentValue = null;
+					Parameter202Vm.CurrentValue = null;
+					Parameter203Vm.CurrentValue = null;
+					Parameter204Vm.CurrentValue = null;
+					return;
+				}
+
+				Parameter201Vm.CurrentValue = settings.Ia0;
+				Parameter202Vm.CurrentValue = settings.Ib0;
+				Parameter203Vm.CurrentValue = settings.Ic0;
+				Parameter204Vm.CurrentValue = settings.Udc0;
 			});
 		}
 	}

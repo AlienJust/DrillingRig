@@ -171,8 +171,7 @@ namespace DrillingRig.ConfigApp.AppControl
 
 			_ainSettingsWriter = new AinSettingsWriter(_cmdSenderHost, _targetAddressHost, _ainsCounterRaisable, _ainSettingsReader);
 			_autoTimeSetter = new AutoTimeSetter(_cmdSenderHost, _notifySendingEnabled, _targetAddressHost, _commonLogger);
-			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _commonLogger);
-
+			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _ainSettingsStorageSettable, _commonLogger);
 
 			
 			// обнуление хранилища настроек при отключении

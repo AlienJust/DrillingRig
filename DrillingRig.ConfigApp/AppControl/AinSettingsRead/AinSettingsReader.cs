@@ -68,6 +68,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 
 					try {
 						var result = readSettingsCmd.GetResult(replyBytes);
+						if (zeroBasedAinNumber == 0 && result.Ain1LinkFault) throw new Exception("Настройки АИН1 были считаны, однако флаг ошибки связи с АИН1 взведен");
+						if (zeroBasedAinNumber == 1 && result.Ain2LinkFault) throw new Exception("Настройки АИН2 были считаны, однако флаг ошибки связи с АИН2 взведен");
+						if (zeroBasedAinNumber == 2 && result.Ain3LinkFault) throw new Exception("Настройки АИН3 были считаны, однако флаг ошибки связи с АИН3 взведен");
 
 						try {
 							_notifyWorker.AddWork(() => callback.Invoke(null, result));
@@ -81,7 +84,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 
 					}
 					catch (Exception resultGetException) {
-						var errorMessage = "Ошибка во время разбора ответа на команду чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString();
+						var errorMessage = "Ошибка во время разбора ответа на команду чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString() + ": " + resultGetException.Message;
 
 						try {
 							var ex = new Exception(errorMessage, resultGetException);
