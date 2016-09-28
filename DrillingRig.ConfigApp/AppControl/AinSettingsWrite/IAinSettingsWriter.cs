@@ -1,7 +1,6 @@
 ﻿using System;
-using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw {
+namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	/// <summary>
 	/// Реализация должна учитывать число АИНов в системе и производить запись соответсвтенно
 	/// </summary>
