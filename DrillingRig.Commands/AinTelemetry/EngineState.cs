@@ -34,12 +34,13 @@ namespace DrillingRig.Commands.AinTelemetry {
 		PostInching, //20 После толчка поддержание ключей включенными
 
 		FaultState, //21 Авария.
-		SwitchOnInhibit, // 22 Ожидание штатного отключения после аварийного.
-		InhibitOperationActive, // 23 Ожидание штатного отключения после пропадания сигнала RUN.
-		ChopperNotReady, // 24 Чоппер не готов
-		ChopperRun, //25 Чоппер запущен.
-		ReadKIs, //26 Опрос КИ.
-		ReadMOs, //27 Опрос МО.
+		FaultStateWaitReset, // 22 Авария ожидаем рестарт
+		SwitchOnInhibit, // 23 Ожидание штатного отключения после аварийного
+		InhibitOperationActive, // 24 Ожидание штатного отключения после пропадания сигнала RUN.
+		ChopperNotReady, // 25 Чоппер не готов
+		ChopperRun, //26 Чоппер запущен.
+		ReadKIs, //27 Опрос КИ.
+		ReadMOs, //28 Опрос МО.
 	}
 
 	public static class EngineStateExtensions {
@@ -93,18 +94,20 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 				case EngineState.FaultState:
 					return 21;
-				case EngineState.SwitchOnInhibit:
+				case EngineState.FaultStateWaitReset:
 					return 22;
-				case EngineState.InhibitOperationActive:
+				case EngineState.SwitchOnInhibit:
 					return 23;
-				case EngineState.ChopperNotReady:
+				case EngineState.InhibitOperationActive:
 					return 24;
-				case EngineState.ChopperRun:
+				case EngineState.ChopperNotReady:
 					return 25;
-				case EngineState.ReadKIs:
+				case EngineState.ChopperRun:
 					return 26;
-				case EngineState.ReadMOs:
+				case EngineState.ReadKIs:
 					return 27;
+				case EngineState.ReadMOs:
+					return 28;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -159,6 +162,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "POST_INCHING";
 				case EngineState.FaultState:
 					return "FAULT_STATE";
+				case EngineState.FaultStateWaitReset:
+					return "FAULT_STATE_WAIT_RESET";
 				case EngineState.SwitchOnInhibit:
 					return "SWITCH_ON_INHIBIT";
 				case EngineState.InhibitOperationActive:
@@ -228,16 +233,18 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case 21:
 					return EngineState.FaultState;
 				case 22:
-					return EngineState.SwitchOnInhibit;
+					return EngineState.FaultStateWaitReset;
 				case 23:
-					return EngineState.InhibitOperationActive;
+					return EngineState.SwitchOnInhibit;
 				case 24:
-					return EngineState.ChopperNotReady;
+					return EngineState.InhibitOperationActive;
 				case 25:
-					return EngineState.ChopperRun;
+					return EngineState.ChopperNotReady;
 				case 26:
-					return EngineState.ReadKIs;
+					return EngineState.ChopperRun;
 				case 27:
+					return EngineState.ReadKIs;
+				case 28:
 					return EngineState.ReadMOs;
 
 				default:
