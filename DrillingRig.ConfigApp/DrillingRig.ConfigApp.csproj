@@ -216,7 +216,6 @@
     <Compile Include="AppControl\AinSettingsRead\IAinSettingsReadNotify.cs" />
     <Compile Include="AppControl\AinSettingsRead\IAinSettingsReader.cs" />
     <Compile Include="AppControl\AinSettingsWrite\IAinSettingsWriter.cs" />
-    <Compile Include="LookedLikeAbb\BytesPairToDoubleQ8Converter.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>

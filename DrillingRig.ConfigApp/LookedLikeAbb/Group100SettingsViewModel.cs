@@ -36,10 +36,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f6", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f8", -10000, 10000, null) { Increment = 0.00390625 };
 			Parameter02Vm = new ParameterDoubleEditableViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -10000, 10000, null);
 
-			Parameter03Vm = new ParameterDoubleEditableViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f6", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditableViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f8", -10000, 10000, null) { Increment = 0.00390625 };
 			Parameter04Vm = new ParameterDoubleEditableViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -10000, 10000, null);
 
 
@@ -73,9 +73,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpId = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
+					KpId = Parameter01Vm.CurrentValue,
 					KiId = ConvertNullableDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
-					KpIq = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter03Vm.CurrentValue * 16777216.0),
+					KpIq = Parameter03Vm.CurrentValue,
 					KiIq = ConvertNullableDoubleToShort(Parameter04Vm.CurrentValue * 16777216.0)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
@@ -118,9 +118,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter04Vm.CurrentValue = null;
 					return;
 				}
-				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpId);
+				Parameter01Vm.CurrentValue = settings.KpId;
 				Parameter02Vm.CurrentValue = settings.KiId / 16777216.0;
-				Parameter03Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpIq);
+				Parameter03Vm.CurrentValue = settings.KpIq;
 				Parameter04Vm.CurrentValue = settings.KiIq / 16777216.0;
 			});
 		}

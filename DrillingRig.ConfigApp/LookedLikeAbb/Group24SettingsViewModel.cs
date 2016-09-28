@@ -33,7 +33,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f6", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f8", -10000, 10000, null) {Increment = 0.00390625 };
 			Parameter02Vm = new ParameterDoubleEditableViewModel("24.02. Интегральный коэф. регулятора скорости", "f6", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -64,7 +64,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpW = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
+					KpW = Parameter01Vm.CurrentValue,
 					KiW = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
@@ -105,7 +105,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpW);
+				Parameter01Vm.CurrentValue = settings.KpW;
 				Parameter02Vm.CurrentValue = settings.KiW / 16777216.0;
 			});
 		}

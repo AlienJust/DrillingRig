@@ -22,7 +22,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private readonly RelayCommand _readSettingsCommand;
 		private readonly RelayCommand _writeSettingsCommand;
 
-		private int? _kpW;
+		private double? _kpW;
 		private int? _kiW;
 		private short? _fiNom;
 		private short? _imax;
@@ -49,11 +49,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _lsl;
 		private short? _lrl;
 
-		private int? _kpFi;
+		private double? _kpFi;
 		private int? _kiFi;
-		private int? _kpId;
+		private double? _kpId;
 		private int? _kiId;
-		private int? _kpIq;
+		private double? _kpIq;
 		private int? _kiIq;
 		private short? _accDfDt;
 		private short? _decDfDt;
@@ -185,7 +185,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 				try {
 				ainSettings = new AinSettingsSimple(
 					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(KpW.Value / 65536.0)),
+					KpW.Value,
 					KiW.Value,
 					FiNom.Value,
 					Imax.Value,
@@ -208,13 +208,13 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					Lsl.Value,
 					Lrl.Value,
 					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(KpFi.Value / 65536.0)),
+					KpFi.Value,
 					KiFi.Value,
 					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(KpId.Value / 65536.0)),
+					KpId.Value,
 					KiId.Value,
 					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(KpIq.Value / 65536.0)),
+					KpIq.Value,
 					KiIq.Value,
 					AccDfDt.Value,
 					DecDfDt.Value,
@@ -313,7 +313,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 							try {
 								var result = cmd.GetResult(bytes);
 								_userInterfaceRoot.Notifier.Notify(() => {
-									KpW = result.KpW.LowFirstSignedValue * 65536;
+									KpW = result.KpW;
 									KiW = result.KiW;
 									FiNom = result.FiNom;
 									Imax = result.Imax;
@@ -335,11 +335,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									Lm = result.Lm;
 									Lsl = result.Lsl;
 									Lrl = result.Lrl;
-									KpFi = result.KpFi.LowFirstSignedValue * 65536;
+									KpFi = result.KpFi;
 									KiFi = result.KiFi;
-									KpId = result.KpId.LowFirstSignedValue * 65536;
+									KpId = result.KpId;
 									KiId = result.KiId;
-									KpIq = result.KpIq.LowFirstSignedValue * 65536;
+									KpIq = result.KpIq;
 									KiIq = result.KiIq;
 									AccDfDt = result.AccDfDt;
 									DecDfDt = result.DecDfDt;
@@ -392,7 +392,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		public ICommand ExportSettingsCommand { get; }
 
-		public int? KpW {
+		public double? KpW {
 			get { return _kpW; }
 			set { if (_kpW != value) { _kpW = value; RaisePropertyChanged(() => KpW); } }
 		}
@@ -504,7 +504,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_lrl != value) { _lrl = value; RaisePropertyChanged(() => Lrl); } }
 		}
 
-		public int? KpFi {
+		public double? KpFi {
 			get { return _kpFi; }
 			set { if (_kpFi != value) { _kpFi = value; RaisePropertyChanged(() => KpFi); } }
 		}
@@ -514,7 +514,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kiFi != value) { _kiFi = value; RaisePropertyChanged(() => KiFi); } }
 		}
 
-		public int? KpId {
+		public double? KpId {
 			get { return _kpId; }
 			set { if (_kpId != value) { _kpId = value; RaisePropertyChanged(() => KpId); } }
 		}
@@ -524,7 +524,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kiId != value) { _kiId = value; RaisePropertyChanged(() => KiId); } }
 		}
 
-		public int? KpIq {
+		public double? KpIq {
 			get { return _kpIq; }
 			set { if (_kpIq != value) { _kpIq = value; RaisePropertyChanged(() => KpIq); } }
 		}

@@ -14,7 +14,7 @@
 				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Grid.Column="0" Text="{Binding Name, Mode=OneTime}"/>
-			<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=CurrentValue, Mode=TwoWay}" Maximum="{Binding Path=MaximumValue, Mode=OneTime}" Minimum="{Binding Path=MinimumValue, Mode=OneTime}" FormatString="{Binding Path=Format, Mode=OneTime}"/>
+			<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=CurrentValue, Mode=TwoWay}" Maximum="{Binding Path=MaximumValue, Mode=OneTime}" Minimum="{Binding Path=MinimumValue, Mode=OneTime}" FormatString="{Binding Path=Format, Mode=OneTime}" Increment="{Binding Path=Increment, Mode=OneTime}"/>
 		</Grid>
 	</CheckBox>
 </UserControl>

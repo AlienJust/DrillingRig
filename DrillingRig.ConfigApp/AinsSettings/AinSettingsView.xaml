@@ -23,7 +23,7 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора скорости"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpW, Mode=TwoWay}"/>
+				<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=KpW, Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -200,7 +200,7 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора потока"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpFi, Mode=TwoWay}"/>
+					<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=KpFi, Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -216,7 +216,7 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора тока D"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpId, Mode=TwoWay}"/>
+					<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=KpId, Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -232,7 +232,7 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Пропорциональный коэф. регулятора тока Q"/>
-				<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=KpIq, Mode=TwoWay}"/>
+					<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=KpIq, Mode=TwoWay}"/>
 			</Grid>
 			<Grid>
 				<Grid.ColumnDefinitions>

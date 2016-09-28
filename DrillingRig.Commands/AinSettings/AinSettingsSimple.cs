@@ -4,7 +4,7 @@ namespace DrillingRig.Commands.AinSettings {
 	public class AinSettingsSimple : IAinSettings {
 		public AinSettingsSimple(
 			BytesPair reserved00,
-			BytesPair kpW, 
+			double kpW, 
 			int kiW, 
 			short fiNom, 
 			short imax, 
@@ -29,13 +29,13 @@ namespace DrillingRig.Commands.AinSettings {
 			short lsl, 
 			short lrl,
 			BytesPair reserved24,
-			BytesPair kpFi, 
+			double kpFi, 
 			int kiFi,
 			BytesPair reserved28,
-			BytesPair kpId, 
+			double kpId, 
 			int kiId,
 			BytesPair reserved32,
-			BytesPair kpIq, 
+			double kpIq, 
 			int kiIq, 
 			short accDfDt, 
 			short decDfDt, 
@@ -140,7 +140,7 @@ namespace DrillingRig.Commands.AinSettings {
 		}
 		public BytesPair Reserved00 { get; }
 
-		public BytesPair KpW { get; }
+		public double KpW { get; }
 
 		public int KiW { get; }
 
@@ -185,17 +185,17 @@ namespace DrillingRig.Commands.AinSettings {
 		public short Lrl { get; }
 		public BytesPair Reserved24 { get; }
 
-		public BytesPair KpFi { get; }
+		public double KpFi { get; }
 
 		public int KiFi { get; }
 		public BytesPair Reserved28 { get; }
 
-		public BytesPair KpId { get; }
+		public double KpId { get; }
 
 		public int KiId { get; }
 		public BytesPair Reserved32 { get; }
 
-		public BytesPair KpIq { get; }
+		public double KpIq { get; }
 
 		public int KiIq { get; }
 

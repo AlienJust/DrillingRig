@@ -35,7 +35,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("101.01. Пропорциональный коэф. регулятора потока", "f6", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditableViewModel("101.01. Пропорциональный коэф. регулятора потока", "f8", -10000, 10000, null) { Increment = 0.00390625 };
 			Parameter02Vm = new ParameterDoubleEditableViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -10000, 10000, null);
 
 			Parameter03Vm = new ParameterDoubleEditableViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000, null);
@@ -69,7 +69,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					KpFi = BytesPairToDoubleQ8Converter.ConvertNullableDoubleToBytesPairQ8(Parameter01Vm.CurrentValue),
+					KpFi = Parameter01Vm.CurrentValue,
 					KiFi = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
 					IdSetMin = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
 					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
@@ -115,7 +115,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = BytesPairToDoubleQ8Converter.ConvertNullableBytesPairToDoubleQ8(settings.KpFi);
+				Parameter01Vm.CurrentValue = settings.KpFi;
 				Parameter02Vm.CurrentValue = settings.KiFi / 16777216.0;
 
 				Parameter03Vm.CurrentValue = settings.IdSetMin;

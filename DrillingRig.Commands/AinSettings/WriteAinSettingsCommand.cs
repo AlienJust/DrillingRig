@@ -23,8 +23,9 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[0] = _settings.Reserved00.First;
 			settingsSerialized[1] = _settings.Reserved00.Second;
 
-			settingsSerialized[2] = _settings.KpW.First;
-			settingsSerialized[3] = _settings.KpW.Second;
+			var bpKpW = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpW);
+			settingsSerialized[2] = bpKpW.First;
+			settingsSerialized[3] = bpKpW.Second;
 
 			settingsSerialized.SerializeIntLowFirst(4, _settings.KiW);
 			settingsSerialized.SerializeShortLowFirst(8, _settings.FiNom);
@@ -53,16 +54,18 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[48] = _settings.Reserved24.First;
 			settingsSerialized[49] = _settings.Reserved24.Second;
 
-			settingsSerialized[50] = _settings.KpFi.First;
-			settingsSerialized[51] = _settings.KpFi.Second;
+			var bpKpFi = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpFi);
+			settingsSerialized[50] = bpKpFi.First;
+			settingsSerialized[51] = bpKpFi.Second;
 			
 			settingsSerialized.SerializeIntLowFirst(52, _settings.KiFi);
 
 			settingsSerialized[56] = _settings.Reserved28.First;
 			settingsSerialized[57] = _settings.Reserved28.Second;
 
-			settingsSerialized[58] = _settings.KpId.First;
-			settingsSerialized[59] = _settings.KpId.Second;
+			var bpKpId = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpId);
+			settingsSerialized[58] = bpKpId.First;
+			settingsSerialized[59] = bpKpId.Second;
 			
 			settingsSerialized.SerializeIntLowFirst(60, _settings.KiId);
 
@@ -70,8 +73,10 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[64] = _settings.Reserved32.First;
 			settingsSerialized[65] = _settings.Reserved32.Second;
 
-			settingsSerialized[66] = _settings.KpIq.First;
-			settingsSerialized[67] = _settings.KpIq.Second;
+
+			var bpKpIq = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpIq);
+			settingsSerialized[66] = bpKpIq.First;
+			settingsSerialized[67] = bpKpIq.Second;
 			
 			settingsSerialized.SerializeIntLowFirst(68, _settings.KiIq);
 

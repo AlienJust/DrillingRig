@@ -9,6 +9,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private double? _currentValue;
 		private bool _isChecked;
 
+		public double Increment { get; set; }
+
 		public ParameterDoubleEditableViewModel(string name, string format, double minimumValue, double maximumValue, double? currentValue) {
 			Name = name;
 			Format = format;
@@ -17,6 +19,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			_isChecked = false;
 			_currentValue = currentValue;
+			Increment = 1.0;
 		}
 
 
