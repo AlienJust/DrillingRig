@@ -4,7 +4,6 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry01;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
@@ -127,13 +126,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					}
 					finally {
 						_uiRoot.Notifier.Notify(() => {
-							Console.WriteLine("UserInterface thread begin action =============================");
-							Console.WriteLine("Now update telemetry Group01...");
-							// TODO: result update telemetry
+							// TODO: uipdate bu null if null obtains more than X times (3 for example)
 							UpdateTelemetry(telemetry);
-							Console.WriteLine("Done");
-							//if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAin1Status(ainTelemetry?.Status);
-							Console.WriteLine("UserInterface thread end action ===============================");
 						});
 						waiter.Set();
 					}
