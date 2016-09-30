@@ -12,10 +12,11 @@ using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Adaptation.WindowsPresentation;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
+using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
-	public partial class OscilloscopeWindow : MetroWindow, IParameterLogger {
+	public partial class OscilloscopeWindow : MetroWindow, IParameterLogger, IUpdatable {
 		private readonly MainWindow _mainWindow;
 		private readonly List<Color> _colors;
 		private readonly List<Color> _usedColors;
@@ -36,7 +37,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private readonly Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>> _namedSeries;
 		private readonly WpfUiNotifierAsync _uiNotifier;
 
-		
+
 		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
 			_mainWindow = mainWindow;
 			_colors = colors;
@@ -52,26 +53,33 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
-			var xAxis = new NumericAxis { AxisTitle = "Развертка, сек" };
-			xAxis.VisibleRange = new DoubleRange(_xmin, _xmax); // total range of 20 seconds
+			var xAxis = new NumericAxis {
+				AxisTitle = "Развертка, сек",
+				VisibleRange = new DoubleRange(_xmin, _xmax)
+			};
+			// total range of 20 seconds
 
-			var yAxis = new NumericAxis { AxisTitle = "Значания" };
-			yAxis.AutoRange = AutoRange.Always;
-			yAxis.VisibleRange = new DoubleRange(Ymin, Ymax); // total range of 20 seconds
+			var yAxis = new NumericAxis {
+				AxisTitle = "Значания",
+				AutoRange = AutoRange.Never,
+				VisibleRange = new DoubleRange(Ymin, Ymax)
+			};
+			// total range of 20 seconds
 
 
 			Surface.XAxis = xAxis;
 			Surface.YAxis = yAxis;
 
-			_annotation = new VerticalLineAnnotation();
-			_annotation.Stroke = new SolidColorBrush(Colors.LawnGreen);
-			_annotation.X1 = _linePosition;
-			_annotation.X2 = _linePosition;
-			_annotation.IsEditable = false;
+			_annotation = new VerticalLineAnnotation {
+				Stroke = new SolidColorBrush(Colors.LawnGreen),
+				X1 = _linePosition,
+				X2 = _linePosition,
+				IsEditable = false
+			};
 
 			Surface.Annotations.Add(_annotation);
 
-			_timer = new Timer(_updateInterval.TotalMilliseconds) {AutoReset = true};
+			_timer = new Timer(_updateInterval.TotalMilliseconds) { AutoReset = true };
 			_timer.Elapsed += TimerOnTick;
 			_timer.Start();
 
@@ -80,7 +88,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private static FastLineRenderableSeries CreateLineSeries(Color color) {
-			return new FastLineRenderableSeries() {
+			return new FastLineRenderableSeries {
 				SeriesColor = color,
 				StrokeThickness = 2,
 				AntiAliasing = true,
@@ -112,19 +120,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		public void LogAnalogueParameter(string parameterName, double? value) {
-			if (value.HasValue) { 
+			if (value.HasValue) {
 				_uiNotifier.Notify(() => {
 					if (!_namedSeries.ContainsKey(parameterName)) {
 						var color = _colors.First(c => _usedColors.All(uc => uc != c));
 						_usedColors.Add(color);
 						var rs = CreateLineSeries(color);
 
-						var xy = new XyDataSeries<double,double>();
+						var xy = new XyDataSeries<double, double>();
 						rs.DataSeries = xy;
 						_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
 						Surface.RenderableSeries.Add(rs);
 					}
 					_namedSeries[parameterName].Item2.Append(_linePosition, value.Value);
+					Update();
 				});
 			}
 		}
@@ -143,6 +152,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 						Surface.RenderableSeries.Add(rs);
 					}
 					_namedSeries[parameterName].Item2.Append(_linePosition, value.Value ? 1 : 0);
+					Update();
 				});
 			}
 		}
@@ -156,6 +166,37 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 				_usedColors.Remove(s.Item1.SeriesColor);
 				s.Item2.Clear();
 				//_currentColorIndex--;
+			}
+		}
+
+		private void CheckBox_Checked(object sender, RoutedEventArgs e) {
+			if (CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value) {
+				if (Surface?.YAxis != null)
+					Surface.YAxis.AutoRange = AutoRange.Always;
+			}
+			else {
+				if (Surface?.YAxis != null)
+					Surface.YAxis.AutoRange = AutoRange.Never;
+			}
+		}
+
+		public void Update() {
+			_uiNotifier.Notify(() => {
+				if (CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value) {
+					Surface?.ZoomExtentsY();
+				}
+			});
+		}
+
+		private void ButtonZoomOut_Click(object sender, RoutedEventArgs e) {
+			if (!(CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value)) {
+				Surface?.YAxis.ZoomBy(0.2, 0.2);
+			}
+		}
+
+		private void ButtonZoomIn_Click(object sender, RoutedEventArgs e) {
+			if (!(CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value)) {
+				Surface?.YAxis.ZoomBy(-0.2, -0.2);
 			}
 		}
 	}

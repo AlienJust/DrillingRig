@@ -219,6 +219,7 @@
     <Compile Include="LookedLikeAbb\Chart\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LookedLikeAbb\Chart\IUpdatable.cs" />
     <Compile Include="LookedLikeAbb\Chart\WindowChart.xaml.cs">
       <DependentUpon>WindowChart.xaml</DependentUpon>
     </Compile>

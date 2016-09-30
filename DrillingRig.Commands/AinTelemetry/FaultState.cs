@@ -19,6 +19,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		RelayAlarmMo, //14
 		OverheatProtection, //15 Сработала тепловая защита
 		SystemStart, // 16 Старт системы. Неопределенное состояние АИН (после включения/рестарта)
+		ChangedControlSource // 17 Изменился источник управления во время движения
 	}
 
 	public static class FaultStateExtensions {
@@ -62,7 +63,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 15;
 				case FaultState.SystemStart:
 					return 16;
-
+				case FaultState.ChangedControlSource:
+					return 17;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -108,7 +110,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "OVERHEAT_PROTECTION";
 				case FaultState.SystemStart:
 					return "SYSTEM_START";
-
+				case FaultState.ChangedControlSource:
+					return "CHANGED_CONTROL_SOURCE";
 				default:
 					throw new Exception("Cannot convert such state to string");
 			}
@@ -153,6 +156,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return FaultState.OverheatProtection;
 				case 16:
 					return FaultState.SystemStart;
+				case 17:
+					return FaultState.ChangedControlSource;
 
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (FaultState).Name);
