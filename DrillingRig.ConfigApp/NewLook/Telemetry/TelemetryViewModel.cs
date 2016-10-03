@@ -29,7 +29,6 @@ namespace DrillingRig.ConfigApp.NewLook.Telemetry {
 			cycleThreadHolder.RegisterAsCyclePart(Group03ParametersVm);
 
 			Group04ParametersVm = new Group04ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);
-			cycleThreadHolder.RegisterAsCyclePart(Group04ParametersVm);
 
 			Group07ParametersVm = new Group07ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);
 			cycleThreadHolder.RegisterAsCyclePart(Group07ParametersVm);

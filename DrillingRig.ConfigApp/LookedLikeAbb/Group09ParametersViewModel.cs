@@ -31,6 +31,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly object _syncCancel;
 		private bool _cancel;
 		private bool _readingInProgress;
+		private int _errorCounts;
 
 		public Group09ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
 			_commandSenderHost = commandSenderHost;
@@ -54,6 +55,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_syncCancel = new object();
 			_cancel = true;
 			_readingInProgress = false;
+			_errorCounts = 0;
 		}
 
 
@@ -87,9 +89,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							throw new Exception("Произошла ошибка во время обмена", exception);
 						}
 						var result = cmd.GetResult(bytes);
+						_errorCounts = 0;
 						telemetry = result;
 					}
 					catch (Exception ex) {
+						_errorCounts++; // TODO: потенциально опасная ситуация (переполнение инта (примерно через 233 часа при опросе телеметрии раз в 50 милисекунд)
 						telemetry = null;
 						_logger.Log("Ошибка: " + ex.Message);
 						Console.WriteLine(ex);
@@ -106,6 +110,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry09 telemetry) {
+			const int maxErrors = 3;
+			if (telemetry == null && _errorCounts < maxErrors) return;
+
 			Parameter01Vm.CurrentValue = telemetry?.Status1;
 			Parameter02Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.Status2 : null;
 			Parameter03Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.Status3 : null;

@@ -85,6 +85,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_syncCancel = new object();
 			_cancel = true;
 			_readingInProgress = false;
+			_errorCounts = 0;
 		}
 
 

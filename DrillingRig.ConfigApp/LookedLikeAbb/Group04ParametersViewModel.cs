@@ -4,14 +4,13 @@ using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry04;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group04ParametersViewModel : ViewModelBase, ICyclePart {
+	class Group04ParametersViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
@@ -22,10 +21,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
-
-		private readonly object _syncCancel;
-		private bool _cancel;
-		private bool _readingInProgress;
 
 		public Group04ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
 			_commandSenderHost = commandSenderHost;
@@ -39,61 +34,39 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			
 
-			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
-			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
-
-			_syncCancel = new object();
-			_cancel = true;
-			_readingInProgress = false;
+			ReadCycleCmd = new RelayCommand(ReadFunc, ()=> true); // TODO: check port opened
 		}
 
+		private void ReadFunc() {
+			_logger.Log("Опрос телеметрии (версии ПО)");
 
-		private void StopReadingFunc() {
-			Cancel = true;
-			_readingInProgress = false;
-
-			_logger.Log("Взведен внутренний флаг прерывания циклического опроса");
-			ReadCycleCmd.RaiseCanExecuteChanged();
-			StopReadCycleCmd.RaiseCanExecuteChanged();
-		}
-
-		private void ReadCycleFunc() {
-			_logger.Log("Запуск циклического опроса телеметрии");
-			Cancel = false;
-
-			_readingInProgress = true;
-			ReadCycleCmd.RaiseCanExecuteChanged();
-			StopReadCycleCmd.RaiseCanExecuteChanged();
-		}
-
-		public void InCycleAction() {
-			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry04Command();
 			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
 					ITelemetry04 telemetry = null;
-					try {
-						if (exception != null) {
+					try
+					{
+						if (exception != null)
+						{
 							throw new Exception("Произошла ошибка во время обмена", exception);
 						}
 						var result = cmd.GetResult(bytes);
 						telemetry = result;
 					}
-					catch (Exception ex) {
+					catch (Exception ex)
+					{
 						telemetry = null;
 						_logger.Log("Ошибка: " + ex.Message);
 						Console.WriteLine(ex);
 					}
-					finally {
+					finally
+					{
 						_uiRoot.Notifier.Notify(() => {
 							UpdateTelemetry(telemetry);
 						});
-						waiter.Set();
 					}
 				});
-			waiter.WaitOne();
-			waiter.Reset();
 		}
 
 		private void UpdateTelemetry(ITelemetry04 telemetry) {
@@ -117,19 +90,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter02Vm.CurrentValue = telemetry.PvDate.ToString();
 				}
 				Parameter03Vm.CurrentValue = telemetry.BsVer.ToString();
-			}
-		}
-
-		public bool Cancel {
-			get {
-				lock (_syncCancel) {
-					return _cancel;
-				}
-			}
-			set {
-				lock (_syncCancel) {
-					_cancel = value;
-				}
 			}
 		}
 	}
