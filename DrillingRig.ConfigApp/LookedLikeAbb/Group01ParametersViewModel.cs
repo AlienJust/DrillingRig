@@ -42,6 +42,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly object _syncCancel;
 		private bool _cancel;
 		private bool _readingInProgress;
+		private int _errorCounts;
 
 		public Group01ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
 			_commandSenderHost = commandSenderHost;
@@ -117,9 +118,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 							throw new Exception("Произошла ошибка во время обмена", exception);
 						}
 						var result = cmd.GetResult(bytes);
+						_errorCounts = 0;
 						telemetry = result;
 					}
 					catch (Exception ex) {
+						_errorCounts++;
 						telemetry = null;
 							_logger.Log("Ошибка: " + ex.Message);
 						Console.WriteLine(ex);
@@ -127,6 +130,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					finally {
 						_uiRoot.Notifier.Notify(() => {
 							// TODO: uipdate bu null if null obtains more than X times (3 for example)
+							
 							UpdateTelemetry(telemetry);
 						});
 						waiter.Set();
@@ -137,6 +141,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry01 telemetry) {
+			const int maxErrors = 3;
+			if (telemetry == null && _errorCounts < maxErrors) return;
+
 			Parameter01Vm.CurrentValue = telemetry?.We;
 			Parameter02Vm.CurrentValue = telemetry?.Wm;
 			Parameter03Vm.CurrentValue = telemetry?.WfbF;
