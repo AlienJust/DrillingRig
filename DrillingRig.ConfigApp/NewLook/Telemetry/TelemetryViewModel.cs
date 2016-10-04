@@ -2,6 +2,7 @@
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
@@ -18,7 +19,7 @@ namespace DrillingRig.ConfigApp.NewLook.Telemetry {
 		public Group08ParametersViewModel Group08ParametersVm { get; }
 		public Group09ParametersViewModel Group09ParametersVm { get; }
 
-		public TelemetryViewModel(IUserInterfaceRoot userInterfaceRoot, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, ILogger logger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger) {
+		public TelemetryViewModel(IUserInterfaceRoot userInterfaceRoot, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, ILogger logger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger, INotifySendingEnabled notifySendingEnabled) {
 			Group01ParametersVm = new Group01ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, ainsCounter, parameterLogger);
 			cycleThreadHolder.RegisterAsCyclePart(Group01ParametersVm);
 
@@ -28,7 +29,7 @@ namespace DrillingRig.ConfigApp.NewLook.Telemetry {
 			Group03ParametersVm = new Group03ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);
 			cycleThreadHolder.RegisterAsCyclePart(Group03ParametersVm);
 
-			Group04ParametersVm = new Group04ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);
+			Group04ParametersVm = new Group04ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled);
 
 			Group07ParametersVm = new Group07ParametersViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, parameterLogger);
 			cycleThreadHolder.RegisterAsCyclePart(Group07ParametersVm);

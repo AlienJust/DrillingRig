@@ -98,6 +98,8 @@ namespace DrillingRig.ConfigApp {
 			// Лог программы:
 			_debugLogger = debugLogger;
 			_loggerRegistrationPoint = loggerRegistrationPoint;
+
+			// разрешение к отправке (COM-порт открыт/закрыт)
 			_notifySendingEnabled = notifySendingEnabled;
 
 			_programLogVm = new ProgramLogViewModel(_uiRoot, _debugLogger);
@@ -134,7 +136,7 @@ namespace DrillingRig.ConfigApp {
 
 			_cycleThreadHolder.RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 
-			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger);
+			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger, _notifySendingEnabled);
 
 			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, _ainsCounterRaisable); // TODO: can be moved to app.xaml.cs
 

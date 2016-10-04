@@ -4,46 +4,67 @@ using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry04;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class Group04ParametersViewModel : ViewModelBase {
+namespace DrillingRig.ConfigApp.LookedLikeAbb
+{
+	class Group04ParametersViewModel : ViewModelBase
+	{
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
+		private readonly INotifySendingEnabled _sendingEnabledNotifier;
 		public ParameterStringReadonlyViewModel Parameter01Vm { get; }
 		public ParameterStringReadonlyViewModel Parameter02Vm { get; }
 		public ParameterStringReadonlyViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
-		public RelayCommand StopReadCycleCmd { get; }
 
-		public Group04ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IParameterLogger parameterLogger) {
+		public Group04ParametersViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, INotifySendingEnabled sendingEnabledNotifier)
+		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
+			_sendingEnabledNotifier = sendingEnabledNotifier;
 
 			Parameter01Vm = new ParameterStringReadonlyViewModel("04.01 Версия ПО (АИН)", string.Empty);
-			Parameter02Vm = new ParameterStringReadonlyViewModel("04.02 Дата билда ПО (АИН)", string.Empty); // TODO: change to display datetime
+			Parameter02Vm = new ParameterStringReadonlyViewModel("04.02 Дата билда ПО (АИН)", string.Empty);
+			// TODO: change to display datetime
 			Parameter03Vm = new ParameterStringReadonlyViewModel("04.03 Версия ПО (БС-Ethernet)", string.Empty);
 
-			
+			ReadCycleCmd = new RelayCommand(ReadFunc, () => _sendingEnabledNotifier.IsSendingEnabled); // TODO: check port opened
 
-			ReadCycleCmd = new RelayCommand(ReadFunc, ()=> true); // TODO: check port opened
+			_sendingEnabledNotifier.SendingEnabledChanged += SendingEnabledNotifierOnSendingEnabledChanged;
 		}
 
-		private void ReadFunc() {
+		private void SendingEnabledNotifierOnSendingEnabledChanged(bool isSendingEnabled)
+		{
+			_uiRoot.Notifier.Notify(() => {
+				if (isSendingEnabled)
+				{
+					ReadFunc();
+				}
+				ReadCycleCmd.RaiseCanExecuteChanged();
+			});
+		}
+
+		private void ReadFunc()
+		{
 			_logger.Log("Опрос телеметрии (версии ПО)");
 
 			var cmd = new ReadTelemetry04Command();
-			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
+			try
+			{
+				_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
-				(exception, bytes) => {
+				(exception, bytes) =>
+				{
 					ITelemetry04 telemetry = null;
 					try
 					{
@@ -62,30 +83,41 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					}
 					finally
 					{
-						_uiRoot.Notifier.Notify(() => {
+						_uiRoot.Notifier.Notify(() =>
+						{
 							UpdateTelemetry(telemetry);
 						});
 					}
 				});
+			}
+			catch (Exception ex)
+			{
+				_logger.Log("Не удалось отправиьт команду чтения телеметрии (персии ПО), убедитесь, что COM-порт открыт");
+			}
 		}
 
-		private void UpdateTelemetry(ITelemetry04 telemetry) {
-			if (telemetry == null) {
+		private void UpdateTelemetry(ITelemetry04 telemetry)
+		{
+			if (telemetry == null)
+			{
 				Parameter01Vm.CurrentValue = "--";
 				Parameter02Vm.CurrentValue = "--";
 				Parameter03Vm.CurrentValue = "--";
 			}
-			else {
+			else
+			{
 				var bp = BytesPair.FromSignedShortHighFirst(telemetry.Pver);
 				Parameter01Vm.CurrentValue = bp.First.ToString("d2") + "." + bp.Second.ToString("d2");
 
 				var year = (telemetry.PvDate & 0xFE00) >> 9;
 				var month = (telemetry.PvDate & 0x01E0) >> 5;
 				var day = telemetry.PvDate & 0x001F;
-				try {
+				try
+				{
 					Parameter02Vm.CurrentValue = new DateTime(year + 2000, month, day).ToString("yyyy.MM.dd");
 				}
-				catch {
+				catch
+				{
 					// В приборах со старой версией прошивки (до 23.10.2015) значения версии и даты бессмысленны (c) Roma
 					Parameter02Vm.CurrentValue = telemetry.PvDate.ToString();
 				}

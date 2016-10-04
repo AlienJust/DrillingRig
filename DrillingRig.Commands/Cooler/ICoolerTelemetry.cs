@@ -1,6 +1,7 @@
 ﻿namespace DrillingRig.Commands.Cooler
 {
-	public interface ICoolerTelemetry {
+	public interface ICoolerTelemetry
+	{
 		ushort Diagnostic { get; }
 		short CoolingLiquidPressure { get; }
 		short FanSpeed { get; }
