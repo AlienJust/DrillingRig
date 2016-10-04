@@ -10,7 +10,6 @@ using Abt.Controls.SciChart.Visuals.Annotations;
 using Abt.Controls.SciChart.Visuals.Axes;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Adaptation.WindowsPresentation;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using MahApps.Metro.Controls;
@@ -53,6 +52,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
+			CheckBoxAutoScale.IsChecked = true;
+
 			var xAxis = new NumericAxis {
 				AxisTitle = "Развертка, сек",
 				VisibleRange = new DoubleRange(_xmin, _xmax)
@@ -170,15 +171,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private void CheckBox_Checked(object sender, RoutedEventArgs e) {
-			if (CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value) {
-				if (Surface?.YAxis != null)
-					Surface.YAxis.AutoRange = AutoRange.Always;
-			}
-			else {
-				if (Surface?.YAxis != null)
-					Surface.YAxis.AutoRange = AutoRange.Never;
-			}
+			if (Surface?.YAxis != null)
+				Surface.YAxis.AutoRange = AutoRange.Always;
+
 		}
+
+		private void CheckBoxAutoScale_Unchecked(object sender, RoutedEventArgs e) {
+			if (Surface?.YAxis != null)
+				Surface.YAxis.AutoRange = AutoRange.Never;
+		}
+
 
 		public void Update() {
 			_uiNotifier.Notify(() => {
@@ -189,15 +191,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		private void ButtonZoomOut_Click(object sender, RoutedEventArgs e) {
-			if (!(CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value)) {
+			if (!CheckBoxAutoScale.IsChecked.HasValue)
+				return;
+			if (!CheckBoxAutoScale.IsChecked.Value) {
 				Surface?.YAxis.ZoomBy(0.2, 0.2);
 			}
 		}
 
 		private void ButtonZoomIn_Click(object sender, RoutedEventArgs e) {
-			if (!(CheckBoxAutoScale.IsChecked.HasValue && CheckBoxAutoScale.IsChecked.Value)) {
+			if (!CheckBoxAutoScale.IsChecked.HasValue)
+				return;
+			if (!CheckBoxAutoScale.IsChecked.Value) {
 				Surface?.YAxis.ZoomBy(-0.2, -0.2);
 			}
 		}
+
+
 	}
 }

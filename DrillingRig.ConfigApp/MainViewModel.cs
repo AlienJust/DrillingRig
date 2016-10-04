@@ -204,9 +204,7 @@ namespace DrillingRig.ConfigApp {
 
 		public TelemetryViewModel TelemtryVm { get; }
 
-
 		
-
 		private void ClosePort() {
 			try {
 				_notifySendingEnabled.SetIsSendingEnabledAndRaiseChange(false);

@@ -29,13 +29,12 @@
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
-			<CheckBox IsChecked="True" Content="Автомасштаб" Checked="CheckBox_Checked" x:Name="CheckBoxAutoScale"/>
-			<Button Grid.Column="2" Content=" - " x:Name="ButtonZoomOut" Click="ButtonZoomOut_Click"/>
-			<Button Grid.Column="3" Content=" + " x:Name="ButtonZoomIn" Click="ButtonZoomIn_Click"/>
+			<CheckBox IsChecked="True" Content="Автомасштаб" Checked="CheckBox_Checked" x:Name="CheckBoxAutoScale" Unchecked="CheckBoxAutoScale_Unchecked"/>
+			<Button Grid.Column="1" Content=" - " x:Name="ButtonZoomOut" Click="ButtonZoomOut_Click"/>
+			<Button Grid.Column="2" Content=" + " x:Name="ButtonZoomIn" Click="ButtonZoomIn_Click"/>
 		</Grid>
 		<s:SciChartSurface Grid.Row="1" x:Name="Surface"/>
 	</Grid>
