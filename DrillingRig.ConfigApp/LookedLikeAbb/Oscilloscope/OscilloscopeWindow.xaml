@@ -7,36 +7,41 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Осциллограф" Height="300" Width="500" Loaded="Window_Loaded" Closing="Window_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
-	<controls:MetroWindow.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
-				<!-- Accent and AppTheme setting -->
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</controls:MetroWindow.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<CheckBox IsChecked="True" Content="Автомасштаб" Checked="CheckBox_Checked" x:Name="CheckBoxAutoScale" Unchecked="CheckBoxAutoScale_Unchecked"/>
-			<Button Grid.Column="1" Content=" - " x:Name="ButtonZoomOut" Click="ButtonZoomOut_Click"/>
-			<Button Grid.Column="2" Content=" + " x:Name="ButtonZoomIn" Click="ButtonZoomIn_Click"/>
-		</Grid>
-		<s:SciChartSurface Grid.Row="1" x:Name="Surface"/>
-	</Grid>
+    <controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </controls:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox IsChecked="True" Content="Автомасштаб" Checked="CheckBox_Checked" x:Name="CheckBoxAutoScale" Unchecked="CheckBoxAutoScale_Unchecked"/>
+            <Button Grid.Column="1" Content=" - " x:Name="ButtonZoomOut" Click="ButtonZoomOut_Click"/>
+            <Button Grid.Column="2" Content=" + " x:Name="ButtonZoomIn" Click="ButtonZoomIn_Click"/>
+
+            <Button Grid.Column="3" Content="Pause" x:Name="ButtonPause" Click="ButtonPause_Click"/>
+            <Button Grid.Column="4" Content="Resume" x:Name="ButtonResume" Click="ButtonResume_Click"/>
+        </Grid>
+        <s:SciChartSurface Grid.Row="1" x:Name="Surface"/>
+    </Grid>
 </controls:MetroWindow>
 

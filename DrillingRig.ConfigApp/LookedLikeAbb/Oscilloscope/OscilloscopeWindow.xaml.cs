@@ -36,6 +36,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private readonly Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>> _namedSeries;
 		private readonly WpfUiNotifierAsync _uiNotifier;
 
+		private bool _isPaused;
+		private object _isPausedSyncObj;
+
 
 		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
 			_mainWindow = mainWindow;
@@ -49,6 +52,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			_xmin = -_totalTime.TotalSeconds / 2.0;
 			_xmax = _totalTime.TotalSeconds / 2.0;
 			_linePosition = _xmin;
+
+			_isPaused = false;
+			_isPausedSyncObj = new object();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -99,21 +105,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 		private void TimerOnTick(object sender, EventArgs e) {
 			// By nesting multiple updates inside a SuspendUpdates using block, you get one redraw at the end (c) Abt
-			_linePosition += _updateInterval.TotalSeconds;
+			if (!IsPaused) {
+				_linePosition += _updateInterval.TotalSeconds;
 
-			_uiNotifier.Notify(() => {
-				using (Surface.SuspendUpdates()) {
-
-
-					if (_linePosition >= _xmax) {
-						_linePosition = _xmin;
-						foreach (var namedDataSeries in _namedSeries) {
-							namedDataSeries.Value.Item2.Clear();
+				_uiNotifier.Notify(() => {
+					using (Surface.SuspendUpdates()) {
+						if (_linePosition >= _xmax) {
+							_linePosition = _xmin;
+							foreach (var namedDataSeries in _namedSeries) {
+								namedDataSeries.Value.Item2.Clear();
+							}
 						}
+						_annotation.X1 = _linePosition;
 					}
-					_annotation.X1 = _linePosition;
-				}
-			});
+				});
+			}
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -121,40 +127,44 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		}
 
 		public void LogAnalogueParameter(string parameterName, double? value) {
-			if (value.HasValue) {
-				_uiNotifier.Notify(() => {
-					if (!_namedSeries.ContainsKey(parameterName)) {
-						var color = _colors.First(c => _usedColors.All(uc => uc != c));
-						_usedColors.Add(color);
-						var rs = CreateLineSeries(color);
+			if (!IsPaused) {
+				if (value.HasValue) {
+					_uiNotifier.Notify(() => {
+						if (!_namedSeries.ContainsKey(parameterName)) {
+							var color = _colors.First(c => _usedColors.All(uc => uc != c));
+							_usedColors.Add(color);
+							var rs = CreateLineSeries(color);
 
-						var xy = new XyDataSeries<double, double>();
-						rs.DataSeries = xy;
-						_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
-						Surface.RenderableSeries.Add(rs);
-					}
-					_namedSeries[parameterName].Item2.Append(_linePosition, value.Value);
-					Update();
-				});
+							var xy = new XyDataSeries<double, double>();
+							rs.DataSeries = xy;
+							_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
+							Surface.RenderableSeries.Add(rs);
+						}
+						_namedSeries[parameterName].Item2.Append(_linePosition, value.Value);
+						Update();
+					});
+				}
 			}
 		}
 
 		public void LogDiscreteParameter(string parameterName, bool? value) {
-			if (value.HasValue) {
-				_uiNotifier.Notify(() => {
-					if (!_namedSeries.ContainsKey(parameterName)) {
-						var color = _colors.First(c => _usedColors.All(uc => uc != c));
-						_usedColors.Add(color);
-						var rs = CreateLineSeries(color);
+			if (!IsPaused) {
+				if (value.HasValue) {
+					_uiNotifier.Notify(() => {
+						if (!_namedSeries.ContainsKey(parameterName)) {
+							var color = _colors.First(c => _usedColors.All(uc => uc != c));
+							_usedColors.Add(color);
+							var rs = CreateLineSeries(color);
 
-						var xy = new XyDataSeries<double, double>();
-						rs.DataSeries = xy;
-						_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
-						Surface.RenderableSeries.Add(rs);
-					}
-					_namedSeries[parameterName].Item2.Append(_linePosition, value.Value ? 1 : 0);
-					Update();
-				});
+							var xy = new XyDataSeries<double, double>();
+							rs.DataSeries = xy;
+							_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
+							Surface.RenderableSeries.Add(rs);
+						}
+						_namedSeries[parameterName].Item2.Append(_linePosition, value.Value ? 1 : 0);
+						Update();
+					});
+				}
 			}
 		}
 
@@ -206,6 +216,23 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			}
 		}
 
+		private void ButtonPause_Click(object sender, RoutedEventArgs e) {
+			IsPaused = true;
+		}
 
+		private void ButtonResume_Click(object sender, RoutedEventArgs e) {
+			IsPaused = false;
+		}
+
+		private bool IsPaused {
+			get {
+				lock (_isPausedSyncObj)
+					return _isPaused;
+			}
+			set {
+				lock (_isPausedSyncObj)
+					_isPaused = value;
+			}
+		}
 	}
 }
