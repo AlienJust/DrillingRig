@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
@@ -37,14 +38,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private readonly WpfUiNotifierAsync _uiNotifier;
 
 		private bool _isPaused;
-		private object _isPausedSyncObj;
+		private readonly object _isPausedSyncObj;
 
 
 		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
 			_mainWindow = mainWindow;
 			_colors = colors;
 			_usedColors = new List<Color>();
-			//_currentColorIndex = 0;
+			
 			InitializeComponent();
 
 			_namedSeries = new Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>>();
@@ -55,6 +56,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 			_isPaused = false;
 			_isPausedSyncObj = new object();
+
+			Surface.SetMouseCursor(Cursors.Cross);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -218,9 +221,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 		private void ButtonPause_Click(object sender, RoutedEventArgs e) {
 			IsPaused = true;
+			Surface.ChartModifier = new PanModifier();
 		}
 
 		private void ButtonResume_Click(object sender, RoutedEventArgs e) {
+			Surface.ChartModifier = null;
+			Surface.XAxes.Default.VisibleRange = new DoubleRange(_xmin, _xmax);
 			IsPaused = false;
 		}
 

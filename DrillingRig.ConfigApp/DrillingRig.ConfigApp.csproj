@@ -363,6 +363,7 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowSciVm.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowVm.cs" />
+    <Compile Include="LookedLikeAbb\Oscilloscope\PanModifier.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
