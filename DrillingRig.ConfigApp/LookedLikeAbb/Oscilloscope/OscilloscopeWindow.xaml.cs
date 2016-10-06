@@ -54,10 +54,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			_xmax = _totalTime.TotalSeconds / 2.0;
 			_linePosition = _xmin;
 
-			_isPaused = false;
 			_isPausedSyncObj = new object();
-
-			Surface.SetMouseCursor(Cursors.Cross);
+			_isPaused = false;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -94,7 +92,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			_timer.Start();
 
 			Surface.InvalidateElement();
-
+			Surface.SetMouseCursor(Cursors.Cross);
+			Surface.ChartModifier = new PanModifierOnResume();
 		}
 
 		private static FastLineRenderableSeries CreateLineSeries(Color color) {
@@ -221,11 +220,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 		private void ButtonPause_Click(object sender, RoutedEventArgs e) {
 			IsPaused = true;
-			Surface.ChartModifier = new PanModifier();
+			Surface.ChartModifier = new PanModifierOnPause(); // TODO: should I extract modifier as private class member?
 		}
 
 		private void ButtonResume_Click(object sender, RoutedEventArgs e) {
-			Surface.ChartModifier = null;
+			Surface.ChartModifier = new PanModifierOnResume(); // TODO: should I extract modifier as private class member?
 			Surface.XAxes.Default.VisibleRange = new DoubleRange(_xmin, _xmax);
 			IsPaused = false;
 		}

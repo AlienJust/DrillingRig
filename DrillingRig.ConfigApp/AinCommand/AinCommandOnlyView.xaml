@@ -86,7 +86,6 @@
 				<CheckBox Grid.Row="10" Content="INCHING2" IsChecked="{Binding Path=Inching2, Mode=OneWayToSource}"/>
 				<CheckBox Grid.Row="11" Content="REMOTE" IsChecked="{Binding Path=Remote, Mode=OneWayToSource}"/>
 				<Button Grid.Row="12" Content="Установить режим работы" Command="{Binding Path=SendAinCommandBits, Mode=OneTime}" Margin="0,0,4,0"/>
-
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
