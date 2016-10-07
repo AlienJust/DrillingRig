@@ -2,7 +2,7 @@
 
 namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 	class CommonTelemetrySimple : ICommonTelemetry {
-		public CommonTelemetrySimple(ushort commonEngineState, ushort commonFaultState, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault, ushort ain1Status, BytesPair mcw, BytesPair msw, BytesPair asw, BytesPair fset, BytesPair mset, BytesPair reserve3, BytesPair mMin, BytesPair max) {
+		public CommonTelemetrySimple(ushort commonEngineState, ushort commonFaultState, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault, ushort ain1Status, ushort ain2Status, ushort ain3Status, BytesPair mcw, BytesPair msw, BytesPair asw, BytesPair fset, BytesPair mset, BytesPair reserve3, BytesPair mMin, BytesPair max) {
 			CommonEngineState = commonEngineState;
 			CommonFaultState = commonFaultState;
 			Ain1LinkFault = ain1LinkFault;
@@ -16,7 +16,7 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 			Mset = mset;
 			Reserve3 = reserve3;
 			MMin = mMin;
-			Max = max;
+			MMax = max;
 		}
 
 		public ushort CommonEngineState { get; }
@@ -25,6 +25,8 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 		public bool Ain2LinkFault { get; }
 		public bool Ain3LinkFault { get; }
 		public ushort Ain1Status { get; }
+		public ushort Ain2Status { get; }
+		public ushort Ain3Status { get; }
 		public BytesPair Mcw { get; }
 		public BytesPair Msw { get; }
 		public BytesPair Asw { get; }
@@ -32,6 +34,6 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 		public BytesPair Mset { get; }
 		public BytesPair Reserve3 { get; }
 		public BytesPair MMin { get; }
-		public BytesPair Max { get; }
+		public BytesPair MMax { get; }
 	}
 }

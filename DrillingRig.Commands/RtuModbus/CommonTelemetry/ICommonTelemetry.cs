@@ -8,6 +8,9 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 		bool Ain2LinkFault { get; }
 		bool Ain3LinkFault { get; }
 		ushort Ain1Status { get; }
+		ushort Ain2Status { get; }
+		ushort Ain3Status { get; }
+
 		BytesPair Mcw { get; }
 		BytesPair Msw { get; }
 		BytesPair Asw { get; }
@@ -16,6 +19,6 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 		BytesPair Reserve3 { get; }
 
 		BytesPair MMin { get; }
-		BytesPair Max { get; }
+		BytesPair MMax { get; }
 	}
 }

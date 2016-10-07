@@ -266,7 +266,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 								Console.WriteLine("UserInterface thread begin action =============================");
 								Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
 								UpdateTelemetry(ainTelemetry);
-								if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAin1Status(ainTelemetry?.Status);
+								if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAinStatuses(ainTelemetry?.Status, null, null);
 								Console.WriteLine("UserInterface thread end action ===============================");
 							});
 							waiter.Set();

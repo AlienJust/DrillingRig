@@ -12,7 +12,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private string _ainsLinkState;
 		private readonly ILogger _logger;
 		private readonly IMultiLoggerWithStackTrace _debugLogger;
-		private string _ain1Status;
+		private string _ainStatuses;
 
 		public TelemetryCommonViewModel(ILogger logger, IMultiLoggerWithStackTrace debugLogger) {
 			_logger = logger;
@@ -57,21 +57,35 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			AinsLinkState = ain1LinkInfo + " | " + ain2LinkInfo + " | " + ain3LinkInfo;
 		}
 
-		public void UpdateAin1Status(ushort? value) {
-			if (!value.HasValue) Ain1Status = UnknownValueText;
+		public void UpdateAinStatuses(ushort? status1, ushort? status2, ushort? status3)
+		{
+			string ainStatuses;
+			if (!status1.HasValue)
+				ainStatuses = UnknownValueText;
 			else {
-				string ain1Status = "0x" + value.Value.ToString("X4");
-
-				Ain1Status = ain1Status;
+				ainStatuses = "0x" + status1.Value.ToString("X4");
 			}
+			ainStatuses += " | ";
+			if (!status2.HasValue)
+				ainStatuses += UnknownValueText;
+			else {
+				ainStatuses += "0x" + status2.Value.ToString("X4");
+			}
+			ainStatuses += " | ";
+			if (!status3.HasValue)
+				ainStatuses += UnknownValueText;
+			else {
+				ainStatuses += "0x" + status3.Value.ToString("X4");
+			}
+			AinStatuses = ainStatuses;
 		}
 
-		public string Ain1Status {
-			get { return _ain1Status; }
+		public string AinStatuses {
+			get { return _ainStatuses; }
 			set {
-				if (_ain1Status != value) {
-					_ain1Status = value;
-					RaisePropertyChanged(() => Ain1Status);
+				if (_ainStatuses != value) {
+					_ainStatuses = value;
+					RaisePropertyChanged(() => AinStatuses);
 				}
 			}
 		}

@@ -3,6 +3,6 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		void UpdateCommonEngineState(ushort? value);
 		void UpdateCommonFaultState(ushort? value);
 		void UpdateAinsLinkState(bool? ain1LinkFault, bool? ain2LinkFault, bool? ain3LinkFault);
-		void UpdateAin1Status(ushort? value);
+		void UpdateAinStatuses(ushort? status1, ushort? status2, ushort? status3);
 	}
 }

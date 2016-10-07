@@ -10,7 +10,8 @@ namespace DrillingRig.ConfigApp.AinCommand
 		{
 			var nb =  value as bool?;
 			if (!nb.HasValue) return " ? ";
-			return nb.Value ? " 1 " : " 0 ";
+			return nb.Value ? " ☒ " : " ☐ ";
+			//
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

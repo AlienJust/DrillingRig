@@ -137,8 +137,8 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			_commonTelemetryVm.UpdateAinsLinkState(ain1LinkFault, ain2LinkFault, ain3LinkFault);
 		}
 
-		public void UpdateAin1Status(ushort? value) {
-			_commonTelemetryVm.UpdateAin1Status(value);
+		public void UpdateAinStatuses(ushort? status1, ushort? status2, ushort? status3) {
+			_commonTelemetryVm.UpdateAinStatuses(status1, status2, status3);
 		}
 
 		public TelemetryCommonViewModel CommonTelemetryVm => _commonTelemetryVm;

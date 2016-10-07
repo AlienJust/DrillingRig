@@ -61,7 +61,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							CommonTelemetryVm.UpdateCommonEngineState(commonTelemetry.CommonEngineState);
 							CommonTelemetryVm.UpdateCommonFaultState(commonTelemetry.CommonFaultState);
 							CommonTelemetryVm.UpdateAinsLinkState(commonTelemetry.Ain1LinkFault, commonTelemetry.Ain2LinkFault, commonTelemetry.Ain3LinkFault);
-							CommonTelemetryVm.UpdateAin1Status(commonTelemetry.Ain1Status);
+							CommonTelemetryVm.UpdateAinStatuses(commonTelemetry.Ain1Status, commonTelemetry.Ain2Status, commonTelemetry.Ain3Status);
 							Ain1LinkError = commonTelemetry.Ain1LinkFault;
 							Ain2LinkError = commonTelemetry.Ain2LinkFault;
 							Ain3LinkError = commonTelemetry.Ain3LinkFault;
@@ -73,7 +73,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							CommonTelemetryVm.UpdateCommonEngineState(null);
 							CommonTelemetryVm.UpdateCommonFaultState(null);
 							CommonTelemetryVm.UpdateAinsLinkState(null, null, null);
-							CommonTelemetryVm.UpdateAin1Status(null);
+							CommonTelemetryVm.UpdateAinStatuses(null, null, null);
 
 							Ain1LinkError = null;
 							Ain2LinkError = null;
