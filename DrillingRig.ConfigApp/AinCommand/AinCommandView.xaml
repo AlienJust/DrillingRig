@@ -32,7 +32,7 @@
 					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
 				<ainTelemetry:TelemetryCommonView DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
-				<ainCommand:AinCommandOnlyView Grid.Row="1" DataContext="{Binding Path=AinCommandOnlyVm, Mode=OneTime}"/>
+				<ainCommand:AinCommandAndMinimalCommonTelemetryView Grid.Row="1" DataContext="{Binding Path=AinCommandOnlyVm, Mode=OneTime}"/>
 			</Grid>
 			<ScrollViewer Grid.Column="1" CanContentScroll="True">
 				<ainTelemetry:AinTelemetryView DataContext="{Binding Path=AinTelemetryVm, Mode=OneTime}" Margin="1,1,1,1"/>

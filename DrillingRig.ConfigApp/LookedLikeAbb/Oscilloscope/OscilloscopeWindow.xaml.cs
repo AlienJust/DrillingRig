@@ -20,7 +20,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private readonly MainWindow _mainWindow;
 		private readonly List<Color> _colors;
 		private readonly List<Color> _usedColors;
-		//private int _currentColorIndex;
 
 		private Timer _timer;
 		private VerticalLineAnnotation _annotation;
@@ -40,12 +39,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private bool _isPaused;
 		private readonly object _isPausedSyncObj;
 
-
 		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
 			_mainWindow = mainWindow;
 			_colors = colors;
 			_usedColors = new List<Color>();
-			
+
 			InitializeComponent();
 
 			_namedSeries = new Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>>();
@@ -139,7 +137,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 							var xy = new XyDataSeries<double, double>();
 							rs.DataSeries = xy;
-							_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
+							_namedSeries.Add(parameterName,
+									new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
 							Surface.RenderableSeries.Add(rs);
 						}
 						_namedSeries[parameterName].Item2.Append(_linePosition, value.Value);
@@ -160,7 +159,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 							var xy = new XyDataSeries<double, double>();
 							rs.DataSeries = xy;
-							_namedSeries.Add(parameterName, new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
+							_namedSeries.Add(parameterName,
+									new Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>(rs, xy));
 							Surface.RenderableSeries.Add(rs);
 						}
 						_namedSeries[parameterName].Item2.Append(_linePosition, value.Value ? 1 : 0);
@@ -178,7 +178,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 				Surface.RenderableSeries.Remove(s.Item1);
 				_usedColors.Remove(s.Item1.SeriesColor);
 				s.Item2.Clear();
-				//_currentColorIndex--;
 			}
 		}
 
@@ -220,11 +219,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 		private void ButtonPause_Click(object sender, RoutedEventArgs e) {
 			IsPaused = true;
-			Surface.ChartModifier = new PanModifierOnPause(); // TODO: should I extract modifier as private class member?
+			Surface.ChartModifier = new PanModifierOnPause();
+			// TODO: should I extract modifier as private class member?
 		}
 
 		private void ButtonResume_Click(object sender, RoutedEventArgs e) {
-			Surface.ChartModifier = new PanModifierOnResume(); // TODO: should I extract modifier as private class member?
+			Surface.ChartModifier = new PanModifierOnResume();
+			// TODO: should I extract modifier as private class member?
 			Surface.XAxes.Default.VisibleRange = new DoubleRange(_xmin, _xmax);
 			IsPaused = false;
 		}

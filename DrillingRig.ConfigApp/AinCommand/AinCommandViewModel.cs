@@ -4,8 +4,8 @@ using DrillingRig.ConfigApp.AinTelemetry;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandViewModel : ViewModelBase, IAinTelemetriesCycleControl {
-		public AinCommandViewModel(AinCommandOnlyViewModel ainCommandOnlyViewModel, TelemetryCommonViewModel commonTelemetryVm, AinTelemetryViewModel ainTelemetryVm, IAinTelemetriesCycleControl ainTelemetriesCycleControl) {
-			AinCommandOnlyVm = ainCommandOnlyViewModel;
+		public AinCommandViewModel(AinCommandAndMinimalCommonTelemetryViewModel ainCommandAndMinimalCommonTelemetryViewModel, TelemetryCommonViewModel commonTelemetryVm, AinTelemetryViewModel ainTelemetryVm, IAinTelemetriesCycleControl ainTelemetriesCycleControl) {
+			AinCommandAndMinimalCommonTelemetryVm = ainCommandAndMinimalCommonTelemetryViewModel;
 			CommonTelemetryVm = commonTelemetryVm;
 			AinTelemetryVm = ainTelemetryVm;
 
@@ -22,6 +22,6 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public ICommand StopReadingCommand { get; }
 
-		public AinCommandOnlyViewModel AinCommandOnlyVm { get; }
+		public AinCommandAndMinimalCommonTelemetryViewModel AinCommandAndMinimalCommonTelemetryVm { get; }
 	}
 }

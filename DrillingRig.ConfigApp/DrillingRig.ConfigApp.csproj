@@ -152,15 +152,16 @@
     <Compile Include="AinCommand\AinCommandView.xaml.cs">
       <DependentUpon>AinCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AinCommand\AinCommandOnlyViewModel.cs" />
+    <Compile Include="AinCommand\AinCommandAndMinimalCommonTelemetryViewModel.cs" />
     <Compile Include="AinCommand\AinCommandAndCommonTelemetryViewModel.cs" />
     <Compile Include="AinCommand\AinCommandViewModel.cs" />
-    <Compile Include="AinCommand\AinCommandOnlyView.xaml.cs">
-      <DependentUpon>AinCommandOnlyView.xaml</DependentUpon>
+    <Compile Include="AinCommand\AinCommandAndMinimalCommonTelemetryView.xaml.cs">
+      <DependentUpon>AinCommandAndMinimalCommonTelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinCommand\CommandWindowViewModel.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
+    <Compile Include="AinCommand\NullableBoolToStringConverter.cs" />
     <Compile Include="AinsLinkInformationHasBeenUpdatedDelegate.cs" />
     <Compile Include="AinCommand\CommandWindow.xaml.cs">
       <DependentUpon>CommandWindow.xaml</DependentUpon>
@@ -458,7 +459,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AinCommand\AinCommandOnlyView.xaml">
+    <Page Include="AinCommand\AinCommandAndMinimalCommonTelemetryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

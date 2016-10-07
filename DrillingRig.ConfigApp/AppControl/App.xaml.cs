@@ -233,7 +233,7 @@ namespace DrillingRig.ConfigApp.AppControl
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
 
 				var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
-					new AinCommandOnlyViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
+					new AinCommandAndMinimalCommonTelemetryViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
 					new TelemetryCommonViewModel(_commonLogger, _debugLogger),
 					_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _debugLogger, _notifySendingEnabled);
 				_cycleThreadHolder.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);

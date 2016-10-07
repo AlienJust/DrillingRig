@@ -20,14 +20,14 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		private readonly object _syncCancel;
 		private bool _cancel;
-		public AinCommandAndCommonTelemetryViewModel(AinCommandOnlyViewModel ainCommandOnlyViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
+		public AinCommandAndCommonTelemetryViewModel(AinCommandAndMinimalCommonTelemetryViewModel ainCommandAndMinimalCommonTelemetryViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_debugLogger = debugLogger;
 			_notifySendingEnabled = notifySendingEnabled;
-			AinCommandOnlyVm = ainCommandOnlyViewModel;
+			AinCommandAndMinimalCommonTelemetryVm = ainCommandAndMinimalCommonTelemetryViewModel;
 			CommonTelemetryVm = commonTelemetryVm;
 
 			_syncCancel = new object();
@@ -41,10 +41,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			Ain2LinkError = null;
 			Ain3LinkError = null;
 		}
-		
+
 		public TelemetryCommonViewModel CommonTelemetryVm { get; }
 
-		public AinCommandOnlyViewModel AinCommandOnlyVm { get; }
+		public AinCommandAndMinimalCommonTelemetryViewModel AinCommandAndMinimalCommonTelemetryVm { get; }
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadCommonTelemetryCommand();
@@ -57,6 +57,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 						}
 						var commonTelemetry = cmd.GetResult(bytes);
 						_uiRoot.Notifier.Notify(() => {
+							AinCommandAndMinimalCommonTelemetryVm.UpdateCommonTelemetry(commonTelemetry);
 							CommonTelemetryVm.UpdateCommonEngineState(commonTelemetry.CommonEngineState);
 							CommonTelemetryVm.UpdateCommonFaultState(commonTelemetry.CommonFaultState);
 							CommonTelemetryVm.UpdateAinsLinkState(commonTelemetry.Ain1LinkFault, commonTelemetry.Ain2LinkFault, commonTelemetry.Ain3LinkFault);
@@ -111,7 +112,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public event AinsLinkInformationHasBeenUpdatedDelegate AinsLinkInformationHasBeenUpdated;
 
 		private void RaiseAinsLinkInformationHasBeenUpdated() {
-			_uiRoot.Notifier.Notify(()=> {
+			_uiRoot.Notifier.Notify(() => {
 				AinsLinkInformationHasBeenUpdated?.Invoke(Ain1LinkError, Ain2LinkError, Ain3LinkError);
 			});
 		}

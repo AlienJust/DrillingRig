@@ -2,7 +2,7 @@
 
 namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 	public class ReadCommonTelemetryCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<ICommonTelemetry>, IRrModbusCommandWithTestReply {
-		private readonly RtuModbusReadHoldingRegistersCommand _rtuModbusCmd = new RtuModbusReadHoldingRegistersCommand(9000, 4);
+		private readonly RtuModbusReadHoldingRegistersCommand _rtuModbusCmd = new RtuModbusReadHoldingRegistersCommand(9000, 12);
 
 		public byte CommandCode => _rtuModbusCmd.CommandCode;
 		public string Name => $"Чтение общей телеметрии >> {_rtuModbusCmd.Name}";
@@ -20,7 +20,15 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 				(ainsLinkFault & 0x01) == 0x01,
 				(ainsLinkFault & 0x02) == 0x02,
 				(ainsLinkFault & 0x04) == 0x04,
-				rtuModbusParams[3].HighFirstUnsignedValue
+				rtuModbusParams[3].HighFirstUnsignedValue,
+				rtuModbusParams[4],
+				rtuModbusParams[5],
+				rtuModbusParams[6],
+				rtuModbusParams[7],
+				rtuModbusParams[8],
+				rtuModbusParams[9],
+				rtuModbusParams[10],
+				rtuModbusParams[11]
 			);
 		}
 

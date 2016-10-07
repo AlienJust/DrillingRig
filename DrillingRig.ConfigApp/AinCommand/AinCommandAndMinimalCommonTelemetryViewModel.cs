@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Input;
+using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinCommand;
+using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinCommand {
-	internal class AinCommandOnlyViewModel : ViewModelBase {
+	internal class AinCommandAndMinimalCommonTelemetryViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -33,8 +36,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private short _set3;
 		private short _mmin;
 		private short _mmax;
+		private ICommonTelemetry _telemetry;
 
-		public AinCommandOnlyViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+		public AinCommandAndMinimalCommonTelemetryViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -49,6 +53,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_set3 = 0;
 			_mmin = -600;
 			_mmax = 600;
+			_telemetry = null;
 
 			_sendAinCommandOff1 = new RelayCommand(SendAinCmdOff1, () => IsSendingEnabled);
 			_sendAinCommandOff2 = new RelayCommand(SendAinCmdOff2, () => IsSendingEnabled);
@@ -121,6 +126,39 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			if (Remote) commandMode += 0x0400;
 			_logger.Log("Режим работы в составе команды АИН = 0x" + commandMode.ToString("X4"));
 			SendCmdWithCommandMode(commandMode);
+		}
+
+		public void UpdateCommonTelemetry(ICommonTelemetry telemetry)
+		{
+			_telemetry = telemetry;
+			// TODO: Raise prop changes
+			RaisePropertyChanged(() => McwReceived0);
+			RaisePropertyChanged(() => McwReceived1);
+			RaisePropertyChanged(() => McwReceived2);
+			RaisePropertyChanged(() => McwReceived3);
+			RaisePropertyChanged(() => McwReceived4);
+			RaisePropertyChanged(() => McwReceived5);
+			RaisePropertyChanged(() => McwReceived6);
+			RaisePropertyChanged(() => McwReceived7);
+			RaisePropertyChanged(() => McwReceived8);
+			RaisePropertyChanged(() => McwReceived9);
+			RaisePropertyChanged(() => McwReceived10);
+
+			RaisePropertyChanged(() => MswReceived0);
+			RaisePropertyChanged(() => MswReceived1);
+			RaisePropertyChanged(() => MswReceived2);
+			RaisePropertyChanged(() => MswReceived3);
+			RaisePropertyChanged(() => MswReceived4);
+			RaisePropertyChanged(() => MswReceived5);
+			RaisePropertyChanged(() => MswReceived6);
+			RaisePropertyChanged(() => MswReceived7);
+			RaisePropertyChanged(() => MswReceived8);
+			RaisePropertyChanged(() => MswReceived9);
+			RaisePropertyChanged(() => MswReceived10);
+			RaisePropertyChanged(() => MswReceived11);
+			RaisePropertyChanged(() => MswReceived12);
+			RaisePropertyChanged(() => MswReceived13);
+			RaisePropertyChanged(() => MswReceived14);
 		}
 
 		private void SendCmdWithCommandMode(ushort commandMode) {
@@ -250,5 +288,34 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public ICommand SendAinCommandReset => _sendAinCommandReset;
 
 		public RelayCommand SendAinCommandBits => _sendAinCommandBits;
+
+		public bool? McwReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x01) != 0x00;
+		public bool? McwReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x02) != 0x00;
+		public bool? McwReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x04) != 0x00;
+		public bool? McwReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x08) != 0x00;
+		public bool? McwReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x10) != 0x00;
+		public bool? McwReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x20) != 0x00;
+		public bool? McwReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x40) != 0x00;
+		public bool? McwReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x80) != 0x00;
+		public bool? McwReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x01) != 0x00;
+		public bool? McwReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x02) != 0x00;
+		public bool? McwReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x04) != 0x00;
+
+
+		public bool? MswReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x01) != 0x00;
+		public bool? MswReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x02) != 0x00;
+		public bool? MswReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x04) != 0x00;
+		public bool? MswReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x08) != 0x00;
+		public bool? MswReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x10) != 0x00;
+		public bool? MswReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x20) != 0x00;
+		public bool? MswReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x40) != 0x00;
+		public bool? MswReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x80) != 0x00;
+		public bool? MswReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x01) != 0x00;
+		public bool? MswReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x02) != 0x00;
+		public bool? MswReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x04) != 0x00;
+		public bool? MswReceived11 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x08) != 0x00;
+		public bool? MswReceived12 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x10) != 0x00;
+		public bool? MswReceived13 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x20) != 0x00;
+		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x40) != 0x00;
 	}
 }

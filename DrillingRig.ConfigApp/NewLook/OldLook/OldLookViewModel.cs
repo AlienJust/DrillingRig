@@ -68,9 +68,9 @@ namespace DrillingRig.ConfigApp.NewLook.OldLook {
 			cycleThreadHolder.RegisterAsCyclePart(ain3TelemetryVm);
 			cycleThreadHolder.RegisterAsCyclePart(AinTelemetriesVm);
 
-			var ain1CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 0, _ainSettingsStorage, _storageUpdatedNotify);
-			var ain2CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 1, _ainSettingsStorage, _storageUpdatedNotify);
-			var ain3CommandOnlyVm = new AinCommandOnlyViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 2, _ainSettingsStorage, _storageUpdatedNotify);
+			var ain1CommandOnlyVm = new AinCommandAndMinimalCommonTelemetryViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 0, _ainSettingsStorage, _storageUpdatedNotify);
+			var ain2CommandOnlyVm = new AinCommandAndMinimalCommonTelemetryViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 1, _ainSettingsStorage, _storageUpdatedNotify);
+			var ain3CommandOnlyVm = new AinCommandAndMinimalCommonTelemetryViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, notifySendingEnabled, 2, _ainSettingsStorage, _storageUpdatedNotify);
 
 			Ain1CommandVm = new AinCommandViewModel(ain1CommandOnlyVm, commonTelemetryVm, ain1TelemetryVm, AinTelemetriesVm);
 			Ain2CommandVm = new AinCommandViewModel(ain2CommandOnlyVm, commonTelemetryVm, ain2TelemetryVm, AinTelemetriesVm);

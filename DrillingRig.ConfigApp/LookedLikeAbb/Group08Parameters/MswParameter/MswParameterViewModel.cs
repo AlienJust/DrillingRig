@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
+﻿using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanReadonly;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters.MswParameter {
 	class MswParameterViewModel: ViewModelBase {
 		public ParameterStringReadonlyViewModel ParameterLiteralVm { get; }
 		public ParameterBooleanReadonlyViewModel Parameter01Vm { get; }
