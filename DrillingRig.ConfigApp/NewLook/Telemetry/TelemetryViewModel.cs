@@ -7,6 +7,7 @@ using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group07Parameters;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters;
 
 namespace DrillingRig.ConfigApp.NewLook.Telemetry {

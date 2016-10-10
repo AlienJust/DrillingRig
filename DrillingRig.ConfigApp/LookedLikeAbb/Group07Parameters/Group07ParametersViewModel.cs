@@ -3,19 +3,19 @@ using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry07;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group07Parameters.McwParameter;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Group07Parameters {
 	class Group07ParametersViewModel : ViewModelBase, ICyclePart {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
-		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
+		public McwParameterViewModel Parameter01Vm { get; }
 
 		public RelayCommand ReadCycleCmd { get; }
 		public RelayCommand StopReadCycleCmd { get; }
@@ -31,8 +31,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("07.01 MAIN CONTROL WORD Главное управляющее слово", "f0", null, parameterLogger);
-	
+			Parameter01Vm = new McwParameterViewModel(parameterLogger);
+
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
@@ -95,10 +95,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry07 telemetry) {
-			const int maxErrors = 3;
-			if (telemetry == null && _errorCounts < maxErrors) return;
-
-			Parameter01Vm.CurrentValue = telemetry?.Mcw;
+			const int maxErrors = 3; // TODO: extract common constant for all telemetry updateables
+			if (telemetry == null && _errorCounts < maxErrors)
+				return;
+			Parameter01Vm.UpdateTelemetry(telemetry?.Mcw);
 		}
 
 		public bool Cancel {
