@@ -8,7 +8,9 @@ using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group09Parameters.AinBitsParameter;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group09ParametersViewModel : ViewModelBase, ICyclePart {
@@ -17,9 +19,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
 		private readonly IAinsCounter _ainsCounter;
-		public ParameterDoubleReadonlyViewModel Parameter01Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter02Vm { get; }
-		public ParameterDoubleReadonlyViewModel Parameter03Vm { get; }
+		public AinBitsParameterViewModel Parameter01Vm { get; }
+		public AinBitsParameterViewModel Parameter02Vm { get; }
+		public AinBitsParameterViewModel Parameter03Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter04Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter05Vm { get; }
 		public ParameterDoubleReadonlyViewModel Parameter06Vm { get; }
@@ -40,9 +42,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("09.01 Биты ошибок АИН1", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("09.02 Биты ошибок АИН2", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("09.03 Биты ошибок АИН3", "f0", null, parameterLogger);
+			Parameter01Vm = new AinBitsParameterViewModel(new ParameterStringReadonlyViewModel("09.01 СТАТУС АИН1", string.Empty), parameterLogger);
+			Parameter02Vm = new AinBitsParameterViewModel(new ParameterStringReadonlyViewModel("09.02 СТАТУС АИН2", string.Empty), parameterLogger);
+			Parameter03Vm = new AinBitsParameterViewModel(new ParameterStringReadonlyViewModel("09.03 СТАТУС АИН3", string.Empty), parameterLogger);
 			Parameter04Vm = new ParameterDoubleReadonlyViewModel("09.04 Текущий код аварии", "f0", null, parameterLogger);
 			Parameter05Vm = new ParameterDoubleReadonlyViewModel("09.05 Код последнего сигнала предупреждения.", "f0", null, parameterLogger);
 			Parameter06Vm = new ParameterDoubleReadonlyViewModel("09.06 Ошибки связи с блоками АИН.", "f0", null, parameterLogger);
@@ -113,9 +115,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			const int maxErrors = 3;
 			if (telemetry == null && _errorCounts < maxErrors) return;
 
-			Parameter01Vm.CurrentValue = telemetry?.Status1;
-			Parameter02Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.Status2 : null;
-			Parameter03Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.Status3 : null;
+			Parameter01Vm.UpdateTelemetry(telemetry?.Status1);
+			Parameter02Vm.UpdateTelemetry(_ainsCounter.SelectedAinsCount >= 2 ? telemetry?.Status2 : null);
+			Parameter03Vm.UpdateTelemetry(_ainsCounter.SelectedAinsCount >= 3 ? telemetry?.Status3 : null);
+
 			Parameter04Vm.CurrentValue = telemetry?.FaultState;
 			Parameter05Vm.CurrentValue = telemetry?.Warning;
 			Parameter06Vm.CurrentValue = telemetry?.ErrLinkAin;

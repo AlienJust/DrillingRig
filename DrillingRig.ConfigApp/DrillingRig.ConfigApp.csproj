@@ -237,13 +237,17 @@
       <DependentUpon>MswParameterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group08Parameters\MswParameter\MswParameterViewModel.cs" />
-    <Compile Include="LookedLikeAbb\Group09ParametersView.xaml.cs">
+    <Compile Include="LookedLikeAbb\Group09Parameters\AinBitsParameter\AinBitsParameterView.xaml.cs">
+      <DependentUpon>AinBitsParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Group09Parameters\AinBitsParameter\AinBitsParameterViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group09Parameters\Group09ParametersView.xaml.cs">
       <DependentUpon>Group09ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Group08Parameters\Group08ParametersView.xaml.cs">
       <DependentUpon>Group08ParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Group09ParametersViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Group09Parameters\Group09ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group08Parameters\Group08ParametersViewModel.cs" />
     <Compile Include="LookedLikeAbb\Group07Parameters\Group07ParametersView.xaml.cs">
       <DependentUpon>Group07ParametersView.xaml</DependentUpon>
@@ -523,7 +527,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LookedLikeAbb\Group09ParametersView.xaml">
+    <Page Include="LookedLikeAbb\Group09Parameters\AinBitsParameter\AinBitsParameterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Group09Parameters\Group09ParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
