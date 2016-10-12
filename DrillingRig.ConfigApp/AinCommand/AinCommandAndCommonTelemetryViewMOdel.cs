@@ -69,6 +69,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							Ain3LinkError = commonTelemetry.Ain3LinkFault;
 							RaiseAinsLinkInformationHasBeenUpdated();
 						});
+						_errorCounts = 0;
 					}
 					catch (Exception ex) {
 						const int maxErrors = 3;
