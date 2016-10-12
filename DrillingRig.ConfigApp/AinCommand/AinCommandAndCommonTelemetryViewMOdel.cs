@@ -20,6 +20,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		private readonly object _syncCancel;
 		private bool _cancel;
+		private int _errorCounts;
 		public AinCommandAndCommonTelemetryViewModel(AinCommandAndMinimalCommonTelemetryViewModel ainCommandAndMinimalCommonTelemetryViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
@@ -40,6 +41,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			Ain1LinkError = null;
 			Ain2LinkError = null;
 			Ain3LinkError = null;
+			_errorCounts = 0;
 		}
 
 		public TelemetryCommonViewModel CommonTelemetryVm { get; }
@@ -69,7 +71,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 						});
 					}
 					catch (Exception ex) {
+						const int maxErrors = 3;
+						_errorCounts++;
+						if (_errorCounts < maxErrors) return;
+
 						_uiRoot.Notifier.Notify(() => {
+							AinCommandAndMinimalCommonTelemetryVm.UpdateCommonTelemetry(null);
 							CommonTelemetryVm.UpdateCommonEngineState(null);
 							CommonTelemetryVm.UpdateCommonFaultState(null);
 							CommonTelemetryVm.UpdateAinsLinkState(null, null, null);
@@ -101,6 +108,8 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			set {
 				lock (_syncCancel) {
 					_cancel = value;
+
+					// TODO: should I reset errors count on set cancel true?
 				}
 			}
 		}
