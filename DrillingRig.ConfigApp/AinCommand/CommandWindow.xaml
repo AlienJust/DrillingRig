@@ -7,7 +7,21 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand"
         mc:Ignorable="d"
-        Title="Команда" Height="360" Width="460" ShowCloseButton="False" IsCloseButtonEnabled="False" ShowMaxRestoreButton="False" IsMaxRestoreButtonEnabled="False" SizeToContent="WidthAndHeight" Closing="MetroWindow_Closing" ResizeMode="CanMinimize" SaveWindowPosition="True">
+        Title="Команда" 
+											Height="360" 
+											Width="460" 
+											ShowCloseButton="False" 
+											IsCloseButtonEnabled="False" 
+											ShowMaxRestoreButton="False" 
+											IsMaxRestoreButtonEnabled="False" 
+											SizeToContent="WidthAndHeight" 
+											Closing="MetroWindow_Closing" 
+											ResizeMode="CanMinimize" 
+											SaveWindowPosition="True" 
+											BorderThickness="1" 
+											BorderBrush="{DynamicResource AccentColorBrush}" 
+											WindowTransitionsEnabled="False" 
+											GlowBrush="Black">
 	<controls:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

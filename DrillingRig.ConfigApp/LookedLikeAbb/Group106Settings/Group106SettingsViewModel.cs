@@ -7,6 +7,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexEditable;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
@@ -17,7 +18,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
 
 		public ParameterHexEditableViewModel Parameter01Vm { get; }
-		public ParameterHexEditableViewModel Parameter02Vm { get; }
+		public ImcwParameterViewModel Parameter02Vm { get; }
 		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
@@ -30,7 +31,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 
 			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", -10000, 10000, null);
-			Parameter02Vm = new ParameterHexEditableViewModel("106.02. Внутреннее слово режимов IMCW", "X4", -10000, 10000, null);
+			Parameter02Vm = new ImcwParameterViewModel();
 			Parameter03Vm = new ParameterDoubleEditableViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -49,7 +50,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					DacCh = (short)Parameter01Vm.CurrentValue.Value,
-					Imcw = (short)Parameter02Vm.CurrentValue.Value,
+					Imcw = (short)Parameter02Vm.FullValue.Value,
 					ToHl = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
@@ -85,13 +86,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
 					Parameter01Vm.CurrentValue = null;
-					Parameter02Vm.CurrentValue = null;
+					Parameter02Vm.FullValue = null;
 					Parameter03Vm.CurrentValue = null;
 					return;
 				}
 
 				Parameter01Vm.CurrentValue = settings.DacCh;
-				Parameter02Vm.CurrentValue = settings.Imcw;
+				Parameter02Vm.FullValue = (ushort)settings.Imcw;
 				Parameter03Vm.CurrentValue = settings.ToHl;
 			});
 		}

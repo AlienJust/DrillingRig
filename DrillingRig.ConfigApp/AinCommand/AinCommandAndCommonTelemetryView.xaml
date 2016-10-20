@@ -12,7 +12,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition/>
     </Grid.RowDefinitions>
-    <ainTelemetry:TelemetryCommonView DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}"/>
-    <local:AinCommandAndMinimalCommonTelemetryView Grid.Row="1" DataContext="{Binding Path=AinCommandAndMinimalCommonTelemetryVm, Mode=OneTime}"/>
+    <ainTelemetry:TelemetryCommonView DataContext="{Binding Path=CommonTelemetryVm, Mode=OneTime}" Margin="4,4,4,0"/>
+    <local:AinCommandAndMinimalCommonTelemetryView Grid.Row="1" DataContext="{Binding Path=AinCommandAndMinimalCommonTelemetryVm, Mode=OneTime}" Margin="4,0,4,4"/>
   </Grid>
 </UserControl>

@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d"
-        Title="Регистратор" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Loaded="MetroWindow_Loaded">
+        mc:Ignorable="d" Title="Регистратор" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Loaded="MetroWindow_Loaded" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" GlowBrush="Black">
 	<controls:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

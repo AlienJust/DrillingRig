@@ -10,7 +10,7 @@
         xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
         xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme"
         xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
-        Title="Конфигурация БС-Ethernet " Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" Closing="MetroWindow_Closing">
+        Title="Конфигурация БС-Ethernet " Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" Closing="MetroWindow_Closing" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" GlowBrush="Black">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
