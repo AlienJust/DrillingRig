@@ -382,6 +382,10 @@
       <DependentUpon>ParameterComboIntEditableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterHexadecimalEditable\ParameterHexadecimalEditableView.xaml.cs">
+      <DependentUpon>ParameterHexadecimalEditableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterHexadecimalEditable\ParameterHexadecimalEditableViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterHexEditable\ParameterHexEditableView.xaml.cs">
       <DependentUpon>ParameterHexEditableView.xaml</DependentUpon>
     </Compile>
@@ -636,6 +640,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterHexadecimalEditable\ParameterHexadecimalEditableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

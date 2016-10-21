@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:parameterHexEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexEditable"
              xmlns:imvcParameter="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter"
+             xmlns:parameterHexadecimalEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexadecimalEditable"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
@@ -15,7 +16,7 @@
 		</Grid.RowDefinitions>
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
-				<parameterHexEditable:ParameterHexEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<parameterHexadecimalEditable:ParameterHexadecimalEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
 				<imvcParameter:ImcwParameterView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
 				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
 			</StackPanel>

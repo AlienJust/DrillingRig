@@ -315,22 +315,22 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public bool? McwReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x04) != 0x00;
 
 
-		public bool? MswReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x01) != 0x00;
-		public bool? MswReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x02) != 0x00;
-		public bool? MswReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x04) != 0x00;
-		public bool? MswReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x08) != 0x00;
-		public bool? MswReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x10) != 0x00;
-		public bool? MswReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x20) != 0x00;
-		public bool? MswReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x40) != 0x00;
-		public bool? MswReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x80) != 0x00;
+		public bool? MswReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x01) != 0x00;
+		public bool? MswReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x02) != 0x00;
+		public bool? MswReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x04) != 0x00;
+		public bool? MswReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x08) != 0x00;
+		public bool? MswReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x10) != 0x00;
+		public bool? MswReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x20) != 0x00;
+		public bool? MswReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x40) != 0x00;
+		public bool? MswReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x80) != 0x00;
 
-		public bool? MswReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x01) != 0x00;
-		public bool? MswReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x02) != 0x00;
-		public bool? MswReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x04) != 0x00;
-		public bool? MswReceived11 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x08) != 0x00;
-		public bool? MswReceived12 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x10) != 0x00;
-		public bool? MswReceived13 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x20) != 0x00;
-		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x40) != 0x00;
+		public bool? MswReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x01) != 0x00;
+		public bool? MswReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x02) != 0x00;
+		public bool? MswReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x04) != 0x00;
+		public bool? MswReceived11 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x08) != 0x00;
+		public bool? MswReceived12 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x10) != 0x00;
+		public bool? MswReceived13 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x20) != 0x00;
+		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x40) != 0x00;
 
 		public double? FsetReceived {
 			get {

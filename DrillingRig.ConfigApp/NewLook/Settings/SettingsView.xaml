@@ -156,7 +156,7 @@
 			<group106Settings:Group106SettingsView DataContext="{Binding Path=Group106SettingsVm, Mode=OneTime}"/>
 		</TabItem>
 			<TabItem Header="107. Режим чоппера" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
-				<group106Settings:Group106SettingsView DataContext="{Binding Path=Group107SettingsVm, Mode=OneTime}"/>
+				<lookedLikeAbb:Group107SettingsView DataContext="{Binding Path=Group107SettingsVm, Mode=OneTime}"/>
 			</TabItem>
 
 		</TabControl>
