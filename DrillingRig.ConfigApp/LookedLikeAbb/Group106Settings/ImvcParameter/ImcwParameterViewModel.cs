@@ -145,7 +145,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 						_bit06 = (_fullValue.Value & 0x0040) != 0;
 						_bit07 = (_fullValue.Value & 0x0080) != 0;
 						_selectedBit0809Vm = Bit0809Vms[(_fullValue.Value & 0x0300) >> 8];
-						_selectedBit1011Vm = Bit1011Vms[(_fullValue.Value & 0x0C00) >> 12];
+						_selectedBit1011Vm = Bit1011Vms[(_fullValue.Value & 0x0C00) >> 10];
 						_bit12 = (_fullValue.Value & 0x1000) != 0;
 						_bit13 = (_fullValue.Value & 0x2000) != 0;
 						_bit14 = (_fullValue.Value & 0x4000) != 0;
@@ -337,7 +337,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 
 				for (int i = 0; i < Bit1011Vms.Length; ++i) {
 					if (_selectedBit1011Vm == Bit1011Vms[i]) {
-						fullValue = (ushort)(fullValue | (i << 12));
+						fullValue = (ushort)(fullValue | (i << 10));
 						break;
 					}
 				}
