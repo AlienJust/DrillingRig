@@ -7,7 +7,7 @@
              xmlns:parameterStringReadonly="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="500">
 	<Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="8,0,0,2" Margin="0,0,0,4">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -34,8 +34,10 @@
 					<CheckBox IsChecked="{Binding Path=Bit05, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="05. ФНЧ на выходе ЗИ скорости (1 - вкл)"/>
 					<CheckBox IsChecked="{Binding Path=Bit06, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="06. ФНЧ в вычисленном потоке на ОС регулятора (1 - вкл)"/>
 					<CheckBox IsChecked="{Binding Path=Bit07, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="07. Векторный ШИМ (1), синусный ШИМ (0)"/>
-
+					
+					<TextBlock Text="08-09 – роль на быстрой линии связи для параллельной работы:"></TextBlock>
 					<ComboBox ItemsSource="{Binding Path=Bit0809Vms, Mode=OneTime}" SelectedItem="{Binding Path=SelectedBit0809Vm, Mode=TwoWay}"/>
+					<TextBlock Text="10-11 – конфигурация на быстрой линии связи для параллельной работы:"></TextBlock>
 					<ComboBox ItemsSource="{Binding Path=Bit1011Vms, Mode=OneTime}" SelectedItem="{Binding Path=SelectedBit1011Vm, Mode=TwoWay}" />
 
 					<CheckBox IsChecked="{Binding Path=Bit12, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="12. Отключение компенсации мертвого времени (1 – без компенсации)"/>
