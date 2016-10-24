@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
+             xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
@@ -13,7 +14,7 @@
 		</Grid.RowDefinitions>
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
-				<local:ParameterDoubleEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

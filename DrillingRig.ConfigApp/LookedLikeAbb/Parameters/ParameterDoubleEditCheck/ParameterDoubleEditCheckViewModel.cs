@@ -1,7 +1,7 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
 
-namespace DrillingRig.ConfigApp.LookedLikeAbb {
-	class ParameterDoubleEditableViewModel : ViewModelBase, ICheckableParameter {
+namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck {
+	class ParameterDoubleEditCheckViewModel : ViewModelBase, ICheckableParameter {
 		public string Name { get; }
 		public string Format { get; }
 		public double MinimumValue { get; }
@@ -11,7 +11,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public double Increment { get; set; }
 
-		public ParameterDoubleEditableViewModel(string name, string format, double minimumValue, double maximumValue, double? currentValue) {
+		public ParameterDoubleEditCheckViewModel(string name, string format, double minimumValue, double maximumValue, double? currentValue) {
 			Name = name;
 			Format = format;
 			MinimumValue = minimumValue;

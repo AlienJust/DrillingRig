@@ -1,6 +1,7 @@
 using DrillingRig.CommandSenders.Contracts;
+using DrillingRig.ConfigApp.CommandSenderHost;
 
-namespace DrillingRig.ConfigApp.CommandSenderHost {
+namespace DrillingRig.ConfigApp.AppControl.CommandSenderHost {
 	class CommandSenderHostThreadSafe : ICommandSenderHostSettable {
 		private readonly object _senderSync;
 		private ICommandSender _sender;

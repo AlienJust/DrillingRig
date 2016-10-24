@@ -7,6 +7,7 @@ using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 

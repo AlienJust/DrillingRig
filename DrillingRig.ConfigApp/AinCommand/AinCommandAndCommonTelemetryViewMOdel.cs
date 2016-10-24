@@ -5,6 +5,8 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
@@ -50,7 +52,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadCommonTelemetryCommand();
-			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
+			_commandSenderHost.Sender.SendCommandAsyncNoLog(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
 					try {
@@ -88,9 +90,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							Ain3LinkError = null;
 							RaiseAinsLinkInformationHasBeenUpdated();
 
-							_debugLogger.GetLogger(4).Log("Ошибка: " + ex.Message, new StackTrace(Thread.CurrentThread, true));
+							//_debugLogger.GetLogger(4).Log("Ошибка: " + ex.Message, new StackTrace(Thread.CurrentThread, true));
 						});
-						_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
+						//_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
 					}
 					finally {
 						waiter.Set(); // set async action complete

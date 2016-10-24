@@ -1,8 +1,7 @@
 using DrillingRig.CommandSenders.Contracts;
 
-namespace DrillingRig.ConfigApp.CommandSenderHost {
+namespace DrillingRig.ConfigApp.AppControl.CommandSenderHost {
 	internal interface ICommandSenderHost {
 		ICommandSender Sender { get; }
-		
 	}
 }

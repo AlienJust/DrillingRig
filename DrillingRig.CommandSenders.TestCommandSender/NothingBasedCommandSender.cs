@@ -52,6 +52,31 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			});
 		}
 
+		public void SendCommandAsyncNoLog(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
+			_backWorker.AddWork(() => {
+				command.Serialize();
+				//_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
+				//_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
+
+				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds / 10.0)); // 1/10 of timeout waiting :)
+				Exception exception = null;
+				byte[] reply;
+				try {
+					var testCmd = command as IRrModbusCommandWithTestReply;
+					if (testCmd != null) {
+						reply = testCmd.GetTestReply();
+						//_debugLogger.GetLogger(4).Log("Test reply: " + reply.ToText(), new StackTrace(Thread.CurrentThread, true));
+					}
+					else throw new Exception("Cannot cast command to IRrModbusCommandWithTestReply");
+				}
+				catch (Exception ex) {
+					exception = ex;
+					reply = null;
+				}
+				_uiNotifier.Notify(() => onComplete(exception, reply));
+			});
+		}
+
 		public void EndWork() {
 			_debugLogger.GetLogger(1).Log("EndWork called", new StackTrace(Thread.CurrentThread, true));
 			_backWorkerStoppable.StopAsync();

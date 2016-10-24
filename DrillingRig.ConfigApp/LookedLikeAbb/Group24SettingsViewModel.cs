@@ -7,6 +7,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group24SettingsViewModel : ViewModelBase {
@@ -18,8 +19,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -33,8 +34,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f8", -10000, 10000, null) {Increment = 0.00390625 };
-			Parameter02Vm = new ParameterDoubleEditableViewModel("24.02. Интегральный коэф. регулятора скорости", "f6", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("24.01. Пропорциональный коэф. регулятора скорости", "f8", -10000, 10000, null) {Increment = 0.00390625 };
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("24.02. Интегральный коэф. регулятора скорости", "f6", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

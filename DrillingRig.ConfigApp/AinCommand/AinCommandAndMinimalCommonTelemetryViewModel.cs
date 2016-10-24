@@ -7,6 +7,7 @@ using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinCommand;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;

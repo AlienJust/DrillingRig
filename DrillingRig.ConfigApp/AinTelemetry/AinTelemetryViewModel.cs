@@ -3,6 +3,8 @@ using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinTelemetry {
@@ -245,7 +247,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			
 				var cmd = new ReadAinTelemetryCommand(_zeroBasedAinNumber);
-				_commandSenderHost.Sender.SendCommandAsync(0x01,
+				_commandSenderHost.Sender.SendCommandAsyncNoLog(0x01,
 					cmd, TimeSpan.FromSeconds(0.1),
 					(exception, bytes) => {
 						IAinTelemetry ainTelemetry = null;
@@ -258,16 +260,16 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 						}
 						catch (Exception ex) {
 							// TODO: log exception, null values
-							_logger.Log("Ошибка: " + ex.Message);
-							Console.WriteLine(ex);
+							//_logger.Log("Ошибка: " + ex.Message);
+							//Console.WriteLine(ex);
 						}
 						finally {
 							_userInterfaceRoot.Notifier.Notify(() => {
-								Console.WriteLine("UserInterface thread begin action =============================");
-								Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
+								//Console.WriteLine("UserInterface thread begin action =============================");
+								//Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
 								UpdateTelemetry(ainTelemetry);
 								if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAinStatuses(ainTelemetry?.Status, null, null);
-								Console.WriteLine("UserInterface thread end action ===============================");
+								//Console.WriteLine("UserInterface thread end action ===============================");
 							});
 							waiter.Set();
 						}

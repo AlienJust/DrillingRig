@@ -3,6 +3,8 @@ using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry08;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
@@ -75,7 +77,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry08Command();
-			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
+			_commandSenderHost.Sender.SendCommandAsyncNoLog(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
 					ITelemetry08 telemetry = null;
@@ -88,17 +90,17 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 					}
 					catch (Exception ex) {
 						telemetry = null;
-						_logger.Log("Ошибка: " + ex.Message);
-						Console.WriteLine(ex);
+						//_logger.Log("Ошибка: " + ex.Message);
+						//Console.WriteLine(ex);
 					}
 					finally {
 						_uiRoot.Notifier.Notify(() => {
-							Console.WriteLine("UserInterface thread begin action =============================");
-							Console.WriteLine("Now update telemetry Group03...");
+							//Console.WriteLine("UserInterface thread begin action =============================");
+							//Console.WriteLine("Now update telemetry Group03...");
 							// TODO: result update telemetry
 							UpdateTelemetry(telemetry);
-							Console.WriteLine("Done");
-							Console.WriteLine("UserInterface thread end action ===============================");
+							//Console.WriteLine("Done");
+							//Console.WriteLine("UserInterface thread end action ===============================");
 						});
 						waiter.Set();
 					}

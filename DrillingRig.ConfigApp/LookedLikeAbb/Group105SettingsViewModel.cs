@@ -7,6 +7,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group105SettingsViewModel : ViewModelBase {
@@ -18,20 +19,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter04Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 
-		public ParameterDoubleEditableViewModel Parameter101Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter102Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter103Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter104Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter101Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter102Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter103Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter104Vm { get; }
 
-		public ParameterDoubleEditableViewModel Parameter201Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter202Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter203Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter204Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter201Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter202Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter203Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter204Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -45,20 +46,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
-			Parameter101Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter102Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter103Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter104Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter101Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter102Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter103Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
+			Parameter104Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
-			Parameter201Vm = new ParameterDoubleEditableViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter202Vm = new ParameterDoubleEditableViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter203Vm = new ParameterDoubleEditableViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter204Vm = new ParameterDoubleEditableViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter201Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
+			Parameter202Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
+			Parameter203Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
+			Parameter204Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

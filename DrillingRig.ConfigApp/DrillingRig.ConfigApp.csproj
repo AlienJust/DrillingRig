@@ -146,6 +146,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AciIdentify\AciIdentifyView.xaml.cs">
+      <DependentUpon>AciIdentifyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AinCommand\AinCommandAndCommonTelemetryView.xaml.cs">
       <DependentUpon>AinCommandAndCommonTelemetryView.xaml</DependentUpon>
     </Compile>
@@ -382,6 +385,10 @@
       <DependentUpon>ParameterComboIntEditableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterComboIntEditable\ParameterComboIntEditableViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEdit\ParameterDoubleEditView.xaml.cs">
+      <DependentUpon>ParameterDoubleEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEdit\ParameterDoubleEditViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterHexadecimalEditable\ParameterHexadecimalEditableView.xaml.cs">
       <DependentUpon>ParameterHexadecimalEditableView.xaml</DependentUpon>
     </Compile>
@@ -393,10 +400,10 @@
     <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyView.xaml.cs">
       <DependentUpon>ParameterDoubleReadonlyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableView.xaml.cs">
-      <DependentUpon>ParameterDoubleEditableView.xaml</DependentUpon>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDoubleEditCheckView.xaml.cs">
+      <DependentUpon>ParameterDoubleEditCheckView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDoubleEditCheckViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleReadonly\ParameterDoubleReadonlyViewModel.cs" />
     <Compile Include="LookedLikeAbb\Chart\PointsSeriesAndAdditionalData.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterStringReadonly\ParameterStringReadonlyView.xaml.cs">
@@ -463,6 +470,10 @@
       <DependentUpon>TelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\Telemetry\TelemetryViewModel.cs" />
+    <Page Include="AciIdentify\AciIdentifyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AinCommand\AinCommandAndCommonTelemetryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -643,6 +654,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleEdit\ParameterDoubleEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterHexadecimalEditable\ParameterHexadecimalEditableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -655,7 +670,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleEditable\ParameterDoubleEditableView.xaml">
+    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDoubleEditCheckView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,6 +15,7 @@ using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
@@ -25,10 +26,8 @@ using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope;
 
-namespace DrillingRig.ConfigApp.AppControl
-{
-	public partial class App : Application
-	{
+namespace DrillingRig.ConfigApp.AppControl {
+	public partial class App : Application {
 		//private MainViewModel _mainViewModel;
 		//private MainWindow _mainWindow;
 		private ManualResetEvent _mainWindowCreationCompleteWaiter;
@@ -98,40 +97,55 @@ namespace DrillingRig.ConfigApp.AppControl
 
 			_debugLogger = new RelayMultiLoggerWithStackTraceSimple(
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(
-						new ColoredConsoleLogger(ConsoleColor.DarkRed, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
+					new RelayActionLogger(s => { }),
+					//new RelayLogger(
+					//new ColoredConsoleLogger(ConsoleColor.DarkRed, ConsoleColor.Black),
+					//new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Red, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
+						new ChainedFormatter(new List<ITextFormatter>
+						{
+							new ThreadFormatter(" > ", true, false, false),
+							new DateTimeFormatter(" > ")
+						})),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Yellow, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
+						new ChainedFormatter(new List<ITextFormatter>
+						{
+							new ThreadFormatter(" > ", true, false, false),
+							new DateTimeFormatter(" > ")
+						})),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 				new RelayLoggerWithStackTrace(
-					new RelayLogger(
-						new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
+					new RelayActionLogger(s => { }),
+					//new RelayLogger(
+					//new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black),
+					//new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Cyan, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
-					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+						new ChainedFormatter(new List<ITextFormatter>
+						{
+							new ThreadFormatter(" > ", true, false, false),
+							new DateTimeFormatter(" > ")
+						})),
+					//new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+					new StackTraceFormatterNothing()),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Green, ConsoleColor.Black),
 						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
-					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+					new StackTraceFormatterNothing()),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.White, ConsoleColor.Black),
 						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
-					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")));
+					new StackTraceFormatterNothing()));
 
 			var loggerAndRegPoint = new LoggerRegistrationPointThreadSafe();
 			_commonLogger = loggerAndRegPoint;
@@ -140,7 +154,7 @@ namespace DrillingRig.ConfigApp.AppControl
 			var paramLoggerAndRegPoint = new ParamLoggerRegistrationPointThreadSafe();
 			_commonParamLogger = paramLoggerAndRegPoint;
 			_paramLoggerRegPoint = paramLoggerAndRegPoint;
-			
+
 
 			var cmdSenderHost = new CommandSenderHostThreadSafe();
 			_cmdSenderHostSettable = cmdSenderHost;
@@ -149,7 +163,7 @@ namespace DrillingRig.ConfigApp.AppControl
 			var targetAddressHost = new TargetAddressHostThreadSafe(1);
 			_targetAddressHostSettable = targetAddressHost;
 			_targetAddressHost = targetAddressHost;
-			
+
 			var notifySendingEnabled = new NotifySendingEnabledThreadSafe(false);
 			_notifySendingEnabledRaisable = notifySendingEnabled;
 			_notifySendingEnabled = notifySendingEnabled;
@@ -173,7 +187,7 @@ namespace DrillingRig.ConfigApp.AppControl
 			_autoTimeSetter = new AutoTimeSetter(_cmdSenderHost, _notifySendingEnabled, _targetAddressHost, _commonLogger);
 			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _ainSettingsStorageSettable, _commonLogger);
 
-			
+
 			// обнуление хранилища настроек при отключении
 			_notifySendingEnabled.SendingEnabledChanged += enabled => {
 				if (!enabled) {
@@ -192,33 +206,34 @@ namespace DrillingRig.ConfigApp.AppControl
 
 			_mainWindowCreationCompleteWaiter = new ManualResetEvent(false);
 			var appThreadNotifier = new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher);
-			
+
 
 
 			MainWindow mainWindow = null;
 			var mainWindowThread = new Thread(() => {
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
 				var mainViewModel = new MainViewModel(
-					uiRoot, 
-					new WpfWindowSystem(), 
-					colors, 
-					_cmdSenderHostSettable, 
-					_targetAddressHost, 
-					_debugLogger, 
-					_loggerRegPoint, 
-					_notifySendingEnabledRaisable, 
-					_commonParamLogger, 
-					_ainsCounterRaisable, 
-					_cycleThreadHolder, 
-					_ainSettingsReader, 
-					_ainSettingsReadNotify, 
+					uiRoot,
+					new WpfWindowSystem(),
+					colors,
+					_cmdSenderHostSettable,
+					_targetAddressHost,
+					_debugLogger,
+					_loggerRegPoint,
+					_notifySendingEnabledRaisable,
+					_commonParamLogger,
+					_ainsCounterRaisable,
+					_cycleThreadHolder,
+					_ainSettingsReader,
+					_ainSettingsReadNotify,
 					_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
 
-				/*var*/ mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
+				/*var*/
+				mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
 
 				_mainWindowCreationCompleteWaiter.Set();
 				mainWindow.Show();
-				
+
 				System.Windows.Threading.Dispatcher.Run();
 			});
 			mainWindowThread.SetApartmentState(ApartmentState.STA);
@@ -275,7 +290,7 @@ namespace DrillingRig.ConfigApp.AppControl
 			sciWindowThread.SetApartmentState(ApartmentState.STA);
 			sciWindowThread.IsBackground = true;
 			sciWindowThread.Start();
-			
+
 		}
 	}
 }

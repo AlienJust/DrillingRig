@@ -5,6 +5,7 @@ using DrillingRig.ConfigApp.AinsSettings;
 using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;

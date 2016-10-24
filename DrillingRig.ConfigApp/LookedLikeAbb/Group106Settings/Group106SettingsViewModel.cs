@@ -8,6 +8,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexEditable;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
@@ -19,7 +20,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 
 		public ParameterHexEditableViewModel Parameter01Vm { get; }
 		public ImcwParameterViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -32,7 +33,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 
 			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", -10000, 10000, null);
 			Parameter02Vm = new ImcwParameterViewModel();
-			Parameter03Vm = new ParameterDoubleEditableViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM

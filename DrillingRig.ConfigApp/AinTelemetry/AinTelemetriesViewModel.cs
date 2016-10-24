@@ -6,6 +6,8 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.UserInterface.Contracts;
 using DrillingRig.Commands.SystemControl;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
@@ -106,7 +108,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			var waiter = new ManualResetEvent(false);
 
 			var cmdDebug = new ReadDebugInfoCommand();
-			_commandSenderHost.Sender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
+			_commandSenderHost.Sender.SendCommandAsyncNoLog(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
 				try {
 					if (exception != null) {
 						throw new Exception("Произошла ошибка во время обмена", exception);
@@ -114,9 +116,9 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 					_userInterfaceRoot.Notifier.Notify(() => _debugInformationShower.ShowBytes(bytes));
 				}
 				catch (Exception ex) {
-					// TODO: log exception, null values
-					_logger.Log("Ошибка: " + ex.Message);
-					Console.WriteLine(ex);
+					// TODO: no need to log to reduce log spam
+					//_logger.Log("Ошибка: " + ex.Message);
+					//Console.WriteLine(ex);
 				}
 				waiter.Set();
 			});

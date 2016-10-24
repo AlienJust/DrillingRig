@@ -28,11 +28,11 @@
 				<StackPanel Orientation="Vertical">
 					<CheckBox IsChecked="{Binding Path=Bit00, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="00. Резерв"/>
 					<CheckBox IsChecked="{Binding Path=Bit01, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="01. Резерв"/>
-					<CheckBox IsChecked="{Binding Path=Bit02, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="02. Деление в задании IQ (1 - вкл)"/>
-					<CheckBox IsChecked="{Binding Path=Bit03, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="03. Выбор ОС по скорости (0 – вычисленное / 1 - измеренное)"/>
-					<CheckBox IsChecked="{Binding Path=Bit04, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="04. ФНЧ в ОС скорости (1 - вкл)"/>
-					<CheckBox IsChecked="{Binding Path=Bit05, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="05. ФНЧ на выходе ЗИ скорости (1 - вкл)"/>
-					<CheckBox IsChecked="{Binding Path=Bit06, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="06. ФНЧ в вычисленном потоке на ОС регулятора (1 - вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit02, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="02. Деление в задании IQ (1 – вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit03, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="03. Выбор ОС по скорости (0 – вычисленное / 1 – измеренное по ДЧВ)"/>
+					<CheckBox IsChecked="{Binding Path=Bit04, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="04. ФНЧ в ОС скорости (1 – вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit05, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="05. ФНЧ на выходе ЗИ скорости (1 – вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit06, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="06. ФНЧ в вычисленном потоке на ОС регулятора (1 – вкл)"/>
 					<CheckBox IsChecked="{Binding Path=Bit07, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="07. Векторный ШИМ (1), синусный ШИМ (0)"/>
 					
 					<TextBlock Text="08-09 – роль на быстрой линии связи для параллельной работы:"></TextBlock>
@@ -41,9 +41,9 @@
 					<ComboBox ItemsSource="{Binding Path=Bit1011Vms, Mode=OneTime}" SelectedItem="{Binding Path=SelectedBit1011Vm, Mode=TwoWay}" />
 
 					<CheckBox IsChecked="{Binding Path=Bit12, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="12. Отключение компенсации мертвого времени (1 – без компенсации)"/>
-					<CheckBox IsChecked="{Binding Path=Bit13, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="13. Скалярное управление (1 - вкл)"/>
-					<CheckBox IsChecked="{Binding Path=Bit14, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="14. При векторном управлении форсировать ID (технологический режим) (1 - вкл)"/>
-					<CheckBox IsChecked="{Binding Path=Bit15, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="15. При векторном управлении форсировать IQ (технологический режим) (1 - вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit13, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="13. Скалярное управление (1 – вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit14, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="14. При векторном управлении форсировать ID (технологический режим) (1 – вкл)"/>
+					<CheckBox IsChecked="{Binding Path=Bit15, Mode=TwoWay}" Margin="2" IsThreeState="True" Content="15. При векторном управлении форсировать IQ (технологический режим) (1 – вкл)"/>
 				</StackPanel>
 			</Expander>
 		</Grid>

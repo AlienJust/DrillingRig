@@ -1,5 +1,6 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;

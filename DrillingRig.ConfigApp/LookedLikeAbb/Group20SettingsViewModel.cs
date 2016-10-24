@@ -7,6 +7,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group20SettingsViewModel : ViewModelBase {
@@ -18,12 +19,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditableViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter04Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter05Vm { get; }
-		public ParameterDoubleEditableViewModel Parameter06Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -37,14 +38,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditableViewModel("20.01. Номинальная частота", "f1", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditableViewModel("20.02. Максимальная частота", "f1", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("20.01. Номинальная частота", "f1", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("20.02. Максимальная частота", "f1", -10000, 10000, null);
 
-			Parameter03Vm = new ParameterDoubleEditableViewModel("20.03. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditableViewModel("20.04. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("20.03. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
 
-			Parameter05Vm = new ParameterDoubleEditableViewModel("20.05. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
-			Parameter06Vm = new ParameterDoubleEditableViewModel("20.06. Максимальный момент", "f0", -10000, 10000, null);
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Максимальный момент", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

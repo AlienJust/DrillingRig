@@ -75,6 +75,9 @@
 			<TabItem Header="Дополнительно">
 				<oldLook:OldLookView DataContext="{Binding Path=OldLookVm, Mode=OneTime}"/>
 			</TabItem>
+			<TabItem Header="Рома">
+				
+			</TabItem>
 		</TabControl>
 		<GridSplitter Grid.Row="1" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource AccentColorBrush}" ResizeBehavior="PreviousAndCurrent" ResizeDirection="Auto" ShowsPreview="True" />
 		<logs:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,4,4"/>

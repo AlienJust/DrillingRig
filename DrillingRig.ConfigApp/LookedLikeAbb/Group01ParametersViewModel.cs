@@ -4,6 +4,8 @@ using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.Telemetry01;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
@@ -110,7 +112,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry01Command();
-			_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
+			_commandSenderHost.Sender.SendCommandAsyncNoLog(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
 					ITelemetry01 telemetry = null;
@@ -125,8 +127,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					catch (Exception ex) {
 						_errorCounts++;
 						telemetry = null;
-							_logger.Log("Ошибка: " + ex.Message);
-						Console.WriteLine(ex);
+						//_logger.Log("Ошибка: " + ex.Message);
+						//Console.WriteLine(ex);
 					}
 					finally {
 						_uiRoot.Notifier.Notify(() => {

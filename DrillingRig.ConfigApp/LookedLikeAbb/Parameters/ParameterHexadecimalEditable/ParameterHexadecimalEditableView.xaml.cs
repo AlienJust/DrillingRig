@@ -2,7 +2,7 @@
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterHexadecimalEditable {
 	/// <summary>
-	/// Interaction logic for ParameterDoubleEditableView.xaml
+	/// Interaction logic for ParameterDoubleEditCheckView.xaml
 	/// </summary>
 	public partial class ParameterHexadecimalEditableView : UserControl {
 		public ParameterHexadecimalEditableView() {
