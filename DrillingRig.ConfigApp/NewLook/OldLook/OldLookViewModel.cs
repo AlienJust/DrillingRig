@@ -51,7 +51,7 @@ namespace DrillingRig.ConfigApp.NewLook.OldLook {
 		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_ainSettingsStorage = ainSettingsStorage;
 			_storageUpdatedNotify = storageUpdatedNotify;
-			var commonTelemetryVm = new TelemetryCommonViewModel(logger, debugLogger);
+			var commonTelemetryVm = new TelemetryCommonViewModel();
 
 			BsEthernetSettingsVm = new BsEthernetSettingsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);
 			BsEthernetNominalsVm = new BsEthernetNominalsViewModel(commanSenderHost, targetAddressHost, userInterfaceRoot, logger, windowSystem, notifySendingEnabled);

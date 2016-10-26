@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using AlienJust.Support.Loggers.Contracts;
+﻿using System.Globalization;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinTelemetry;
 
@@ -10,14 +7,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private string _engineState;
 		private string _faultState;
 		private string _ainsLinkState;
-		private readonly ILogger _logger;
-		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private string _ainStatuses;
-
-		public TelemetryCommonViewModel(ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger) {
-			_logger = logger;
-			_debugLogger = debugLogger;
-		}
 
 		private const string UnknownValueText = "Неизвестно";
 
@@ -28,8 +18,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				try {
 					commonEngineState += " - " + EngineStateExtensions.GetStateFromUshort(value.Value).ToText();
 				}
-				catch (Exception ex) {
-					_debugLogger.GetLogger(2).Log(ex, new StackTrace());
+				catch {
 				}
 				CommonEngineState = commonEngineState;
 			}
@@ -42,8 +31,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 				try {
 					commonFaultState += " - " + FaultStateExtensions.GetStateFromUshort(value.Value).ToText();
 				}
-				catch (Exception ex) {
-					_debugLogger.GetLogger(2).Log(ex, new StackTrace());
+				catch {
 				}
 				CommonFaultState = commonFaultState;
 			}

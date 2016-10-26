@@ -1,11 +1,25 @@
 ﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Chart.WindowChart"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d" Title="Регистратор" Height="600" Width="900" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Loaded="MetroWindow_Loaded" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" GlowBrush="Black">
+											xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+											xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+											xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+											xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+											xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Chart"
+											xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+											mc:Ignorable="d"
+											Title="Регистратор"
+											TitleCharacterCasing="Normal"
+											Height="600"
+											Width="900"
+											Closing="MetroWindow_Closing"
+											IsCloseButtonEnabled="False"
+											ShowCloseButton="False"
+											ResizeMode="CanResizeWithGrip"
+											SaveWindowPosition="True"
+											Loaded="MetroWindow_Loaded"
+											BorderThickness="1"
+											BorderBrush="{DynamicResource AccentColorBrush}"
+											WindowTransitionsEnabled="False"
+											GlowBrush="Black">
 	<controls:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -18,15 +32,37 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			</ResourceDictionary>
+		</ResourceDictionary>
 	</controls:MetroWindow.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<CheckBox x:Name="CheckBox1" Content="Автообновление" Margin="4,2,4,2" IsChecked="True"/>
-		<local:ChartView Grid.Row="1" DataContext="{Binding Path=ChartVm, Mode=OneTime}" x:Name="ChartView1"/>
-	</Grid>
+	<controls:MetroWindow.WindowButtonCommands>
+		<controls:WindowButtonCommands Template="{DynamicResource MahApps.Metro.Templates.WindowButtonCommands.Win10}" />
+	</controls:MetroWindow.WindowButtonCommands>
+	<controls:MetroWindow.RightWindowCommands>
+		<controls:WindowCommands>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Автообновление"
+									 VerticalAlignment="Center" />
+				<controls:ToggleSwitch IsChecked="True"
+															 x:Name="CheckBox1"
+															 OnLabel=""
+															 OffLabel=""
+															 OnSwitchBrush="ForestGreen"
+															 OffSwitchBrush="Gray"
+															 VerticalAlignment="Center">
+					<controls:ToggleSwitch.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform ScaleY="0.9"
+															ScaleX="0.8" />
+							<SkewTransform />
+							<RotateTransform />
+							<TranslateTransform />
+						</TransformGroup>
+					</controls:ToggleSwitch.RenderTransform>
+				</controls:ToggleSwitch>
+			</StackPanel>
+		</controls:WindowCommands>
+	</controls:MetroWindow.RightWindowCommands>
+	<local:ChartView DataContext="{Binding Path=ChartVm, Mode=OneTime}"
+									 x:Name="ChartView1" />
 </controls:MetroWindow>
 

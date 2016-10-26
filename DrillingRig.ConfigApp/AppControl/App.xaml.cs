@@ -250,7 +250,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 				var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 					new AinCommandAndMinimalCommonTelemetryViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
-					new TelemetryCommonViewModel(_commonLogger, _debugLogger),
+					new TelemetryCommonViewModel(),
 					_cmdSenderHost, _targetAddressHost, uiRoot, _notifySendingEnabled);
 				_cycleThreadHolder.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);
 
