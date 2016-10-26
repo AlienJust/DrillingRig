@@ -5,12 +5,14 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using Abt.Controls.SciChart.Visuals.Annotations;
 using Abt.Controls.SciChart.Visuals.Axes;
 using Abt.Controls.SciChart.Visuals.RenderableSeries;
 using AlienJust.Adaptation.WindowsPresentation;
+using AlienJust.Support.Concurrent.Contracts;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using MahApps.Metro.Controls;
@@ -30,11 +32,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private double Ymin = -1.0;
 		private double Ymax = 1.0;
 
-		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(10.0);
+		private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(30); //33.33fps
 		private readonly TimeSpan _totalTime = TimeSpan.FromSeconds(20.0);
 
 		private readonly Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>> _namedSeries;
-		private readonly WpfUiNotifierAsync _uiNotifier;
+		private readonly IThreadNotifier _uiNotifier;
 
 		private bool _isPaused;
 		private readonly object _isPausedSyncObj;
@@ -47,7 +49,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 			InitializeComponent();
 
 			_namedSeries = new Dictionary<string, Tuple<FastLineRenderableSeries, XyDataSeries<double, double>>>();
-			_uiNotifier = new WpfUiNotifierAsync(Dispatcher);
+			_uiNotifier = new WpfUiNotifierAsyncWithPriority(Dispatcher, DispatcherPriority.ContextIdle);
 			_xmin = -_totalTime.TotalSeconds / 2.0;
 			_xmax = _totalTime.TotalSeconds / 2.0;
 			_linePosition = _xmin;
@@ -67,7 +69,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 			var yAxis = new NumericAxis {
 				AxisTitle = "Значания",
-				AutoRange = AutoRange.Never,
+				AutoRange = AutoRange.Always,
 				VisibleRange = new DoubleRange(Ymin, Ymax)
 			};
 			// total range of 20 seconds
@@ -78,6 +80,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 
 			_annotation = new VerticalLineAnnotation {
 				Stroke = new SolidColorBrush(Colors.LawnGreen),
+				StrokeThickness = 1,
 				X1 = _linePosition,
 				X2 = _linePosition,
 				IsEditable = false
@@ -97,9 +100,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private static FastLineRenderableSeries CreateLineSeries(Color color) {
 			return new FastLineRenderableSeries {
 				SeriesColor = color,
-				StrokeThickness = 2,
-				AntiAliasing = true,
-				StrokeDashArray = new double[] { 2, 2 },
+				StrokeThickness = 1,
+				AntiAliasing = false
 			};
 		}
 
@@ -184,7 +186,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private void CheckBox_Checked(object sender, RoutedEventArgs e) {
 			if (Surface?.YAxis != null)
 				Surface.YAxis.AutoRange = AutoRange.Always;
-
 		}
 
 		private void CheckBoxAutoScale_Unchecked(object sender, RoutedEventArgs e) {

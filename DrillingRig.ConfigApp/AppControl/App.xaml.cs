@@ -292,7 +292,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			});
 			sciWindowThread.SetApartmentState(ApartmentState.STA);
 			sciWindowThread.IsBackground = true;
-			sciWindowThread.Priority = ThreadPriority.AboveNormal;
+			sciWindowThread.Priority = ThreadPriority.BelowNormal;
 			sciWindowThread.Start();
 
 		}
