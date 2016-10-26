@@ -14,15 +14,16 @@ using DrillingRig.CommandSenders.Contracts;
 namespace DrillingRig.CommandSenders.SerialPortBased {
 	public class SerialPortBasedCommandSender : ICommandSender {
 		private readonly IMultiLoggerWithStackTrace _debugLogger;
-		private readonly SerialPort _serialPort;
+		//private readonly SerialPort _serialPort;
 		private readonly SerialPortExtender _portExtender;
 		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action> _backWorker;
 
-		public SerialPortBasedCommandSender(string portName, IMultiLoggerWithStackTrace debugLogger) {
+		public SerialPortBasedCommandSender(SerialPortExtender portExtender, IMultiLoggerWithStackTrace debugLogger) {
 			_debugLogger = debugLogger;
-			_serialPort = new SerialPort(portName, 115200);
-			_serialPort.Open();
-			_portExtender = new SerialPortExtender(_serialPort, text => _debugLogger.GetLogger(3).Log(text, new StackTrace()));
+			//_serialPort = new SerialPort(portName, 115200);
+			//_serialPort.Open();
+			//_portExtender = new SerialPortExtender(_serialPort, text => _debugLogger.GetLogger(3).Log(text, new StackTrace()));
+			_portExtender = portExtender;
 
 			_backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action>("SpNotifyWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
 		}

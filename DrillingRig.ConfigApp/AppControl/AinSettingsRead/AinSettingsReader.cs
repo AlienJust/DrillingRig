@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using AlienJust.Support.Concurrent;
 using AlienJust.Support.Concurrent.Contracts;
 using AlienJust.Support.Loggers.Contracts;
@@ -9,7 +7,6 @@ using DrillingRig.Commands.AinSettings;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify {
