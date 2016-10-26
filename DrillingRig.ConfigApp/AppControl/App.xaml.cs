@@ -211,22 +211,22 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 			MainWindow mainWindow = null;
 			var mainWindowThread = new Thread(() => {
-				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+
 				var mainViewModel = new MainViewModel(
-					uiRoot,
-					new WpfWindowSystem(),
-					colors,
-					_cmdSenderHostSettable,
-					_targetAddressHost,
-					_debugLogger,
-					_loggerRegPoint,
-					_notifySendingEnabledRaisable,
-					_commonParamLogger,
-					_ainsCounterRaisable,
-					_cycleThreadHolder,
-					_ainSettingsReader,
-					_ainSettingsReadNotify,
-					_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
+						new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher)),
+						new WpfWindowSystem(),
+						colors,
+						_cmdSenderHostSettable,
+						_targetAddressHost,
+						_debugLogger,
+						_loggerRegPoint,
+						_notifySendingEnabledRaisable,
+						_commonParamLogger,
+						_ainsCounterRaisable,
+						_cycleThreadHolder,
+						_ainSettingsReader,
+						_ainSettingsReadNotify,
+						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
 
 				/*var*/
 				mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
