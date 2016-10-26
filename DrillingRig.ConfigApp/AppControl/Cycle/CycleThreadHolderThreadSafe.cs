@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Threading;
 using AlienJust.Support.Concurrent;
-using AlienJust.Support.Loggers.Contracts;
 
 namespace DrillingRig.ConfigApp.AppControl.Cycle {
 	class CycleThreadHolderThreadSafe : ICycleThreadHolder {
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly object _cyclePartsSync;
 		private readonly List<ICyclePart> _cycleParts;
-		private readonly SingleThreadedRelayQueueWorker<Action> _backWorker;
+		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action> _backWorker; // TODO: use it tto stop worker on app close
 
-		public CycleThreadHolderThreadSafe(IMultiLoggerWithStackTrace debugLogger) {
-			_debugLogger = debugLogger;
+		public CycleThreadHolderThreadSafe() {
 			// циклический опрос
 			_cyclePartsSync = new object();
 			_cycleParts = new List<ICyclePart>();
-			_backWorker = new SingleThreadedRelayQueueWorker<Action>("CycleBackWorker", a => a(), ThreadPriority.Lowest, true, null, _debugLogger.GetLogger(0));
+			_backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("CycleBackWorker", a => a(), ThreadPriority.Lowest, true, null);
 			_backWorker.AddWork(CycleWork);
 		}
 

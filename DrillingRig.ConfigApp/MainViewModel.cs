@@ -54,7 +54,7 @@ namespace DrillingRig.ConfigApp {
 		private bool _isPortOpened;
 		
 		private readonly ILogger _logger;
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private readonly ILoggerRegistrationPoint _loggerRegistrationPoint;
 		private readonly INotifySendingEnabledRaisable _notifySendingEnabled;
 
@@ -86,7 +86,7 @@ namespace DrillingRig.ConfigApp {
 		public readonly List<Color> _colors;
 		
 
-		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_uiRoot = uiRoot;
 			_colors = colors;
 
@@ -125,15 +125,12 @@ namespace DrillingRig.ConfigApp {
 			AinsCountInSystem = new List<int> { 1, 2, 3 };
 			SelectedAinsCount = AinsCountInSystem.First();
 
-			// var cycleReader = new CycleReader(this, this, this, _logger, this); // TODO: check if needed
-
-			
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(_ainSettingsReader, _ainSettingsWriter);
 
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 				new AinCommandAndMinimalCommonTelemetryViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0, ainSettingsStorage, storageUpdatedNotify),
-				new TelemetryCommonViewModel(_logger, _debugLogger), _commandSenderHost, _targetAddressHost, _uiRoot, _logger, _debugLogger, _notifySendingEnabled);
+				new TelemetryCommonViewModel(_logger, _debugLogger), _commandSenderHost, _targetAddressHost, _uiRoot, _notifySendingEnabled);
 
 			_cycleThreadHolder.RegisterAsCyclePart(AinCommandAndCommonTelemetryVm);
 

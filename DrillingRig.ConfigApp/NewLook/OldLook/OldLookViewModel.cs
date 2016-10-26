@@ -48,7 +48,7 @@ namespace DrillingRig.ConfigApp.NewLook.OldLook {
 
 		public EngineSettingsViewModel EngineSettingsVm { get; }
 
-		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+		public OldLookViewModel(IUserInterfaceRoot userInterfaceRoot, IWindowSystem windowSystem, ICommandSenderHost commanSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled, ILinkContol linkContol, ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger, ICycleThreadHolder cycleThreadHolder, IAinsCounter ainsCounter, IParameterLogger parameterLogger, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_ainSettingsStorage = ainSettingsStorage;
 			_storageUpdatedNotify = storageUpdatedNotify;
 			var commonTelemetryVm = new TelemetryCommonViewModel(logger, debugLogger);

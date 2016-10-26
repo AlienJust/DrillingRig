@@ -11,10 +11,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		private string _faultState;
 		private string _ainsLinkState;
 		private readonly ILogger _logger;
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private string _ainStatuses;
 
-		public TelemetryCommonViewModel(ILogger logger, IMultiLoggerWithStackTrace debugLogger) {
+		public TelemetryCommonViewModel(ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_logger = logger;
 			_debugLogger = debugLogger;
 		}

@@ -20,7 +20,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly ILogger _logger;
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private readonly IWindowSystem _windowSystem;
 
 		private readonly RelayCommand _readCycleCommand;
@@ -36,7 +36,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 		private bool _readingInProgress;
 
 
-		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, IWindowSystem windowSystem)
+		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger, IWindowSystem windowSystem)
 		{
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;

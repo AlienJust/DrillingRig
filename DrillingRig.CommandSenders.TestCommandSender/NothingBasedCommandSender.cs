@@ -10,16 +10,16 @@ using DrillingRig.CommandSenders.Contracts;
 
 namespace DrillingRig.CommandSenders.TestCommandSender {
 	public class NothingBasedCommandSender : ICommandSender {
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private readonly IThreadNotifier _uiNotifier;
 		private readonly IStoppableWorker _backWorkerStoppable;
 		private readonly IWorker<Action> _backWorker;
 
-		public NothingBasedCommandSender(IMultiLoggerWithStackTrace debugLogger, IThreadNotifier uiNotifier) {
+		public NothingBasedCommandSender(IMultiLoggerWithStackTrace<int> debugLogger, IThreadNotifier uiNotifier) {
 
 			_debugLogger = debugLogger;
 			_uiNotifier = uiNotifier;
-			var backWorker = new SingleThreadedRelayQueueWorker<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null, debugLogger.GetLogger(0));
+			var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 			_backWorker = backWorker;
 			_backWorkerStoppable = backWorker;
 		}
@@ -55,8 +55,6 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 		public void SendCommandAsyncNoLog(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
 				command.Serialize();
-				//_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
-				//_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
 
 				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds / 10.0)); // 1/10 of timeout waiting :)
 				Exception exception = null;
@@ -65,7 +63,6 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 					var testCmd = command as IRrModbusCommandWithTestReply;
 					if (testCmd != null) {
 						reply = testCmd.GetTestReply();
-						//_debugLogger.GetLogger(4).Log("Test reply: " + reply.ToText(), new StackTrace(Thread.CurrentThread, true));
 					}
 					else throw new Exception("Cannot cast command to IRrModbusCommandWithTestReply");
 				}

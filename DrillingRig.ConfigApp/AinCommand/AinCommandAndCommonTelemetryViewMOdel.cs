@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
@@ -9,26 +8,21 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandAndCommonTelemetryViewModel : ViewModelBase, ICyclePart, IAinsLinkControl {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _uiRoot;
-		private readonly ILogger _logger;
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
 		private readonly INotifySendingEnabled _notifySendingEnabled;
 
 		private readonly object _syncCancel;
 		private bool _cancel;
 		private int _errorCounts;
-		public AinCommandAndCommonTelemetryViewModel(AinCommandAndMinimalCommonTelemetryViewModel ainCommandAndMinimalCommonTelemetryViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, ILogger logger, IMultiLoggerWithStackTrace debugLogger, INotifySendingEnabled notifySendingEnabled) {
+		public AinCommandAndCommonTelemetryViewModel(AinCommandAndMinimalCommonTelemetryViewModel ainCommandAndMinimalCommonTelemetryViewModel, TelemetryCommonViewModel commonTelemetryVm, ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot uiRoot, INotifySendingEnabled notifySendingEnabled) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_uiRoot = uiRoot;
-			_logger = logger;
-			_debugLogger = debugLogger;
 			_notifySendingEnabled = notifySendingEnabled;
 			AinCommandAndMinimalCommonTelemetryVm = ainCommandAndMinimalCommonTelemetryViewModel;
 			CommonTelemetryVm = commonTelemetryVm;
@@ -89,10 +83,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							Ain2LinkError = null;
 							Ain3LinkError = null;
 							RaiseAinsLinkInformationHasBeenUpdated();
-
-							//_debugLogger.GetLogger(4).Log("Ошибка: " + ex.Message, new StackTrace(Thread.CurrentThread, true));
 						});
-						//_debugLogger.GetLogger(4).Log(ex, new StackTrace(Thread.CurrentThread, true));
 					}
 					finally {
 						waiter.Set(); // set async action complete

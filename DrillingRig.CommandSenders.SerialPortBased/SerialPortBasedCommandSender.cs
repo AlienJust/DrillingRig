@@ -13,19 +13,17 @@ using DrillingRig.CommandSenders.Contracts;
 
 namespace DrillingRig.CommandSenders.SerialPortBased {
 	public class SerialPortBasedCommandSender : ICommandSender {
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
-		//private readonly SerialPort _serialPort;
-		private readonly SerialPortExtender _portExtender;
-		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action> _backWorker;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
+		private readonly SerialPort _serialPort;
+		private readonly ISerialPortExtender _portExtender;
+		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action> _backWorker;
 
-		public SerialPortBasedCommandSender(SerialPortExtender portExtender, IMultiLoggerWithStackTrace debugLogger) {
+		public SerialPortBasedCommandSender(string portName, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_debugLogger = debugLogger;
-			//_serialPort = new SerialPort(portName, 115200);
-			//_serialPort.Open();
-			//_portExtender = new SerialPortExtender(_serialPort, text => _debugLogger.GetLogger(3).Log(text, new StackTrace()));
-			_portExtender = portExtender;
-
-			_backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStop<Action>("SpNotifyWorker", a => a(), ThreadPriority.BelowNormal, true, null, _debugLogger.GetLogger(0));
+			_serialPort = new SerialPort(portName, 115200);
+			_serialPort.Open();
+			_portExtender = new SerialPortExtenderNoLog(_serialPort);
+			_backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("SerialPortBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 		}
 
 		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
@@ -84,8 +82,6 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 				byte[] resultBytes = null;
 				try {
 					var cmdBytes = command.Serialize();
-					//_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace());
-					//_debugLogger.GetLogger(4).Log("Request: " + cmdBytes.ToText(), new StackTrace());
 
 					var sendBytes = new byte[cmdBytes.Length + 4]; // 1 byte address + 2 bytes CRC16
 					sendBytes[0] = address;
@@ -115,8 +111,6 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 					resultBytes = new byte[replyBytes.Length - 4];
 					for (int i = 2; i < replyBytes.Length - 2; ++i)
 						resultBytes[i - 2] = replyBytes[i];
-
-					//_debugLogger.GetLogger(4).Log("Reply: " + resultBytes.ToText(), new StackTrace());
 				}
 				catch (Exception ex) {
 					backgroundException = ex;
@@ -128,7 +122,8 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 			});
 		}
 
-		public override string ToString() {
+		public override string ToString()
+		{
 			return _serialPort.PortName;
 		}
 
@@ -141,7 +136,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 				_debugLogger.GetLogger(4).Log("Port was closed", new StackTrace());
 				portCloseWaiter.Set();
 			});
-			portCloseWaiter.WaitOne();
+			//portCloseWaiter.WaitOne(); // TODO: do I need this?
 			_backWorker.StopAsync();
 
 			//_backWorker.AddWork(()=>_backWorker.StopAsync());

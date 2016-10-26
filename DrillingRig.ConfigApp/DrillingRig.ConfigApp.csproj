@@ -354,7 +354,6 @@
     </Compile>
     <Compile Include="CoolerTelemetry\CoolerTelemetryViewModel.cs" />
     <Compile Include="ListBoxBehavior.cs" />
-    <Compile Include="LookedLikeAbb\CycleReader.cs" />
     <Compile Include="LookedLikeAbb\Group01ParametersView.xaml.cs">
       <DependentUpon>Group01ParametersView.xaml</DependentUpon>
     </Compile>
@@ -366,7 +365,6 @@
     <Compile Include="AppControl\AinSettingsWrite\IAinSettingsPart.cs" />
     <Compile Include="LookedLikeAbb\AinSettingsRw\IAinSettingsReaderWriter.cs" />
     <Compile Include="LookedLikeAbb\ICheckableParameter.cs" />
-    <Compile Include="LookedLikeAbb\ICycleReader.cs" />
     <Compile Include="LookedLikeAbb\Chart\ChartViewModel.cs" />
     <Compile Include="AppControl\ParamLogger\IParameterLogger.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeLogger.cs" />

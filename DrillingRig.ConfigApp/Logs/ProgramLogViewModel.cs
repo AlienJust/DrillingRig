@@ -8,13 +8,13 @@ namespace DrillingRig.ConfigApp.Logs
 {
 	internal class ProgramLogViewModel : ViewModelBase, ILogger {
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
-		private readonly IMultiLoggerWithStackTrace _debugLogger;
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private readonly ObservableCollection<ILogLine> _logLines;
 
 		private bool _scrollAutomaticly;
 		private ILogLine _selectedLine;
 
-		public ProgramLogViewModel(IUserInterfaceRoot userInterfaceRoot, IMultiLoggerWithStackTrace debugLogger) {
+		public ProgramLogViewModel(IUserInterfaceRoot userInterfaceRoot, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_userInterfaceRoot = userInterfaceRoot;
 			_debugLogger = debugLogger;
 			_logLines = new ObservableCollection<ILogLine>();

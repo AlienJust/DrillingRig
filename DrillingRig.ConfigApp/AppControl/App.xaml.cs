@@ -172,7 +172,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			_ainsCounterRaisable = ainsCounter;
 			_ainsCounter = ainsCounter;
 
-			_cycleThreadHolder = new CycleThreadHolderThreadSafe(_debugLogger);
+			_cycleThreadHolder = new CycleThreadHolderThreadSafe();
 
 			var ainSettingsStorage = new AinSettingsStorageThreadSafe();
 			_ainSettingsStorage = ainSettingsStorage;
@@ -237,6 +237,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				System.Windows.Threading.Dispatcher.Run();
 			});
 			mainWindowThread.SetApartmentState(ApartmentState.STA);
+			mainWindowThread.Priority = ThreadPriority.AboveNormal;
 			mainWindowThread.IsBackground = true;
 			mainWindowThread.Start();
 
@@ -250,7 +251,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 					new AinCommandAndMinimalCommonTelemetryViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
 					new TelemetryCommonViewModel(_commonLogger, _debugLogger),
-					_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _debugLogger, _notifySendingEnabled);
+					_cmdSenderHost, _targetAddressHost, uiRoot, _notifySendingEnabled);
 				_cycleThreadHolder.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);
 
 				var cmdWindow = new CommandWindow(mainWindow) { DataContext = new CommandWindowViewModel(ainCommandAndCommonTelemetryVm) };
@@ -260,6 +261,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			});
 			cmdWindowThread.SetApartmentState(ApartmentState.STA);
 			cmdWindowThread.IsBackground = true;
+			cmdWindowThread.Priority = ThreadPriority.AboveNormal;
 			cmdWindowThread.Start();
 
 
@@ -277,6 +279,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 			rpdWindowThread.SetApartmentState(ApartmentState.STA);
 			rpdWindowThread.IsBackground = true;
+			rpdWindowThread.Priority = ThreadPriority.AboveNormal;
 			rpdWindowThread.Start();
 
 
@@ -289,6 +292,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			});
 			sciWindowThread.SetApartmentState(ApartmentState.STA);
 			sciWindowThread.IsBackground = true;
+			sciWindowThread.Priority = ThreadPriority.AboveNormal;
 			sciWindowThread.Start();
 
 		}

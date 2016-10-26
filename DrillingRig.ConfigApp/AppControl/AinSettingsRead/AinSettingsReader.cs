@@ -20,7 +20,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 		public event AinSettingsReadCompleteDelegate AinSettingsReadComplete;
 		public event AinSettingsReadStartedDelegate AinSettingsReadStarted;
 
-		public AinSettingsReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, ILogger logger, IAinSettingsStorageSettable ainSettingsStorageSettable, IMultiLoggerWithStackTrace debugLogger) {
+		public AinSettingsReader(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, ILogger logger, IAinSettingsStorageSettable ainSettingsStorageSettable, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_logger = logger;
