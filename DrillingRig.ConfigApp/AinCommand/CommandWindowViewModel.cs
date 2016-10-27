@@ -6,7 +6,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public CommandWindowViewModel(AinCommandAndCommonTelemetryViewModel ainCommandOnlyVm) {
 			AinCommandViewVm = ainCommandOnlyVm;
-			_isTopMost = true;
+			_isTopMost = false;
 		}
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandViewVm { get; }
