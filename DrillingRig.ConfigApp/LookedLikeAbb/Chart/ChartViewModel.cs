@@ -111,12 +111,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		public void RemoveSeries(IChartSeriesViewModel seriesViewModel) {
 			var logsToRemove = _logs.Where(log => log.Value.SeriesVm == seriesViewModel).ToList();
 			foreach (var keyValuePair in logsToRemove) {
-				_logs.Remove(keyValuePair.Key);
-				//_currentColorIndex--;
 				_usedColors.Remove(keyValuePair.Value.RenderSeries.SeriesColor);
 				AnalogSeries.Remove(keyValuePair.Value.SeriesVm);
 				DiscreteSeries.Remove(keyValuePair.Value.SeriesVm);
-				//Console.WriteLine("CurrentColorIndex=" + _currentColorIndex);
+				_logs.Remove(keyValuePair.Key);
 			}
 		}
 

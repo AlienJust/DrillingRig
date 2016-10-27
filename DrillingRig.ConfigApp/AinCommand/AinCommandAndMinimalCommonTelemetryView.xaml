@@ -1,7 +1,12 @@
-﻿<UserControl x:Class="DrillingRig.ConfigApp.AinCommand.AinCommandAndMinimalCommonTelemetryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:DrillingRig.ConfigApp.AinCommand" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:DrillingRig.ConfigApp.AinCommand" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+		xmlns:custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="DrillingRig.ConfigApp.AinCommand.AinCommandAndMinimalCommonTelemetryView"
+		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
 	<UserControl.Resources>
 		<local:NullableBoolToStringConverter x:Key="NbConverter" />
 		<BooleanToVisibilityConverter x:Key="BtwConverter" />
+		<local:LogScaleConverter x:Key="LogScaleConverter" />
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -21,8 +26,9 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-
 
 			<Grid Grid.Column="0">
 				<Grid.ColumnDefinitions>
@@ -35,35 +41,31 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<TextBlock VerticalAlignment="Center" Text="Уставка скорости, об/мин (" />
-					<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=FsetHz, Mode=OneWay, StringFormat=f2}" Margin="4,0,4,0" />
+					<TextBlock VerticalAlignment="Center" Text="Уставка скорости (" />
+					<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding FsetHz, Mode=OneWay, StringFormat=f2}" Margin="4,0,4,0" />
 					<TextBlock Grid.Column="2" VerticalAlignment="Center" Text=" Гц)" />
 				</Grid>
-				<TextBlock Grid.Column="1" Text="{Binding Path=FsetReceived, Mode=OneWay}" />
+				<StackPanel Orientation="Horizontal" Grid.Column="1">
+					<TextBlock Text="{Binding FsetReceived, Mode=OneWay}" VerticalAlignment="Center" />
+					<TextBlock Text=" об/мин " VerticalAlignment="Center" />
+				</StackPanel>
 			</Grid>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=Fset, Mode=TwoWay}" Maximum="2000" Minimum="-2000" />
+			<!--<xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Fset, Mode=TwoWay}" Maximum="2000" Minimum="-2000" />-->
+			<custom:NumericUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Path=Fset, Mode=TwoWay}" Interval="{Binding Path=FsetSmallChange, Mode=OneWay}"
+					Maximum="{Binding Path=FsetMax, Mode=OneWay}" Minimum="{Binding Path=FsetMin, Mode=OneWay}" TrackMouseWheelWhenMouseOver="True" />
 
-
-			<Grid Grid.Row="1" Grid.Column="0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Уставка момента" Margin="0,0,4,0" />
-				<TextBlock Grid.Column="1" Text="{Binding Path=MsetReceived, Mode=OneWay}" />
-			</Grid>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding Path=Mset, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
-
+			<Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Maximum="200" Minimum="-200" Value="{Binding FsetHz, Mode=TwoWay}" TickFrequency="50"
+					LargeChange="1" SmallChange="0.1" custom:SliderHelper.EnableMouseWheel="MouseHover" TickPlacement="TopLeft" />
 
 			<Grid Grid.Row="2" Grid.Column="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Резерв (уставка 3)" Margin="0,0,4,0" />
-				<TextBlock Grid.Column="1" Text="{Binding Path=Reserve3Received, Mode=OneWay}" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Уставка момента" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="1" Text="{Binding MsetReceived, Mode=OneWay}" />
 			</Grid>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Path=Set3, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Mset, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
 
 
 			<Grid Grid.Row="3" Grid.Column="0">
@@ -71,10 +73,10 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Минимальный момент (ограничение)" Margin="0,0,4,0" />
-				<TextBlock Grid.Column="1" Text="{Binding Path=MMinReceived, Mode=OneWay}" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Резерв (уставка 3)" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="1" Text="{Binding Reserve3Received, Mode=OneWay}" Margin="0,0,4,0" />
 			</Grid>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" Value="{Binding Path=Mmin, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" Value="{Binding Set3, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
 
 
 			<Grid Grid.Row="4" Grid.Column="0">
@@ -82,10 +84,33 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Максимальный момент (ограничение)" Margin="0,0,4,0" />
-				<TextBlock Grid.Column="1" Text="{Binding Path=MMaxReceived, Mode=OneWay}" />
+				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Минимальный момент (ограничение)" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="1" Text="{Binding MMinReceived, Mode=OneWay}" Margin="0,0,4,0" />
 			</Grid>
-			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Path=Mmax, Mode=TwoWay}" Maximum="32767" Minimum="-32768" />
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Mmin, Mode=TwoWay}" Maximum="15000" Minimum="-15000" />
+
+
+			<Grid Grid.Row="5" Grid.Column="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Максимальный момент (ограничение)" Margin="0,0,4,0" />
+				<TextBlock Grid.Column="1" Text="{Binding MMaxReceived, Mode=OneWay}" />
+			</Grid>
+			<xctk:IntegerUpDown Grid.Column="1" Grid.Row="5" Value="{Binding Mmax, Mode=TwoWay}" Maximum="15000" Minimum="-15000" />
+
+			<Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" Text="0" VerticalAlignment="Center" />
+				<Slider Margin="2" Grid.Column="1" Maximum="1.0" Minimum="0" Value="{Binding MMinMaxAbs, Mode=TwoWay, Converter={StaticResource LogScaleConverter}}" LargeChange="0.01"
+						SmallChange="0.001" custom:SliderHelper.EnableMouseWheel="MouseHover" />
+				<TextBlock Grid.Column="2" Text="15000" VerticalAlignment="Center" />
+			</Grid>
 		</Grid>
 		<Grid Grid.Row="2">
 			<Grid.ColumnDefinitions>
@@ -119,91 +144,118 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Text="MCW:" FontWeight="Bold" Grid.ColumnSpan="2" />
-				<CheckBox Grid.Column="1" Grid.Row="1" Content="OFF1" IsChecked="{Binding Path=Off1, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="1" Content="OFF1" IsChecked="{Binding Off1, Mode=OneWayToSource}" VerticalAlignment="Center" />
 				<!--<local:MarkBox Grid.Column="0" Grid.Row="1" Height="16" Width="16" VerticalAlignment="Center"/>
         <local:Mark Grid.Column="0" Grid.Row="1" Height="16" Width="16" VerticalAlignment="Center" Visibility="{Binding Path=McwReceived0, Mode=OneWay, Converter={StaticResource BtwConverter}}"/>-->
-				<TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=McwReceived0, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding McwReceived0, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="2" Content="OFF2" IsChecked="{Binding Path=Off2, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=McwReceived1, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="2" Content="OFF2" IsChecked="{Binding Off2, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding McwReceived1, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="3" Content="OFF3" IsChecked="{Binding Path=Off3, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=McwReceived2, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="3" Content="OFF3" IsChecked="{Binding Off3, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding McwReceived2, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="4" Content="RUN" IsChecked="{Binding Path=Run, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=McwReceived3, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="4" Content="RUN" IsChecked="{Binding Run, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding McwReceived3, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="5" Content="RAMP_OUT_ZERO" IsChecked="{Binding Path=RampOutZero, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=McwReceived4, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="5" Content="RAMP_OUT_ZERO" IsChecked="{Binding RampOutZero, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding McwReceived4, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="6" Content="RAMP_HOLD" IsChecked="{Binding Path=RampHold, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding Path=McwReceived5, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="6" Content="RAMP_HOLD" IsChecked="{Binding RampHold, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding McwReceived5, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="7" Content="RAMP_IN_ZERO" IsChecked="{Binding Path=RampInZero, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="7" Text="{Binding Path=McwReceived6, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="7" Content="RAMP_IN_ZERO" IsChecked="{Binding RampInZero, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="7" Text="{Binding McwReceived6, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="8" Content="RESET" IsChecked="{Binding Path=Reset, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="8" Text="{Binding Path=McwReceived7, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="8" Content="RESET" IsChecked="{Binding Reset, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="8" Text="{Binding McwReceived7, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="9" Content="INCHING1" IsChecked="{Binding Path=Inching1, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="9" Text="{Binding Path=McwReceived8, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="9" Content="INCHING1" IsChecked="{Binding Inching1, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="9" Text="{Binding McwReceived8, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="10" Content="INCHING2" IsChecked="{Binding Path=Inching2, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="10" Text="{Binding Path=McwReceived9, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="10" Content="INCHING2" IsChecked="{Binding Inching2, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="10" Text="{Binding McwReceived9, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
-				<CheckBox Grid.Column="1" Grid.Row="11" Content="REMOTE" IsChecked="{Binding Path=Remote, Mode=OneWayToSource}" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="0" Grid.Row="11" Text="{Binding Path=McwReceived10, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<CheckBox Grid.Column="1" Grid.Row="11" Content="REMOTE" IsChecked="{Binding Remote, Mode=OneWayToSource}" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="0" Grid.Row="11" Text="{Binding McwReceived10, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 
 
 				<TextBlock Grid.Row="0" Grid.Column="2" Text="MSW:" FontWeight="Bold" Grid.ColumnSpan="2" />
 				<TextBlock Grid.Column="3" Grid.Row="1" Text="RDY_ON" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Path=MswReceived0, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding MswReceived0, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="2" Text="RDY_RUN" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Path=MswReceived1, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding MswReceived1, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="3" Text="RDY_REF" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding Path=MswReceived2, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding MswReceived2, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="4" Text="TRIPPED" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="4" Text="{Binding Path=MswReceived3, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="4" Text="{Binding MswReceived3, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="5" Text="OFF_2STA" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="5" Text="{Binding Path=MswReceived4, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="5" Text="{Binding MswReceived4, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="6" Text="OFF_3STA" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="6" Text="{Binding Path=MswReceived5, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="6" Text="{Binding MswReceived5, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="7" Text="ON_INHIBITED" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="7" Text="{Binding Path=MswReceived6, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="7" Text="{Binding MswReceived6, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="8" Text="ALARM" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="8" Text="{Binding Path=MswReceived7, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="8" Text="{Binding MswReceived7, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="9" Text="AT_SETPOINT" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="9" Text="{Binding Path=MswReceived8, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="9" Text="{Binding MswReceived8, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="10" Text="REMOTE" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="10" Text="{Binding Path=MswReceived9, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="10" Text="{Binding MswReceived9, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="11" Text="ABOVE_LIMIT" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="11" Text="{Binding Path=MswReceived10, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="11" Text="{Binding MswReceived10, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="12" Text="SELECTABLE" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="12" Text="{Binding Path=MswReceived11, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="12" Text="{Binding MswReceived11, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="13" Text="INTERNAL_INTERLOCK" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="13" Text="{Binding Path=MswReceived12, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="13" Text="{Binding MswReceived12, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="14" Text="RUN_INTERLOCK" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="14" Text="{Binding Path=MswReceived13, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="14" Text="{Binding MswReceived13, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 				<TextBlock Grid.Column="3" Grid.Row="15" Text="MODULATING" VerticalAlignment="Center" />
-				<TextBlock Grid.Column="2" Grid.Row="15" Text="{Binding Path=MswReceived14, Mode=OneWay, Converter={StaticResource NbConverter}}" FontSize="14" VerticalAlignment="Center" />
+				<TextBlock Grid.Column="2" Grid.Row="15" Text="{Binding MswReceived14, Converter={StaticResource NbConverter}, Mode=OneWay}" FontSize="14"
+						VerticalAlignment="Center" />
 
 
-				<Button Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="16" Content="Установить режим работы" Command="{Binding Path=SendAinCommandBits, Mode=OneTime}" Margin="0,0,0,0" />
+				<Button Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="16" Content="Установить режим работы" Command="{Binding SendAinCommandBits, Mode=OneTime}"
+						Margin="0,0,0,0" />
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
@@ -216,25 +268,25 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 
-				<Button Grid.Row="0" Grid.Column="0" Command="{Binding Path=SendAinCommandOff1, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="0" Grid.Column="0" Command="{Binding SendAinCommandOff1, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Штатный останов (OFF 1)" />
 				</Button>
-				<Button Grid.Row="1" Grid.Column="0" Command="{Binding Path=SendAinCommandOff2, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="1" Grid.Column="0" Command="{Binding SendAinCommandOff2, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Выбег (OFF 2)" />
 				</Button>
-				<Button Grid.Row="2" Grid.Column="0" Command="{Binding Path=SendAinCommandOff3, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="2" Grid.Column="0" Command="{Binding SendAinCommandOff3, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Аварийный останов (OFF 3)" />
 				</Button>
-				<Button Grid.Row="3" Grid.Column="0" Command="{Binding Path=SendAinCommandRun, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="3" Grid.Column="0" Command="{Binding SendAinCommandRun, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Тяга (RUN)" />
 				</Button>
-				<Button Grid.Row="4" Grid.Column="0" Command="{Binding Path=SendAinCommandInching1, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="4" Grid.Column="0" Command="{Binding SendAinCommandInching1, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Толчок 1 (INCHING 1)" />
 				</Button>
-				<Button Grid.Row="5" Grid.Column="0" Command="{Binding Path=SendAinCommandInching2, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="5" Grid.Column="0" Command="{Binding SendAinCommandInching2, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Толчок 2 (INCHING 2)" />
 				</Button>
-				<Button Grid.Row="6" Grid.Column="0" Command="{Binding Path=SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Right">
+				<Button Grid.Row="6" Grid.Column="0" Command="{Binding SendAinCommandReset, Mode=OneTime}" HorizontalContentAlignment="Right">
 					<TextBlock Text="Сброс аварий (RESET)" />
 				</Button>
 			</Grid>

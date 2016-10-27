@@ -1,28 +1,14 @@
-﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.MainWindow"
-											xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-											xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-											xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
-											xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-											xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
-											xmlns:telemetry="clr-namespace:DrillingRig.ConfigApp.Telemetry"
-											xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
-											xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook"
-											xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
-											xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme"
-											xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
-											xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-											Title="Конфигурация БС-Ethernet"
-											TitleCharacterCasing="Normal"
-											Height="1000"
-											Width="900"
-											ResizeMode="CanResizeWithGrip"
-											SaveWindowPosition="True"
-											Background="{DynamicResource WindowBackgroundBrush}"
-											Closing="MetroWindow_Closing"
-											BorderThickness="1"
-											BorderBrush="{DynamicResource AccentColorBrush}"
-											WindowTransitionsEnabled="False"
-											GlowBrush="Black">
+﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:configApp="clr-namespace:DrillingRig.ConfigApp"
+		xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+		xmlns:converters1="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
+		xmlns:telemetry="clr-namespace:DrillingRig.ConfigApp.Telemetry" xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
+		xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook" xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
+		xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme" xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
+		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900"
+		ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" Closing="MetroWindow_Closing"
+		GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}"
+		ShowActivated="True">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -36,8 +22,7 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<BooleanToVisibilityConverter x:Key="BtwConverter" />
-			<converters1:BooleanToVisibilityConverter x:Key="InvertedBtwConverter"
-																								InvertVisibility="True" />
+			<converters1:BooleanToVisibilityConverter x:Key="InvertedBtwConverter" InvertVisibility="True" />
 			<converters1:ColorsEnumToBrushConverter x:Key="ColorsToBrushConverter" />
 		</ResourceDictionary>
 	</Window.Resources>
@@ -47,63 +32,31 @@
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<StackPanel Orientation="Horizontal">
-				<Ellipse Fill="{Binding Path=Ain1StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}"
-								 Width="10"
-								 Height="10"
-								 VerticalAlignment="Center"
-								 Margin="1"
-								 Visibility="{Binding Path=Ain1IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
-				<Ellipse Fill="{Binding Path=Ain2StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}"
-								 Width="10"
-								 Height="10"
-								 VerticalAlignment="Center"
-								 Margin="1"
-								 Visibility="{Binding Path=Ain2IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
-				<Ellipse Fill="{Binding Path=Ain3StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}"
-								 Width="10"
-								 Height="10"
-								 VerticalAlignment="Center"
-								 Margin="1"
-								 Visibility="{Binding Path=Ain3IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
+				<Ellipse Fill="{Binding Path=Ain1StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10"
+						VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain1IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
+				<Ellipse Fill="{Binding Path=Ain2StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10"
+						VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain2IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
+				<Ellipse Fill="{Binding Path=Ain3StateColor, Mode=OneWay, Converter={StaticResource ColorsToBrushConverter}}" Width="10" Height="10"
+						VerticalAlignment="Center" Margin="1" Visibility="{Binding Path=Ain3IsUsed, Mode=OneWay, Converter={StaticResource BtwConverter}}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Margin="2,2,2,2"
-									 Text="АИН:"
-									 VerticalAlignment="Center" />
-				<ComboBox Margin="2,2,2,2"
-									ItemsSource="{Binding AinsCountInSystem}"
-									SelectedItem="{Binding SelectedAinsCount}" />
+				<TextBlock Margin="2,2,2,2" Text="АИН:" VerticalAlignment="Center" />
+				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding AinsCountInSystem}" SelectedItem="{Binding SelectedAinsCount}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Margin="2,2,2,2"
-									 Text="Порт:"
-									 VerticalAlignment="Center" />
-				<ComboBox Margin="2,2,2,2"
-									ItemsSource="{Binding ComPortsAvailable}"
-									SelectedItem="{Binding SelectedComName}" />
-				<Button Margin="2,2,2,2"
-								Command="{Binding GetPortsAvailableCommand}"
-								FontWeight="SemiBold"
-								FontSize="12"
-								BorderThickness="0"
-								Style="{DynamicResource AccentedSquareButtonStyle}">
-					<iconPacks:PackIconMaterial Width="Auto"
-																			Height="Auto"
-																			Kind="Refresh" />
+				<TextBlock Margin="2,2,2,2" Text="Порт:" VerticalAlignment="Center" />
+				<ComboBox Margin="2,2,2,2" ItemsSource="{Binding ComPortsAvailable}" SelectedItem="{Binding SelectedComName}" />
+				<Button Margin="2,2,2,2" Command="{Binding GetPortsAvailableCommand}" FontWeight="SemiBold" FontSize="12" BorderThickness="0"
+						Style="{DynamicResource AccentedSquareButtonStyle}">
+					<iconPacks:PackIconMaterial Width="Auto" Height="Auto" Kind="Refresh" />
 				</Button>
 			</StackPanel>
-			<Button Margin="2,2,2,2"
-							Command="{Binding Path=OpenPortCommand, Mode=OneTime}"
-							Content="Подкл."
-							Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}"
-							BorderThickness="0"
-							Style="{DynamicResource AccentedSquareButtonStyle}" />
-			<Button Margin="2,2,2,2"
-							Command="{Binding Path=ClosePortCommand, Mode=OneTime}"
-							Content="Откл."
-							Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}"
-							BorderThickness="0"
-							Style="{DynamicResource AccentedSquareButtonStyle}" />
+			<Button Margin="2,2,2,2" Command="{Binding Path=OpenPortCommand, Mode=OneTime}" Content="Подкл."
+					Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource InvertedBtwConverter}}" BorderThickness="0"
+					Style="{DynamicResource AccentedSquareButtonStyle}" />
+			<Button Margin="2,2,2,2" Command="{Binding Path=ClosePortCommand, Mode=OneTime}" Content="Откл."
+					Visibility="{Binding Path=IsSendingEnabled, Mode=OneWay, Converter={StaticResource BtwConverter}}" BorderThickness="0"
+					Style="{DynamicResource AccentedSquareButtonStyle}" />
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
 
@@ -114,10 +67,8 @@
 		</Grid.RowDefinitions>
 		<TabControl>
 			<TabControl.Resources>
-				<Style BasedOn="{StaticResource MetroTabItem}"
-							 TargetType="{x:Type TabItem}">
-					<Setter Property="controls:ControlsHelper.HeaderFontSize"
-									Value="18" />
+				<Style BasedOn="{StaticResource MetroTabItem}" TargetType="{x:Type TabItem}">
+					<Setter Property="controls:ControlsHelper.HeaderFontSize" Value="18" />
 				</Style>
 			</TabControl.Resources>
 			<TabItem Header="Телеметрия">
@@ -139,17 +90,9 @@
 
 			</TabItem>
 		</TabControl>
-		<GridSplitter Grid.Row="1"
-									Height="8"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Top"
-									Background="{DynamicResource AccentColorBrush}"
-									ResizeBehavior="PreviousAndCurrent"
-									ResizeDirection="Auto"
-									ShowsPreview="True" />
-		<logs:ProgramLogView Grid.Row="1"
-												 DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}"
-												 Margin="4,8,4,4" />
+		<GridSplitter Grid.Row="1" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource AccentColorBrush}"
+				ResizeBehavior="PreviousAndCurrent" ResizeDirection="Auto" ShowsPreview="True" />
+		<logs:ProgramLogView Grid.Row="1" DataContext="{Binding Path=ProgramLogVm, Mode=OneTime}" Margin="4,8,4,4" />
 	</Grid>
 </controls:MetroWindow>
 

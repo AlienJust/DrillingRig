@@ -32,12 +32,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandReset;
 		private readonly RelayCommand _sendAinCommandBits;
 
-		private short _fset;
+		private short? _fset;
 		private short _mset;
 		private short _set3;
 		private short _mmin;
 		private short _mmax;
 		private ICommonTelemetry _telemetry;
+		private short? _mMinMaxAbs;
 
 		public AinCommandAndMinimalCommonTelemetryViewModel(ICommandSenderHost commandSenderHost,
 			ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger,
@@ -69,8 +70,16 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_sendAinCommandBits = new RelayCommand(SendAinCmdBits, () => IsSendingEnabled);
 
 			_sendingEnabledControl.SendingEnabledChanged += sendingEnabled => { SendingEnabledControlOnSendingEnabledChanged(); };
+
 			_storageUpdatedNotify.AinSettingsUpdated += (ainNumber, settings) => {
-				if (ainNumber == 0) SendingEnabledControlOnSendingEnabledChanged();
+				if (ainNumber == 0) {
+					SendingEnabledControlOnSendingEnabledChanged();
+					RaisePropertyChanged(() => Fset);
+					RaisePropertyChanged(() => FsetHz);
+					RaisePropertyChanged(() => FsetSmallChange);
+					RaisePropertyChanged(() => FsetMax);
+					RaisePropertyChanged(() => FsetMin);
+				}
 			};
 		}
 
@@ -211,7 +220,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
-		public short Fset {
+		public short? Fset {
 			get { return _fset; }
 			set {
 				if (_fset != value) {
@@ -225,11 +234,38 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public double? FsetHz {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				if (ain1Settings != null)
-					return (int)(_fset / 6.0 * ain1Settings.Np) / 10.0;
+				if (ain1Settings != null && _fset.HasValue)
+					return (int)(_fset / 6.0 * ain1Settings.Np) / 10.0; // т.к. могу задавать частоту с точностью 1 дГц (0.1 Гц)
 				return null;
 			}
+			set {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				if (ain1Settings != null && value != null) {
+					_fset = (short)Math.Round(value.Value * 6.0 / ain1Settings.Np * 10.0);
+					RaisePropertyChanged(() => Fset);
+					RaisePropertyChanged(() => FsetHz);
+				}
+				else Fset = null;
+			}
 		}
+
+		public double? FsetReceived {
+			get {
+				if (_telemetry == null) return null;
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				return _telemetry.Fset.HighFirstSignedValue * 60.0 / ain1Settings?.Np;
+			}
+		}
+
+		public double? FsetSmallChange {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				return 6.0 / ain1Settings?.Np;
+			}
+		}
+
+		public double? FsetMax => FsetSmallChange * 2000;
+		public double? FsetMin => FsetSmallChange * -2000;
 
 
 		public short Mset {
@@ -258,6 +294,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				if (_mmin != value) {
 					_mmin = value;
 					RaisePropertyChanged(() => Mmin);
+					RaisePropertyChanged(() => MMinMaxAbs);
 				}
 			}
 		}
@@ -268,6 +305,22 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				if (_mmax != value) {
 					_mmax = value;
 					RaisePropertyChanged(() => Mmax);
+					RaisePropertyChanged(() => MMinMaxAbs);
+				}
+			}
+		}
+
+		public short? MMinMaxAbs {
+			get {
+				if ((_mmin < 0 && _mmax > 0 && _mmin + _mmax == 0) || (_mmin == 0 && _mmax == 0)) {
+					return _mmax;
+				}
+				return null;
+			}
+			set {
+				if (value.HasValue) {
+					Mmin = (short)-value.Value;
+					Mmax = value.Value;
 				}
 			}
 		}
@@ -333,13 +386,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public bool? MswReceived13 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x20) != 0x00;
 		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x40) != 0x00;
 
-		public double? FsetReceived {
-			get {
-				if (_telemetry == null) return null;
-				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 60.0 / ain1Settings?.Np;
-			}
-		}
+
 
 		public double? MsetReceived => _telemetry?.Mset.HighFirstSignedValue;
 

@@ -1,26 +1,11 @@
 ﻿<controls:MetroWindow x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope.OscilloscopeWindow"
-											xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-											xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-											xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-											xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-											xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
-											xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-											xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-											mc:Ignorable="d"
-											Title="Осциллограф"
-											TitleCharacterCasing="Normal"
-											Height="300"
-											Width="500"
-											Loaded="Window_Loaded"
-											Closing="Window_Closing"
-											IsCloseButtonEnabled="False"
-											ShowCloseButton="False"
-											ResizeMode="CanResizeWithGrip"
-											SaveWindowPosition="True"
-											BorderThickness="1"
-											BorderBrush="{DynamicResource AccentColorBrush}"
-											WindowTransitionsEnabled="False"
-											GlowBrush="Black">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:s="http://schemas.abtsoftware.co.uk/scichart" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" mc:Ignorable="d" Title="Осциллограф" TitleCharacterCasing="Normal" Height="300" Width="500"
+		Loaded="Window_Loaded" Closing="Window_Closing" IsCloseButtonEnabled="False" ShowCloseButton="False" ResizeMode="CanResizeWithGrip"
+		SaveWindowPosition="True" GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False"
+		NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="False">
 	<controls:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -30,7 +15,7 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
 				<!-- Accent and AppTheme setting -->
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Yellow.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
@@ -41,49 +26,29 @@
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<StackPanel Orientation="Horizontal">
-				<Button x:Name="ButtonZoomOut"
-								Click="ButtonZoomOut_Click"
-								BorderThickness="2"
-								BorderBrush="Transparent"
-								Style="{DynamicResource AccentedSquareButtonStyle}">
+				<Button x:Name="ButtonZoomOut" Click="ButtonZoomOut_Click" BorderThickness="2" BorderBrush="Transparent"
+						Style="{DynamicResource AccentedSquareButtonStyle}">
 					<iconPacks:PackIconModern Kind="Minus" />
 				</Button>
-				<Button x:Name="ButtonZoomIn"
-								Click="ButtonZoomIn_Click"
-								BorderThickness="2"
-								BorderBrush="Transparent"
-								Style="{DynamicResource AccentedSquareButtonStyle}">
+				<Button x:Name="ButtonZoomIn" Click="ButtonZoomIn_Click" BorderThickness="2" BorderBrush="Transparent"
+						Style="{DynamicResource AccentedSquareButtonStyle}">
 					<iconPacks:PackIconModern Kind="Add" />
 				</Button>
-				<Button x:Name="ButtonPause"
-								Click="ButtonPause_Click"
-								BorderThickness="2"
-								BorderBrush="Transparent"
-								Style="{DynamicResource AccentedSquareButtonStyle}" >
+				<Button x:Name="ButtonPause" Click="ButtonPause_Click" BorderThickness="2" BorderBrush="Transparent" Style="{DynamicResource AccentedSquareButtonStyle}">
 					<iconPacks:PackIconMaterial Kind="Pause" />
 				</Button>
-				<Button x:Name="ButtonResume"
-								Click="ButtonResume_Click"
-								BorderThickness="2"
-								BorderBrush="Transparent"
-								Style="{DynamicResource AccentedSquareButtonStyle}" >
+				<Button x:Name="ButtonResume" Click="ButtonResume_Click" BorderThickness="2" BorderBrush="Transparent"
+						Style="{DynamicResource AccentedSquareButtonStyle}">
 					<iconPacks:PackIconMaterial Kind="Play" />
 				</Button>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Автомасштаб" VerticalAlignment="Center"/>
-				<controls:ToggleSwitch IsChecked="True"
-															 Checked="CheckBox_Checked"
-															 x:Name="CheckBoxAutoScale"
-															 Unchecked="CheckBoxAutoScale_Unchecked"
-															 OnLabel=""
-															 OffLabel=""
-															 OnSwitchBrush="ForestGreen"
-															 OffSwitchBrush="Gray" VerticalAlignment="Center">
+				<TextBlock Text="Автомасштаб" VerticalAlignment="Center" />
+				<controls:ToggleSwitch IsChecked="True" Checked="CheckBox_Checked" x:Name="CheckBoxAutoScale" Unchecked="CheckBoxAutoScale_Unchecked" OnLabel=""
+						OffLabel="" OnSwitchBrush="{DynamicResource AccentColorBrush}" OffSwitchBrush="Gray" VerticalAlignment="Center">
 					<controls:ToggleSwitch.RenderTransform>
 						<TransformGroup>
-							<ScaleTransform ScaleY="0.9"
-															ScaleX="0.8" />
+							<ScaleTransform ScaleY="0.9" ScaleX="0.8" />
 							<SkewTransform />
 							<RotateTransform />
 							<TranslateTransform />

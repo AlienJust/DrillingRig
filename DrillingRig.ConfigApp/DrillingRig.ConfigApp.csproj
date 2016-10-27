@@ -184,6 +184,7 @@
       <DependentUpon>AinCommandAndMinimalCommonTelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AinCommand\CommandWindowViewModel.cs" />
+    <Compile Include="AinCommand\LogScaleConverter.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommandExtensions.cs" />
     <Compile Include="AinCommand\ModeSetVariantForAinCommand.cs" />
     <Compile Include="AinCommand\NullableBoolToStringConverter.cs" />
