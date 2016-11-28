@@ -6,7 +6,11 @@ using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
@@ -18,13 +22,22 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorage _storage;
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
+		private readonly ICommandSenderHost _commandSenderHost;
+		private readonly ITargetAddressHost _targetAddressHost;
+		private readonly INotifySendingEnabled _notifySendingEnabled;
 
 		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public EngineTestViewModel EngineTestVm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group99SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
+		public Group99SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
@@ -32,8 +45,18 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storage = storage;
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
+			_commandSenderHost = commandSenderHost;
+			_targetAddressHost = targetAddressHost;
+			_notifySendingEnabled = notifySendingEnabled;
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение АД, линейное, амплитуда", "f0", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальное напряжение двигателя", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальный ток двигателя", "f1", 0, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная частота двигателя, гЦ", "f2", 8, 300, null);
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f1", 0, 9000, null);
+
+			EngineTestVm = new EngineTestViewModel(_uiRoot, _logger, _commandSenderHost, _targetAddressHost, _notifySendingEnabled); // TODO: combobox, launch button - hard
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

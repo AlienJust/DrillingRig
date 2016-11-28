@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
+             xmlns:engingeTest="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -15,6 +16,13 @@
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
+				<engingeTest:EngineTestView DataContext="{Binding Path=EngineTestVm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

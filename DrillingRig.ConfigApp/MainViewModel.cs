@@ -136,7 +136,7 @@ namespace DrillingRig.ConfigApp {
 
 			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger, _notifySendingEnabled);
 
-			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, _ainsCounterRaisable); // TODO: can be moved to app.xaml.cs
+			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, _ainsCounterRaisable, _commandSenderHost, _targetAddressHost, _notifySendingEnabled); // TODO: can be moved to app.xaml.cs if needed
 
 			ArchiveVm = new ArchivesViewModel(
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0), 
