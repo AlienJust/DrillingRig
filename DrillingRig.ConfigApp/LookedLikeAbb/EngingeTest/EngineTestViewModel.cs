@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
+using DrillingRig.Commands.EngineTests;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
@@ -29,15 +30,34 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 			_targetAddressHost = targetAddressHost;
 			_notifySendingEnabled = notifySendingEnabled;
 
-			Tests = new List<TestViewModel> { new TestViewModel(EngineTestId.Test1), new TestViewModel(EngineTestId.Test2) };
+			Tests = new List<TestViewModel>
+			{
+				new TestViewModel(EngineTestId.DcTest),
+				new TestViewModel(EngineTestId.RlTest),
+				new TestViewModel(EngineTestId.LslLrlTest),
+				new TestViewModel(EngineTestId.TestXx),
+				new TestViewModel(EngineTestId.Inertion),
+				new TestViewModel(EngineTestId.Tests1And6And8),
+				new TestViewModel(EngineTestId.Tests1And6And8And10),
+				new TestViewModel(EngineTestId.Tests1And21And6And8),
+				new TestViewModel(EngineTestId.Tests1And21And6And8And10),
+				new TestViewModel(EngineTestId.NoTestAutoSetupOnly)
+			};
 			SelectedTest = Tests.First();
 
 			_launchSelectedTest = new RelayCommand(LaunchTest, () => _notifySendingEnabled.IsSendingEnabled);
 			_notifySendingEnabled.SendingEnabledChanged += se => _launchSelectedTest.RaiseCanExecuteChanged();
 		}
 
-		private void LaunchTest() {
-			throw new NotImplementedException();
+		private void LaunchTest()
+		{
+			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
+				new EngineTestLaunchCommand(_selectedTest.TestId, null /*TODO: release test launch settings*/),
+				TimeSpan.FromMilliseconds(200),
+				(ex, reply) =>
+				{
+					// TODO: get values Rs, Rr, LsI, LrI, Lm, Fl_nom, J, Tr, RoverL
+				});
 		}
 
 		public TestViewModel SelectedTest {

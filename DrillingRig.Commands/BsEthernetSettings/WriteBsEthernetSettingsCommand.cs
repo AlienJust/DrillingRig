@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.NetworkInformation;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.BsEthernetSettings {
@@ -13,13 +11,9 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 			_bsEthernetSettings = bsEthernetSettings;
 		}
 
-		public byte CommandCode {
-			get { return 0x81; }
-		}
+		public byte CommandCode => 0x81;
 
-		public string Name {
-			get { return "Запись настроек БС-Ethernet"; }
-		}
+		public string Name => "Запись настроек БС-Ethernet";
 
 		public byte[] Serialize() {
 			var result = new List<byte>();
@@ -43,9 +37,7 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 			return new WriteBsEthernetSettingsResultSimple();
 		}
 
-		public int ReplyLength {
-			get { return 0; }
-		}
+		public int ReplyLength => 0;
 
 		public byte[] GetTestReply() {
 			return new byte[0];

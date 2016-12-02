@@ -251,7 +251,6 @@
       <DependentUpon>WindowChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
-    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestId.cs" />
     <Compile Include="LookedLikeAbb\EngingeTest\EngineTestIdExtensions.cs" />
     <Compile Include="LookedLikeAbb\EngingeTest\EngineTestView.xaml.cs">
       <DependentUpon>EngineTestView.xaml</DependentUpon>

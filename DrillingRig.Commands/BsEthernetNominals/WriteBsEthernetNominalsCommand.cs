@@ -11,13 +11,9 @@ namespace DrillingRig.Commands.BsEthernetNominals {
 			_nominals = nominals;
 		}
 
-		public byte CommandCode {
-			get { return 0x83; }
-		}
+		public byte CommandCode => 0x83;
 
-		public string Name {
-			get { return "Запись номинальных значений БС-Ethernet"; }
-		}
+		public string Name => "Запись номинальных значений БС-Ethernet";
 
 		public byte[] Serialize() {
 			var result = new List<byte>();
@@ -72,9 +68,7 @@ namespace DrillingRig.Commands.BsEthernetNominals {
 			return new WriteBsEthernetSettingsResultSimple();
 		}
 
-		public int ReplyLength {
-			get { return 0; }
-		}
+		public int ReplyLength => 0;
 
 		public byte[] GetTestReply() {
 			return new byte[0];

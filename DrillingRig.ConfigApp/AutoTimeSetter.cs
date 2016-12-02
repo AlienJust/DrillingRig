@@ -1,6 +1,7 @@
 using System;
 using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.Commands.AinCommand;
+using DrillingRig.Commands.SetTime;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;

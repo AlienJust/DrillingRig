@@ -12,15 +12,9 @@ namespace DrillingRig.Commands.Rectifier
 		const int RectifiersCount = 6;
 		private const int BytesPerSingleRecifier = 16;
 
-		public byte CommandCode
-		{
-			get { return 0x90; }
-		}
+		public byte CommandCode => 0x90;
 
-		public string Name
-		{
-			get { return "Чтение телеметрии блока выпрямителей"; }
-		}
+		public string Name => "Чтение телеметрии блока выпрямителей";
 
 		public byte[] Serialize()
 		{
@@ -46,13 +40,8 @@ namespace DrillingRig.Commands.Rectifier
 			}
 			return result;
 		}
-
-		public int ReplyLength
-		{
-			get {
-				return RectifiersCount * BytesPerSingleRecifier; // three Aiks each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
-			}
-		}
+		// three Ains each: 1 byte - ainNumber + 32 * 2 bytes + 1 byte of Marat's status (flags)
+		public int ReplyLength => RectifiersCount * BytesPerSingleRecifier;
 
 		public byte[] GetTestReply() {
 			var rnd = new Random();

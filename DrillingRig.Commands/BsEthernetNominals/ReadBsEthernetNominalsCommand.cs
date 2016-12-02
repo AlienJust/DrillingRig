@@ -5,15 +5,9 @@ namespace DrillingRig.Commands.BsEthernetNominals {
 	public class ReadBsEthernetNominalsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IBsEthernetNominals>, IRrModbusCommandWithTestReply
 	{
 
-		public byte CommandCode
-		{
-			get { return 0x84; }
-		}
+		public byte CommandCode => 0x84;
 
-		public string Name
-		{
-			get { return "Чтение номинальных значений БС-Ethernet"; }
-		}
+		public string Name => "Чтение номинальных значений БС-Ethernet";
 
 		public byte[] Serialize() {
 			return new byte[0];
@@ -42,10 +36,7 @@ namespace DrillingRig.Commands.BsEthernetNominals {
 				(short) (reply[26] + (reply[27] << 8)));
 		}
 
-		public int ReplyLength
-		{
-			get { return 28; }
-		}
+		public int ReplyLength => 28;
 
 		public byte[] GetTestReply() {
 			var rnd = new Random();

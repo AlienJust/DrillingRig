@@ -1,7 +1,7 @@
 ﻿using System;
 using DrillingRid.Commands.Contracts;
 
-namespace DrillingRig.Commands.AinCommand {
+namespace DrillingRig.Commands.SetTime {
 	public class SetTimeCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply
 	{
 		private readonly DateTime _timeToSet;

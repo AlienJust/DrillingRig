@@ -7,15 +7,9 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 	public class ReadBsEthernetSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IBsEthernetSettings>, IRrModbusCommandWithTestReply
 	{
 
-		public byte CommandCode
-		{
-			get { return 0x82; }
-		}
+		public byte CommandCode => 0x82;
 
-		public string Name
-		{
-			get { return "Чтение настроек БС-Ethernet"; }
-		}
+		public string Name => "Чтение настроек БС-Ethernet";
 
 		public byte[] Serialize() {
 			return new byte[0];
@@ -39,10 +33,7 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 				);
 		}
 
-		public int ReplyLength
-		{
-			get { return 26; }
-		}
+		public int ReplyLength => 26;
 
 		public byte[] GetTestReply() {
 			return new byte[] {
