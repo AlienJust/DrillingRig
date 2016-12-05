@@ -83,6 +83,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Concurrent.Contracts.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Conversion.Contracts">
+      <HintPath>..\References\AlienJust.Support.Conversion.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.Loggers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Loggers.dll</HintPath>
@@ -252,6 +255,7 @@
     </Compile>
     <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
     <Compile Include="LookedLikeAbb\EngingeTest\EngineTestIdExtensions.cs" />
+    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestParamsBuilderAciIdentifyIni.cs" />
     <Compile Include="LookedLikeAbb\EngingeTest\EngineTestView.xaml.cs">
       <DependentUpon>EngineTestView.xaml</DependentUpon>
     </Compile>
@@ -835,6 +839,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="aci_identify.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="flash.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

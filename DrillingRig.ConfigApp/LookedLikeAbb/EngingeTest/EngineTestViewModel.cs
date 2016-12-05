@@ -51,12 +51,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 
 		private void LaunchTest()
 		{
+			var engineTestParams = new EngineTestParamsBuilderAciIdentifyIni("aci_identify.ini").Build();
 			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
-				new EngineTestLaunchCommand(_selectedTest.TestId, null /*TODO: release test launch settings*/),
+				new EngineTestLaunchCommand(_selectedTest.TestId, engineTestParams),
 				TimeSpan.FromMilliseconds(200),
 				(ex, reply) =>
 				{
 					// TODO: get values Rs, Rr, LsI, LrI, Lm, Fl_nom, J, Tr, RoverL
+					
+					
 				});
 		}
 
