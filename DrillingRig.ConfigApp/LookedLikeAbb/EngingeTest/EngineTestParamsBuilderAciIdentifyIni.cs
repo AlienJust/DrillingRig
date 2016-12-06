@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using AlienJust.Support.Conversion.Contracts;
 using DrillingRig.Commands.EngineTests;
@@ -26,71 +27,65 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 				var lineParts = line.Split('\t');
 				if (lineParts.Length == 2) {
 					switch (lineParts[1]) {
-						case "F1":
-							settings.F1 = float.Parse(lineParts[0]);
-							break;
-						case "F2":
-							settings.F2 = float.Parse(lineParts[0]);
-							break;
-						case "TE":
-							settings.Te = int.Parse(lineParts[0]); // TODO: NOT IN FILE aci_identify.ini???
-							break;
 						case "TE1":
-							settings.Te1 = int.Parse(lineParts[0]);
-							break;
-						case "TE6":
-							settings.Te6 = int.Parse(lineParts[0]);
-							break;
-						case "TE8":
-							settings.Te8 = int.Parse(lineParts[0]); // TODO: NOT IN FILE aci_identify.ini???
-							break;
-						case "K21":
-							settings.K21 = int.Parse(lineParts[0]);
-							break;
-						case "TJ1":
-							settings.Tj1 = int.Parse(lineParts[0]);
-							break;
-						case "TJ2":
-							settings.Tj2 = int.Parse(lineParts[0]);
-							break;
-						case "TJ3":
-							settings.Tj3 = int.Parse(lineParts[0]);
-							break;
-						case "TJ4":
-							settings.Tj4 = int.Parse(lineParts[0]);
-							break;
-						case "acc8":
-							settings.Acc8 = int.Parse(lineParts[0]);
-							break;
-						case "dir10":
-							settings.Dir10 = int.Parse(lineParts[0]);
+							settings.Te1 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "t1c":
-							settings.T1C = float.Parse(lineParts[0]);
+							settings.T1C = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "t2c":
-							settings.T2C = float.Parse(lineParts[0]);
+							settings.T2C = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "K21":
+							settings.K21 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TE6":
+							settings.Te6 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "F1":
+							settings.F1 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "F2":
+							settings.F2 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "acc8":
+							settings.Acc8 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "dir10":
+							settings.Dir10 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TJ1":
+							settings.Tj1 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TJ2":
+							settings.Tj2 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TJ3":
+							settings.Tj3 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TJ4":
+							settings.Tj4 = int.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "Kp1":
-							settings.Kp1 = float.Parse(lineParts[0]);
+							settings.Kp1 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "Ki1":
-							settings.Ki1 = float.Parse(lineParts[0]);
+							settings.Ki1 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "Kp6":
-							settings.Kp6 = float.Parse(lineParts[0]);
+							settings.Kp6 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "Ki6":
-							settings.Ki6 = float.Parse(lineParts[0]);
+							settings.Ki6 = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "TauI":
-							settings.TauI = float.Parse(lineParts[0]);
-							break;
-						case "TauSpd":
-							settings.TauSpd = float.Parse(lineParts[0]);
+							settings.TauI = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						case "TauFI":
-							settings.TauFi = float.Parse(lineParts[0]);
+							settings.TauFi = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
+							break;
+						case "TauSpd":
+							settings.TauSpd = float.Parse(lineParts[0], CultureInfo.InvariantCulture);
 							break;
 						default:
 							continue;
@@ -140,12 +135,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 			set { _f2 = value; }
 		}
 
-		public int Te
-		{
-			get { return _te.Value; }
-			set { _te = value; }
-		}
-
 		public int Te1
 		{
 			get { return _te1.Value; }
@@ -156,12 +145,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 		{
 			get { return _te6.Value; }
 			set { _te6 = value; }
-		}
-
-		public int Te8
-		{
-			get { return _te8.Value; }
-			set { _te8 = value; }
 		}
 
 		public int K21

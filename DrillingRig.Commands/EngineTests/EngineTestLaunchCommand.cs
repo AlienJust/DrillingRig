@@ -20,29 +20,30 @@ namespace DrillingRig.Commands.EngineTests {
 		public byte[] Serialize() {
 			var result = new List<byte> {(byte) _testId};
 
+			result.AddRange(BitConverter.GetBytes(_testParams.Te1));
+			result.AddRange(BitConverter.GetBytes(_testParams.T1C));
+			result.AddRange(BitConverter.GetBytes(_testParams.T2C));
+			result.AddRange(BitConverter.GetBytes(_testParams.K21));
+			result.AddRange(BitConverter.GetBytes(_testParams.Te6));
 			result.AddRange(BitConverter.GetBytes(_testParams.F1));
 			result.AddRange(BitConverter.GetBytes(_testParams.F2));
-			result.AddRange(BitConverter.GetBytes(_testParams.Te));
-			result.AddRange(BitConverter.GetBytes(_testParams.Te1));
-			result.AddRange(BitConverter.GetBytes(_testParams.Te6));
-			result.AddRange(BitConverter.GetBytes(_testParams.Te8));
-			result.AddRange(BitConverter.GetBytes(_testParams.K21));
+			result.AddRange(BitConverter.GetBytes(_testParams.Acc8));
+			result.AddRange(BitConverter.GetBytes(_testParams.Dir10));
+
 			result.AddRange(BitConverter.GetBytes(_testParams.Tj1));
 			result.AddRange(BitConverter.GetBytes(_testParams.Tj2));
 			result.AddRange(BitConverter.GetBytes(_testParams.Tj3));
 			result.AddRange(BitConverter.GetBytes(_testParams.Tj4));
-			result.AddRange(BitConverter.GetBytes(_testParams.Acc8));
-			result.AddRange(BitConverter.GetBytes(_testParams.Dir10));
-			result.AddRange(BitConverter.GetBytes(_testParams.T1C));
-			result.AddRange(BitConverter.GetBytes(_testParams.T2C));
+			
 			result.AddRange(BitConverter.GetBytes(_testParams.Kp1));
 			result.AddRange(BitConverter.GetBytes(_testParams.Ki1));
 			result.AddRange(BitConverter.GetBytes(_testParams.Kp6));
 			result.AddRange(BitConverter.GetBytes(_testParams.Ki6));
-			result.AddRange(BitConverter.GetBytes(_testParams.TauI));//= 7e-3 
-			result.AddRange(BitConverter.GetBytes(_testParams.TauSpd));
-			result.AddRange(BitConverter.GetBytes(_testParams.TauFi));//= 50e-3;
 
+			result.AddRange(BitConverter.GetBytes(_testParams.TauI));//= 7e-3 
+			result.AddRange(BitConverter.GetBytes(_testParams.TauFi));//= 50e-3;
+			result.AddRange(BitConverter.GetBytes(_testParams.TauSpd));
+			
 			return result.ToArray();
 		}
 
