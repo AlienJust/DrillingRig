@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DrillingRid.Commands.Contracts;
 using DrillingRig.Commands.BsEthernetSettings;
 
@@ -18,33 +19,44 @@ namespace DrillingRig.Commands.EngineTests {
 		public string Name => "Запуск теста двигателя";
 
 		public byte[] Serialize() {
-			var result = new List<byte> {(byte) _testId};
+			var result = new List<byte> { (byte)_testId };
 
-			result.AddRange(BitConverter.GetBytes(_testParams.Te1));
-			result.AddRange(BitConverter.GetBytes(_testParams.T1C));
-			result.AddRange(BitConverter.GetBytes(_testParams.T2C));
-			result.AddRange(BitConverter.GetBytes(_testParams.K21));
-			result.AddRange(BitConverter.GetBytes(_testParams.Te6));
-			result.AddRange(BitConverter.GetBytes(_testParams.F1));
-			result.AddRange(BitConverter.GetBytes(_testParams.F2));
-			result.AddRange(BitConverter.GetBytes(_testParams.Acc8));
-			result.AddRange(BitConverter.GetBytes(_testParams.Dir10));
+			result.AddRange(GetBytesLe(_testParams.Te1));
+			result.AddRange(GetBytesLe(_testParams.T1C));
+			result.AddRange(GetBytesLe(_testParams.T2C));
+			result.AddRange(GetBytesLe(_testParams.K21));
+			result.AddRange(GetBytesLe(_testParams.Te6));
+			result.AddRange(GetBytesLe(_testParams.F1));
+			result.AddRange(GetBytesLe(_testParams.F2));
+			result.AddRange(GetBytesLe(_testParams.Acc8));
+			result.AddRange(GetBytesLe(_testParams.Dir10));
 
-			result.AddRange(BitConverter.GetBytes(_testParams.Tj1));
-			result.AddRange(BitConverter.GetBytes(_testParams.Tj2));
-			result.AddRange(BitConverter.GetBytes(_testParams.Tj3));
-			result.AddRange(BitConverter.GetBytes(_testParams.Tj4));
-			
-			result.AddRange(BitConverter.GetBytes(_testParams.Kp1));
-			result.AddRange(BitConverter.GetBytes(_testParams.Ki1));
-			result.AddRange(BitConverter.GetBytes(_testParams.Kp6));
-			result.AddRange(BitConverter.GetBytes(_testParams.Ki6));
+			result.AddRange(GetBytesLe(_testParams.Tj1));
+			result.AddRange(GetBytesLe(_testParams.Tj2));
+			result.AddRange(GetBytesLe(_testParams.Tj3));
+			result.AddRange(GetBytesLe(_testParams.Tj4));
 
-			result.AddRange(BitConverter.GetBytes(_testParams.TauI));//= 7e-3 
-			result.AddRange(BitConverter.GetBytes(_testParams.TauFi));//= 50e-3;
-			result.AddRange(BitConverter.GetBytes(_testParams.TauSpd));
-			
+			result.AddRange(GetBytesLe(_testParams.Kp1));
+			result.AddRange(GetBytesLe(_testParams.Ki1));
+			result.AddRange(GetBytesLe(_testParams.Kp6));
+			result.AddRange(GetBytesLe(_testParams.Ki6));
+
+			result.AddRange(GetBytesLe(_testParams.TauI));//= 7e-3 
+			result.AddRange(GetBytesLe(_testParams.TauFi));//= 50e-3;
+			result.AddRange(GetBytesLe(_testParams.TauSpd));
+
 			return result.ToArray();
+		}
+
+		byte[] GetBytesLe(int value) {
+			var bytes = BitConverter.GetBytes(value);
+			if (BitConverter.IsLittleEndian) return bytes;
+			return bytes.Reverse().ToArray(); // TODO: improve perfomance
+		}
+		byte[] GetBytesLe(float value) {
+			var bytes = BitConverter.GetBytes(value);
+			if (BitConverter.IsLittleEndian) return bytes;
+			return bytes.Reverse().ToArray();
 		}
 
 		public IWriteBsEthernetSettingsResult GetResult(byte[] reply) {
