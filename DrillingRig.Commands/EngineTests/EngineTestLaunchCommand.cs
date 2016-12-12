@@ -5,7 +5,7 @@ using DrillingRid.Commands.Contracts;
 using DrillingRig.Commands.BsEthernetSettings;
 
 namespace DrillingRig.Commands.EngineTests {
-	public class EngineTestLaunchCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IWriteBsEthernetSettingsResult>, IRrModbusCommandWithTestReply {
+	public class EngineTestLaunchCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply {
 		private readonly EngineTestId _testId;
 		private readonly IEngineTestParams _testParams;
 
@@ -59,13 +59,18 @@ namespace DrillingRig.Commands.EngineTests {
 			return bytes.Reverse().ToArray();
 		}
 
-		public IWriteBsEthernetSettingsResult GetResult(byte[] reply) {
+		/// <summary>
+		/// Получает результат выполнения команды
+		/// </summary>
+		/// <param name="reply">Байты ответа</param>
+		/// <returns>Успешность запуска тестирования</returns>
+		public bool GetResult(byte[] reply) {
 			if (reply.Length != ReplyLength)
-				throw new Exception("Reply error, reply length must be 0");
-			return new WriteBsEthernetSettingsResultSimple();
+				throw new Exception("Reply error, reply length must be 1");
+			return reply[0] == 0;
 		}
 
-		public int ReplyLength => 0;
+		public int ReplyLength => 1;
 
 		public byte[] GetTestReply() {
 			return new byte[0];
