@@ -217,6 +217,10 @@
     <Compile Include="AutoTimeSetter.cs" />
     <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
     <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />
+    <Compile Include="BsEthernetLogs\WindowView.xaml.cs">
+      <DependentUpon>WindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BsEthernetLogs\WindowViewModel.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
@@ -518,6 +522,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AinCommand\CommandWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BsEthernetLogs\WindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

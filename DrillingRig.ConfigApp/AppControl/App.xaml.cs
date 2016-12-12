@@ -266,7 +266,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 
 
-			var rpdWindowThread = new Thread(() => {
+			var chartWindowThread = new Thread(() => {
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
 				var chartVm = new ChartViewModel(uiRoot, colors);
 				_paramLoggerRegPoint.RegisterLoggegr(chartVm);
@@ -277,24 +277,36 @@ namespace DrillingRig.ConfigApp.AppControl {
 				System.Windows.Threading.Dispatcher.Run();
 			});
 
-			rpdWindowThread.SetApartmentState(ApartmentState.STA);
-			rpdWindowThread.IsBackground = true;
-			rpdWindowThread.Priority = ThreadPriority.AboveNormal;
-			rpdWindowThread.Start();
+			chartWindowThread.SetApartmentState(ApartmentState.STA);
+			chartWindowThread.IsBackground = true;
+			chartWindowThread.Priority = ThreadPriority.AboveNormal;
+			chartWindowThread.Start();
 
 
 
-			var sciWindowThread = new Thread(() => {
+			var oscilloscopeWindowThread = new Thread(() => {
 				var oscilloscopeWindow = new OscilloscopeWindow(mainWindow, colors) { DataContext = new OscilloscopeWindowSciVm() };
 				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
 				oscilloscopeWindow.Show();
 				System.Windows.Threading.Dispatcher.Run();
 			});
-			sciWindowThread.SetApartmentState(ApartmentState.STA);
-			sciWindowThread.IsBackground = true;
-			sciWindowThread.Priority = ThreadPriority.BelowNormal;
-			sciWindowThread.Start();
+			oscilloscopeWindowThread.SetApartmentState(ApartmentState.STA);
+			oscilloscopeWindowThread.IsBackground = true;
+			oscilloscopeWindowThread.Priority = ThreadPriority.BelowNormal;
+			oscilloscopeWindowThread.Start();
 
+
+			var bsEthernetLogWindowThread = new Thread(() =>
+			{
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var logWindow = new BsEthernetLogs.WindowView(mainWindow) {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _cmdSenderHost, _targetAddressHost, _notifySendingEnabled) };
+				logWindow.Show();
+				System.Windows.Threading.Dispatcher.Run();
+			});
+			bsEthernetLogWindowThread.SetApartmentState(ApartmentState.STA);
+			bsEthernetLogWindowThread.IsBackground = true;
+			bsEthernetLogWindowThread.Priority = ThreadPriority.BelowNormal;
+			bsEthernetLogWindowThread.Start();
 		}
 	}
 }
