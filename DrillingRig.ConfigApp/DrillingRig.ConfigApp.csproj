@@ -217,6 +217,7 @@
     <Compile Include="AutoTimeSetter.cs" />
     <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
     <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />
+    <Compile Include="BsEthernetLogs\ReadCycleModel.cs" />
     <Compile Include="BsEthernetLogs\WindowView.xaml.cs">
       <DependentUpon>WindowView.xaml</DependentUpon>
     </Compile>

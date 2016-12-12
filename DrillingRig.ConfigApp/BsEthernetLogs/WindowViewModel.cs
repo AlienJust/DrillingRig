@@ -1,4 +1,5 @@
-﻿using AlienJust.Support.ModelViewViewModel;
+﻿using System.Threading;
+using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
@@ -10,17 +11,31 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 		private readonly INotifySendingEnabled _notifySendingEnabled;
 		private readonly ITargetAddressHost _targetAddressHost;
 
-		private bool? _isActive;
-		private DependedCommand _testCommand;
+		private readonly Thread _sendingCycleThread;
+
+		private bool _isActive;
+		private readonly ManualResetEvent _signal;
+		
 		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost cmdSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
 			_uiRoot = uiRoot;
 			_cmdSenderHost = cmdSenderHost;
 			_targetAddressHost = targetAddressHost;
 			_notifySendingEnabled = notifySendingEnabled;
-			_testCommand = new DependedCommand(() => { }, ()=>true);
+			_sendingCycleThread = new Thread(GetLogsCycle);
+			_signal = new ManualResetEvent(_isActive);
 		}
 
-		public bool? IsActive {
+		private void GetLogsCycle()
+		{
+			while (true)
+			{
+				_i
+				
+				Thread.Sleep(1);
+			}
+		}
+
+		public bool IsActive {
 			get { return _isActive; }
 			set {
 				if (_isActive != value) {
@@ -29,5 +44,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 				}
 			}
 		}
+
+
 	}
 }
