@@ -47,7 +47,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 			while (!IsStopFlagRaised) {
 				_conditionsChangedWaiter.Wait();
 				if (!IsStopFlagRaised && IsReadCycleEnabled && _notifySendingEnabled.IsSendingEnabled) {
-					_commandSenderHost.Sender.SendCommandAsyncNoLog(_targetAddressHost.TargetAddress, cmd,
+					_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress, cmd,
 						timeout,
 						(exception, bytes) => {
 							try {
