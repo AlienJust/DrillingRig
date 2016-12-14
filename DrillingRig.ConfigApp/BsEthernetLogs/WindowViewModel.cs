@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using AlienJust.Support.ModelViewViewModel;
+using AlienJust.Support.Reflection;
+using DrillingRig.Commands.BsEthernetLogs;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
@@ -7,44 +10,47 @@ using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 namespace DrillingRig.ConfigApp.BsEthernetLogs {
 	class WindowViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
-		private readonly ICommandSenderHost _cmdSenderHost;
-		private readonly INotifySendingEnabled _notifySendingEnabled;
-		private readonly ITargetAddressHost _targetAddressHost;
+		private readonly IReadCycleModel _model;
 
-		private readonly Thread _sendingCycleThread;
+		private readonly string _logTextName;
+		private readonly RelayCommand _closingWindowCommand;
+		public string LogText { get; private set; }
+		public Action<string> AppendTextAction { get; set; }
 
-		private bool _isActive;
-		private readonly ManualResetEvent _signal;
-		
-		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost cmdSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
+		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
 			_uiRoot = uiRoot;
-			_cmdSenderHost = cmdSenderHost;
-			_targetAddressHost = targetAddressHost;
-			_notifySendingEnabled = notifySendingEnabled;
-			_sendingCycleThread = new Thread(GetLogsCycle);
-			_signal = new ManualResetEvent(_isActive);
+
+			_logTextName = ReflectedProperty.GetName(() => LogText);
+			LogText = string.Empty;
+
+			_closingWindowCommand = new RelayCommand(WindowClosing, ()=>true);
+
+			_model = new ReadCycleModel(commandSenderHost, targetAddressHost, notifySendingEnabled);
+			_model.AnotherLogLineWasReaded += ModelOnAnotherLogLineWasReaded; // TODO: unsubscribe on win close, also _destroy model
 		}
 
-		private void GetLogsCycle()
+		private void WindowClosing()
 		{
-			while (true)
+			IsActive = false;
+			RaisePropertyChanged(()=> IsActive);
+
+			_model.StopBackgroundThreadAndWaitForIt();
+		}
+
+		private void ModelOnAnotherLogLineWasReaded(IBsEthernetLogLine logLine)
+		{
+			_uiRoot.Notifier.Notify(() =>
 			{
-				_i
-				
-				Thread.Sleep(1);
-			}
+				//LogText += Environment.NewLine + logLine.Number + " > " + logLine.Content;
+				AppendTextAction.Invoke(Environment.NewLine + logLine.Number.ToString("d5") + " > " + logLine.Content);
+
+				//RaisePropertyChanged(_logTextName);
+			});
 		}
 
 		public bool IsActive {
-			get { return _isActive; }
-			set {
-				if (_isActive != value) {
-					_isActive = value;
-					RaisePropertyChanged("IsActive");
-				}
-			}
+			get { return _model.IsReadCycleEnabled; }
+			set { _model.IsReadCycleEnabled = value; }
 		}
-
-
 	}
 }

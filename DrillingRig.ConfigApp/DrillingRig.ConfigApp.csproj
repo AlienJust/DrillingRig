@@ -102,6 +102,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Numeric.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Reflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Reflection.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.Text, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Text.dll</HintPath>
@@ -217,6 +221,10 @@
     <Compile Include="AutoTimeSetter.cs" />
     <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
     <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />
+    <Compile Include="BsEthernetLogs\AppendTextBehavior.cs" />
+    <Compile Include="BsEthernetLogs\AutoScrollingBehavior.cs" />
+    <Compile Include="BsEthernetLogs\IcAnotherLogLineWasReadedOrNot.cs" />
+    <Compile Include="BsEthernetLogs\IReadCycleModel.cs" />
     <Compile Include="BsEthernetLogs\ReadCycleModel.cs" />
     <Compile Include="BsEthernetLogs\WindowView.xaml.cs">
       <DependentUpon>WindowView.xaml</DependentUpon>
