@@ -75,20 +75,11 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 			_stopReadingCommand.RaiseCanExecuteChanged();
 		}
 
-		public IEnumerable<RectifierTelemetryViewModel> RectifierTelemetryVms
-		{
-			get { return _rectifierTelemetryVms; }
-		}
+		public IEnumerable<RectifierTelemetryViewModel> RectifierTelemetryVms => _rectifierTelemetryVms;
 
-		public ICommand ReadCycleCommand
-		{
-			get { return _readCycleCommand; }
-		}
+		public ICommand ReadCycleCommand => _readCycleCommand;
 
-		public ICommand StopReadingCommand
-		{
-			get { return _stopReadingCommand; }
-		}
+		public ICommand StopReadingCommand => _stopReadingCommand;
 
 		public void InCycleAction() {
 			try {
@@ -110,13 +101,13 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 							catch (Exception ex) {
 									// TODO: log exception, null values
 									_logger.Log("Ошибка: " + ex.Message);
-								Console.WriteLine(ex);
+								//Console.WriteLine(ex);
 							}
 							finally {
 
 								_userInterfaceRoot.Notifier.Notify(() => {
 									for (int i = 0; i < _rectifierTelemetryVms.Count; ++i) {
-										var telemetryToUpdate = rectifierTelemetries == null ? null : rectifierTelemetries[i];
+										var telemetryToUpdate = rectifierTelemetries?[i];
 										_rectifierTelemetryVms[i].UpdateTelemetry(telemetryToUpdate);
 									}
 								});

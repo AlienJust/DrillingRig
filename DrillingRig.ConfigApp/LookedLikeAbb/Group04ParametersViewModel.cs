@@ -80,7 +80,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb
 					{
 						telemetry = null;
 						_logger.Log("Ошибка: " + ex.Message);
-						Console.WriteLine(ex);
+						//Console.WriteLine(ex);
 					}
 					finally
 					{
@@ -91,7 +91,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb
 					}
 				});
 			}
-			catch (Exception ex)
+			catch
 			{
 				_logger.Log("Не удалось отправиьт команду чтения телеметрии (персии ПО), убедитесь, что COM-порт открыт");
 			}
