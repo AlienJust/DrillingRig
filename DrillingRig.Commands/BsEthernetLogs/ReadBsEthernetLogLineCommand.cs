@@ -11,9 +11,9 @@ namespace DrillingRig.Commands.BsEthernetLogs {
 	/// </summary>
 	public class ReadBsEthernetLogLineCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<IBsEthernetLogLine>, IRrModbusCommandWithTestReply {
 
-		public byte CommandCode => 0x84;
+		public byte CommandCode => 0x8D;
 
-		public string Name => "Чтение номинальных значений БС-Ethernet";
+		public string Name => "Чтение сроки логов БС-Ethernet";
 
 		public byte[] Serialize() {
 			return new byte[0];
