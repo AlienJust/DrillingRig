@@ -23,23 +23,32 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs
 			DependencyProperty.Register("IsScrolledDown", typeof(bool), typeof(AutoScrollingBehavior), new UIPropertyMetadata(false));
 
 		private static void Update(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+			//if ((bool)d.GetValue(IsScrolledDownProperty)) {
 			if ((bool)d.GetValue(IsScrolledDownProperty)) {
 				var scroll = ((AutoScrollingBehavior)d).AssociatedObject;
-				scroll.ScrollToEnd();
+				scroll.ScrollToBottom();
 			}
 		}
 
 		protected override void OnAttached() {
 			AssociatedObject.Loaded += new RoutedEventHandler(AssociatedObject_Loaded);
 			AssociatedObject.ScrollChanged += new ScrollChangedEventHandler(AssociatedObject_ScrollChanged);
+			AssociatedObject.IsVisibleChanged += AssociatedObjectOnIsVisibleChanged;
+		}
+		private const double Tolerance = 50.0;
+		private void AssociatedObjectOnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+		{
+			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
 		}
 
 		private void AssociatedObject_ScrollChanged(object sender, ScrollChangedEventArgs e) {
-			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < 1.5;
+			//var isScrollDown
+			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
+			//if AssociatedObject.ScrollToBottom();
 		}
 
 		private void AssociatedObject_Loaded(object sender, RoutedEventArgs e) {
-			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < 1.5;
+			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
 		}
 	}
 }

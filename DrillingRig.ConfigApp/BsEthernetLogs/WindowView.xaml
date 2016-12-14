@@ -2,7 +2,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:bsEthernetLogs="clr-namespace:DrillingRig.ConfigApp.BsEthernetLogs"
-		mc:Ignorable="d" Title="Логи БС-Ethernet" TitleCharacterCasing="Normal" Height="600" Width="420" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False"
+		mc:Ignorable="d" Title="Логи БС-Ethernet" TitleCharacterCasing="Normal" Height="200" Width="520" Closing="MetroWindow_Closing" IsCloseButtonEnabled="False"
 		ShowCloseButton="False" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" GlowBrush="{DynamicResource AccentColorBrush}"
 		WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="False">
 	<controls:MetroWindow.Resources>
@@ -47,9 +47,10 @@
 	</i:Interaction.Triggers>
 	<ScrollViewer>
 		<i:Interaction.Behaviors>
-			<bsEthernetLogs:AutoScrollingBehavior UpdateTrigger="{Binding LogText, Mode=OneWay}" />
+			<bsEthernetLogs:AutoScrollingBehavior UpdateTrigger="{Binding LogText, Mode=TwoWay}" />
 		</i:Interaction.Behaviors>
-		<TextBox Text="{Binding Path=LogText, Mode=OneWay}" IsReadOnly="True" FontFamily="Courier New" IsReadOnlyCaretVisible="True" AcceptsReturn="True" AcceptsTab="True">
+		<TextBox IsReadOnly="True" FontFamily="Courier New" IsReadOnlyCaretVisible="True" AcceptsReturn="True" AcceptsTab="True"
+				Text="{Binding Path=LogText, Mode=TwoWay}">
 			<i:Interaction.Behaviors>
 				<bsEthernetLogs:AppendTextBehavior AppendTextAction="{Binding AppendTextAction, Mode=OneWayToSource}" />
 			</i:Interaction.Behaviors>

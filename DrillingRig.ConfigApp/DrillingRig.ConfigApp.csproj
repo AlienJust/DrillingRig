@@ -226,6 +226,7 @@
     <Compile Include="BsEthernetLogs\IcAnotherLogLineWasReadedOrNot.cs" />
     <Compile Include="BsEthernetLogs\IReadCycleModel.cs" />
     <Compile Include="BsEthernetLogs\ReadCycleModel.cs" />
+    <Compile Include="BsEthernetLogs\TextBoxBehaviour.cs" />
     <Compile Include="BsEthernetLogs\WindowView.xaml.cs">
       <DependentUpon>WindowView.xaml</DependentUpon>
     </Compile>

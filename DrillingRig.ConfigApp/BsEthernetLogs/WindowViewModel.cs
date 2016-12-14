@@ -12,9 +12,11 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly IReadCycleModel _model;
 
-		private readonly string _logTextName;
 		private readonly RelayCommand _closingWindowCommand;
-		public string LogText { get; private set; }
+
+		private string _logText;
+		private readonly string _logTextName;
+
 		public Action<string> AppendTextAction { get; set; }
 
 		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
@@ -23,34 +25,44 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 			_logTextName = ReflectedProperty.GetName(() => LogText);
 			LogText = string.Empty;
 
-			_closingWindowCommand = new RelayCommand(WindowClosing, ()=>true);
+			_closingWindowCommand = new RelayCommand(WindowClosing, () => true);
 
 			_model = new ReadCycleModel(commandSenderHost, targetAddressHost, notifySendingEnabled);
 			_model.AnotherLogLineWasReaded += ModelOnAnotherLogLineWasReaded; // TODO: unsubscribe on win close, also _destroy model
 		}
 
-		private void WindowClosing()
-		{
-			IsActive = false;
-			RaisePropertyChanged(()=> IsActive);
 
-			_model.StopBackgroundThreadAndWaitForIt();
-		}
-
-		private void ModelOnAnotherLogLineWasReaded(IBsEthernetLogLine logLine)
-		{
-			_uiRoot.Notifier.Notify(() =>
-			{
-				//LogText += Environment.NewLine + logLine.Number + " > " + logLine.Content;
-				AppendTextAction.Invoke(Environment.NewLine + logLine.Number.ToString("d5") + " > " + logLine.Content);
-
+		private void ModelOnAnotherLogLineWasReaded(IBsEthernetLogLine logLine) {
+			_uiRoot.Notifier.Notify(() => {
+				if (logLine == null) AppendTextAction.Invoke(Environment.NewLine + "[ER]");
+				else AppendTextAction.Invoke(Environment.NewLine + "[OK] " + logLine.Number.ToString("d5") + " > " + logLine.Content);
 				//RaisePropertyChanged(_logTextName);
 			});
 		}
 
+
+		private void WindowClosing() {
+			IsActive = false;
+			RaisePropertyChanged(() => IsActive);
+
+			_model.StopBackgroundThreadAndWaitForIt();
+		}
+
+
 		public bool IsActive {
 			get { return _model.IsReadCycleEnabled; }
 			set { _model.IsReadCycleEnabled = value; }
+		}
+
+
+		public string LogText {
+			get { return _logText; }
+			set {
+				if (_logText != value) {
+					_logText = value;
+					RaisePropertyChanged(_logTextName);
+				}
+			}
 		}
 	}
 }
