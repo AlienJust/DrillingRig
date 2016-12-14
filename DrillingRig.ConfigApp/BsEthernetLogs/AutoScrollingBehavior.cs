@@ -7,7 +7,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs
 {
 	public class AutoScrollingBehavior : Behavior<ScrollViewer> {
 		public object UpdateTrigger {
-			get { return (object)GetValue(UpdateTriggerProperty); }
+			get { return GetValue(UpdateTriggerProperty); }
 			set { SetValue(UpdateTriggerProperty, value); }
 		}
 
@@ -23,7 +23,6 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs
 			DependencyProperty.Register("IsScrolledDown", typeof(bool), typeof(AutoScrollingBehavior), new UIPropertyMetadata(false));
 
 		private static void Update(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-			//if ((bool)d.GetValue(IsScrolledDownProperty)) {
 			if ((bool)d.GetValue(IsScrolledDownProperty)) {
 				var scroll = ((AutoScrollingBehavior)d).AssociatedObject;
 				scroll.ScrollToBottom();
@@ -31,24 +30,28 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs
 		}
 
 		protected override void OnAttached() {
-			AssociatedObject.Loaded += new RoutedEventHandler(AssociatedObject_Loaded);
-			AssociatedObject.ScrollChanged += new ScrollChangedEventHandler(AssociatedObject_ScrollChanged);
+			AssociatedObject.Loaded += AssociatedObject_Loaded;
+			AssociatedObject.ScrollChanged += AssociatedObject_ScrollChanged;
 			AssociatedObject.IsVisibleChanged += AssociatedObjectOnIsVisibleChanged;
 		}
-		private const double Tolerance = 50.0;
+		private const double Tolerance = 1.0;
 		private void AssociatedObjectOnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
 		{
-			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
+			IsScrolledDown = CalculateIsScrollDown();
 		}
 
 		private void AssociatedObject_ScrollChanged(object sender, ScrollChangedEventArgs e) {
-			//var isScrollDown
-			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
-			//if AssociatedObject.ScrollToBottom();
+			bool isScrollDown = CalculateIsScrollDown();
+			IsScrolledDown = isScrollDown;
+			if (isScrollDown) AssociatedObject.ScrollToEnd();
+		}
+
+		private bool CalculateIsScrollDown() {
+			return Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
 		}
 
 		private void AssociatedObject_Loaded(object sender, RoutedEventArgs e) {
-			IsScrolledDown = Math.Abs(AssociatedObject.VerticalOffset - AssociatedObject.ScrollableHeight) < Tolerance;
+			IsScrolledDown = CalculateIsScrollDown();
 		}
 	}
 }

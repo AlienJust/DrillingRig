@@ -52,7 +52,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 						throw new Exception("Address is wrong");
 					}
 					if (replyBytes[1] != command.CommandCode) {
-						throw new Exception("Command code is wrong, assumed the same as it was sended: " + command.CommandCode);
+						throw new Exception("Command code is wrong (" + replyBytes[1] + "), assumed the same as it was sended: " + command.CommandCode);
 					}
 					var crc = MathExtensions.Crc16(replyBytes.ToList(), 0, replyBytes.Length - 2);
 					if (crc.Low != replyBytes[replyBytes.Length - 2])
@@ -100,7 +100,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 						throw new Exception("Address is wrong");
 					}
 					if (replyBytes[1] != command.CommandCode) {
-						throw new Exception("Command code is wrong, assumed the same as it was sended: " + command.CommandCode);
+						throw new Exception("Command code is wrong (" + replyBytes[1] + "), assumed the same as it was sended: " + command.CommandCode);
 					}
 					var crc = MathExtensions.Crc16(replyBytes.ToList(), 0, replyBytes.Length - 2);
 					if (crc.Low != replyBytes[replyBytes.Length - 2])
