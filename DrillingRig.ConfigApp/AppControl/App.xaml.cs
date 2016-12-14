@@ -22,7 +22,6 @@ using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
-using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope;
 
@@ -121,11 +120,15 @@ namespace DrillingRig.ConfigApp.AppControl {
 						})),
 					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
 				new RelayLoggerWithStackTrace(
-					new RelayActionLogger(s => { }),
-					//new RelayLogger(
-					//new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black),
-					//new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
-					new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+					new RelayLogger(
+						new ColoredConsoleLogger(ConsoleColor.DarkCyan, ConsoleColor.Black),
+						new ChainedFormatter(new List<ITextFormatter>
+						{
+							new ThreadFormatter(" > ", true, false, false),
+							new DateTimeFormatter(" > ")
+						})),
+					//new StackTraceFormatterWithNullSuport(" > ", "[NO STACK INFO]")),
+					new StackTraceFormatterNothing()),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Cyan, ConsoleColor.Black),

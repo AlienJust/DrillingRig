@@ -247,7 +247,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			
 				var cmd = new ReadAinTelemetryCommand(_zeroBasedAinNumber);
-				_commandSenderHost.Sender.SendCommandAsyncNoLog(0x01,
+				_commandSenderHost.SilentSender.SendCommandAsync(0x01,
 					cmd, TimeSpan.FromSeconds(0.1),
 					(exception, bytes) => {
 						IAinTelemetry ainTelemetry = null;

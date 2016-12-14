@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group08Parameters {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry08Command();
-			_commandSenderHost.Sender.SendCommandAsyncNoLog(_targerAddressHost.TargetAddress,
+			_commandSenderHost.SilentSender.SendCommandAsync(_targerAddressHost.TargetAddress,
 				cmd, TimeSpan.FromSeconds(0.1),
 				(exception, bytes) => {
 					ITelemetry08 telemetry = null;

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Threading;
 using System.Windows.Media;
+using AlienJust.Support.Concurrent;
 using AlienJust.Support.Loggers;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
@@ -208,8 +210,10 @@ namespace DrillingRig.ConfigApp {
 				_notifySendingEnabled.SetIsSendingEnabledAndRaiseChange(false);
 				var currentSender = _commandSenderHost.Sender;
 				_logger.Log("Закрытие ранее открытого порта " + currentSender + "...");
+
+				// Вызов SilentSender.EndWork не производится!
 				currentSender.EndWork(); // TODO: make async
-				_commandSenderHostSettable.SetCommandSender(null);
+				_commandSenderHostSettable.SetCommandSender(null, null);
 
 				_isPortOpened = false;
 				_openPortCommand.RaiseCanExecuteChanged();
@@ -230,13 +234,20 @@ namespace DrillingRig.ConfigApp {
 
 				if (_selectedComName == TestComPortName)
 				{
-					var sender = new NothingBasedCommandSender(_debugLogger, _uiRoot.Notifier);
-					_commandSenderHostSettable.SetCommandSender(sender);
+					var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
+					var sender = new NothingBasedCommandSender(backWorker, backWorker,_debugLogger, _uiRoot.Notifier);
+					var silentSender = new SilentNothingBasedCommandSender(backWorker, backWorker, _debugLogger, _uiRoot.Notifier);
+					_commandSenderHostSettable.SetCommandSender(sender, silentSender);
 
 				}
 				else {
-					var sender = new SerialPortBasedCommandSender(SelectedComName, _debugLogger);
-					_commandSenderHostSettable.SetCommandSender(sender);
+					var serialPort = new SerialPort(SelectedComName, 115200);
+					serialPort.Open();
+
+					var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("SerialPortBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
+					var sender = new SerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+					var silentSender = new SilentSerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+					_commandSenderHostSettable.SetCommandSender(sender, silentSender);
 				}
 
 

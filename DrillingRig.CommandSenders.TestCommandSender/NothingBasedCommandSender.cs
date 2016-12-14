@@ -15,13 +15,13 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 		private readonly IStoppableWorker _backWorkerStoppable;
 		private readonly IWorker<Action> _backWorker;
 
-		public NothingBasedCommandSender(IMultiLoggerWithStackTrace<int> debugLogger, IThreadNotifier uiNotifier) {
+		public NothingBasedCommandSender(IWorker<Action> backWorker, IStoppableWorker stoppableBackWorker, IMultiLoggerWithStackTrace<int> debugLogger, IThreadNotifier uiNotifier) {
 
 			_debugLogger = debugLogger;
 			_uiNotifier = uiNotifier;
-			var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
+			//var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 			_backWorker = backWorker;
-			_backWorkerStoppable = backWorker;
+			_backWorkerStoppable = stoppableBackWorker;
 		}
 
 		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
@@ -52,7 +52,35 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			});
 		}
 
-		public void SendCommandAsyncNoLog(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
+		public void EndWork() {
+			_debugLogger.GetLogger(1).Log("EndWork called", new StackTrace(Thread.CurrentThread, true));
+			_backWorkerStoppable.StopAsync();
+			_debugLogger.GetLogger(1).Log("backworker stopasync was called", new StackTrace(Thread.CurrentThread, true));
+
+			_backWorkerStoppable.WaitStopComplete();
+			_debugLogger.GetLogger(1).Log("backworker has been stopped", new StackTrace(Thread.CurrentThread, true));
+		}
+
+		public override string ToString() {
+			return "Test";
+		}
+	}
+
+	public class SilentNothingBasedCommandSender : ICommandSender {
+		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
+		private readonly IThreadNotifier _uiNotifier;
+		private readonly IStoppableWorker _backWorkerStoppable;
+		private readonly IWorker<Action> _backWorker;
+
+		public SilentNothingBasedCommandSender(IWorker<Action> backWorker, IStoppableWorker stoppableBackWorker, IMultiLoggerWithStackTrace<int> debugLogger, IThreadNotifier uiNotifier) {
+
+			_debugLogger = debugLogger;
+			_uiNotifier = uiNotifier;
+			_backWorker = backWorker;
+			_backWorkerStoppable = stoppableBackWorker;
+		}
+
+		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
 				command.Serialize();
 
