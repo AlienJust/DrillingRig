@@ -19,7 +19,6 @@ using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 	public partial class OscilloscopeWindow : MetroWindow, IParameterLogger, IUpdatable {
-		private readonly MainWindow _mainWindow;
 		private readonly List<Color> _colors;
 		private readonly List<Color> _usedColors;
 
@@ -41,8 +40,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 		private bool _isPaused;
 		private readonly object _isPausedSyncObj;
 
-		public OscilloscopeWindow(MainWindow mainWindow, List<Color> colors) {
-			_mainWindow = mainWindow;
+		public OscilloscopeWindow(List<Color> colors) {
 			_colors = colors;
 			_usedColors = new List<Color>();
 
@@ -122,10 +120,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope {
 					}
 				});
 			}
-		}
-
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			_mainWindow.Close();
 		}
 
 		public void LogAnalogueParameter(string parameterName, double? value) {

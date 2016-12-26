@@ -3,7 +3,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:DrillingRig.ConfigApp"
 		xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:ainCommand="clr-namespace:DrillingRig.ConfigApp.AinCommand" mc:Ignorable="d"
 		Title="Команда" TitleCharacterCasing="Normal" Height="360" Width="460" ShowCloseButton="False" IsCloseButtonEnabled="False" ShowMaxRestoreButton="False"
-		IsMaxRestoreButtonEnabled="False" SizeToContent="WidthAndHeight" Closing="MetroWindow_Closing" ResizeMode="CanMinimize" SaveWindowPosition="True"
+		IsMaxRestoreButtonEnabled="False" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" SaveWindowPosition="True"
 		GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}"
 		ShowActivated="False" Topmost="{Binding Path=IsTopMost, Mode=TwoWay}">
 	<controls:MetroWindow.Resources>

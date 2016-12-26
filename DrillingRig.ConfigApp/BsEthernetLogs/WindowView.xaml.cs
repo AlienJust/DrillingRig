@@ -5,16 +5,9 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 	/// Логика взаимодействия для WindowView.xaml
 	/// </summary>
 	public partial class WindowView : MetroWindow {
-		private readonly MainWindow _mainWindow;
-
-		public WindowView(MainWindow mainWindow)
+		public WindowView()
 		{
-			_mainWindow = mainWindow;
 			InitializeComponent();
-		}
-
-		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			_mainWindow.Close();
 		}
 	}
 }

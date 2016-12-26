@@ -206,13 +206,100 @@ namespace DrillingRig.ConfigApp.AppControl {
 			};
 
 
+			List<Action> closeChildWindowsActions = new List<Action>();
+
+			var cmdWindowWaiter = new ManualResetEvent(false);
+			var cmdWindowThread = new Thread(() => {
+				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+
+				var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
+					new AinCommandAndMinimalCommonTelemetryViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
+					new TelemetryCommonViewModel(),
+					_cmdSenderHost, _targetAddressHost, uiRoot, _notifySendingEnabled);
+				_cycleThreadHolder.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);
+
+				var cmdWindow = new CommandWindow { DataContext = new CommandWindowViewModel(ainCommandAndCommonTelemetryVm) };
+				cmdWindow.Show();
+
+				closeChildWindowsActions.Add(()=> waitableNotifier.Notify(()=>cmdWindow.Close()));
+				cmdWindowWaiter.Set();
+				System.Windows.Threading.Dispatcher.Run();
+			});
+			cmdWindowThread.SetApartmentState(ApartmentState.STA);
+			cmdWindowThread.IsBackground = true;
+			cmdWindowThread.Priority = ThreadPriority.AboveNormal;
+			cmdWindowThread.Start();
+			cmdWindowWaiter.WaitOne();
+
+
+			var chartWindowWaiter = new ManualResetEvent(false);
+			var chartWindowThread = new Thread(() => {
+				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var chartVm = new ChartViewModel(uiRoot, colors);
+				_paramLoggerRegPoint.RegisterLoggegr(chartVm);
+
+				var chartWindow = new WindowChart { DataContext = new WindowChartViewModel(chartVm) };
+				chartWindow.Show();
+
+				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => chartWindow.Close()));
+				chartWindowWaiter.Set();
+				System.Windows.Threading.Dispatcher.Run();
+				
+			});
+
+			chartWindowThread.SetApartmentState(ApartmentState.STA);
+			chartWindowThread.IsBackground = true;
+			chartWindowThread.Priority = ThreadPriority.AboveNormal;
+			chartWindowThread.Start();
+			chartWindowWaiter.WaitOne();
+
+
+			var oscilloscopeWindowWaiter = new ManualResetEvent(false);
+			var oscilloscopeWindowThread = new Thread(() => {
+				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var oscilloscopeWindow = new OscilloscopeWindow(colors) { DataContext = new OscilloscopeWindowSciVm() };
+				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
+				oscilloscopeWindow.Show();
+
+				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => oscilloscopeWindow.Close()));
+				oscilloscopeWindowWaiter.Set();
+				System.Windows.Threading.Dispatcher.Run();
+			});
+			oscilloscopeWindowThread.SetApartmentState(ApartmentState.STA);
+			oscilloscopeWindowThread.IsBackground = true;
+			oscilloscopeWindowThread.Priority = ThreadPriority.BelowNormal;
+			oscilloscopeWindowThread.Start();
+			oscilloscopeWindowWaiter.WaitOne();
+
+
+			var bsEthernetLogWindowWaiter = new ManualResetEvent(false);
+			var bsEthernetLogWindowThread = new Thread(() =>
+			{
+				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
+				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
+				var logWindow = new BsEthernetLogs.WindowView {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _cmdSenderHost, _targetAddressHost, _notifySendingEnabled) };
+				logWindow.Show();
+
+				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => logWindow.Close()));
+				bsEthernetLogWindowWaiter.Set();
+				System.Windows.Threading.Dispatcher.Run();
+			});
+			bsEthernetLogWindowThread.SetApartmentState(ApartmentState.STA);
+			bsEthernetLogWindowThread.IsBackground = true;
+			bsEthernetLogWindowThread.Priority = ThreadPriority.BelowNormal;
+			bsEthernetLogWindowThread.Start();
+			bsEthernetLogWindowWaiter.WaitOne();
+
+
 
 			_mainWindowCreationCompleteWaiter = new ManualResetEvent(false);
 			var appThreadNotifier = new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 
 
-
-			MainWindow mainWindow = null;
+			//MainWindow mainWindow;
 			var mainWindowThread = new Thread(() => {
 
 				var mainViewModel = new MainViewModel(
@@ -231,12 +318,17 @@ namespace DrillingRig.ConfigApp.AppControl {
 						_ainSettingsReadNotify,
 						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
 
-				/*var*/
-				mainWindow = new MainWindow(appThreadNotifier) { DataContext = mainViewModel };
-
-				_mainWindowCreationCompleteWaiter.Set();
+				var mainWindow = new MainWindow(appThreadNotifier, () =>
+					{
+						foreach (var closingAction in closeChildWindowsActions) {
+							closingAction.Invoke();
+						}
+						closeChildWindowsActions.Clear();
+					}
+				) { DataContext = mainViewModel };
 				mainWindow.Show();
 
+				_mainWindowCreationCompleteWaiter.Set();
 				System.Windows.Threading.Dispatcher.Run();
 			});
 			mainWindowThread.SetApartmentState(ApartmentState.STA);
@@ -244,72 +336,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			mainWindowThread.IsBackground = true;
 			mainWindowThread.Start();
 
-			_mainWindowCreationCompleteWaiter.WaitOne();
-
-
-
-			var cmdWindowThread = new Thread(() => {
-				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-
-				var ainCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
-					new AinCommandAndMinimalCommonTelemetryViewModel(_cmdSenderHost, _targetAddressHost, uiRoot, _commonLogger, _notifySendingEnabled, 0, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify),
-					new TelemetryCommonViewModel(),
-					_cmdSenderHost, _targetAddressHost, uiRoot, _notifySendingEnabled);
-				_cycleThreadHolder.RegisterAsCyclePart(ainCommandAndCommonTelemetryVm);
-
-				var cmdWindow = new CommandWindow(mainWindow) { DataContext = new CommandWindowViewModel(ainCommandAndCommonTelemetryVm) };
-				cmdWindow.Show();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-			cmdWindowThread.SetApartmentState(ApartmentState.STA);
-			cmdWindowThread.IsBackground = true;
-			cmdWindowThread.Priority = ThreadPriority.AboveNormal;
-			cmdWindowThread.Start();
-
-
-
-			var chartWindowThread = new Thread(() => {
-				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var chartVm = new ChartViewModel(uiRoot, colors);
-				_paramLoggerRegPoint.RegisterLoggegr(chartVm);
-
-				var chartWindow = new WindowChart(mainWindow) { DataContext = new WindowChartViewModel(chartVm) };
-				chartWindow.Show();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-
-			chartWindowThread.SetApartmentState(ApartmentState.STA);
-			chartWindowThread.IsBackground = true;
-			chartWindowThread.Priority = ThreadPriority.AboveNormal;
-			chartWindowThread.Start();
-
-
-
-			var oscilloscopeWindowThread = new Thread(() => {
-				var oscilloscopeWindow = new OscilloscopeWindow(mainWindow, colors) { DataContext = new OscilloscopeWindowSciVm() };
-				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
-				oscilloscopeWindow.Show();
-				System.Windows.Threading.Dispatcher.Run();
-			});
-			oscilloscopeWindowThread.SetApartmentState(ApartmentState.STA);
-			oscilloscopeWindowThread.IsBackground = true;
-			oscilloscopeWindowThread.Priority = ThreadPriority.BelowNormal;
-			oscilloscopeWindowThread.Start();
-
-
-			var bsEthernetLogWindowThread = new Thread(() =>
-			{
-				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var logWindow = new BsEthernetLogs.WindowView(mainWindow) {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _cmdSenderHost, _targetAddressHost, _notifySendingEnabled) };
-				logWindow.Show();
-				System.Windows.Threading.Dispatcher.Run();
-			});
-			bsEthernetLogWindowThread.SetApartmentState(ApartmentState.STA);
-			bsEthernetLogWindowThread.IsBackground = true;
-			bsEthernetLogWindowThread.Priority = ThreadPriority.BelowNormal;
-			bsEthernetLogWindowThread.Start();
+			_mainWindowCreationCompleteWaiter.WaitOne(); // TODO: remove or not?
 		}
 	}
 }

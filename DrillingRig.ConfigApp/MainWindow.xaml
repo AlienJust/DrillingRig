@@ -6,9 +6,9 @@
 		xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook" xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
 		xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme" xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
 		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900"
-		ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" Closing="MetroWindow_Closing"
-		GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}"
-		ShowActivated="True">
+		ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" GlowBrush="{DynamicResource AccentColorBrush}"
+		WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="True" Closing="MetroWindow_Closing"
+		Closed="MetroWindow_Closed">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

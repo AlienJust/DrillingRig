@@ -35,10 +35,10 @@ namespace DrillingRig.Commands.EngineTests {
 		/// </summary>
 		/// <param name="reply">Байты ответа</param>
 		/// <returns>Успешность запуска тестирования</returns>
-		public bool GetResult(byte[] reply) {
+		public IEngineTestResult GetResult(byte[] reply) {
 			if (reply.Length != ReplyLength)
 				throw new Exception("Reply error, reply length must be 1");
-			return reply[0] == 0;
+			throw new NotImplementedException("TODO");
 		}
 
 		public int ReplyLength => 1;

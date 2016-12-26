@@ -7,21 +7,12 @@ using AlienJust.Support.Concurrent.Contracts;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
-	/// <summary>
-	/// Interaction logic for WindowChart.xaml
-	/// </summary>
 	public partial class WindowChart : MetroWindow, IUpdatable {
-		private readonly MainWindow _mainWindow;
 		private readonly IThreadNotifier _uiNotifier;
 		private SciChartSurface _sciChartSurface;
-		public WindowChart(MainWindow mainWindow) {
-			_mainWindow = mainWindow;
+		public WindowChart() {
 			InitializeComponent();
 			_uiNotifier = new WpfUiNotifierAsync(Dispatcher);
-		}
-
-		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			_mainWindow.Close();
 		}
 
 		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
