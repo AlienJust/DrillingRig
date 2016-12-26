@@ -96,6 +96,7 @@
     <Compile Include="EngineSettings\IEngineSettings.cs" />
     <Compile Include="EngineSettings\WriteEngineSettingsCommand.cs" />
     <Compile Include="EngineTests\EngineTestId.cs" />
+    <Compile Include="EngineTests\EngineTestReadResultCommand.cs" />
     <Compile Include="EngineTests\IEngineTestParams.cs" />
     <Compile Include="EngineTests\EngineTestLaunchCommand.cs" />
     <Compile Include="FaultArchive\ArchiveRecordSimple.cs" />
