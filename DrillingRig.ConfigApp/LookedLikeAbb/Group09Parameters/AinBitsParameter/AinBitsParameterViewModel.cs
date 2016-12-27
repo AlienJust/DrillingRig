@@ -29,7 +29,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group09Parameters.AinBitsParameter
 
 			Parameter07Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.07 Превышение допустимого тока по любой из фаз", null, parameterLogger);
 			Parameter08Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.08 Превышение температуры радиатора ключей +85 градусов", null, parameterLogger);
-			Parameter09Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.09 Превышение напряжения DC", null, parameterLogger);
+			Parameter09Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.09 Выход за пределы напряжения DC", null, parameterLogger);
 			Parameter10Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.10 Ошибка I2C/EEPROM, загружены параметры по умолчанию", null, parameterLogger);
 			Parameter11Vm = new ParameterBooleanReadonlyViewModel("СТАТУС.11 Ошибка CRC EEPROM, загружены параметры по умолчанию", null, parameterLogger);
 		}

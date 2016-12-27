@@ -62,6 +62,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest {
 					
 				});
 		}
+		private void ReadTestResult() {
+			
+			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
+				new EngineTestReadResultCommand(), 
+				TimeSpan.FromMilliseconds(200),
+				(ex, reply) => {
+					// TODO: get values Rs, Rr, LsI, LrI, Lm, Fl_nom, J, Tr, RoverL
+				});
+		}
 
 		public TestViewModel SelectedTest {
 			get { return _selectedTest; }

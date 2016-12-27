@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using AlienJust.Support.Concurrent.Contracts;
 using MahApps.Metro.Controls;
 
 namespace DrillingRig.ConfigApp
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : MetroWindow
 	{
 		private readonly IThreadNotifier _appMainThreadNotifier;
-		private readonly Action _closingAction;
+		private readonly Action _closeOtherWindows;
 
-		public MainWindow(IThreadNotifier appMainThreadNotifier, Action closingAction) {
+		public MainWindow(IThreadNotifier appMainThreadNotifier, Action closeOtherWindows) {
 			_appMainThreadNotifier = appMainThreadNotifier;
-			_closingAction = closingAction;
+			_closeOtherWindows = closeOtherWindows;
 			InitializeComponent();
 		}
 
 		private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			_closingAction.Invoke();
+			_closeOtherWindows.Invoke();
 		}
 
 		private void MetroWindow_Closed(object sender, EventArgs e) {
