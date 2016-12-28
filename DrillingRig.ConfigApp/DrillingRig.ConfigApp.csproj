@@ -476,6 +476,10 @@
     </Compile>
     <Compile Include="NewLook\OldLook\OldLookViewModel.cs" />
     <Compile Include="AppControl\AinSettingsRead\AutoSettingsReader.cs" />
+    <Compile Include="NewLook\Settings\ImportExportView.xaml.cs">
+      <DependentUpon>ImportExportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewLook\Settings\ImportExportViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetryViewModel.cs" />
     <Compile Include="RectifierTelemetry\RectifierTelemetriesView.xaml.cs">
@@ -799,6 +803,10 @@
     <Page Include="CoolerTelemetry\CoolerTelemetryView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NewLook\Settings\ImportExportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RectifierTelemetry\RectifierTelemetriesView.xaml">
       <SubType>Designer</SubType>

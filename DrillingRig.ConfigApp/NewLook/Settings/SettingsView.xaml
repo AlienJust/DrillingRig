@@ -7,6 +7,7 @@
              xmlns:lookedLikeAbb="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
              xmlns:converters="clr-namespace:AlienJust.Adaptation.WindowsPresentation.Converters;assembly=AlienJust.Adaptation.WindowsPresentation"
              xmlns:group106Settings="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings"
+             xmlns:settings="clr-namespace:DrillingRig.ConfigApp.NewLook.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="600">
 	<UserControl.Resources>
@@ -158,7 +159,9 @@
 			<TabItem Header="107. Режим чоппера" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 				<lookedLikeAbb:Group107SettingsView DataContext="{Binding Path=Group107SettingsVm, Mode=OneTime}"/>
 			</TabItem>
-
+			<TabItem Header="Экспорт / импорт" Style="{StaticResource AzureTabItem}" BorderBrush="Purple">
+				<settings:ImportExportView DataContext="{Binding Path=ImportExportVm}"></settings:ImportExportView>
+			</TabItem>
 		</TabControl>
 	</ScrollViewer>
 </UserControl>

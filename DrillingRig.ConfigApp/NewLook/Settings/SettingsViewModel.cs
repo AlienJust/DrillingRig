@@ -29,7 +29,9 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 		public Group106SettingsViewModel Group106SettingsVm { get; }
 		public Group107SettingsViewModel Group107SettingsVm { get; }
 
-		public SettingsViewModel(IUserInterfaceRoot userInterfaceRoot, ILogger logger, IAinSettingsReaderWriter ainSettingsReadedWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
+		public ImportExportViewModel ImportExportVm { get; set; }
+
+		public SettingsViewModel(IUserInterfaceRoot userInterfaceRoot, ILogger logger, IAinSettingsReaderWriter ainSettingsReadedWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
 			Group20SettingsVm = new Group20SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group22SettingsVm = new Group22SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group23SettingsVm = new Group23SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
@@ -48,6 +50,8 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			Group105SettingsVm = new Group105SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group106SettingsVm = new Group106SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group107SettingsVm = new Group107SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);
+
+			ImportExportVm = new ImportExportViewModel(ainSettingsStorageSettable, storageUpdatedNotify);
 		}
 	}
 }

@@ -316,7 +316,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 						_cycleThreadHolder,
 						_ainSettingsReader,
 						_ainSettingsReadNotify,
-						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageUpdatedNotify);
+						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify);
 
 				var mainWindow = new MainWindow(appThreadNotifier, () =>
 					{
