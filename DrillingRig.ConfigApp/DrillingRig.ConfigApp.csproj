@@ -200,6 +200,7 @@
     <Compile Include="AppControl\AinsCounter\AinsCountInSystemHasBeenChangedDelegate.cs" />
     <Compile Include="AppControl\AinsCounter\IAinsCounterRaisable.cs" />
     <Compile Include="AppControl\AinsCounter\AinsCounterThreadSafe.cs" />
+    <Compile Include="AppControl\AinSettingsRead\IAinSettingsReadNotifyRaisable.cs" />
     <Compile Include="AppControl\AinSettingsStorage\AinSettingsStorageThreadSafe.cs" />
     <Compile Include="AppControl\AinSettingsStorage\StoredSettingsUpdatedDelegate.cs" />
     <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageUpdatedNotify.cs" />

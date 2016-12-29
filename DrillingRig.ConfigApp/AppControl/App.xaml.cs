@@ -55,6 +55,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 		private IAinSettingsReader _ainSettingsReader;
 		private IAinSettingsReadNotify _ainSettingsReadNotify;
+		private IAinSettingsReadNotifyRaisable _ainSettingsReadNotifyRaisable;
 		private IAinSettingsWriter _ainSettingsWriter;
 
 		private AutoTimeSetter _autoTimeSetter;
@@ -185,6 +186,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			var ainSettingsReader = new AinSettingsReader(_cmdSenderHost, _targetAddressHost, _commonLogger, _ainSettingsStorageSettable, _debugLogger);
 			_ainSettingsReader = ainSettingsReader;
 			_ainSettingsReadNotify = ainSettingsReader;
+			_ainSettingsReadNotifyRaisable = ainSettingsReader;
 
 			_ainSettingsWriter = new AinSettingsWriter(_cmdSenderHost, _targetAddressHost, _ainsCounterRaisable, _ainSettingsReader);
 			_autoTimeSetter = new AutoTimeSetter(_cmdSenderHost, _notifySendingEnabled, _targetAddressHost, _commonLogger);
@@ -316,6 +318,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 						_cycleThreadHolder,
 						_ainSettingsReader,
 						_ainSettingsReadNotify,
+						_ainSettingsReadNotifyRaisable,
 						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify);
 
 				var mainWindow = new MainWindow(appThreadNotifier, () =>

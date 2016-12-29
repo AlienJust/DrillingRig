@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace DrillingRig.Commands.AinSettings {
-	static class AinTelemetryFanWorkmodeExtensions {
+	public static class AinTelemetryFanWorkmodeExtensions {
 		public static AinTelemetryFanWorkmode FromIoBits(int bits) {
 			switch (bits) {
 				case 0:

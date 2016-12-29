@@ -9,7 +9,7 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
-	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify {
+	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify, IAinSettingsReadNotifyRaisable {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly ILogger _logger;
@@ -106,6 +106,16 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 		private void FireEventAinSettingsReadStarted(byte zbAinNumber) {
 			var eve = AinSettingsReadStarted;
 			eve?.Invoke(zbAinNumber);
+		}
+
+		public void RaiseAinSettingsReadStarted(byte zbAinNumber)
+		{
+			_notifyWorker.AddWork(() => FireEventAinSettingsReadStarted(zbAinNumber));
+		}
+
+		public void RaiseAinSettingsReadComplete(byte zbAinNumber, Exception innerException, IAinSettings settings)
+		{
+			_notifyWorker.AddWork(() => FireEventAinSettingsReadComplete(zbAinNumber, innerException, settings));
 		}
 	}
 }
