@@ -63,7 +63,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 								RaiseAnotherLogLineWasReaded(null);
 							}
 						});
-					Thread.Sleep(1000);
+					Thread.Sleep(500);
 				}
 			}
 		}
