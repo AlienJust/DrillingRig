@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Input;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.Reflection;
 using DrillingRig.Commands.BsEthernetLogs;
@@ -20,6 +21,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 		public Action<string> AppendTextAction { get; set; }
 
 		private IBsEthernetLogLine _lastLogLine;
+		private int _errorsCount;
 
 		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
 			_uiRoot = uiRoot;
@@ -30,6 +32,8 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 			_closingWindowCommand = new RelayCommand(WindowClosing, () => true);
 			_lastLogLine = null;
 
+			_errorsCount = 0;
+
 			_model = new ReadCycleModel(commandSenderHost, targetAddressHost, notifySendingEnabled);
 			_model.AnotherLogLineWasReaded += ModelOnAnotherLogLineWasReaded; // TODO: unsubscribe on win close, also _destroy model
 		}
@@ -37,10 +41,14 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 
 		private void ModelOnAnotherLogLineWasReaded(IBsEthernetLogLine logLine) {
 			_uiRoot.Notifier.Notify(() => {
-				if (logLine == null) AppendTextAction.Invoke(Environment.NewLine + "[ER]");
+				if (logLine == null)
+				{
+					if (_errorsCount <=5) _errorsCount++;
+					if (_errorsCount == 5) AppendTextAction.Invoke(Environment.NewLine + "[ER]");
+				}
 				else
 				{
-
+					_errorsCount = 0;
 					if (_lastLogLine == null || _lastLogLine.Number != logLine.Number)
 					{
 						AppendTextAction.Invoke(Environment.NewLine + "[OK] " + logLine.Number.ToString("d5") + " > " + logLine.Content);
@@ -75,5 +83,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 				}
 			}
 		}
+
+		public ICommand ClosingWindowCommand => _closingWindowCommand;
 	}
 }
