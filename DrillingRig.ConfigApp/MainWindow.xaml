@@ -5,10 +5,10 @@
 		xmlns:telemetry="clr-namespace:DrillingRig.ConfigApp.Telemetry" xmlns:settings="clr-namespace:DrillingRig.ConfigApp.Settings"
 		xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook" xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
 		xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme" xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
-		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900"
-		ResizeMode="CanResizeWithGrip" SaveWindowPosition="True" Background="{DynamicResource WindowBackgroundBrush}" GlowBrush="{DynamicResource AccentColorBrush}"
-		WindowTransitionsEnabled="False" NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="True" Closing="MetroWindow_Closing"
-		Closed="MetroWindow_Closed">
+		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:windowControl="clr-namespace:DrillingRig.ConfigApp.WindowControl"
+		Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True"
+		Background="{DynamicResource WindowBackgroundBrush}" GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False"
+		NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="True" Closing="MetroWindow_Closing" Closed="MetroWindow_Closed">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -86,8 +86,10 @@
 			<TabItem Header="Дополнительно">
 				<oldLook:OldLookView DataContext="{Binding Path=OldLookVm, Mode=OneTime}" />
 			</TabItem>
-			<TabItem Header="Рома">
-
+			<TabItem Header="Автонастройка">
+			</TabItem>
+			<TabItem Header="Окна">
+				<windowControl:WindowControlView DataContext="{Binding Path=WindowControlVm, Mode=OneTime}" />
 			</TabItem>
 		</TabControl>
 		<GridSplitter Grid.Row="1" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{DynamicResource AccentColorBrush}"

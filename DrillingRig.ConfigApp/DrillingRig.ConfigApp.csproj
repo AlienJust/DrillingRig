@@ -231,6 +231,9 @@
     </Compile>
     <Compile Include="BsEthernetLogs\WindowViewModel.cs" />
     <Compile Include="DebugLogger.cs" />
+    <Compile Include="EngineAutoSetup\EngineAutoSetupView.xaml.cs">
+      <DependentUpon>EngineAutoSetupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
     </Compile>
@@ -518,6 +521,9 @@
       <DependentUpon>TelemetryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewLook\Telemetry\TelemetryViewModel.cs" />
+    <Compile Include="WindowControl\WindowControlView.xaml.cs">
+      <DependentUpon>WindowControlView.xaml</DependentUpon>
+    </Compile>
     <Page Include="AciIdentify\AciIdentifyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -539,6 +545,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BsEthernetLogs\WindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EngineAutoSetup\EngineAutoSetupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -838,6 +848,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewLook\Telemetry\TelemetryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowControl\WindowControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

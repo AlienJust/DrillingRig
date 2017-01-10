@@ -29,6 +29,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 			_syncStop = new object();
 			_syncEnabled = new object();
 
+			_isReadCycleEnabled = true;
 			_isStopFlagRaised = false;
 			_conditionsChangedWaiter = new ManualResetEventSlim(false);
 
