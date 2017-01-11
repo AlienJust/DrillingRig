@@ -6,7 +6,8 @@
 		xmlns:oldLook="clr-namespace:DrillingRig.ConfigApp.OldLook" xmlns:archive="clr-namespace:DrillingRig.ConfigApp.NewLook.Archive"
 		xmlns:mnemonicCheme="clr-namespace:DrillingRig.ConfigApp.MnemonicCheme" xmlns:logs="clr-namespace:DrillingRig.ConfigApp.Logs"
 		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:windowControl="clr-namespace:DrillingRig.ConfigApp.WindowControl"
-		Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True"
+                      xmlns:engineAutoSetup="clr-namespace:DrillingRig.ConfigApp.EngineAutoSetup"
+                      Title="Конфигурация БС-Ethernet" TitleCharacterCasing="Normal" Height="1000" Width="900" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True"
 		Background="{DynamicResource WindowBackgroundBrush}" GlowBrush="{DynamicResource AccentColorBrush}" WindowTransitionsEnabled="False"
 		NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush3}" ShowActivated="True" Closing="MetroWindow_Closing" Closed="MetroWindow_Closed">
 	<Window.Resources>
@@ -87,6 +88,7 @@
 				<oldLook:OldLookView DataContext="{Binding Path=OldLookVm, Mode=OneTime}" />
 			</TabItem>
 			<TabItem Header="Автонастройка">
+				<engineAutoSetup:EngineAutoSetupView/>
 			</TabItem>
 			<TabItem Header="Окна">
 				<windowControl:WindowControlView DataContext="{Binding Path=WindowControlVm, Mode=OneTime}" />

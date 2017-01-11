@@ -42,9 +42,9 @@ namespace DrillingRig.Commands.AinTelemetry {
 			bool driver6HasErrors,
 			bool somePhaseMaximumAlowedCurrentExcess,
 			bool radiatorKeysTemperatureRiseTo85DegreesExcess,
-			bool allowedDcVoltageExcess,
+			bool allowedDcVoltageExcess, bool noLinkOnSyncLine, bool externalTemperatureLimitExcess, bool rotationFriquecnySensorFault,
 			bool eepromI2CErrorDefaultParamsAreLoaded,
-			bool eepromCrcErrorDefaultParamsAreLoaded,
+			bool eepromCrcErrorDefaultParamsAreLoaded, bool someSlaveFault, bool configChangeDuringParallelWorkConfirmationNeed,
 			double rotationFriquencyMeasuredDcv,
 			double afterFilterSpeedControllerFeedbackFriquency,
 			double afterFilterFimag,
@@ -93,6 +93,8 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 			MomentumSetterSelector = momentumSetterSelector;
 
+
+			// Status
 			Status = status;
 
 			Driver1HasErrors = driver1HasErrors;
@@ -106,8 +108,16 @@ namespace DrillingRig.Commands.AinTelemetry {
 			RadiatorKeysTemperatureRiseTo85DegreesExcess = radiatorKeysTemperatureRiseTo85DegreesExcess;
 
 			AllowedDcVoltageExcess = allowedDcVoltageExcess;
+			NoLinkOnSyncLine = noLinkOnSyncLine;
+			ExternalTemperatureLimitExcess = externalTemperatureLimitExcess;
+			RotationFriquecnySensorFault = rotationFriquecnySensorFault;
 			EepromI2CErrorDefaultParamsAreLoaded = eepromI2CErrorDefaultParamsAreLoaded;
 			EepromCrcErrorDefaultParamsAreLoaded = eepromCrcErrorDefaultParamsAreLoaded;
+			SomeSlaveFault = someSlaveFault;
+			ConfigChangeDuringParallelWorkConfirmationNeed = configChangeDuringParallelWorkConfirmationNeed;
+
+			//=============================================================
+
 
 			RotationFriquencyMeasuredDcv = rotationFriquencyMeasuredDcv;
 			AfterFilterSpeedControllerFeedbackFriquency = afterFilterSpeedControllerFeedbackFriquency;
@@ -134,6 +144,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 			Ain1LinkFault = ain1LinkFault;
 			Ain2LinkFault = ain2LinkFault;
 			Ain3LinkFault = ain3LinkFault;
+
 		}
 
 		public ushort CommonEngineState { get; }
@@ -201,15 +212,22 @@ namespace DrillingRig.Commands.AinTelemetry {
 
 		public bool Driver6HasErrors { get; }
 
-		public bool SomePhaseMaximumAlowedCurrentExcess { get; }
+		public bool SomePhaseMaximumAlowedCurrentExcess { get; } // 6
+		public bool RadiatorKeysTemperatureRiseTo85DegreesExcess { get; } // 7
 
-		public bool RadiatorKeysTemperatureRiseTo85DegreesExcess { get; }
+		public bool AllowedDcVoltageExcess { get; } // 8
 
-		public bool AllowedDcVoltageExcess { get; }
+		public bool NoLinkOnSyncLine { get; } // 9
+		public bool ExternalTemperatureLimitExcess { get; } // 10
+		public bool RotationFriquecnySensorFault { get; } // 11
 
-		public bool EepromI2CErrorDefaultParamsAreLoaded { get; }
+		public bool EepromI2CErrorDefaultParamsAreLoaded { get; } // 12
+		public bool EepromCrcErrorDefaultParamsAreLoaded { get; } // 13
 
-		public bool EepromCrcErrorDefaultParamsAreLoaded { get; }
+		public bool SomeSlaveFault { get; } // 14
+		public bool ConfigChangeDuringParallelWorkConfirmationNeed { get; } // 15
+
+		//--------------------------------------------------------------------------------------------
 
 		public double RotationFriquencyMeasuredDcv { get; }
 

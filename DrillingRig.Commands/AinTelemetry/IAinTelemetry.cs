@@ -82,22 +82,44 @@ namespace DrillingRig.Commands.AinTelemetry {
 		bool LimitRegulatorFlow { get; }
 		ModeSetMomentumSetterSelector MomentumSetterSelector { get; }
 
-
+		// TODO: раз статус нужно отображать целиком - то дальнейшая его распаковка в биты должна проводиться на уровне выше
 		ushort Status { get; }
 
-		bool Driver1HasErrors { get; }
+		bool Driver1HasErrors { get; } // 0
 		bool Driver2HasErrors { get; }
 		bool Driver3HasErrors { get; }
 		bool Driver4HasErrors { get; }
 		bool Driver5HasErrors { get; }
-		bool Driver6HasErrors { get; }
+		bool Driver6HasErrors { get; } // 5
 
-		bool SomePhaseMaximumAlowedCurrentExcess { get; }
-		bool RadiatorKeysTemperatureRiseTo85DegreesExcess { get; }
+		bool SomePhaseMaximumAlowedCurrentExcess { get; } // 6
+		bool RadiatorKeysTemperatureRiseTo85DegreesExcess { get; } // 7
 
-		bool AllowedDcVoltageExcess { get; }
-		bool EepromI2CErrorDefaultParamsAreLoaded { get; }
-		bool EepromCrcErrorDefaultParamsAreLoaded { get; }
+		bool AllowedDcVoltageExcess { get; } // 8
+
+		/// <summary>
+		/// Нет связи по линии синхронизации
+		/// </summary>
+		bool NoLinkOnSyncLine { get; } // 9
+		bool ExternalTemperatureLimitExcess { get; } // 10
+		bool RotationFriquecnySensorFault { get; } // 11
+
+		bool EepromI2CErrorDefaultParamsAreLoaded { get; } // 12
+		bool EepromCrcErrorDefaultParamsAreLoaded { get; } // 13
+
+		/// <summary>
+		/// отказ одного из ведомых приборов при параллельной работе (только для ведущего)
+		/// </summary>
+		bool SomeSlaveFault { get; } // 14
+
+		/// <summary>
+		/// смена конфигурации при параллельной работе, требование подтвердить.
+		/// </summary>
+		bool ConfigChangeDuringParallelWorkConfirmationNeed { get; }
+
+		// TODO: 
+
+		//------------------------------------------------------------------------------------------------------------------
 
 		double RotationFriquencyMeasuredDcv { get; }
 		double AfterFilterSpeedControllerFeedbackFriquency { get; }

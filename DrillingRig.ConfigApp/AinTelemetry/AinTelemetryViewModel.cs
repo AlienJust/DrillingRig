@@ -61,11 +61,10 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		public string RunModeBits12 {
 			get { // TODO: move to static class
 				if (_telemetry == null) return string.Empty;
-				switch (_telemetry.RunModeBits12)
-				{
-					case ModeSetRunModeBits12.Freewell: 
+				switch (_telemetry.RunModeBits12) {
+					case ModeSetRunModeBits12.Freewell:
 						return "Выбег";
-					case ModeSetRunModeBits12.Traction: 
+					case ModeSetRunModeBits12.Traction:
 						return "Тяга";
 					case ModeSetRunModeBits12.Unknown2:
 						return "Штатный останов";
@@ -108,28 +107,29 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		}
 
 
-
+		// STATUS Bits:
 		public bool? Driver1HasErrors => _telemetry?.Driver1HasErrors;
-
 		public bool? Driver2HasErrors => _telemetry?.Driver2HasErrors;
-
 		public bool? Driver3HasErrors => _telemetry?.Driver3HasErrors;
-
 		public bool? Driver4HasErrors => _telemetry?.Driver4HasErrors;
-
 		public bool? Driver5HasErrors => _telemetry?.Driver5HasErrors;
-
 		public bool? Driver6HasErrors => _telemetry?.Driver6HasErrors;
 
 		public bool? SomePhaseMaximumAlowedCurrentExcess => _telemetry?.SomePhaseMaximumAlowedCurrentExcess;
-
 		public bool? RadiatorKeysTemperatureRiseTo85DegreesExcess => _telemetry?.RadiatorKeysTemperatureRiseTo85DegreesExcess;
-
 		public bool? AllowedDcVoltageExcess => _telemetry?.AllowedDcVoltageExcess;
 
-		public bool? EepromI2CErrorDefaultParamsAreLoaded => _telemetry?.EepromI2CErrorDefaultParamsAreLoaded;
+		public bool? NoLinkOnSyncLine => _telemetry?.NoLinkOnSyncLine;
+		public bool? ExternalTemperatureLimitExcess => _telemetry?.ExternalTemperatureLimitExcess;
+		public bool? RotationFriquecnySensorFault => _telemetry?.RotationFriquecnySensorFault;
 
+		public bool? EepromI2CErrorDefaultParamsAreLoaded => _telemetry?.EepromI2CErrorDefaultParamsAreLoaded;
 		public bool? EepromCrcErrorDefaultParamsAreLoaded => _telemetry?.EepromCrcErrorDefaultParamsAreLoaded;
+
+		public bool? SomeSlaveFault => _telemetry?.SomeSlaveFault;
+		public bool? ConfigChangeDuringParallelWorkConfirmationNeed => _telemetry.ConfigChangeDuringParallelWorkConfirmationNeed;
+
+
 
 		public double? RotationFriquencyMeasuredDcv => _telemetry?.RotationFriquencyMeasuredDcv;
 
@@ -171,7 +171,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 		public void UpdateTelemetry(IAinTelemetry telemetry) {
 			_telemetry = telemetry;
-			
+
 			RaisePropertyChanged(() => RotationFriquencyCalculated);
 			RaisePropertyChanged(() => PwmModulationCoefficient);
 			RaisePropertyChanged(() => MomentumCurrentSetting);
@@ -245,38 +245,38 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 
-			
-				var cmd = new ReadAinTelemetryCommand(_zeroBasedAinNumber);
-				_commandSenderHost.SilentSender.SendCommandAsync(0x01,
-					cmd, TimeSpan.FromSeconds(0.1),
-					(exception, bytes) => {
-						IAinTelemetry ainTelemetry = null;
-						try {
-							if (exception != null) {
-								throw new Exception("Произошла ошибка во время обмена", exception);
-							}
-							var result = cmd.GetResult(bytes);
-							ainTelemetry = result;
+
+			var cmd = new ReadAinTelemetryCommand(_zeroBasedAinNumber);
+			_commandSenderHost.SilentSender.SendCommandAsync(0x01,
+				cmd, TimeSpan.FromSeconds(0.1),
+				(exception, bytes) => {
+					IAinTelemetry ainTelemetry = null;
+					try {
+						if (exception != null) {
+							throw new Exception("Произошла ошибка во время обмена", exception);
 						}
-						catch (Exception ex) {
-							// TODO: log exception, null values
-							//_logger.Log("Ошибка: " + ex.Message);
-							//Console.WriteLine(ex);
-						}
-						finally {
-							_userInterfaceRoot.Notifier.Notify(() => {
-								//Console.WriteLine("UserInterface thread begin action =============================");
-								//Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
-								UpdateTelemetry(ainTelemetry);
-								if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAinStatuses(ainTelemetry?.Status, null, null);
-								//Console.WriteLine("UserInterface thread end action ===============================");
-							});
-							waiter.Set();
-						}
-					});
-				waiter.WaitOne();
-				waiter.Reset();
-			}
+						var result = cmd.GetResult(bytes);
+						ainTelemetry = result;
+					}
+					catch (Exception ex) {
+						// TODO: log exception, null values
+						//_logger.Log("Ошибка: " + ex.Message);
+						//Console.WriteLine(ex);
+					}
+					finally {
+						_userInterfaceRoot.Notifier.Notify(() => {
+							//Console.WriteLine("UserInterface thread begin action =============================");
+							//Console.WriteLine("AIN viewModel zbNumber: " + _zeroBasedAinNumber);
+							UpdateTelemetry(ainTelemetry);
+							if (_zeroBasedAinNumber == 0) _commonAinTelemetryVm.UpdateAinStatuses(ainTelemetry?.Status, null, null);
+							//Console.WriteLine("UserInterface thread end action ===============================");
+						});
+						waiter.Set();
+					}
+				});
+			waiter.WaitOne();
+			waiter.Reset();
+		}
 
 		public bool Cancel {
 			get {
