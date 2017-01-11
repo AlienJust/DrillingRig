@@ -205,10 +205,17 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 
 			RaisePropertyChanged(() => SomePhaseMaximumAlowedCurrentExcess);
 			RaisePropertyChanged(() => RadiatorKeysTemperatureRiseTo85DegreesExcess);
-
 			RaisePropertyChanged(() => AllowedDcVoltageExcess);
+
+			RaisePropertyChanged(() => NoLinkOnSyncLine);
+			RaisePropertyChanged(() => ExternalTemperatureLimitExcess);
+			RaisePropertyChanged(() => RotationFriquecnySensorFault);
+
 			RaisePropertyChanged(() => EepromI2CErrorDefaultParamsAreLoaded);
 			RaisePropertyChanged(() => EepromCrcErrorDefaultParamsAreLoaded);
+
+			RaisePropertyChanged(() => SomeSlaveFault);
+			RaisePropertyChanged(() => ConfigChangeDuringParallelWorkConfirmationNeed);
 
 			RaisePropertyChanged(() => RotationFriquencyMeasuredDcv);
 			RaisePropertyChanged(() => AfterFilterSpeedControllerFeedbackFriquency);
