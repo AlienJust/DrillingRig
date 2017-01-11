@@ -41,6 +41,16 @@ namespace DrillingRig.Commands.AinTelemetry {
 		ChopperRun, //26 Чоппер запущен.
 		ReadKIs, //27 Опрос КИ.
 		ReadMOs, //28 Опрос МО.
+
+		/// <summary>
+		/// 29 Начало процедуры определения параметров двигателя
+		/// </summary>
+		AciIdentifyStart,
+
+		/// <summary>
+		/// 30 Проведение процедуры определения параметров двигателя
+		/// </summary>
+		AciIdentifyExecution,
 	}
 
 	public static class EngineStateExtensions {
@@ -108,6 +118,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 27;
 				case EngineState.ReadMOs:
 					return 28;
+				case EngineState.AciIdentifyStart:
+					return 29;
+				case EngineState.AciIdentifyExecution:
+					return 30;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -176,6 +190,10 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return "READ_KIs";
 				case EngineState.ReadMOs:
 					return "READ_MOs";
+				case EngineState.AciIdentifyStart:
+					return "ACI_IDENTIFY_START";
+				case EngineState.AciIdentifyExecution:
+					return "ACI_IDENTIFY_EXECUTION";
 
 				default:
 					throw new Exception("Cannot convert such state to ushort");
@@ -246,6 +264,11 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return EngineState.ReadKIs;
 				case 28:
 					return EngineState.ReadMOs;
+				case 29:
+					return EngineState.AciIdentifyStart;
+				case 30:
+					return EngineState.AciIdentifyExecution;
+
 
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (EngineState).Name);
