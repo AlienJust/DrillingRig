@@ -127,7 +127,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 		public bool? EepromCrcErrorDefaultParamsAreLoaded => _telemetry?.EepromCrcErrorDefaultParamsAreLoaded;
 
 		public bool? SomeSlaveFault => _telemetry?.SomeSlaveFault;
-		public bool? ConfigChangeDuringParallelWorkConfirmationNeed => _telemetry.ConfigChangeDuringParallelWorkConfirmationNeed;
+		public bool? ConfigChangeDuringParallelWorkConfirmationNeed => _telemetry?.ConfigChangeDuringParallelWorkConfirmationNeed;
 
 
 

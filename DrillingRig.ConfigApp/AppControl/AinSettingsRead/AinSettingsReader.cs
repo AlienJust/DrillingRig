@@ -9,7 +9,7 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
-	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotify, IAinSettingsReadNotifyRaisable {
+	class AinSettingsReader : IAinSettingsReader, IAinSettingsReadNotifyRaisable {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly ILogger _logger;

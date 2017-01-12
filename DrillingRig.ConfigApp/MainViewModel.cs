@@ -26,6 +26,7 @@ using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
+using DrillingRig.ConfigApp.EngineAutoSetup;
 using DrillingRig.ConfigApp.Logs;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
@@ -54,13 +55,13 @@ namespace DrillingRig.ConfigApp {
 		private readonly RelayCommand _closePortCommand;
 
 		private bool _isPortOpened;
-		
+
 		private readonly ILogger _logger;
 		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
 		private readonly ILoggerRegistrationPoint _loggerRegistrationPoint;
 		private readonly INotifySendingEnabledRaisable _notifySendingEnabled;
 
-		
+
 
 		private readonly AutoSettingsReader _autoSettingsReader;
 		private Colors _ain1StateColor;
@@ -86,7 +87,14 @@ namespace DrillingRig.ConfigApp {
 
 		private readonly IUserInterfaceRoot _uiRoot;
 		public readonly List<Color> _colors;
-		
+
+
+		public MnemonicChemeViewModel MnemonicChemeVm { get; }
+		public OldLookViewModel OldLookVm { get; }
+		public ArchivesViewModel ArchiveVm { get; }
+		public SettingsViewModel SettingsVm { get; }
+		public TelemetryViewModel TelemtryVm { get; }
+		public EngineAutoSetupViewModel EngineAutoSetupVm { get; }
 
 		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_uiRoot = uiRoot;
@@ -97,7 +105,7 @@ namespace DrillingRig.ConfigApp {
 			_targetAddressHost = targetAddressHost;
 
 			_isPortOpened = false;
-			
+
 			// Лог программы:
 			_debugLogger = debugLogger;
 			_loggerRegistrationPoint = loggerRegistrationPoint;
@@ -141,12 +149,12 @@ namespace DrillingRig.ConfigApp {
 			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsReadNotifyRaisable, ainSettingsStorage, ainSettingsStorageSettable, storageUpdatedNotify, _ainsCounterRaisable, _commandSenderHost, _targetAddressHost, _notifySendingEnabled); // TODO: can be moved to app.xaml.cs if needed
 
 			ArchiveVm = new ArchivesViewModel(
-				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0), 
+				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0),
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 1));
 
 			MnemonicChemeVm = new MnemonicChemeViewModel(Path.Combine(Environment.CurrentDirectory, "mnemoniccheme.png"));
 			OldLookVm = new OldLookViewModel(_uiRoot, windowSystem, _commandSenderHost, _targetAddressHost, _notifySendingEnabled, this, _logger, _debugLogger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger, ainSettingsStorage, storageUpdatedNotify);
-			
+
 			_ain1StateColor = Colors.Gray;
 			_ain2StateColor = Colors.Gray;
 			_ain3StateColor = Colors.Gray;
@@ -176,7 +184,7 @@ namespace DrillingRig.ConfigApp {
 						throw new Exception("Такое число АИН в системе не поддерживается");
 				}
 			};
-			
+
 			AinCommandAndCommonTelemetryVm.AinsLinkInformationHasBeenUpdated += (ain1Error, ain2Error, ain3Error) => {
 				Ain1StateColor = ain1Error.HasValue ? ain1Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
 				Ain2StateColor = ain2Error.HasValue ? ain2Error.Value ? Colors.Red : Colors.YellowGreen : Colors.Gray;
@@ -190,21 +198,14 @@ namespace DrillingRig.ConfigApp {
 				Ain3StateColor = Colors.Gray;
 			};
 
-			
+			EngineAutoSetupVm = new EngineAutoSetupViewModel(
+				new TableViewModel("Начальные значения:"),
+				new TableViewModel("После тестирования:"),
+				_notifySendingEnabled, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot);
+
 			_logger.Log("Программа загружена");
 		}
 
-		public MnemonicChemeViewModel MnemonicChemeVm { get; }
-
-		public OldLookViewModel OldLookVm { get; }
-
-		public ArchivesViewModel ArchiveVm { get; }
-
-		public SettingsViewModel SettingsVm { get; }
-
-		public TelemetryViewModel TelemtryVm { get; }
-
-		
 		private void ClosePort() {
 			try {
 				_notifySendingEnabled.SetIsSendingEnabledAndRaiseChange(false);
@@ -232,10 +233,9 @@ namespace DrillingRig.ConfigApp {
 				if (_isPortOpened) ClosePort();
 				_logger.Log("Открытие порта " + _selectedComName + "...");
 
-				if (_selectedComName == TestComPortName)
-				{
+				if (_selectedComName == TestComPortName) {
 					var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
-					var sender = new NothingBasedCommandSender(backWorker, backWorker,_debugLogger, _uiRoot.Notifier);
+					var sender = new NothingBasedCommandSender(backWorker, backWorker, _debugLogger, _uiRoot.Notifier);
 					var silentSender = new SilentNothingBasedCommandSender(backWorker, backWorker, _debugLogger, _uiRoot.Notifier);
 					_commandSenderHostSettable.SetCommandSender(sender, silentSender);
 
@@ -344,7 +344,7 @@ namespace DrillingRig.ConfigApp {
 				}
 			}
 		}
-		
+
 		public bool Ain1IsUsed {
 			get { return _ain1IsUsed; }
 			set {

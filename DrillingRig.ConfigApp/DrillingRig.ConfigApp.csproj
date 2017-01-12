@@ -234,6 +234,11 @@
     <Compile Include="EngineAutoSetup\EngineAutoSetupView.xaml.cs">
       <DependentUpon>EngineAutoSetupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EngineAutoSetup\EngineAutoSetupViewModel.cs" />
+    <Compile Include="EngineAutoSetup\TableView.xaml.cs">
+      <DependentUpon>TableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EngineAutoSetup\TableViewModel.cs" />
     <Compile Include="EngineSettings\EngineSettingsView.xaml.cs">
       <DependentUpon>EngineSettingsView.xaml</DependentUpon>
     </Compile>
@@ -549,6 +554,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EngineAutoSetup\EngineAutoSetupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EngineAutoSetup\TableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,11 +15,39 @@
 				Height="Auto" />
 			<RowDefinition
 				Height="Auto" />
-			<RowDefinition />
 		</Grid.RowDefinitions>
-		<Grid
-			Grid.Row="0">
-			<!--TODO: TestCheckBoxes are going here-->
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<CheckBox
+				Content="DC"
+				VerticalAlignment="Center" />
+			<CheckBox
+				Grid.Column="1"
+				Content="TR"
+				VerticalAlignment="Center" />
+			<CheckBox
+				Grid.Column="2"
+				Content="Leak"
+				VerticalAlignment="Center" />
+			<CheckBox
+				Grid.Column="3"
+				Content="XX"
+				VerticalAlignment="Center" />
+			<CheckBox
+				Grid.Column="4"
+				Content="Inertion"
+				VerticalAlignment="Center" />
+			<Button
+				Grid.Column="5"
+				Content="Запуск"
+				VerticalAlignment="Center" />
 		</Grid>
 		<Grid
 			Grid.Row="1">
@@ -33,247 +61,38 @@
 				<RowDefinition
 					Height="Auto" />
 			</Grid.RowDefinitions>
-			<Label
-				Content="Параметры тестов:" />
-			<StackPanel
-				Grid.Row="1"
+			<local:TableView
 				Grid.Column="0"
-				Orientation="Vertical">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Rs, Ом"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Rr, Ом"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Lsl, Lrl, Гн"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Lm, Гн"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Fl_nom, Вб"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="J, кг*м^2"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Tr, сек"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="RoverL, Рад"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-			</StackPanel>
-
-			<Label
+				DataContext="{Binding Path=LeftTable, Mode=OneTime}" />
+			<local:TableView
 				Grid.Row="0"
 				Grid.Column="1"
-				Content="Результаты:" />
-			<StackPanel
-				Grid.Row="1"
+				DataContext="{Binding Path=RightTable, Mode=OneTime}" />
+			<Grid
+				Grid.Column="0"
+				Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Button
+					Grid.Column="1"
+					Content="Записать" />
+			</Grid>
+			<Grid
 				Grid.Column="1"
-				Orientation="Vertical">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Rs, Ом"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Rr, Ом"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Lsl, Lrl, Гн"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Lm, Гн"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Fl_nom, Вб"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="J, кг*м^2"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="Tr, сек"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="1*" />
-						<ColumnDefinition
-							Width="2*" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Content="RoverL, Рад"
-						Grid.Column="0"
-						VerticalAlignment="Center" />
-					<controls:NumericUpDown
-						Grid.Column="1" />
-				</Grid>
-			</StackPanel>
+				Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Button
+					Content="Прочитать" />
+				<Button
+					Grid.Column="1"
+					Content="Записать" />
+			</Grid>
 		</Grid>
 	</Grid>
 </UserControl>
+

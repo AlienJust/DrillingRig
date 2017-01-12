@@ -26,10 +26,10 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 			if (_sendingEnabledNotifier.IsSendingEnabled) ReadSettings();
 		}
 
-
 		private void SendingEnabledNotifierOnSendingEnabledChanged(bool isSendingEnabled) {
 			if (isSendingEnabled) ReadSettings();
 			else {
+				// independed of ains count in system, zeroing all ains settings in storage:
 				_ainSettingsStorageSettable.SetSettings(0, null);
 				_ainSettingsStorageSettable.SetSettings(1, null);
 				_ainSettingsStorageSettable.SetSettings(2, null);
