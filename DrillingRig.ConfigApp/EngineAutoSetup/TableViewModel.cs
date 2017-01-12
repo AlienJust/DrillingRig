@@ -24,6 +24,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public void Update(IAinSettings settings) {
 			// TODO: get params from incoming settings!!1
 			Rs = settings?.Rs;
+			Rr = settings?.Rs / 2;
 		}
 
 		public int? Rs {
