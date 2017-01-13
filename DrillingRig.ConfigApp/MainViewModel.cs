@@ -201,7 +201,7 @@ namespace DrillingRig.ConfigApp {
 			EngineAutoSetupVm = new EngineAutoSetupViewModel(
 				new TableViewModel("Начальные значения:"),
 				new TableViewModel("После тестирования:"),
-				_notifySendingEnabled, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot, _logger, _commandSenderHost, _targetAddressHost);
+				_notifySendingEnabled, _ainSettingsReader, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot, _logger, _commandSenderHost, _targetAddressHost);
 
 			_logger.Log("Программа загружена");
 		}

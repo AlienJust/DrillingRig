@@ -12,9 +12,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest
 				case EngineTestId.RlTest:
 					return "R/L тест";
 				case EngineTestId.LslTest:
-					return "LsI";
+					return "Lsl";
 				case EngineTestId.LrlTest:
-					return "LrI";
+					return "Lrl";
 				case EngineTestId.XxTest:
 					return "ХХ Тест";
 				case EngineTestId.InertionTest:

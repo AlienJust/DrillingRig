@@ -1,5 +1,6 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.Commands.EngineTests;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
@@ -14,6 +15,9 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private int? _tr;
 		private int? _roverL;
 
+		private double? _idIqKp;
+		private double? _idIqTi;
+
 		public TableViewModel(string header) {
 			Header = header;
 		}
@@ -21,10 +25,31 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		/// <summary>
 		/// Not thread safe!
 		/// </summary>
-		public void Update(IAinSettings settings) {
-			// TODO: get params from incoming settings!!1
+		public void Update(IEngineTestResult testResult, IAinSettings settings) {
+			// TODO: define what to do if some method param value is null
 			Rs = settings?.Rs;
 			Rr = settings?.Rs / 2;
+			LslAndLrl = settings?.Lrl;
+			Lm = settings?.Lm;
+			FlNom = settings?.FiNom;
+			Tr = settings?.TauR;
+			IdIqKp = settings?.KpId;
+			//IdIqTi = settings. // TODO: ASK ROMAN
+
+			if (testResult != null) {
+				Rr = testResult.Rr;
+				J = testResult.J;
+				RoverL = testResult.RoverL;
+
+				// Берём дублирующиеся параметры из результатов только, если настройки не вычитаны
+				if (settings == null) {
+					Rs = testResult.Rs;
+					LslAndLrl = testResult.Lsl;
+					Lm = testResult.Lm;
+					FlNom = testResult.FlNom;
+					Tr = testResult.Tr;
+				}
+			}
 		}
 
 		public int? Rs {
@@ -52,7 +77,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			set {
 				if (_lslAndLrl != value) {
 					_lslAndLrl = value;
-					RaisePropertyChanged(() => _lslAndLrl);
+					RaisePropertyChanged(() => LslAndLrl);
 				}
 			}
 		}
@@ -103,6 +128,26 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				if (_roverL != value) {
 					_roverL = value;
 					RaisePropertyChanged(() => RoverL);
+				}
+			}
+		}
+
+		public double? IdIqKp {
+			get { return _idIqKp; }
+			set {
+				if (_idIqKp != value) {
+					_idIqKp = value;
+					RaisePropertyChanged(() => IdIqKp);
+				}
+			}
+		}
+
+		public double? IdIqTi {
+			get { return _idIqTi; }
+			set {
+				if (_idIqTi != value) {
+					_idIqTi = value;
+					RaisePropertyChanged(() => IdIqTi);
 				}
 			}
 		}

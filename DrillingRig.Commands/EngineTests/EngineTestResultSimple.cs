@@ -6,8 +6,8 @@ namespace DrillingRig.Commands.EngineTests {
 
 			Rs = rs;
 			Rr = rr;
-			LsI = lsI;
-			LrI = lrI;
+			Lsl = lsI;
+			Lrl = lrI;
 			Lm = lm;
 			FlNom = flNom;
 			J = j;
@@ -19,8 +19,8 @@ namespace DrillingRig.Commands.EngineTests {
 
 		public int Rs { get; }
 		public int Rr { get; }
-		public int LsI { get; }
-		public int LrI { get; }
+		public int Lsl { get; }
+		public int Lrl { get; }
 		public int Lm { get; }
 		public int FlNom { get; }
 		public int J { get; }

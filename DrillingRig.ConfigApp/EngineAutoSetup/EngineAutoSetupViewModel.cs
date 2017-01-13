@@ -14,6 +14,7 @@ using DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest;
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class EngineAutoSetupViewModel : ViewModelBase {
 		private readonly INotifySendingEnabled _notifySendingEnabled;
+		private readonly IAinSettingsReader _ainSettingsReader;
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
 		private readonly IAinSettingsWriter _ainSettingsWriter;
 		private readonly IUserInterfaceRoot _uiRoot;
@@ -23,6 +24,11 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 		private readonly RelayCommand _launchAutoSetupCmd;
 		private readonly RelayCommand _readTestResultCmd;
+
+		private readonly RelayCommand _writeLeftTestResultCmd;
+		private readonly RelayCommand _writeRightTestResultCmd;
+
+
 
 		public TableViewModel LeftTable { get; }
 		public TableViewModel RightTable { get; }
@@ -36,11 +42,12 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private bool _isInertionTestChecked;
 
 		public EngineAutoSetupViewModel(TableViewModel leftTable, TableViewModel rightTable, INotifySendingEnabled notifySendingEnabled,
-			IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IUserInterfaceRoot uiRoot,
+			IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IUserInterfaceRoot uiRoot,
 			ILogger logger, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost) {
 			LeftTable = leftTable;
 			RightTable = rightTable;
 			_notifySendingEnabled = notifySendingEnabled;
+			_ainSettingsReader = ainSettingsReader;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 			_ainSettingsWriter = ainSettingsWriter;
 			_uiRoot = uiRoot;
@@ -57,8 +64,10 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_isInertionTestChecked = false;
 
 			_launchAutoSetupCmd = new RelayCommand(LaunchAutoSetup, CheckLaunchAutoSetupPossible);
-			_readTestResultCmd = new RelayCommand(ReadTestResult, ()=>_notifySendingEnabled.IsSendingEnabled);
+			_readTestResultCmd = new RelayCommand(ReadTestResult, () => _notifySendingEnabled.IsSendingEnabled);
 
+			_writeLeftTestResultCmd = new RelayCommand(WriteLeftTestResult, () => _notifySendingEnabled.IsSendingEnabled);
+			_writeRightTestResultCmd = new RelayCommand(WriteRightTestResult, () => _notifySendingEnabled.IsSendingEnabled);
 			// finally subscribing events:
 			_notifySendingEnabled.SendingEnabledChanged += NotifySendingEnabledOnSendingEnabledChanged;
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete; //.AinSettingsUpdated += AinSettingsStorageUpdatedNotifyOnAinSettingsUpdated;
@@ -115,13 +124,33 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				(ex, reply) => {
 					if (ex != null) {
 						_logger.Log("Ошибка при получении результатов тестирования");
-						// log, return
 						return;
 					}
-					var result = cmd.GetResult(reply);
-					_logger.Log("Результаты тестирования получены");
+					_ainSettingsReader.ReadSettingsAsync(0, true, (exception, settings) => {
+						IEngineTestResult testResult;
+						try {
+							testResult = cmd.GetResult(reply);
+							_logger.Log("Результаты тестирования получены");
+						}
+						catch {
+							testResult = null;
+							_logger.Log("Произошла ошибка во время разбора прочитаных результатов тестирования");
+						}
+
+						_logger.Log(exception != null ? "Не удалось прочитать настройки АИН №1 после тестирования двигателя" : "Настройки АИН №1 успешно прочитаны после тестирования двигателя");
+						_uiRoot.Notifier.Notify(() => { RightTable.Update(testResult, settings); });
+					});
 				});
 		}
+
+		private void WriteLeftTestResult() {
+			_logger.Log("Запись результатов тестирования (откат на начальные значения)");
+		}
+
+		private void WriteRightTestResult() {
+			_logger.Log("Запись результатов тестирования");
+		}
+
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
 			// Сработает в том числе при отключении от com-port'a; будут переданы settings = null
@@ -129,11 +158,11 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				if (_needToUpdateLeftTable && settings != null) {
 					_uiRoot.Notifier.Notify(() => {
 						_needToUpdateLeftTable = false;
-						LeftTable.Update(settings);
+						LeftTable.Update(null, settings);
 					});
 
 				}
-				RightTable.Update(settings);
+				RightTable.Update(null, settings);
 			}
 		}
 
@@ -142,6 +171,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				_needToUpdateLeftTable = true;
 				_launchAutoSetupCmd.RaiseCanExecuteChanged();
 				_readTestResultCmd.RaiseCanExecuteChanged();
+				_writeLeftTestResultCmd.RaiseCanExecuteChanged();
+				_writeRightTestResultCmd.RaiseCanExecuteChanged();
 			});
 		}
 
@@ -188,5 +219,9 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		public ICommand ReadTestResultCmd => _readTestResultCmd;
+
+		public ICommand WriteLeftTestResultCmd => _writeLeftTestResultCmd;
+
+		public ICommand WriteRightTestResultCmd => _writeRightTestResultCmd;
 	}
 }

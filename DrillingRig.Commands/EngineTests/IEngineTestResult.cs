@@ -7,8 +7,8 @@ namespace DrillingRig.Commands.EngineTests {
 
 		int Rs { get; }
 		int Rr { get; }
-		int LsI { get; }
-		int LrI { get; }
+		int Lsl { get; }
+		int Lrl { get; }
 		int Lm { get; }
 		int FlNom { get; }
 		int J { get; }
