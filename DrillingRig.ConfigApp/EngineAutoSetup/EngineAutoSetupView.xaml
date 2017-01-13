@@ -94,7 +94,8 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<Button
-					Content="Прочитать" />
+					Content="Прочитать" 
+					Command="{Binding Path=ReadTestResultCmd, Mode=OneTime}"/>
 				<Button
 					Grid.Column="1"
 					Content="Записать" />

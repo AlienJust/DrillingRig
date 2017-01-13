@@ -143,8 +143,8 @@ namespace DrillingRig.ConfigApp.AppControl {
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.Green, ConsoleColor.Black),
-						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", true, false, false), new DateTimeFormatter(" > ") })),
-					new StackTraceFormatterNothing()),
+						new ChainedFormatter(new List<ITextFormatter> { new ThreadFormatter(" > ", false, true, false), new DateTimeFormatter(" > ") })),
+					new StackTraceFormatterWithNullSuport(" > ", string.Empty)),
 				new RelayLoggerWithStackTrace(
 					new RelayLogger(
 						new ColoredConsoleLogger(ConsoleColor.White, ConsoleColor.Black),

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Windows.Input;
+using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.Commands.EngineTests;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
+using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
+using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class EngineAutoSetupViewModel : ViewModelBase {
@@ -12,8 +17,13 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
 		private readonly IAinSettingsWriter _ainSettingsWriter;
 		private readonly IUserInterfaceRoot _uiRoot;
+		private readonly ILogger _logger;
+		private readonly ICommandSenderHost _commandSenderHost;
+		private readonly ITargetAddressHost _targetAddressHost;
 
 		private readonly RelayCommand _launchAutoSetupCmd;
+		private readonly RelayCommand _readTestResultCmd;
+
 		public TableViewModel LeftTable { get; }
 		public TableViewModel RightTable { get; }
 
@@ -25,13 +35,18 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private bool _isXxTestChecked;
 		private bool _isInertionTestChecked;
 
-		public EngineAutoSetupViewModel(TableViewModel leftTable, TableViewModel rightTable, INotifySendingEnabled notifySendingEnabled, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IUserInterfaceRoot uiRoot) {
+		public EngineAutoSetupViewModel(TableViewModel leftTable, TableViewModel rightTable, INotifySendingEnabled notifySendingEnabled,
+			IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IUserInterfaceRoot uiRoot,
+			ILogger logger, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost) {
 			LeftTable = leftTable;
 			RightTable = rightTable;
 			_notifySendingEnabled = notifySendingEnabled;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 			_ainSettingsWriter = ainSettingsWriter;
 			_uiRoot = uiRoot;
+			_logger = logger;
+			_commandSenderHost = commandSenderHost;
+			_targetAddressHost = targetAddressHost;
 
 			_needToUpdateLeftTable = true; // on app start we have no settings:
 
@@ -42,7 +57,9 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_isInertionTestChecked = false;
 
 			_launchAutoSetupCmd = new RelayCommand(LaunchAutoSetup, CheckLaunchAutoSetupPossible);
+			_readTestResultCmd = new RelayCommand(ReadTestResult, ()=>_notifySendingEnabled.IsSendingEnabled);
 
+			// finally subscribing events:
 			_notifySendingEnabled.SendingEnabledChanged += NotifySendingEnabledOnSendingEnabledChanged;
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete; //.AinSettingsUpdated += AinSettingsStorageUpdatedNotifyOnAinSettingsUpdated;
 		}
@@ -54,8 +71,56 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			return _notifySendingEnabled.IsSendingEnabled;
 		}
 
+		private EngineTestId BuildTestMask() {
+			var testId = EngineTestId.AutoSetupOnly;
+
+			if (_isDcTestChecked) testId = testId | EngineTestId.DcTest;
+			if (_isTrTestChecked) testId = testId | EngineTestId.RlTest;
+			if (_isLeakTestChecked) testId = testId | EngineTestId.LrlTest | EngineTestId.LslTest;
+			if (_isXxTestChecked) testId = testId | EngineTestId.XxTest;
+			if (_isInertionTestChecked) testId = testId | EngineTestId.InertionTest;
+
+			return testId;
+		}
+
 		private void LaunchAutoSetup() {
-			throw new NotImplementedException();
+			var engineTestParams = new EngineTestParamsBuilderAciIdentifyIni("aci_identify.ini").Build();
+			var testMask = BuildTestMask();
+			var cmd = new EngineTestLaunchCommand(testMask, engineTestParams);
+
+			_logger.Log("Запуск тестирования двигателя (" + ((byte)testMask).ToString("X2") + ")");
+			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
+				cmd,
+				TimeSpan.FromMilliseconds(200),
+				(ex, reply) => {
+					if (ex != null) {
+						_logger.Log("Во время запуска тестирования произошли ошибки");
+						return;
+					}
+					try {
+						var result = cmd.GetResult(reply);
+						_logger.Log(result ? "Получено подтверждение от БС-Ethernet об успешном запуске тестирования" : "БС-Ethernet сообщило о невозможности запуска тестирования");
+					}
+					catch (Exception e) {
+						_logger.Log("Ошибка при разборе ответа на команду запуска тестирования");
+					}
+				});
+		}
+
+		private void ReadTestResult() {
+			var cmd = new EngineTestReadResultCommand();
+			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
+				cmd,
+				TimeSpan.FromMilliseconds(200),
+				(ex, reply) => {
+					if (ex != null) {
+						_logger.Log("Ошибка при получении результатов тестирования");
+						// log, return
+						return;
+					}
+					var result = cmd.GetResult(reply);
+					_logger.Log("Результаты тестирования получены");
+				});
 		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
@@ -76,6 +141,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_uiRoot.Notifier.Notify(() => {
 				_needToUpdateLeftTable = true;
 				_launchAutoSetupCmd.RaiseCanExecuteChanged();
+				_readTestResultCmd.RaiseCanExecuteChanged();
 			});
 		}
 
@@ -88,7 +154,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 					_isDcTestChecked = value; RaisePropertyChanged(() => IsDcTestChecked);
 					if (!_isDcTestChecked) {
 						_isTrTestChecked = false;
-						RaisePropertyChanged(()=>IsTrTestChecked);
+						RaisePropertyChanged(() => IsTrTestChecked);
 					}
 				}
 			}
@@ -120,5 +186,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			get { return _isInertionTestChecked; }
 			set { if (_isInertionTestChecked != value) { _isInertionTestChecked = value; RaisePropertyChanged(() => IsInertionTestChecked); } }
 		}
+
+		public ICommand ReadTestResultCmd => _readTestResultCmd;
 	}
 }

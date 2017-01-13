@@ -113,8 +113,8 @@ namespace DrillingRig.ConfigApp {
 			// разрешение к отправке (COM-порт открыт/закрыт)
 			_notifySendingEnabled = notifySendingEnabled;
 
-			_programLogVm = new ProgramLogViewModel(_uiRoot, _debugLogger);
-			_logger = new RelayLogger(_programLogVm, new DateTimeFormatter(" > "));
+			_programLogVm = new ProgramLogViewModel(_uiRoot, _debugLogger, new DateTimeFormatter(" > "));
+			_logger = new RelayLogger(_programLogVm);
 			_loggerRegistrationPoint.RegisterLoggegr(_logger);
 
 			GetPortsAvailable();
@@ -201,7 +201,7 @@ namespace DrillingRig.ConfigApp {
 			EngineAutoSetupVm = new EngineAutoSetupViewModel(
 				new TableViewModel("Начальные значения:"),
 				new TableViewModel("После тестирования:"),
-				_notifySendingEnabled, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot);
+				_notifySendingEnabled, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot, _logger, _commandSenderHost, _targetAddressHost);
 
 			_logger.Log("Программа загружена");
 		}

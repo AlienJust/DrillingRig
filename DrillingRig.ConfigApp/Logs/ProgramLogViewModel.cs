@@ -1,22 +1,24 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
+using AlienJust.Support.Text.Contracts;
 
 namespace DrillingRig.ConfigApp.Logs
 {
 	internal class ProgramLogViewModel : ViewModelBase, ILogger {
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
 		private readonly IMultiLoggerWithStackTrace<int> _debugLogger;
+		private readonly ITextFormatter _formatter;
 		private readonly ObservableCollection<ILogLine> _logLines;
 
 		private bool _scrollAutomaticly;
 		private ILogLine _selectedLine;
 
-		public ProgramLogViewModel(IUserInterfaceRoot userInterfaceRoot, IMultiLoggerWithStackTrace<int> debugLogger) {
+		public ProgramLogViewModel(IUserInterfaceRoot userInterfaceRoot, IMultiLoggerWithStackTrace<int> debugLogger, ITextFormatter formatter) {
 			_userInterfaceRoot = userInterfaceRoot;
 			_debugLogger = debugLogger;
+			_formatter = formatter;
 			_logLines = new ObservableCollection<ILogLine>();
 
 			ClearLogCmd = new RelayCommand(ClearLog);
@@ -44,11 +46,11 @@ namespace DrillingRig.ConfigApp.Logs
 
 		public void Log(string text) {
 			_userInterfaceRoot.Notifier.Notify(() => {
-				var logLine = new LogLineSimple(text);
+				var logLine = new LogLineSimple(_formatter.Format(text));
 				LogLines.Add(logLine);
 				if (ScrollAutomaticly) SelectedLine = logLine;
 			});
-			_debugLogger.GetLogger(5).Log(text, new StackTrace());
+			_debugLogger.GetLogger(5).Log(text, null);
 		}
 
 		public void Log(object obj) {

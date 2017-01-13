@@ -275,13 +275,8 @@
       <DependentUpon>WindowChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Chart\WindowChartViewModel.cs" />
-    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestIdExtensions.cs" />
-    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestParamsBuilderAciIdentifyIni.cs" />
-    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestView.xaml.cs">
-      <DependentUpon>EngineTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LookedLikeAbb\EngingeTest\EngineTestViewModel.cs" />
-    <Compile Include="LookedLikeAbb\EngingeTest\TestViewModel.cs" />
+    <Compile Include="EngineAutoSetup\EngineTestIdExtensions.cs" />
+    <Compile Include="EngineAutoSetup\EngineTestParamsBuilderAciIdentifyIni.cs" />
     <Compile Include="LookedLikeAbb\Group07Parameters\McwParameter\McwParameterView.xaml.cs">
       <DependentUpon>McwParameterView.xaml</DependentUpon>
     </Compile>
@@ -598,10 +593,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LookedLikeAbb\Chart\WindowChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LookedLikeAbb\EngingeTest\EngineTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

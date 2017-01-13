@@ -39,9 +39,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			Group25SettingsVm = new Group25SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group26SettingsVm = new Group26SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group27SettingsVm = new Group27SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
-			Group99SettingsVm = new Group99SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter,
-				ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter, commandSenderHost, targetAddressHost,
-				notifySendingEnabled);
+			Group99SettingsVm = new Group99SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group100SettingsVm = new Group100SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group101SettingsVm = new Group101SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group102SettingsVm = new Group102SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);

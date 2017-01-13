@@ -73,7 +73,7 @@ namespace DrillingRig.Commands.EngineTests {
 		public int ReplyLength => 1;
 
 		public byte[] GetTestReply() {
-			return new byte[0];
+			return new byte[] {0};
 		}
 	}
 }
