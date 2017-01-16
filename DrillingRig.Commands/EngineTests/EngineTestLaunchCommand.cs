@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DrillingRid.Commands.Contracts;
-using DrillingRig.Commands.BsEthernetSettings;
 
 namespace DrillingRig.Commands.EngineTests {
 	public class EngineTestLaunchCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply {
@@ -44,6 +43,7 @@ namespace DrillingRig.Commands.EngineTests {
 			result.AddRange(GetBytesLe(_testParams.TauI));//= 7e-3 
 			result.AddRange(GetBytesLe(_testParams.TauFi));//= 50e-3;
 			result.AddRange(GetBytesLe(_testParams.TauSpd));
+			result.AddRange(GetBytesLe(_testParams.F0));
 
 			return result.ToArray();
 		}

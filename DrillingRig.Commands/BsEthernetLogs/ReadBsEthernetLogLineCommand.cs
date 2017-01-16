@@ -30,7 +30,7 @@ namespace DrillingRig.Commands.BsEthernetLogs {
 			return new BsEthernetLogLineSimple(logLineNumber, logLineContent);
 		}
 
-		public int ReplyLength => 202;
+		public int ReplyLength => 242;
 
 		public byte[] GetTestReply() {
 			var rnd = new Random();

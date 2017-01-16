@@ -7,7 +7,7 @@
 	xmlns:local="clr-namespace:DrillingRig.ConfigApp.EngineAutoSetup"
 	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
 	mc:Ignorable="d"
-	d:DesignHeight="500"
+	d:DesignHeight="725"
 	d:DesignWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -49,7 +49,20 @@
 					Height="Auto" />
 				<RowDefinition
 					Height="Auto" />
-				
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
 			</Grid.RowDefinitions>
 			<Label
 				Content="Rs, Ом"
@@ -159,6 +172,83 @@
 				Grid.Row="9"
 				Grid.Column="1"
 				Value="{Binding Path=IdIqTi, Mode=TwoWay}" />
+
+			<Label
+				Content="ID IQ Ki"
+				Grid.Row="10"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="10"
+				Grid.Column="1"
+				Value="{Binding Path=IdIqKi, Mode=TwoWay}" />
+
+			<Label
+				Content="Flux Kp"
+				Grid.Row="11"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="11"
+				Grid.Column="1"
+				Value="{Binding Path=FluxKp, Mode=TwoWay}" />
+
+			<Label
+				Content="Flux Ti"
+				Grid.Row="12"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="12"
+				Grid.Column="1"
+				Value="{Binding Path=FluxTi, Mode=TwoWay}" />
+
+			<Label
+				Content="Flux Ki"
+				Grid.Row="13"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="13"
+				Grid.Column="1"
+				Value="{Binding Path=FluxKi, Mode=TwoWay}" />
+
+			<Label
+				Content="Speed Kp"
+				Grid.Row="14"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="14"
+				Grid.Column="1"
+				Value="{Binding Path=SpeedKp, Mode=TwoWay}" />
+
+			<Label
+				Content="Speed Ti"
+				Grid.Row="15"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="15"
+				Grid.Column="1"
+				Value="{Binding Path=SpeedTi, Mode=TwoWay}" />
+
+			<Label
+				Content="Speed Ki"
+				Grid.Row="16"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				HorizontalContentAlignment="Right" />
+			<controls:NumericUpDown
+				Grid.Row="16"
+				Grid.Column="1"
+				Value="{Binding Path=SpeedKi, Mode=TwoWay}" />
 		</Grid>
 	</Grid>
 </UserControl>

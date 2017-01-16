@@ -17,6 +17,15 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 		private double? _idIqKp;
 		private double? _idIqTi;
+		private double? _idIqKi;
+
+		private double? _fluxKp;
+		private double? _fluxTi;
+		private double? _fluxKi;
+
+		private double? _speedKp;
+		private double? _speedTi;
+		private double? _speedKi;
 
 		public TableViewModel(string header) {
 			Header = header;
@@ -33,8 +42,18 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			Lm = settings?.Lm;
 			FlNom = settings?.FiNom;
 			Tr = settings?.TauR;
+
 			IdIqKp = settings?.KpId;
-			//IdIqTi = settings. // TODO: ASK ROMAN
+			//IdIqTi = settings?. // TODO: ASK ROMAN
+			IdIqKi = settings?.KiId;
+
+			FluxKp = settings?.KpFi;
+			//FluxTi = settings?. // TODO: ASK ROMAN
+			FluxKi = settings?.KiFi;
+
+			SpeedKp = settings?.KpW;
+			//SpeedKp = settings?. // TODO: ASK ROMAN
+			SpeedKi = settings?.KiW;
 
 			if (testResult != null) {
 				Rr = testResult.Rr;
@@ -148,6 +167,73 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				if (_idIqTi != value) {
 					_idIqTi = value;
 					RaisePropertyChanged(() => IdIqTi);
+				}
+			}
+		}
+
+		public double? IdIqKi {
+			get { return _idIqKi; }
+			set {
+				if (_idIqKi != value) {
+					_idIqKi = value;
+					RaisePropertyChanged(() => IdIqKi);
+				}
+			}
+		}
+
+
+		public double? FluxKp {
+			get { return _fluxKp; }
+			set {
+				if (_fluxKp != value) {
+					_fluxKp = value;
+					RaisePropertyChanged(() => FluxKp);
+				}
+			}
+		}
+		public double? FluxTi {
+			get { return _fluxTi; }
+			set {
+				if (_fluxTi != value) {
+					_fluxTi = value;
+					RaisePropertyChanged(() => FluxTi);
+				}
+			}
+		}
+		public double? FluxKi {
+			get { return _fluxKi; }
+			set {
+				if (_fluxKi != value) {
+					_fluxKi = value;
+					RaisePropertyChanged(() => FluxKi);
+				}
+			}
+		}
+
+		public double? SpeedKp {
+			get { return _speedKp; }
+			set {
+				if (_speedKp != value) {
+					_speedKp = value;
+					RaisePropertyChanged(() => SpeedKp);
+				}
+			}
+		}
+		public double? SpeedTi {
+			get { return _speedTi; }
+			set {
+				if (_speedTi != value) {
+					_speedTi = value;
+					RaisePropertyChanged(() => SpeedTi);
+				}
+			}
+		}
+		public double? SpeedKi {
+			get { return _speedKi; }
+			set {
+				if (_speedKi != value) {
+					_speedKi = value;
+					RaisePropertyChanged(() => SpeedKi);
 				}
 			}
 		}

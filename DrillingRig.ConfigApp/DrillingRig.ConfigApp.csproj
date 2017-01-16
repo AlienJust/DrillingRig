@@ -235,6 +235,7 @@
       <DependentUpon>EngineAutoSetupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EngineAutoSetup\EngineAutoSetupViewModel.cs" />
+    <Compile Include="EngineAutoSetup\EngineTestParamsSetAllFirst.cs" />
     <Compile Include="EngineAutoSetup\TableView.xaml.cs">
       <DependentUpon>TableView.xaml</DependentUpon>
     </Compile>

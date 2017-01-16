@@ -23,5 +23,6 @@ namespace DrillingRig.Commands.EngineTests
 		float TauI { get; }//= 7e-3 
 		float TauFi { get; }//= 50e-3;
 		float TauSpd { get; }
+		float F0 { get; } // default is: 2160.0
 	}
 }
