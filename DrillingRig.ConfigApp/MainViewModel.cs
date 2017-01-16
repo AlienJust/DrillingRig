@@ -25,6 +25,7 @@ using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.BsEthernetLogs;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.EngineAutoSetup;
 using DrillingRig.ConfigApp.Logs;
@@ -96,7 +97,7 @@ namespace DrillingRig.ConfigApp {
 		public TelemetryViewModel TelemtryVm { get; }
 		public EngineAutoSetupViewModel EngineAutoSetupVm { get; }
 
-		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, ReadCycleModel bsEthernetReadCycleModel) {
 			_uiRoot = uiRoot;
 			_colors = colors;
 
@@ -131,6 +132,7 @@ namespace DrillingRig.ConfigApp {
 			_ainSettingsReader = ainSettingsReader;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 			_ainSettingsWriter = ainSettingsWriter;
+
 			// Блоки АИН в системе:
 			AinsCountInSystem = new List<int> { 1, 2, 3 };
 			SelectedAinsCount = AinsCountInSystem.First();
@@ -201,7 +203,7 @@ namespace DrillingRig.ConfigApp {
 			EngineAutoSetupVm = new EngineAutoSetupViewModel(
 				new TableViewModel("Начальные значения:"),
 				new TableViewModel("После тестирования:"),
-				_notifySendingEnabled, _ainSettingsReader, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot, _logger, _commandSenderHost, _targetAddressHost);
+				_notifySendingEnabled, _ainSettingsReader, _ainSettingsReadNotify, _ainSettingsWriter, _uiRoot, _logger, _commandSenderHost, _targetAddressHost, bsEthernetReadCycleModel);
 
 			_logger.Log("Программа загружена");
 		}

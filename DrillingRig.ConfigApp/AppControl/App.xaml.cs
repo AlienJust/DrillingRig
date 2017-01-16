@@ -65,6 +65,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 		private IAinSettingsStorageSettable _ainSettingsStorageSettable;
 		private IAinSettingsStorageUpdatedNotify _ainSettingsStorageUpdatedNotify;
 
+		private BsEthernetLogs.ReadCycleModel _bsEthernetReadCycleModel;
 
 		private void App_OnStartup(object sender, StartupEventArgs e) {
 			var colors = new List<Color> {
@@ -207,6 +208,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				}
 			};
 
+			_bsEthernetReadCycleModel = new BsEthernetLogs.ReadCycleModel(_cmdSenderHost, targetAddressHost, notifySendingEnabled);
 
 			List<Action> closeChildWindowsActions = new List<Action>();
 
@@ -282,7 +284,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			{
 				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var logWindow = new BsEthernetLogs.WindowView {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _cmdSenderHost, _targetAddressHost, _notifySendingEnabled) };
+				var logWindow = new BsEthernetLogs.WindowView {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _bsEthernetReadCycleModel) };
 				logWindow.Show();
 
 				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => logWindow.Close()));
@@ -319,7 +321,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 						_ainSettingsReader,
 						_ainSettingsReadNotify,
 						_ainSettingsReadNotifyRaisable,
-						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify);
+						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify, _bsEthernetReadCycleModel);
 
 				var mainWindow = new MainWindow(appThreadNotifier, () =>
 					{

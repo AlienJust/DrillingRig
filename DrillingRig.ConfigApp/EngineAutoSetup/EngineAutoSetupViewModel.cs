@@ -3,12 +3,14 @@ using System.Windows.Input;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.Commands.BsEthernetLogs;
 using DrillingRig.Commands.EngineTests;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
+using DrillingRig.ConfigApp.BsEthernetLogs;
 using DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
@@ -21,6 +23,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private readonly ILogger _logger;
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targetAddressHost;
+		private readonly ReadCycleModel _bsEthernetReadCycleModel;
 
 		private readonly RelayCommand _launchAutoSetupCmd;
 		private readonly RelayCommand _readTestResultCmd;
@@ -40,10 +43,14 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private bool _isLeakTestChecked;
 		private bool _isXxTestChecked;
 		private bool _isInertionTestChecked;
+		private string _lastLogLineText;
+
+		private IBsEthernetLogLine _lastLogLine;
+		private int _errorsCount;
 
 		public EngineAutoSetupViewModel(TableViewModel leftTable, TableViewModel rightTable, INotifySendingEnabled notifySendingEnabled,
-			IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter, IUserInterfaceRoot uiRoot,
-			ILogger logger, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost) {
+			IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsWriter ainSettingsWriter,
+			IUserInterfaceRoot uiRoot, ILogger logger, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, ReadCycleModel bsEthernetReadCycleModel) {
 			LeftTable = leftTable;
 			RightTable = rightTable;
 			_notifySendingEnabled = notifySendingEnabled;
@@ -54,6 +61,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_logger = logger;
 			_commandSenderHost = commandSenderHost;
 			_targetAddressHost = targetAddressHost;
+			_bsEthernetReadCycleModel = bsEthernetReadCycleModel;
 
 			_needToUpdateLeftTable = true; // on app start we have no settings:
 
@@ -63,6 +71,10 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_isXxTestChecked = false;
 			_isInertionTestChecked = false;
 
+			_lastLogLine = null;
+			_errorsCount = 0;
+			_lastLogLineText = String.Empty;
+
 			_launchAutoSetupCmd = new RelayCommand(LaunchAutoSetup, CheckLaunchAutoSetupPossible);
 			_readTestResultCmd = new RelayCommand(ReadTestResult, () => _notifySendingEnabled.IsSendingEnabled);
 
@@ -71,7 +83,27 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			// finally subscribing events:
 			_notifySendingEnabled.SendingEnabledChanged += NotifySendingEnabledOnSendingEnabledChanged;
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete; //.AinSettingsUpdated += AinSettingsStorageUpdatedNotifyOnAinSettingsUpdated;
+
+			_bsEthernetReadCycleModel.AnotherLogLineWasReaded += BsEthernetReadCycleModelOnAnotherLogLineWasReaded;
 		}
+
+
+		private void BsEthernetReadCycleModelOnAnotherLogLineWasReaded(IBsEthernetLogLine logLine) {
+			_uiRoot.Notifier.Notify(() => {
+				if (logLine == null) {
+					if (_errorsCount <= 5) _errorsCount++;
+					if (_errorsCount == 5) LastLogLineText = "[ER]";
+				}
+				else {
+					_errorsCount = 0;
+					if (_lastLogLine == null || _lastLogLine.Number != logLine.Number) {
+						LastLogLineText = "[OK] " + logLine.Number.ToString("d5") + " > " + logLine.Content;
+						_lastLogLine = logLine;
+					}
+				}
+			});
+		}
+
 
 		private bool CheckLaunchAutoSetupPossible() {
 			// TODO: check tests are selected
@@ -216,6 +248,16 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public bool IsInertionTestChecked {
 			get { return _isInertionTestChecked; }
 			set { if (_isInertionTestChecked != value) { _isInertionTestChecked = value; RaisePropertyChanged(() => IsInertionTestChecked); } }
+		}
+
+		public string LastLogLineText {
+			get { return _lastLogLineText; }
+			set {
+				if (_lastLogLineText != value) {
+					_lastLogLineText = value;
+					RaisePropertyChanged(() => LastLogLineText);
+				}
+			}
 		}
 
 		public ICommand ReadTestResultCmd => _readTestResultCmd;

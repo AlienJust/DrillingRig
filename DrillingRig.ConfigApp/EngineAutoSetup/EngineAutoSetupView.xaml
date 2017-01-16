@@ -7,10 +7,12 @@
 	xmlns:local="clr-namespace:DrillingRig.ConfigApp.EngineAutoSetup"
 	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
 	mc:Ignorable="d"
-	d:DesignHeight="400"
+	d:DesignHeight="800"
 	d:DesignWidth="400">
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition
+				Height="Auto" />
 			<RowDefinition
 				Height="Auto" />
 			<RowDefinition
@@ -109,6 +111,7 @@
 				ResizeDirection="Columns"
 				ShowsPreview="True" />
 		</Grid>
+		<Label Grid.Row="2" Content="{Binding Path=LastLogLineText, Mode=OneWay}"/>
 	</Grid>
 </UserControl>
 

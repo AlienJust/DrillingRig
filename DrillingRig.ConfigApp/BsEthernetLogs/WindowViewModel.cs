@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Input;
 using AlienJust.Support.ModelViewViewModel;
 using AlienJust.Support.Reflection;
 using DrillingRig.Commands.BsEthernetLogs;
-using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
-using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
-using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 
 namespace DrillingRig.ConfigApp.BsEthernetLogs {
 	class WindowViewModel : ViewModelBase {
@@ -23,7 +19,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 		private IBsEthernetLogLine _lastLogLine;
 		private int _errorsCount;
 
-		public WindowViewModel(IUserInterfaceRoot uiRoot, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
+		public WindowViewModel(IUserInterfaceRoot uiRoot, ReadCycleModel model) {
 			_uiRoot = uiRoot;
 
 			_logTextName = ReflectedProperty.GetName(() => LogText);
@@ -34,7 +30,8 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 
 			_errorsCount = 0;
 
-			_model = new ReadCycleModel(commandSenderHost, targetAddressHost, notifySendingEnabled);
+			//_model = new ReadCycleModel(commandSenderHost, targetAddressHost, notifySendingEnabled);
+			_model = model;
 			_model.AnotherLogLineWasReaded += ModelOnAnotherLogLineWasReaded; // TODO: unsubscribe on win close, also _destroy model
 		}
 
