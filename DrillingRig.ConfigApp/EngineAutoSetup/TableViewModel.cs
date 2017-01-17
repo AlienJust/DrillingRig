@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		/// <summary>
 		/// Not thread safe!
 		/// </summary>
-		public void Update(IEngineTestResult testResult, IAinSettings settings) {
+		public void Update(IEngineTestResult testResult, IAinSettings settings, float f0) {
 			// TODO: define what to do if some method param value is null
 			Rs = settings?.Rs;
 			
@@ -43,16 +43,22 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			FlNom = settings?.FiNom;
 			Tr = settings?.TauR;
 
-			IdIqKp = settings?.KpId;
-			//IdIqTi = settings?. // TODO: ASK ROMAN
+			IdIqKp = settings?.KpId; // для асинхронника Kp ID = Kp IQ
+			if (settings != null) {
+				IdIqTi = 1.0 / (settings.KiId * f0);
+			}
 			IdIqKi = settings?.KiId;
 
 			FluxKp = settings?.KpFi;
-			//FluxTi = settings?. // TODO: ASK ROMAN
+			if (settings != null) {
+				FluxTi = 1.0 / (settings.KiFi * f0);
+			}
 			FluxKi = settings?.KiFi;
 
 			SpeedKp = settings?.KpW;
-			//SpeedKp = settings?. // TODO: ASK ROMAN
+			if (settings != null) {
+				SpeedTi = 1.0 / (settings.KiW * f0);
+			}
 			SpeedKi = settings?.KiW;
 			
 
@@ -72,8 +78,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 			else {
 				Rr = (short?)(settings?.Rs / 2);
-				J = 1;
-				RoverL = 0;
+				J = settings == null? 1 : (short?)null;
+				RoverL = settings == null ? 0 : (short?)null;
 			}
 		}
 

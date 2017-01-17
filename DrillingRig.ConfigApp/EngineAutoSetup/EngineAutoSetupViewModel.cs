@@ -31,6 +31,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private readonly RelayCommand _writeLeftTestResultCmd;
 		private readonly RelayCommand _writeRightTestResultCmd;
 
+		private readonly IEngineTestParams _engineTestParams;
 
 
 		public TableViewModel LeftTable { get; }
@@ -74,6 +75,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_lastLogLine = null;
 			_errorsCount = 0;
 			_lastLogLineText = String.Empty;
+
+			_engineTestParams = new EngineTestParamsBuilderAciIdentifyIni("aci_identify.ini").Build();
 
 			_launchAutoSetupCmd = new RelayCommand(LaunchAutoSetup, CheckLaunchAutoSetupPossible);
 			_readTestResultCmd = new RelayCommand(ReadTestResult, () => _notifySendingEnabled.IsSendingEnabled);
@@ -125,10 +128,10 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		private void LaunchAutoSetup() {
-			var engineTestParams = new EngineTestParamsBuilderAciIdentifyIni("aci_identify.ini").Build();
+			
 			var testMask = BuildTestMask();
-			var cmd = new EngineTestLaunchCommand(testMask, engineTestParams);
-
+			var cmd = new EngineTestLaunchCommand(testMask, _engineTestParams);
+			// TODO: may be each time test launching update _engineTestParams from aci_identify.ini?
 			_logger.Log("Запуск тестирования двигателя (" + ((byte)testMask).ToString("X2") + ")");
 			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
 				cmd,
@@ -170,7 +173,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 						}
 
 						_logger.Log(exception != null ? "Не удалось прочитать настройки АИН №1 после тестирования двигателя" : "Настройки АИН №1 успешно прочитаны после тестирования двигателя");
-						_uiRoot.Notifier.Notify(() => { RightTable.Update(testResult, settings); });
+						_uiRoot.Notifier.Notify(() => { RightTable.Update(testResult, settings, _engineTestParams.F0); });
 					});
 				});
 		}
@@ -226,12 +229,12 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				if (_needToUpdateLeftTable && settings != null) {
 					_uiRoot.Notifier.Notify(() => {
 						_needToUpdateLeftTable = false;
-						LeftTable.Update(null, settings);
+						LeftTable.Update(null, settings, _engineTestParams.F0);
 						LeftTable.J = 1;
 						LeftTable.RoverL = 0;
 					});
 				}
-				RightTable.Update(null, settings);
+				RightTable.Update(null, settings, _engineTestParams.F0);
 			}
 		}
 
