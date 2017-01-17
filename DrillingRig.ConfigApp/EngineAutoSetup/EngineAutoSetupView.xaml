@@ -27,29 +27,24 @@
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<CheckBox
-				Content="DC"
+			<CheckBox Content="DC (определение Rs)"
 				VerticalAlignment="Center"
 				IsChecked="{Binding Path=IsDcTestChecked, Mode=TwoWay}" />
 			<CheckBox
-				Grid.Column="1"
-				Content="TR"
+				Grid.Column="1" Content="R/L (определение Rr)"
 				VerticalAlignment="Center"
 				IsChecked="{Binding Path=IsTrTestChecked, Mode=TwoWay}" />
 
 			<CheckBox
-				Grid.Column="2"
-				Content="Leak"
+				Grid.Column="2" Content="Индуктивности рассеяния"
 				VerticalAlignment="Center"
 				IsChecked="{Binding Path=IsLeakTestChecked, Mode=TwoWay}" />
 			<CheckBox
-				Grid.Column="3"
-				Content="XX"
+				Grid.Column="3" Content="Намагничивание и поток"
 				VerticalAlignment="Center"
 				IsChecked="{Binding Path=IsXxTestChecked, Mode=TwoWay}" />
 			<CheckBox
-				Grid.Column="4"
-				Content="Inertion"
+				Grid.Column="4" Content="Момент инерции"
 				VerticalAlignment="Center"
 				IsChecked="{Binding Path=IsInertionTestChecked, Mode=TwoWay}" />
 			<Button
