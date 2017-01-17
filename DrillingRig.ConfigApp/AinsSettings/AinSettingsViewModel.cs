@@ -23,7 +23,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private readonly RelayCommand _writeSettingsCommand;
 
 		private double? _kpW;
-		private int? _kiW;
+		private double? _kiW;
+
 		private short? _fiNom;
 		private short? _imax;
 		private short? _udcMax;
@@ -50,11 +51,12 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _lrl;
 
 		private double? _kpFi;
-		private int? _kiFi;
+		private double? _kiFi;
 		private double? _kpId;
-		private int? _kiId;
+		private double? _kiId;
 		private double? _kpIq;
-		private int? _kiIq;
+		private double? _kiIq;
+
 		private short? _accDfDt;
 		private short? _decDfDt;
 		private short? _unom;
@@ -397,7 +399,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kpW != value) { _kpW = value; RaisePropertyChanged(() => KpW); } }
 		}
 
-		public int? KiW {
+		public double? KiW {
 			get { return _kiW; }
 			set { if (_kiW != value) { _kiW = value; RaisePropertyChanged(() => KiW); } }
 		}
@@ -509,7 +511,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kpFi != value) { _kpFi = value; RaisePropertyChanged(() => KpFi); } }
 		}
 
-		public int? KiFi {
+		public double? KiFi {
 			get { return _kiFi; }
 			set { if (_kiFi != value) { _kiFi = value; RaisePropertyChanged(() => KiFi); } }
 		}
@@ -519,7 +521,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kpId != value) { _kpId = value; RaisePropertyChanged(() => KpId); } }
 		}
 
-		public int? KiId {
+		public double? KiId {
 			get { return _kiId; }
 			set { if (_kiId != value) { _kiId = value; RaisePropertyChanged(() => KiId); } }
 		}
@@ -529,7 +531,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kpIq != value) { _kpIq = value; RaisePropertyChanged(() => KpIq); } }
 		}
 
-		public int? KiIq {
+		public double? KiIq {
 			get { return _kiIq; }
 			set { if (_kiIq != value) { _kiIq = value; RaisePropertyChanged(() => KiIq); } }
 		}

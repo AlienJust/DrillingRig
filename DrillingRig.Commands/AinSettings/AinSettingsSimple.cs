@@ -4,52 +4,59 @@ namespace DrillingRig.Commands.AinSettings {
 	public class AinSettingsSimple : IAinSettings {
 		public AinSettingsSimple(
 			BytesPair reserved00,
-			double kpW, 
-			int kiW, 
-			short fiNom, 
-			short imax, 
-			short udcMax, 
-			short udcMin, 
-			short fnom, 
+			double kpW,
+			double kiW,
+
+			short fiNom,
+			short imax,
+			short udcMax,
+			short udcMin,
+			short fnom,
 			short fmax,
 
 			short dflLim,
 			short flMinMin,
 
-			short ioutMax, 
-			short fiMin, 
-			short dacCh, 
-			short imcw, 
-			short ia0, 
-			short ib0, 
-			short ic0, 
-			short udc0, 
-			short tauR, 
-			short lm, 
-			short lsl, 
+			short ioutMax,
+			short fiMin,
+			short dacCh,
+			short imcw,
+			short ia0,
+			short ib0,
+			short ic0,
+			short udc0,
+			short tauR,
+			short lm,
+			short lsl,
 			short lrl,
 			BytesPair reserved24,
-			double kpFi, 
-			int kiFi,
+
+			double kpFi,
+			double kiFi,
+
 			BytesPair reserved28,
-			double kpId, 
-			int kiId,
+
+			double kpId,
+			double kiId,
+
 			BytesPair reserved32,
-			double kpIq, 
-			int kiIq, 
-			short accDfDt, 
-			short decDfDt, 
+
+			double kpIq,
+			double kiIq,
+
+			short accDfDt,
+			short decDfDt,
 			short unom,
 
 			short tauFlLim,
 
-			short rs, 
-			short fmin, 
-			short tauM, 
-			short tauF, 
-			short tauFSet, 
-			short tauFi, 
-			short idSetMin, 
+			short rs,
+			short fmin,
+			short tauM,
+			short tauF,
+			short tauFSet,
+			short tauFi,
+			short idSetMin,
 			short idSetMax,
 			BytesPair uchMin,
 			BytesPair uchMax,
@@ -63,8 +70,8 @@ namespace DrillingRig.Commands.AinSettings {
 
 			short umodThr,
 
-			short emdecDfdt, 
-			short textMax, 
+			short emdecDfdt,
+			short textMax,
 			short toHl, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault) {
 
 			Reserved00 = reserved00;
@@ -76,7 +83,7 @@ namespace DrillingRig.Commands.AinSettings {
 			UdcMin = udcMin;
 			Fnom = fnom;
 			Fmax = fmax;
-			
+
 			DflLim = dflLim;
 			FlMinMin = flMinMin;
 
@@ -141,15 +148,13 @@ namespace DrillingRig.Commands.AinSettings {
 		public BytesPair Reserved00 { get; }
 
 		public double KpW { get; }
-
-		public int KiW { get; }
+		public double KiW { get; }
 
 		public short FiNom { get; }
 
 		public short Imax { get; }
 
 		public short UdcMax { get; }
-
 		public short UdcMin { get; }
 
 		public short Fnom { get; }
@@ -186,18 +191,17 @@ namespace DrillingRig.Commands.AinSettings {
 		public BytesPair Reserved24 { get; }
 
 		public double KpFi { get; }
+		public double KiFi { get; }
 
-		public int KiFi { get; }
 		public BytesPair Reserved28 { get; }
 
 		public double KpId { get; }
+		public double KiId { get; }
 
-		public int KiId { get; }
 		public BytesPair Reserved32 { get; }
 
 		public double KpIq { get; }
-
-		public int KiIq { get; }
+		public double KiIq { get; }
 
 		public short AccDfDt { get; }
 

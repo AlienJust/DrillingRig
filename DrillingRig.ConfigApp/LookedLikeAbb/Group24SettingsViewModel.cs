@@ -66,7 +66,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					KpW = Parameter01Vm.CurrentValue,
-					KiW = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0)
+					KiW = Parameter02Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -92,22 +92,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
-		}
-
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
-					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter02Vm.CurrentValue = null;
 					return;
 				}
 
 				Parameter01Vm.CurrentValue = settings.KpW;
-				Parameter02Vm.CurrentValue = settings.KiW / 16777216.0;
+				Parameter02Vm.CurrentValue = settings.KiW;
 			});
 		}
 	}

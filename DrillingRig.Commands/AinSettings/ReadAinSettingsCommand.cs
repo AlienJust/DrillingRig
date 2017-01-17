@@ -40,8 +40,9 @@ namespace DrillingRig.Commands.AinSettings {
 			return new AinSettingsSimple(
 				new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
 				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
-				
-				(int)(replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)),
+				// kiW
+				(replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0,
+
 				(short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
 				(short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
 				(short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
@@ -69,24 +70,24 @@ namespace DrillingRig.Commands.AinSettings {
 				new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),
 
 				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51])),
-
-				replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] <<8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24),
+				// kiFi:
+				(replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] <<8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24)) / 16777216.0, 
 
 				// reserved 28:
 				new BytesPair(replyWithoutAinNumber[56], replyWithoutAinNumber[57]),
 
 				// kpId:
 				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59])),
-
-				replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] <<8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24),
+				// kiId:
+				(replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] <<8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24)) / 16777216.0,
 
 				// reserverd 32:
 				new BytesPair(replyWithoutAinNumber[64], replyWithoutAinNumber[65]),
 
 				// kpIq:
 				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67])),
-
-				replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] <<8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24),
+				// kiIq:
+				(replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] <<8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24)) / 16777216.0,
 
 				(short)(replyWithoutAinNumber[72] + (replyWithoutAinNumber[73] <<8)),
 				(short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),

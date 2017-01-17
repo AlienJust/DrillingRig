@@ -4,11 +4,14 @@ using DrillingRig.Commands.AinSettings;
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	interface IAinSettingsPart {
 		double? KpW { get; }
-		int? KiW { get; }
+		double? KiW { get; }
+
 		short? FiNom { get; }
 		short? Imax { get; }
+
 		short? UdcMax { get; }
 		short? UdcMin { get; }
+
 		short? Fnom { get; }
 		short? Fmax { get; }
 
@@ -33,12 +36,13 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		short? Lrl { get; }
 
 		double? KpFi { get; }
-		int? KiFi { get; }
+		double? KiFi { get; }
 
 		double? KpId { get; }
-		int? KiId { get; }
+		double? KiId { get; }
+
 		double? KpIq { get; }
-		int? KiIq { get; }
+		double? KiIq { get; }
 
 		short? AccDfDt { get; }
 		short? DecDfDt { get; }

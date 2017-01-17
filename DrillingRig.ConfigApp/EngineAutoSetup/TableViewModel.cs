@@ -6,14 +6,14 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
 		public string Header { get; }
 
-		private int? _rs;
-		private int? _rr;
-		private int? _lslAndLrl;
-		private int? _lm;
-		private int? _flNom;
-		private int? _j;
-		private int? _tr;
-		private int? _roverL;
+		private short? _rs;
+		private short? _rr; // rs/2
+		private short? _lslAndLrl;
+		private short? _lm;
+		private short? _flNom;
+		private short? _j;
+		private short? _tr;
+		private short? _roverL;
 
 		private double? _idIqKp;
 		private double? _idIqTi;
@@ -37,7 +37,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public void Update(IEngineTestResult testResult, IAinSettings settings) {
 			// TODO: define what to do if some method param value is null
 			Rs = settings?.Rs;
-			Rr = settings?.Rs / 2;
+			
 			LslAndLrl = settings?.Lrl;
 			Lm = settings?.Lm;
 			FlNom = settings?.FiNom;
@@ -54,24 +54,30 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			SpeedKp = settings?.KpW;
 			//SpeedKp = settings?. // TODO: ASK ROMAN
 			SpeedKi = settings?.KiW;
+			
 
 			if (testResult != null) {
-				Rr = testResult.Rr;
-				J = testResult.J;
-				RoverL = testResult.RoverL;
+				Rr = (short)testResult.Rr;
+				J = (short)testResult.J;
+				RoverL = (short)testResult.RoverL;
 
 				// Берём дублирующиеся параметры из результатов только, если настройки не вычитаны
 				if (settings == null) {
-					Rs = testResult.Rs;
-					LslAndLrl = testResult.Lsl;
-					Lm = testResult.Lm;
-					FlNom = testResult.FlNom;
-					Tr = testResult.Tr;
+					Rs = (short)testResult.Rs;
+					LslAndLrl = (short)testResult.Lsl;
+					Lm = (short)testResult.Lm;
+					FlNom = (short)testResult.FlNom;
+					Tr = (short)testResult.Tr;
 				}
+			}
+			else {
+				Rr = (short?)(settings?.Rs / 2);
+				J = 1;
+				RoverL = 0;
 			}
 		}
 
-		public int? Rs {
+		public short? Rs {
 			get { return _rs; }
 			set {
 				if (_rs != value) {
@@ -81,7 +87,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? Rr {
+		public short? Rr {
 			get { return _rr; }
 			set {
 				if (_rr != value) {
@@ -91,7 +97,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? LslAndLrl {
+		public short? LslAndLrl {
 			get { return _lslAndLrl; }
 			set {
 				if (_lslAndLrl != value) {
@@ -101,7 +107,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? Lm {
+		public short? Lm {
 			get { return _lm; }
 			set {
 				if (_lm != value) {
@@ -111,7 +117,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? FlNom {
+		public short? FlNom {
 			get { return _flNom; }
 			set {
 				if (_flNom != value) {
@@ -121,7 +127,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? J {
+		public short? J {
 			get { return _j; }
 			set {
 				if (_j != value) {
@@ -131,7 +137,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? Tr {
+		public short? Tr {
 			get { return _tr; }
 			set {
 				if (_tr != value) {
@@ -141,7 +147,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public int? RoverL {
+		public short? RoverL {
 			get { return _roverL; }
 			set {
 				if (_roverL != value) {

@@ -142,7 +142,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 						var result = cmd.GetResult(reply);
 						_logger.Log(result ? "Получено подтверждение от БС-Ethernet об успешном запуске тестирования" : "БС-Ethernet сообщило о невозможности запуска тестирования");
 					}
-					catch (Exception e) {
+					catch {
 						_logger.Log("Ошибка при разборе ответа на команду запуска тестирования");
 					}
 				});
@@ -177,12 +177,48 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 		private void WriteLeftTestResult() {
 			_logger.Log("Запись результатов тестирования (откат на начальные значения)");
+			try {
+				WriteTestResult(LeftTable);
+			}
+			catch {
+				_logger.Log("Не удалось начать запись результатов тестирования (откат на начальные значения)");
+			}
 		}
 
 		private void WriteRightTestResult() {
 			_logger.Log("Запись результатов тестирования");
+			try {
+				WriteTestResult(RightTable);
+			}
+			catch {
+				_logger.Log("Не удалось начать запись результатов тестирования");
+			}
 		}
 
+		private void WriteTestResult(TableViewModel table) {
+			var settingsPart = new AinSettingsPartWritable {
+				Rs = table.Rs,
+				//Rs 
+				Lsl = table.LslAndLrl,
+				Lrl = table.LslAndLrl,
+				Lm = table.Lm,
+
+				FiNom = table.FlNom,
+				// J
+				TauR = table.Tr,
+				// RoverL
+
+				KpId = table.IdIqKp,
+				KpIq = table.IdIqKp,
+				KiId = table.IdIqKi,
+				KiIq = table.IdIqKi,
+				KpFi = table.FluxKp,
+				KpW = table.SpeedKp,
+				KiW = table.SpeedKi
+			};
+
+			_ainSettingsWriter.WriteSettingsAsync(settingsPart, exception => { _logger.Log(exception != null ? "Не удалось записать настройки АИН (откат на начальные значения)" : "Настройки АИН успешно записаны (откат на начальные значения)"); });
+		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
 			// Сработает в том числе при отключении от com-port'a; будут переданы settings = null
@@ -191,8 +227,9 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 					_uiRoot.Notifier.Notify(() => {
 						_needToUpdateLeftTable = false;
 						LeftTable.Update(null, settings);
+						LeftTable.J = 1;
+						LeftTable.RoverL = 0;
 					});
-
 				}
 				RightTable.Update(null, settings);
 			}

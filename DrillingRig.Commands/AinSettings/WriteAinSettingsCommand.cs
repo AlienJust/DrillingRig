@@ -3,13 +3,11 @@ using AlienJust.Support.Collections;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinSettings {
-	public class WriteAinSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply
-	{
+	public class WriteAinSettingsCommand : IRrModbusCommandWithReply, IRrModbusCommandResultGetter<bool>, IRrModbusCommandWithTestReply {
 		private readonly byte _zeroBasedAinNumber;
 		private readonly IAinSettings _settings;
 
-		public WriteAinSettingsCommand(byte zeroBasedAinNumber, IAinSettings settings)
-		{
+		public WriteAinSettingsCommand(byte zeroBasedAinNumber, IAinSettings settings) {
 			_zeroBasedAinNumber = zeroBasedAinNumber;
 			_settings = settings;
 		}
@@ -27,7 +25,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[2] = bpKpW.First;
 			settingsSerialized[3] = bpKpW.Second;
 
-			settingsSerialized.SerializeIntLowFirst(4, _settings.KiW);
+			settingsSerialized.SerializeIntLowFirst(4, (int)(_settings.KiW * 16777216.0));
 			settingsSerialized.SerializeShortLowFirst(8, _settings.FiNom);
 			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
 			settingsSerialized.SerializeShortLowFirst(12, _settings.UdcMax);
@@ -37,7 +35,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 			settingsSerialized.SerializeShortLowFirst(20, _settings.DflLim);
 			settingsSerialized.SerializeShortLowFirst(22, _settings.FlMinMin);
-			
+
 			settingsSerialized.SerializeShortLowFirst(24, _settings.IoutMax);
 			settingsSerialized.SerializeShortLowFirst(26, _settings.FiMin);
 			settingsSerialized.SerializeShortLowFirst(28, _settings.DacCh);
@@ -57,8 +55,8 @@ namespace DrillingRig.Commands.AinSettings {
 			var bpKpFi = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpFi);
 			settingsSerialized[50] = bpKpFi.First;
 			settingsSerialized[51] = bpKpFi.Second;
-			
-			settingsSerialized.SerializeIntLowFirst(52, _settings.KiFi);
+
+			settingsSerialized.SerializeIntLowFirst(52, (int)(_settings.KiFi * 16777216.0));
 
 			settingsSerialized[56] = _settings.Reserved28.First;
 			settingsSerialized[57] = _settings.Reserved28.Second;
@@ -66,8 +64,8 @@ namespace DrillingRig.Commands.AinSettings {
 			var bpKpId = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpId);
 			settingsSerialized[58] = bpKpId.First;
 			settingsSerialized[59] = bpKpId.Second;
-			
-			settingsSerialized.SerializeIntLowFirst(60, _settings.KiId);
+
+			settingsSerialized.SerializeIntLowFirst(60, (int)(_settings.KiId * 16777216.0));
 
 
 			settingsSerialized[64] = _settings.Reserved32.First;
@@ -77,8 +75,8 @@ namespace DrillingRig.Commands.AinSettings {
 			var bpKpIq = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpIq);
 			settingsSerialized[66] = bpKpIq.First;
 			settingsSerialized[67] = bpKpIq.Second;
-			
-			settingsSerialized.SerializeIntLowFirst(68, _settings.KiIq);
+
+			settingsSerialized.SerializeIntLowFirst(68, (int)(_settings.KiIq * 16777216.0));
 
 			settingsSerialized.SerializeShortLowFirst(72, _settings.AccDfDt);
 			settingsSerialized.SerializeShortLowFirst(74, _settings.DecDfDt);
@@ -126,8 +124,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 		private byte OneBasedAinNumber => (byte)(_zeroBasedAinNumber + 1);
 
-		public bool GetResult(byte[] reply)
-		{
+		public bool GetResult(byte[] reply) {
 			if (reply[0] != OneBasedAinNumber) throw new Exception("неверный номер АИН в ответе, ожидался " + OneBasedAinNumber);
 			return true;
 		}
@@ -135,7 +132,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public int ReplyLength => 1;
 
 		public byte[] GetTestReply() {
-			var result = new[]{OneBasedAinNumber};
+			var result = new[] { OneBasedAinNumber };
 			return result;
 		}
 	}

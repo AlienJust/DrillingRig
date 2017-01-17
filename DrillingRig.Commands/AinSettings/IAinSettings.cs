@@ -4,8 +4,10 @@ using AlienJust.Support.Collections;
 namespace DrillingRig.Commands.AinSettings {
 	public interface IAinSettings {
 		BytesPair Reserved00 { get; }
+
 		double KpW { get; }
-		int KiW { get; }
+		double KiW { get; }
+
 		short FiNom { get; }
 		short Imax { get; }
 		short UdcMax { get; }
@@ -35,15 +37,15 @@ namespace DrillingRig.Commands.AinSettings {
 
 		BytesPair Reserved24 { get; }
 		double KpFi { get; }
-		int KiFi { get; }
+		double KiFi { get; }
 
 		BytesPair Reserved28 { get; }
 		double KpId { get; }
-		int KiId { get; }
+		double KiId { get; }
 
 		BytesPair Reserved32 { get; }
 		double KpIq { get; }
-		int KiIq { get; }
+		double KiIq { get; }
 
 		short AccDfDt { get; }
 		short DecDfDt { get; }

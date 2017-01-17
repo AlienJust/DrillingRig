@@ -46,6 +46,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
+
 			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
 				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
 			};
@@ -71,9 +72,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					KpFi = Parameter01Vm.CurrentValue,
-					KiFi = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
+					KiFi = Parameter02Vm.CurrentValue,
 					IdSetMin = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -117,8 +118,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				}
 
 				Parameter01Vm.CurrentValue = settings.KpFi;
-				Parameter02Vm.CurrentValue = settings.KiFi / 16777216.0;
-
+				Parameter02Vm.CurrentValue = settings.KiFi;
 				Parameter03Vm.CurrentValue = settings.IdSetMin;
 				Parameter04Vm.CurrentValue = settings.IdSetMax;
 			});

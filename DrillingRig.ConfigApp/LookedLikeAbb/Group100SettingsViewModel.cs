@@ -49,14 +49,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
 			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
-				_uiRoot.Notifier.Notify(()=>WriteSettingsCmd.RaiseCanExecuteChanged());
+				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
 			};
 		}
 
-		private bool IsWriteEnabled
-		{
-			get
-			{
+		private bool IsWriteEnabled {
+			get {
 				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
 					var settings = _storage.GetSettings(i);
 					if (settings == null) return false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
@@ -75,9 +73,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					KpId = Parameter01Vm.CurrentValue,
-					KiId = ConvertNullableDoubleToShort(Parameter02Vm.CurrentValue * 16777216.0),
+					KiId = Parameter02Vm.CurrentValue,
 					KpIq = Parameter03Vm.CurrentValue,
-					KiIq = ConvertNullableDoubleToShort(Parameter04Vm.CurrentValue * 16777216.0)
+					KiIq = Parameter04Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -96,23 +94,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
 			}
 		}
 
-		private short? ConvertNullableDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
-		}
-
-		
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
-					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter02Vm.CurrentValue = null;
 					Parameter03Vm.CurrentValue = null;
@@ -120,9 +111,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 				Parameter01Vm.CurrentValue = settings.KpId;
-				Parameter02Vm.CurrentValue = settings.KiId / 16777216.0;
+				Parameter02Vm.CurrentValue = settings.KiId;
 				Parameter03Vm.CurrentValue = settings.KpIq;
-				Parameter04Vm.CurrentValue = settings.KiIq / 16777216.0;
+				Parameter04Vm.CurrentValue = settings.KiIq;
 			});
 		}
 	}

@@ -4,8 +4,10 @@ using DrillingRig.Commands.AinSettings;
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsWritable : IAinSettings {
 		public BytesPair Reserved00 { get; set; }
+
 		public double KpW { get; set; }
-		public int KiW { get; set; }
+		public double KiW { get; set; }
+
 		public short FiNom { get; set; }
 		public short Imax { get; set; }
 		public short UdcMax { get; set; }
@@ -28,13 +30,17 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short Lrl { get; set; }
 		public BytesPair Reserved24 { get; set; }
 		public double KpFi { get; set; }
-		public int KiFi { get; set; }
+		public double KiFi { get; set; }
 		public BytesPair Reserved28 { get; set; }
+
 		public double KpId { get; set; }
-		public int KiId { get; set; }
+
+		public double KiId { get; set; }
 		public BytesPair Reserved32 { get; set; }
+
 		public double KpIq { get; set; }
-		public int KiIq { get; set; }
+		public double KiIq { get; set; }
+
 		public short AccDfDt { get; set; }
 		public short DecDfDt { get; set; }
 		public short Unom { get; set; }
