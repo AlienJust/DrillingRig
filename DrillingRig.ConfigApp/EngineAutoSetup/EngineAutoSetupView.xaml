@@ -20,35 +20,43 @@
 		</Grid.RowDefinitions>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
+				<ColumnDefinition
+					Width="11*" />
+				<ColumnDefinition
+					Width="1*" />
 			</Grid.ColumnDefinitions>
-			<CheckBox Content="DC (определение Rs)"
-				VerticalAlignment="Center"
-				IsChecked="{Binding Path=IsDcTestChecked, Mode=TwoWay}" />
-			<CheckBox
-				Grid.Column="1" Content="R/L (определение Rr)"
-				VerticalAlignment="Center"
-				IsChecked="{Binding Path=IsTrTestChecked, Mode=TwoWay}" />
+			<StackPanel
+				Grid.Column="0"
+				Orientation="Horizontal">
+				<CheckBox
+					Margin="0,0,4,0"
+					Content="DC (определение Rs)"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Path=IsDcTestChecked, Mode=TwoWay}" />
+				<CheckBox
+					Margin="0,0,4,0"
+					Content="R/L (определение Rr)"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Path=IsTrTestChecked, Mode=TwoWay}" />
 
-			<CheckBox
-				Grid.Column="2" Content="Индуктивности рассеяния"
-				VerticalAlignment="Center"
-				IsChecked="{Binding Path=IsLeakTestChecked, Mode=TwoWay}" />
-			<CheckBox
-				Grid.Column="3" Content="Намагничивание и поток"
-				VerticalAlignment="Center"
-				IsChecked="{Binding Path=IsXxTestChecked, Mode=TwoWay}" />
-			<CheckBox
-				Grid.Column="4" Content="Момент инерции"
-				VerticalAlignment="Center"
-				IsChecked="{Binding Path=IsInertionTestChecked, Mode=TwoWay}" />
+				<CheckBox
+					Margin="0,0,4,0"
+					Content="Индуктивности рассеяния"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Path=IsLeakTestChecked, Mode=TwoWay}" />
+				<CheckBox
+					Margin="0,0,4,0"
+					Content="Намагничивание и поток"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Path=IsXxTestChecked, Mode=TwoWay}" />
+				<CheckBox
+					Margin="0,0,4,0"
+					Content="Момент инерции"
+					VerticalAlignment="Center"
+					IsChecked="{Binding Path=IsInertionTestChecked, Mode=TwoWay}" />
+			</StackPanel>
 			<Button
-				Grid.Column="5"
+				Grid.Column="1"
 				Content="Запуск"
 				VerticalAlignment="Center"
 				Command="{Binding Path=LaunchAutoSetupCmd, Mode=OneTime}" />
@@ -57,7 +65,8 @@
 			Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
-				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition
+					Width="Auto" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
@@ -92,8 +101,8 @@
 					Command="{Binding Path=ReadTestResultCmd, Mode=OneTime}" />
 				<Button
 					Grid.Column="1"
-					Content="Записать" 
-					Command="{Binding Path=WriteRightTestResultCmd, Mode=OneTime}"/>
+					Content="Записать"
+					Command="{Binding Path=WriteRightTestResultCmd, Mode=OneTime}" />
 			</Grid>
 
 			<GridSplitter
@@ -106,7 +115,9 @@
 				ResizeDirection="Columns"
 				ShowsPreview="True" />
 		</Grid>
-		<Label Grid.Row="2" Content="{Binding Path=LastLogLineText, Mode=OneWay}"/>
+		<Label
+			Grid.Row="2"
+			Content="{Binding Path=LastLogLineText, Mode=OneWay}" />
 	</Grid>
 </UserControl>
 
