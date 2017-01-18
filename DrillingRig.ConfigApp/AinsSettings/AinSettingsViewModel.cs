@@ -44,11 +44,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _ib0;
 		private short? _ic0;
 		private short? _udc0;
-		private short? _tauR;
 
-		private short? _lm;
-		private short? _lsl;
-		private short? _lrl;
+		private double? _tauR;
+		private double? _lm;
+		private double? _lsl;
+		private double? _lrl;
 
 		private double? _kpFi;
 		private double? _kiFi;
@@ -486,22 +486,19 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_udc0 != value) { _udc0 = value; RaisePropertyChanged(() => Udc0); } }
 		}
 
-		public short? TauR {
+		public double? TauR {
 			get { return _tauR; }
 			set { if (_tauR != value) { _tauR = value; RaisePropertyChanged(() => TauR); } }
 		}
-
-		public short? Lm {
+		public double? Lm {
 			get { return _lm; }
 			set { if (_lm != value) { _lm = value; RaisePropertyChanged(() => Lm); } }
 		}
-
-		public short? Lsl {
+		public double? Lsl {
 			get { return _lsl; }
 			set { if (_lsl != value) { _lsl = value; RaisePropertyChanged(() => Lsl); } }
 		}
-
-		public short? Lrl {
+		public double? Lrl {
 			get { return _lrl; }
 			set { if (_lrl != value) { _lrl = value; RaisePropertyChanged(() => Lrl); } }
 		}

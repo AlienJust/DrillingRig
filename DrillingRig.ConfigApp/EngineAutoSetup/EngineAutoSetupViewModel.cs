@@ -181,7 +181,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private void WriteLeftTestResult() {
 			_logger.Log("Запись результатов тестирования (откат на начальные значения)");
 			try {
-				WriteTestResult(LeftTable);
+				var settingsPart = WriteTestResult(LeftTable);
+				_ainSettingsWriter.WriteSettingsAsync(settingsPart, exception => { _logger.Log(exception != null ? "Не удалось записать настройки АИН (откат на начальные значения)" : "Настройки АИН успешно записаны (откат на начальные значения)"); });
 			}
 			catch {
 				_logger.Log("Не удалось начать запись результатов тестирования (откат на начальные значения)");
@@ -191,17 +192,18 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private void WriteRightTestResult() {
 			_logger.Log("Запись результатов тестирования");
 			try {
-				WriteTestResult(RightTable);
+				var settingsPart = WriteTestResult(RightTable);
+				_ainSettingsWriter.WriteSettingsAsync(settingsPart, exception => { _logger.Log(exception != null ? "Не удалось записать настройки АИН" : "Настройки АИН успешно записаны"); });
 			}
 			catch {
 				_logger.Log("Не удалось начать запись результатов тестирования");
 			}
 		}
 
-		private void WriteTestResult(TableViewModel table) {
-			var settingsPart = new AinSettingsPartWritable {
+		private IAinSettingsPart WriteTestResult(TableViewModel table) {
+			return new AinSettingsPartWritable {
 				Rs = table.Rs,
-				//Rs 
+				//Rr 
 				Lsl = table.LslAndLrl,
 				Lrl = table.LslAndLrl,
 				Lm = table.Lm,
@@ -219,8 +221,6 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				KpW = table.SpeedKp,
 				KiW = table.SpeedKi
 			};
-
-			_ainSettingsWriter.WriteSettingsAsync(settingsPart, exception => { _logger.Log(exception != null ? "Не удалось записать настройки АИН (откат на начальные значения)" : "Настройки АИН успешно записаны (откат на начальные значения)"); });
 		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {

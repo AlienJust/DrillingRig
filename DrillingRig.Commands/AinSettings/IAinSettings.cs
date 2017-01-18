@@ -29,11 +29,11 @@ namespace DrillingRig.Commands.AinSettings {
 		short Ic0 { get; }
 
 		short Udc0 { get; }
-		short TauR { get; }
-		short Lm { get; }
 
-		short Lsl { get; }
-		short Lrl { get; }
+		double TauR { get; }
+		double Lm { get; }
+		double Lsl { get; }
+		double Lrl { get; }
 
 		BytesPair Reserved24 { get; }
 		double KpFi { get; }

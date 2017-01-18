@@ -38,10 +38,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_ainsCounter = ainsCounter;
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f8", -10000, 10000, null) { Increment = 0.00390625 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -10000, 10000, null) { Increment = 0.00390625 };
 
 			Parameter03Vm = new ParameterDoubleEditCheckViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f8", -10000, 10000, null) { Increment = 0.00390625 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -10000, 10000, null) { Increment = 0.00390625 };
 
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM

@@ -7,13 +7,13 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public string Header { get; }
 
 		private short? _rs;
-		private short? _rr; // rs/2
-		private short? _lslAndLrl;
-		private short? _lm;
+		private double? _rr; // rs/2
+		private double? _lslAndLrl;
+		private double? _lm;
 		private short? _flNom;
-		private short? _j;
-		private short? _tr;
-		private short? _roverL;
+		private double? _j;
+		private double? _tr;
+		private double? _roverL;
 
 		private double? _idIqKp;
 		private double? _idIqTi;
@@ -73,7 +73,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 					LslAndLrl = (short)testResult.Lsl;
 					Lm = (short)testResult.Lm;
 					FlNom = (short)testResult.FlNom;
-					Tr = (short)testResult.Tr;
+					Tr = (short)testResult.TauR;
 				}
 			}
 			else {
@@ -93,7 +93,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? Rr {
+		public double? Rr {
 			get { return _rr; }
 			set {
 				if (_rr != value) {
@@ -103,7 +103,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? LslAndLrl {
+		public double? LslAndLrl {
 			get { return _lslAndLrl; }
 			set {
 				if (_lslAndLrl != value) {
@@ -113,7 +113,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? Lm {
+		public double? Lm {
 			get { return _lm; }
 			set {
 				if (_lm != value) {
@@ -133,7 +133,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? J {
+		public double? J {
 			get { return _j; }
 			set {
 				if (_j != value) {
@@ -143,7 +143,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? Tr {
+		public double? Tr {
 			get { return _tr; }
 			set {
 				if (_tr != value) {
@@ -153,7 +153,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? RoverL {
+		public double? RoverL {
 			get { return _roverL; }
 			set {
 				if (_roverL != value) {
@@ -162,6 +162,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
+
 
 		public double? IdIqKp {
 			get { return _idIqKp; }
@@ -172,7 +173,6 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-
 		public double? IdIqTi {
 			get { return _idIqTi; }
 			set {
@@ -182,7 +182,6 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-
 		public double? IdIqKi {
 			get { return _idIqKi; }
 			set {
@@ -221,6 +220,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
+
 
 		public double? SpeedKp {
 			get { return _speedKp; }

@@ -20,7 +20,7 @@
 		<Label
 			Content="{Binding Path=Header, Mode=OneTime}"
 			FontSize="16"
-			HorizontalContentAlignment="Center"/>
+			HorizontalContentAlignment="Center" />
 		<Grid
 			Grid.Row="1">
 			<Grid.ColumnDefinitions>
@@ -71,6 +71,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="0"
 				Grid.Column="1"
 				Value="{Binding Path=Rs, Mode=TwoWay}" />
@@ -81,6 +83,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="1"
 				Grid.Column="1"
 				Value="{Binding Path=Rr, Mode=TwoWay}" />
@@ -92,6 +96,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="2"
 				Grid.Column="1"
 				Value="{Binding Path=LslAndLrl, Mode=TwoWay}" />
@@ -103,6 +109,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="3"
 				Grid.Column="1"
 				Value="{Binding Path=Lm, Mode=TwoWay}" />
@@ -114,6 +122,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="4"
 				Grid.Column="1"
 				Value="{Binding Path=FlNom, Mode=TwoWay}" />
@@ -125,17 +135,21 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="5"
 				Grid.Column="1"
 				Value="{Binding Path=J, Mode=TwoWay}" />
 
 			<Label
-				Content="Tr, сек"
+				Content="TauR, сек"
 				Grid.Row="6"
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="6"
 				Grid.Column="1"
 				Value="{Binding Path=Tr, Mode=TwoWay}" />
@@ -147,6 +161,8 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="7"
 				Grid.Column="1"
 				Value="{Binding Path=RoverL, Mode=TwoWay}" />
@@ -158,6 +174,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="8"
 				Grid.Column="1"
 				Value="{Binding Path=IdIqKp, Mode=TwoWay}" />
@@ -180,6 +199,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="10"
 				Grid.Column="1"
 				Value="{Binding Path=IdIqKi, Mode=TwoWay}" />
@@ -191,6 +213,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="11"
 				Grid.Column="1"
 				Value="{Binding Path=FluxKp, Mode=TwoWay}" />
@@ -213,6 +238,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="13"
 				Grid.Column="1"
 				Value="{Binding Path=FluxKi, Mode=TwoWay}" />
@@ -224,6 +252,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="14"
 				Grid.Column="1"
 				Value="{Binding Path=SpeedKp, Mode=TwoWay}" />
@@ -246,6 +277,9 @@
 				VerticalAlignment="Center"
 				HorizontalContentAlignment="Right" />
 			<controls:NumericUpDown
+				Interval="0.00390625"
+				Minimum="-10000"
+				Maximum="10000"
 				Grid.Row="16"
 				Grid.Column="1"
 				Value="{Binding Path=SpeedKi, Mode=TwoWay}" />

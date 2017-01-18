@@ -21,10 +21,12 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short? Ib0 { get; set; }
 		public short? Ic0 { get; set; }
 		public short? Udc0 { get; set; }
-		public short? TauR { get; set; }
-		public short? Lm { get; set; }
-		public short? Lsl { get; set; }
-		public short? Lrl { get; set; }
+
+		public double? TauR { get; set; }
+		public double? Lm { get; set; }
+		public double? Lsl { get; set; }
+		public double? Lrl { get; set; }
+
 		public double? KpFi { get; set; }
 		public double? KiFi { get; set; }
 		public double? KpId { get; set; }

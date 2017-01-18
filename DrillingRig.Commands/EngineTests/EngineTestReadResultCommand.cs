@@ -31,6 +31,7 @@ namespace DrillingRig.Commands.EngineTests {
 		/// <returns>Float from bytes</returns>
 		float GetFloatLe(IEnumerable<byte> bytes)
 		{
+			// TODO: perfomance could be increased easily
 			var preparedBytes = BitConverter.IsLittleEndian ? bytes.ToArray() : bytes.Reverse().ToArray();
 			return BitConverter.ToSingle(preparedBytes, 0);
 		}
@@ -42,17 +43,19 @@ namespace DrillingRig.Commands.EngineTests {
 		/// <returns>Успешность запуска тестирования</returns>
 		public IEngineTestResult GetResult(byte[] reply) {
 			if (reply.Length != ReplyLength)
-				throw new Exception("Reply error, reply length must be 1");
+				throw new Exception("Reply error, reply length must be " + ReplyLength);
+
 			var testResult = reply[0];
-			var rs = GetIntLe(reply.Skip(1).Take(4));
-			var rr = GetIntLe(reply.Skip(5).Take(4));
-			var lsi = GetIntLe(reply.Skip(9).Take(4));
-			var lri = GetIntLe(reply.Skip(13).Take(4));
-			var lm = GetIntLe(reply.Skip(17).Take(4));
-			var flnom = GetIntLe(reply.Skip(21).Take(4));
-			var j = GetIntLe(reply.Skip(25).Take(4));
-			var tr = GetIntLe(reply.Skip(29).Take(4));
-			var roverl = GetIntLe(reply.Skip(33).Take(4));
+			// TODO: perfomance could be increased easily
+			var rs = (short)GetFloatLe(reply.Skip(1).Take(4));
+			var rr = GetFloatLe(reply.Skip(5).Take(4));
+			var lsi = GetFloatLe(reply.Skip(9).Take(4));
+			var lri = GetFloatLe(reply.Skip(13).Take(4));
+			var lm = GetFloatLe(reply.Skip(17).Take(4));
+			var flnom = (short)GetFloatLe(reply.Skip(21).Take(4));
+			var j = GetFloatLe(reply.Skip(25).Take(4));
+			var tr = GetFloatLe(reply.Skip(29).Take(4));
+			var roverl = GetFloatLe(reply.Skip(33).Take(4));
 			
 
 			return new EngineTestResultSimple(testResult, rs, rr, lsi, lri, lm, flnom, j, tr, roverl);

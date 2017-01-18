@@ -1,6 +1,6 @@
 namespace DrillingRig.Commands.EngineTests {
 	class EngineTestResultSimple : IEngineTestResult {
-		public EngineTestResultSimple(byte testResultByte, int rs, int rr, int lsI, int lrI, int lm, int flNom, int j, int tr, int roverL)
+		public EngineTestResultSimple(byte testResultByte, short rs, double rr, double lsI, double lrI, double lm, short flNom, double j, double tr, double roverL)
 		{
 			TestResultByte = testResultByte;
 
@@ -11,20 +11,20 @@ namespace DrillingRig.Commands.EngineTests {
 			Lm = lm;
 			FlNom = flNom;
 			J = j;
-			Tr = tr;
+			TauR = tr;
 			RoverL = roverL;
 		}
 
 		public byte TestResultByte { get; }
 
-		public int Rs { get; }
-		public int Rr { get; }
-		public int Lsl { get; }
-		public int Lrl { get; }
-		public int Lm { get; }
-		public int FlNom { get; }
-		public int J { get; }
-		public int Tr { get; }
-		public int RoverL { get; }
+		public short Rs { get; } // short, type is synced IAinSettings
+		public double Rr { get; }
+		public double Lsl { get; }
+		public double Lrl { get; }
+		public double Lm { get; }
+		public short FlNom { get; } // short, type is synced IAinSettings
+		public double J { get; }
+		public double TauR { get; }
+		public double RoverL { get; }
 	}
 }

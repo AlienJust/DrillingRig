@@ -61,10 +61,15 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[34] + (replyWithoutAinNumber[35] <<8)),
 				(short)(replyWithoutAinNumber[36] + (replyWithoutAinNumber[37] <<8)),
 				(short)(replyWithoutAinNumber[38] + (replyWithoutAinNumber[39] <<8)),
-				(short)(replyWithoutAinNumber[40] + (replyWithoutAinNumber[41] <<8)),
-				(short)(replyWithoutAinNumber[42] + (replyWithoutAinNumber[43] <<8)),
-				(short)(replyWithoutAinNumber[44] + (replyWithoutAinNumber[45] <<8)),
-				(short)(replyWithoutAinNumber[46] + (replyWithoutAinNumber[47] <<8)),
+
+				// TauR:
+				(replyWithoutAinNumber[40] + (replyWithoutAinNumber[41] <<8)) / 10000.0,
+				// Lm:
+				(replyWithoutAinNumber[42] + (replyWithoutAinNumber[43] <<8)) / 100000.0,
+				// Lsl:
+				(replyWithoutAinNumber[44] + (replyWithoutAinNumber[45] <<8)) / 1000000.0,
+				// Lrl:
+				(replyWithoutAinNumber[46] + (replyWithoutAinNumber[47] <<8)) / 1000000.0,
 
 				// reserved 24:
 				new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),

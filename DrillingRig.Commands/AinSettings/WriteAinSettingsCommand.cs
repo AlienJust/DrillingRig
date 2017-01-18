@@ -44,10 +44,10 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(34, _settings.Ib0);
 			settingsSerialized.SerializeShortLowFirst(36, _settings.Ic0);
 			settingsSerialized.SerializeShortLowFirst(38, _settings.Udc0);
-			settingsSerialized.SerializeShortLowFirst(40, _settings.TauR);
-			settingsSerialized.SerializeShortLowFirst(42, _settings.Lm);
-			settingsSerialized.SerializeShortLowFirst(44, _settings.Lsl);
-			settingsSerialized.SerializeShortLowFirst(46, _settings.Lrl);
+			settingsSerialized.SerializeShortLowFirst(40, (short)(_settings.TauR * 10000));
+			settingsSerialized.SerializeShortLowFirst(42, (short)(_settings.Lm * 100000));
+			settingsSerialized.SerializeShortLowFirst(44, (short)(_settings.Lsl * 1000000));
+			settingsSerialized.SerializeShortLowFirst(46, (short)(_settings.Lrl * 1000000));
 
 			settingsSerialized[48] = _settings.Reserved24.First;
 			settingsSerialized[49] = _settings.Reserved24.Second;

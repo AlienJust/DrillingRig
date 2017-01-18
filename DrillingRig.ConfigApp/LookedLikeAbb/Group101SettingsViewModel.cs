@@ -37,7 +37,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_ainsCounter = ainsCounter;
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("101.01. Пропорциональный коэф. регулятора потока", "f8", -10000, 10000, null) { Increment = 0.00390625 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -10000, 10000, null) { Increment = 0.00390625 };
 
 			Parameter03Vm = new ParameterDoubleEditCheckViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000, null);
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("101.04. Ограничение выхода регулятора потока макс", "f0", -10000, 10000, null);

@@ -5,14 +5,14 @@ namespace DrillingRig.Commands.EngineTests {
 	public interface IEngineTestResult {
 		byte TestResultByte { get; }
 
-		int Rs { get; }
-		int Rr { get; }
-		int Lsl { get; }
-		int Lrl { get; }
-		int Lm { get; }
-		int FlNom { get; }
-		int J { get; }
-		int Tr { get; }
-		int RoverL { get; }
+		short Rs { get; } // short, because of must be synced with IAinSettings
+		double Rr { get; }
+		double Lsl { get; }
+		double Lrl { get; }
+		double Lm { get; }
+		short FlNom { get; } // short, because of must be synced with IAinSettings
+		double J { get; }
+		double TauR { get; }
+		double RoverL { get; }
 	}
 }

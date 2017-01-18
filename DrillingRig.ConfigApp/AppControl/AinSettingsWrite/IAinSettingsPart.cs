@@ -29,11 +29,11 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		short? Ic0 { get; }
 
 		short? Udc0 { get; }
-		short? TauR { get; }
-		short? Lm { get; }
 
-		short? Lsl { get; }
-		short? Lrl { get; }
+		double? TauR { get; }
+		double? Lm { get; }
+		double? Lsl { get; }
+		double? Lrl { get; }
 
 		double? KpFi { get; }
 		double? KiFi { get; }
