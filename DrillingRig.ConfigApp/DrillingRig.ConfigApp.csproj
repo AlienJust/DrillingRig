@@ -525,6 +525,7 @@
     <Compile Include="WindowControl\WindowControlView.xaml.cs">
       <DependentUpon>WindowControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowControl\WindowControlViewModel.cs" />
     <Page Include="AciIdentify\AciIdentifyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
