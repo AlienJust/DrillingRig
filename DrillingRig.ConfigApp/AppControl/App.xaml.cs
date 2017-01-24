@@ -340,6 +340,9 @@ namespace DrillingRig.ConfigApp.AppControl {
 		}
 	}
 
+	/// <summary>
+	/// Модель системы окон приложения
+	/// </summary>
 	class WindowSystemModel : IWindowSystemModel {
 		private readonly List<Color> _colors;
 		private readonly IParamLoggerRegistrationPoint _paramLoggerRegPoint;
@@ -398,13 +401,13 @@ namespace DrillingRig.ConfigApp.AppControl {
 		public void HideOscilloscopeWindow() {
 			try {
 				_oscilloscopeWindowCloseFunc?.Invoke();
-				_oscilloscopeWindowCloseFunc = null;
 			}
 			catch (Exception e) {
 				//Console.WriteLine(e);
 				//throw;
 				// TODO: log exception
 			}
+			_oscilloscopeWindowCloseFunc = null;
 		}
 	}
 
