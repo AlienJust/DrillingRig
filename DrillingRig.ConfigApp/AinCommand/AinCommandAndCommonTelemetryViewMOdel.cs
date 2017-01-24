@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.RtuModbus.CommonTelemetry;
 using DrillingRig.ConfigApp.AinTelemetry;

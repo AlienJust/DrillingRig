@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Input;
-using AlienJust.Support.Collections;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinCommand;
@@ -10,7 +8,6 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.AinCommand {
 	internal class AinCommandAndMinimalCommonTelemetryViewModel : ViewModelBase {
@@ -249,11 +246,14 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
+		/// <summary>
+		/// Полученная скорость в об/мин
+		/// </summary>
 		public double? FsetReceived {
 			get {
 				if (_telemetry == null) return null;
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 60.0 / ain1Settings?.Np;
+				return _telemetry.Fset.HighFirstSignedValue * 6.0 / ain1Settings?.Np;
 			}
 		}
 

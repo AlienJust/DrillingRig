@@ -18,9 +18,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
 			try {
-				
 				double viewValue = (double)value; // 0 - 1
-				
 				return Math.Pow(100, viewValue - 1) * 15151.515151 - 151.51515151;
 			}
 			catch {
