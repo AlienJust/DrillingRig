@@ -24,6 +24,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter07Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -44,6 +47,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальный момент", "f0", -10000, 10000, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000, null);
+			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000, null);
+			Parameter08Vm = new ParameterDoubleEditCheckViewModel("20.08. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000, null); // TODO: * 0.1 при приёме
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -116,7 +122,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter01Vm.CurrentValue = settings.Fmax;
 				Parameter02Vm.CurrentValue = settings.IoutMax;
 				Parameter03Vm.CurrentValue = settings.Fmin;
-
 
 				//Parameter05Vm.CurrentValue = settings.Fmax;
 				//Parameter06Vm.CurrentValue = settings.Fmin;
