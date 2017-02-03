@@ -9,8 +9,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short? Imax { get; set; }
 		public short? UdcMax { get; set; }
 		public short? UdcMin { get; set; }
-		public short? Fnom { get; set; }
-		public short? Fmax { get; set; }
+		public double? Fnom { get; set; }
+		public double? Fmax { get; set; }
 		public short? DflLim { get; set; }
 		public short? FlMinMin { get; set; }
 		public short? IoutMax { get; set; }
@@ -35,10 +35,10 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public double? KiIq { get; set; }
 		public short? AccDfDt { get; set; }
 		public short? DecDfDt { get; set; }
-		public short? Unom { get; set; }
+		public double? Unom { get; set; }
 		public short? TauFlLim { get; set; }
 		public short? Rs { get; set; }
-		public short? Fmin { get; set; }
+		public double? Fmin { get; set; }
 		public short? TauM { get; set; }
 		public short? TauF { get; set; }
 		public short? TauFSet { get; set; }

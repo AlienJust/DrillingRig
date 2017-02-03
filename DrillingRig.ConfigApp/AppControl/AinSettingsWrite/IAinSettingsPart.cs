@@ -12,8 +12,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		short? UdcMax { get; }
 		short? UdcMin { get; }
 
-		short? Fnom { get; }
-		short? Fmax { get; }
+		double? Fnom { get; }
+		double? Fmax { get; }
 
 		short? DflLim { get; }
 		short? FlMinMin { get; }
@@ -47,12 +47,12 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		short? AccDfDt { get; }
 		short? DecDfDt { get; }
 
-		short? Unom { get; }
+		double? Unom { get; }
 
 		short? TauFlLim { get; }
 
 		short? Rs { get; }
-		short? Fmin { get; }
+		double? Fmin { get; }
 
 		short? TauM { get; }
 		short? TauF { get; }

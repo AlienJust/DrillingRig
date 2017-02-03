@@ -75,10 +75,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					Fnom = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10.0),
-					Fmax = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 10.0),
+					Fnom = Parameter01Vm.CurrentValue,
+					Fmax = Parameter02Vm.CurrentValue,
 					IoutMax = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					Fmin = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 10.0),
+					Fmin = Parameter04Vm.CurrentValue,
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -117,10 +117,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.Fnom * 0.1; // MGF FiNom;
-				Parameter02Vm.CurrentValue = settings.Fmax * 0.1;
+				Parameter01Vm.CurrentValue = settings.Fnom; // MGF FiNom;
+				Parameter02Vm.CurrentValue = settings.Fmax;
 				Parameter03Vm.CurrentValue = settings.IoutMax;
-				Parameter04Vm.CurrentValue = settings.Fmin * 0.1;
+				Parameter04Vm.CurrentValue = settings.Fmin;
 
 
 				//Parameter05Vm.CurrentValue = settings.Fmax;

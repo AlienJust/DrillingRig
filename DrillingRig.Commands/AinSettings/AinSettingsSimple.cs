@@ -11,8 +11,8 @@ namespace DrillingRig.Commands.AinSettings {
 			short imax,
 			short udcMax,
 			short udcMin,
-			short fnom,
-			short fmax,
+			double fnom,
+			double fmax,
 
 			short dflLim,
 			short flMinMin,
@@ -47,12 +47,12 @@ namespace DrillingRig.Commands.AinSettings {
 
 			short accDfDt,
 			short decDfDt,
-			short unom,
+			double unom,
 
 			short tauFlLim,
 
 			short rs,
-			short fmin,
+			double fmin,
 			short tauM,
 			short tauF,
 			short tauFSet,
@@ -158,9 +158,8 @@ namespace DrillingRig.Commands.AinSettings {
 		public short UdcMax { get; }
 		public short UdcMin { get; }
 
-		public short Fnom { get; }
-
-		public short Fmax { get; }
+		public double Fnom { get; }
+		public double Fmax { get; }
 
 		public short DflLim { get; }
 
@@ -175,9 +174,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public short Imcw { get; }
 
 		public short Ia0 { get; }
-
 		public short Ib0 { get; }
-
 		public short Ic0 { get; }
 
 		public short Udc0 { get; }
@@ -206,13 +203,13 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public short DecDfDt { get; }
 
-		public short Unom { get; }
+		public double Unom { get; }
 
 		public short TauFlLim { get; }
 
 		public short Rs { get; }
 
-		public short Fmin { get; }
+		public double Fmin { get; }
 
 		public short TauM { get; }
 

@@ -1,7 +1,4 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
-using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanReadonly;
-using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterStringReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 	class ImcwParameterViewModel : ViewModelBase {

@@ -30,8 +30,9 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
 			settingsSerialized.SerializeShortLowFirst(12, _settings.UdcMax);
 			settingsSerialized.SerializeShortLowFirst(14, _settings.UdcMin);
-			settingsSerialized.SerializeShortLowFirst(16, _settings.Fnom);
-			settingsSerialized.SerializeShortLowFirst(18, _settings.Fmax);
+
+			settingsSerialized.SerializeUshortLowFirst(16, (ushort)(_settings.Fnom * 10.0));
+			settingsSerialized.SerializeUshortLowFirst(18, (ushort)(_settings.Fmax * 10.0));
 
 			settingsSerialized.SerializeShortLowFirst(20, _settings.DflLim);
 			settingsSerialized.SerializeShortLowFirst(22, _settings.FlMinMin);
@@ -80,12 +81,14 @@ namespace DrillingRig.Commands.AinSettings {
 
 			settingsSerialized.SerializeShortLowFirst(72, _settings.AccDfDt);
 			settingsSerialized.SerializeShortLowFirst(74, _settings.DecDfDt);
-			settingsSerialized.SerializeShortLowFirst(76, _settings.Unom);
+			settingsSerialized.SerializeUshortLowFirst(76, (ushort) Math.Round(_settings.Unom * Math.Sqrt(2.0)));
 
 			settingsSerialized.SerializeShortLowFirst(78, _settings.TauFlLim);
 
+			// rs:
 			settingsSerialized.SerializeShortLowFirst(80, _settings.Rs);
-			settingsSerialized.SerializeShortLowFirst(82, _settings.Fmin);
+			// fmin:
+			settingsSerialized.SerializeUshortLowFirst(82, (ushort)(_settings.Fmin * 10.0));
 			settingsSerialized.SerializeShortLowFirst(84, _settings.TauM);
 			settingsSerialized.SerializeShortLowFirst(86, _settings.TauF);
 			settingsSerialized.SerializeShortLowFirst(88, _settings.TauFSet);

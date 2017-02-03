@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
@@ -10,6 +11,8 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboIntEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
@@ -28,6 +31,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterComboEditableViewModel<int> Parameter07Vm { get; }
+
+		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter09Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter10Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter11Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter12Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -41,12 +51,24 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение АД, линейное, амплитуда", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальное напряжение двигателя", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальный ток двигателя", "f1", 0, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная частота двигателя, гЦ", "f2", 8, 300, null);
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f1", 0, 9000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя, В", "f0", 0, 10000, null); // TODO: Unom / sqrt(2) , при отправке - умножение, применять округление (не обрезание)
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f1", 0, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f2", 8, 300, null); // TODO: 8 параметр у Ромы (эл) 20.01 (там убрать)
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000, null); // TODO: продублировать в группе скроростей (21 вроде бы)
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f2", 0, 9000, null);
+			Parameter07Vm = new ParameterComboEditableViewModel<int>("99.06. Режим управления двигателем",
+				new[]
+				{
+					new ComboItemViewModel<int> {ComboText = "Скалярный", ComboValue = 0}
+					, new ComboItemViewModel<int> {ComboText = "Векторный", ComboValue = 1}
+				});
+			Parameter08Vm = new ParameterDoubleEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0, null);
+			Parameter09Vm = new ParameterDoubleEditCheckViewModel("99.09. Кпд двигателя, %", "f2", 0, 1.0, null);
+			Parameter10Vm = new ParameterDoubleEditCheckViewModel("99.10. Масса двигателя, кг", "f2", 0, 10000, null);
+			Parameter11Vm = new ParameterDoubleEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f2", 0, 10000, null);
+			Parameter12Vm = new ParameterDoubleEditCheckViewModel("99.12. Конструктивная высота, мм", "f2", 0, 10000, null);
+
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
@@ -75,7 +97,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					Unom = ConvertDoubleToShort(Parameter01Vm.CurrentValue)
+					Unom = Parameter01Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -94,16 +116,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
 			}
-		}
-
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
 		}
 
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
@@ -111,9 +128,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				if (exception != null) {
 					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
+					Parameter07Vm.SelectedComboItem = null;
 					return;
 				}
 				Parameter01Vm.CurrentValue = settings.Unom;
+				int comboValue = (settings.Imcw & 0x0080) == 0x0080 ? 1 : 0;
+				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
 			});
 		}
 	}

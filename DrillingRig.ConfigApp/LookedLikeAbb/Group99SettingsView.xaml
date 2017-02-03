@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
+	xmlns:parameterComboEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable"
 	mc:Ignorable="d"
 	d:DesignHeight="300"
 	d:DesignWidth="500">
@@ -19,7 +20,6 @@
 				Orientation="Vertical">
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 					DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
-
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 					DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
@@ -30,6 +30,18 @@
 					DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 					DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
+				<parameterComboEditable:ParameterComboEditableView
+					DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter10Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter11Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter12Vm, Mode=OneTime}" />
 			</StackPanel>
 		</ScrollViewer>
 		<Grid

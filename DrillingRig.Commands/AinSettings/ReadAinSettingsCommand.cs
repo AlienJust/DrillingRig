@@ -47,8 +47,11 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
 				(short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
 				(short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
-				(short)(replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)),
-				(short)(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)),
+				
+				//fnom:
+				(replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)) / 10.0,
+				//fmax:
+				(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
 
 				(short)(replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)),
 				(short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
@@ -96,12 +99,14 @@ namespace DrillingRig.Commands.AinSettings {
 
 				(short)(replyWithoutAinNumber[72] + (replyWithoutAinNumber[73] <<8)),
 				(short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),
-				(short)(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)),
+				// Unom:
+				(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
 
 				(short)(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)),
 
 				(short)(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)),
-				(short)(replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)),
+				// fmin:
+				(replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)) / 10.0,
 				(short)(replyWithoutAinNumber[84] + (replyWithoutAinNumber[85] <<8)),
 				(short)(replyWithoutAinNumber[86] + (replyWithoutAinNumber[87] <<8)),
 				(short)(replyWithoutAinNumber[88] + (replyWithoutAinNumber[89] <<8)),
