@@ -24,7 +24,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -38,14 +37,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("20.01. Номинальная частота", "f1", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("20.02. Максимальная частота", "f1", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("20.01. Максимальная частота", "f1", -10000, 10000, null);
 
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("20.03. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("20.02. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("20.03. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
 
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Максимальный момент", "f0", -10000, 10000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальный момент", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -75,10 +73,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					Fnom = Parameter01Vm.CurrentValue,
-					Fmax = Parameter02Vm.CurrentValue,
-					IoutMax = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					Fmin = Parameter04Vm.CurrentValue,
+					Fmax = Parameter01Vm.CurrentValue,
+					IoutMax = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					Fmin = Parameter03Vm.CurrentValue,
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -113,14 +110,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter03Vm.CurrentValue = null;
 					Parameter04Vm.CurrentValue = null;
 					Parameter05Vm.CurrentValue = null;
-					Parameter06Vm.CurrentValue = null;
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.Fnom; // MGF FiNom;
-				Parameter02Vm.CurrentValue = settings.Fmax;
-				Parameter03Vm.CurrentValue = settings.IoutMax;
-				Parameter04Vm.CurrentValue = settings.Fmin;
+				Parameter01Vm.CurrentValue = settings.Fmax;
+				Parameter02Vm.CurrentValue = settings.IoutMax;
+				Parameter03Vm.CurrentValue = settings.Fmin;
 
 
 				//Parameter05Vm.CurrentValue = settings.Fmax;
