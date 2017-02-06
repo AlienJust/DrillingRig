@@ -36,10 +36,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("104.01. Максимально возможная компенсация потока", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("104.01. Максимально возможная компенсация потока", "f3", -10000, 10000, null) {Increment = 0.1};
 			Parameter02Vm = new ParameterDoubleEditCheckViewModel("104.02. Минимальный возможный поток (в % от номинала)", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("104.03. Постоянная времени регулятора компенсации потока", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("104.04. Порог компенсации напряжения DC за счет потока", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("104.03. Постоянная времени регулятора компенсации потока", "f3", -10000, 10000, null) { Increment = 0.1 };
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("104.04. Порог компенсации напряжения DC за счет потока", "f3", -10000, 10000, null) { Increment = 0.1 };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

@@ -53,7 +53,7 @@ namespace DrillingRig.Commands.AinSettings {
 				// Fmax:
 				(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
 				// DflLim:
-				(replyWithoutAinNumber[20] + replyWithoutAinNumber[21] << 8) / 1000.0,
+				(replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)) / 1000.0,
 
 				(short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
 
@@ -103,7 +103,7 @@ namespace DrillingRig.Commands.AinSettings {
 				// Unom:
 				(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
 				// TauFlLim:
-				(replyWithoutAinNumber[78] + replyWithoutAinNumber[79] << 8) / 1000.0,
+				(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)) / 1000.0,
 				// Rs:
 				(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)) / 10000.0,
 				// fmin:
@@ -129,7 +129,7 @@ namespace DrillingRig.Commands.AinSettings {
 				nimpFloorCode,
 				fanMode,
 
-				(replyWithoutAinNumber[106] + replyWithoutAinNumber[107] << 8) / 1000.0,
+				(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)) / 1000.0,
 
 				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
 				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
