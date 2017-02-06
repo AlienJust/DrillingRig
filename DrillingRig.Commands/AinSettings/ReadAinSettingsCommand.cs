@@ -103,8 +103,8 @@ namespace DrillingRig.Commands.AinSettings {
 				(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
 
 				(short)(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)),
-
-				(short)(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)),
+				// Rs:
+				(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)) / 10000.0,
 				// fmin:
 				(replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)) / 10.0,
 				(short)(replyWithoutAinNumber[84] + (replyWithoutAinNumber[85] <<8)),

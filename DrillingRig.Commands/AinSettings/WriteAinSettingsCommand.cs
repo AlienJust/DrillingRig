@@ -86,7 +86,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(78, _settings.TauFlLim);
 
 			// rs:
-			settingsSerialized.SerializeShortLowFirst(80, _settings.Rs);
+			settingsSerialized.SerializeUshortLowFirst(80, (ushort)(_settings.Rs * 10000));
 			// fmin:
 			settingsSerialized.SerializeUshortLowFirst(82, (ushort)(_settings.Fmin * 10.0));
 			settingsSerialized.SerializeShortLowFirst(84, _settings.TauM);

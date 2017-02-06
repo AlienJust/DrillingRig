@@ -51,7 +51,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 		short? TauFlLim { get; }
 
-		short? Rs { get; }
+		double? Rs { get; }
 		double? Fmin { get; }
 
 		short? TauM { get; }

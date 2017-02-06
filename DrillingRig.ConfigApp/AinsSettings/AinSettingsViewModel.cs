@@ -63,7 +63,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private short? _empty39;
 
-		private short? _rs;
+		private double? _rs;
 		private double? _fmin;
 
 		private short? _tauM;
@@ -554,7 +554,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_empty39 != value) { _empty39 = value; RaisePropertyChanged(() => Empty39); } }
 		}
 
-		public short? Rs {
+		public double? Rs {
 			get { return _rs; }
 			set { if (_rs != value) { _rs = value; RaisePropertyChanged(() => Rs); } }
 		}

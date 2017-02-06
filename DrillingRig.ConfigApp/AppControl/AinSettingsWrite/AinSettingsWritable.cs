@@ -47,7 +47,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short DecDfDt { get; set; }
 		public double Unom { get; set; }
 		public short TauFlLim { get; set; }
-		public short Rs { get; set; }
+		public double Rs { get; set; }
 		public double Fmin { get; set; }
 		public short TauM { get; set; }
 		public short TauF { get; set; }

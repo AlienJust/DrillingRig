@@ -6,7 +6,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
 		public string Header { get; }
 
-		private short? _rs;
+		private double? _rs;
 		private double? _rr; // rs/2
 		private double? _lslAndLrl;
 		private double? _lm;
@@ -83,7 +83,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? Rs {
+		public double? Rs {
 			get { return _rs; }
 			set {
 				if (_rs != value) {

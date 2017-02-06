@@ -38,11 +38,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("102.01. Постоянная времени ротора", "f4", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("102.02. Индуктивность намагничивания", "f5", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора", "f6", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null);
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("102.01. Постоянная времени ротора", "f4", -10000, 10000, null) { Increment = 0.0001 };
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("102.02. Индуктивность намагничивания", "f5", -10000, 10000, null) { Increment = 0.00001 };
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора", "f6", -10000, 10000, null) { Increment = 0.000001 };
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null) { Increment = 0.000001 };
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -10000, 10000, null) { Increment = 0.0001 };
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", -10000, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -73,12 +73,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					TauR = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10000.0),
-					Lm = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 100000.0),
-					Lsl = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 1000000.0),
-					Lrl = ConvertDoubleToShort(Parameter04Vm.CurrentValue * 1000000.0),
-					Rs = ConvertDoubleToShort(Parameter05Vm.CurrentValue),
-					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue),
+					TauR = Parameter01Vm.CurrentValue * 10000.0,
+					Lm = Parameter02Vm.CurrentValue * 100000.0,
+					Lsl = Parameter03Vm.CurrentValue * 1000000.0,
+					Lrl = Parameter04Vm.CurrentValue,
+					Rs = Parameter05Vm.CurrentValue,
+					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -97,7 +97,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
@@ -106,7 +106,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private short? ConvertDoubleToShort(double? value) {
 			if (!value.HasValue) return null;
-			return (short) value.Value;
+			return (short)value.Value;
 		}
 
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
@@ -122,10 +122,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.TauR * 0.0001;
-				Parameter02Vm.CurrentValue = settings.Lm * 0.00001;
-				Parameter03Vm.CurrentValue = settings.Lsl * 0.000001;
-				Parameter04Vm.CurrentValue = settings.Lrl * 0.000001;
+				Parameter01Vm.CurrentValue = settings.TauR;
+				Parameter02Vm.CurrentValue = settings.Lm;
+				Parameter03Vm.CurrentValue = settings.Lsl;
+				Parameter04Vm.CurrentValue = settings.Lrl;
 				Parameter05Vm.CurrentValue = settings.Rs;
 				Parameter06Vm.CurrentValue = settings.Np;
 			});

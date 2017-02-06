@@ -58,7 +58,8 @@ namespace DrillingRig.Commands.AinSettings {
 		/// </summary>
 		short TauFlLim { get; }
 
-		short Rs { get; }
+		double Rs { get; }
+
 		double Fmin { get; }
 
 		short TauM { get; }
