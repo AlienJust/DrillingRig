@@ -72,7 +72,7 @@
 					</Grid.ColumnDefinitions>
 					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="8. Fnom, Номинальная частота (электрическая), Гц (шаг 0.1 Гц)"/>
 					<!--<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Fnom, Mode=TwoWay}"/>-->
-					<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=Fnom, Mode=TwoWay, Converter={StaticResource DoubleConverter01}}" Increment="0.1" Maximum="3276.7" Minimum="-3276.8" FormatString="f1"/>
+					<xctk:DoubleUpDown Grid.Column="1" Value="{Binding Path=Fnom, Mode=TwoWay}" Increment="0.1" Maximum="3276.7" Minimum="-3276.8" FormatString="f1"/>
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
