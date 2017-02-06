@@ -69,10 +69,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					DflLim = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
+					DflLim = Parameter01Vm.CurrentValue,
 					FlMinMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					TauFlLim = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					UmodThr = ConvertDoubleToShort(Parameter04Vm.CurrentValue),
+					TauFlLim = Parameter03Vm.CurrentValue,
+					UmodThr = Parameter04Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {

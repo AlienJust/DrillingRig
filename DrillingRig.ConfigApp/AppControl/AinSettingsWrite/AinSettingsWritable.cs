@@ -14,7 +14,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short UdcMin { get; set; }
 		public double Fnom { get; set; }
 		public double Fmax { get; set; }
-		public short DflLim { get; set; }
+		public double DflLim { get; set; }
 		public short FlMinMin { get; set; }
 		public short IoutMax { get; set; }
 		public short FiMin { get; set; }
@@ -46,7 +46,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short AccDfDt { get; set; }
 		public short DecDfDt { get; set; }
 		public double Unom { get; set; }
-		public short TauFlLim { get; set; }
+		public double TauFlLim { get; set; }
 		public double Rs { get; set; }
 		public double Fmin { get; set; }
 		public short TauM { get; set; }
@@ -62,7 +62,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public int Np { get; set; }
 		public int NimpFloorCode { get; set; }
 		public AinTelemetryFanWorkmode FanMode { get; set; }
-		public short UmodThr { get; set; }
+		public double UmodThr { get; set; }
 		public short EmdecDfdt { get; set; }
 		public short TextMax { get; set; }
 		public short ToHl { get; set; }

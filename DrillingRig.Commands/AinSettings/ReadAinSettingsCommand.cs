@@ -48,12 +48,13 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
 				(short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
 				
-				//fnom:
+				// Fnom:
 				(replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)) / 10.0,
-				//fmax:
+				// Fmax:
 				(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
+				// DflLim:
+				replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8) / 1000.0,
 
-				(short)(replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)),
 				(short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
 
 				(short)(replyWithoutAinNumber[24] + (replyWithoutAinNumber[25] <<8)),
@@ -101,8 +102,8 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),
 				// Unom:
 				(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
-
-				(short)(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)),
+				// TauFlLim:
+				replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8) / 1000.0,
 				// Rs:
 				(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)) / 10000.0,
 				// fmin:
@@ -134,7 +135,7 @@ namespace DrillingRig.Commands.AinSettings {
 				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
 				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8)),
 
-				//status byte:
+				// Status byte:
 				(replyWithoutAinNumber[114] & 0x01) == 0x01,
 				(replyWithoutAinNumber[114] & 0x02) == 0x02,
 				(replyWithoutAinNumber[114] & 0x04) == 0x04

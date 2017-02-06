@@ -32,8 +32,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private double? _fnom;
 		private double? _fmax;
 
-		private short? _empty10;
-		private short? _empty11;
+		private double? _empty10; // DflLim
+		private short? _empty11; // FlMinMin
 
 		private short? _ioutMax;
 		private short? _fiMin;
@@ -61,7 +61,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _decDfDt;
 		private double? _unom;
 
-		private short? _empty39;
+		private double? _empty39; // tauflim
 
 		private double? _rs;
 		private double? _fmin;
@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _uchMax;
 		private short? _np;
 
-		private short? _empty53;
+		private double? _empty53; // UmodThr
 
 		private short? _emdecDfdt;
 		private short? _textMax;
@@ -434,7 +434,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_fmax != value) { _fmax = value; RaisePropertyChanged(() => Fmax); } }
 		}
 
-		public short? Empty10
+		public double? Empty10
 		{
 			get { return _empty10; }
 			set { if (_empty10 != value) { _empty10 = value; RaisePropertyChanged(() => Empty10); } }
@@ -548,7 +548,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_unom != value) { _unom = value; RaisePropertyChanged(() => Unom); } }
 		}
 
-		public short? Empty39
+		public double? Empty39
 		{
 			get { return _empty39; }
 			set { if (_empty39 != value) { _empty39 = value; RaisePropertyChanged(() => Empty39); } }
@@ -609,7 +609,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_np != value) { _np = value; RaisePropertyChanged(() => Np); } }
 		}
 
-		public short? Empty53
+		public double? Empty53
 		{
 			get { return _empty53; }
 			set { if (_empty53 != value) { _empty53 = value; RaisePropertyChanged(() => Empty53); } }

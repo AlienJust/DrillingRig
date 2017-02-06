@@ -14,7 +14,7 @@ namespace DrillingRig.Commands.AinSettings {
 			double fnom,
 			double fmax,
 
-			short dflLim,
+			double dflLim,
 			short flMinMin,
 
 			short ioutMax,
@@ -49,7 +49,7 @@ namespace DrillingRig.Commands.AinSettings {
 			short decDfDt,
 			double unom,
 
-			short tauFlLim,
+			double tauFlLim,
 
 			double rs,
 			double fmin,
@@ -69,7 +69,7 @@ namespace DrillingRig.Commands.AinSettings {
 			int nimpFloorCode,
 			AinTelemetryFanWorkmode fanMode,
 
-			short umodThr,
+			double umodThr,
 
 			short emdecDfdt,
 			short textMax,
@@ -161,7 +161,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public double Fnom { get; }
 		public double Fmax { get; }
 
-		public short DflLim { get; }
+		public double DflLim { get; }
 
 		public short FlMinMin { get; }
 
@@ -205,7 +205,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public double Unom { get; }
 
-		public short TauFlLim { get; }
+		public double TauFlLim { get; }
 
 		public double Rs { get; }
 
@@ -233,7 +233,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public int NimpFloorCode { get; }
 		public AinTelemetryFanWorkmode FanMode { get; }
 
-		public short UmodThr { get; }
+		public double UmodThr { get; }
 
 		public short EmdecDfdt { get; }
 

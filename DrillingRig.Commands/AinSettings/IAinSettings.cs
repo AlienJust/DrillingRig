@@ -15,7 +15,7 @@ namespace DrillingRig.Commands.AinSettings {
 		double Fnom { get; }
 		double Fmax { get; }
 
-		short DflLim { get; }
+		double DflLim { get; }
 		short FlMinMin { get; }
 		
 		short IoutMax { get; }
@@ -56,7 +56,7 @@ namespace DrillingRig.Commands.AinSettings {
 		/// <summary>
 		/// Постоянная времени регулятора компенсации потока
 		/// </summary>
-		short TauFlLim { get; }
+		double TauFlLim { get; }
 
 		double Rs { get; }
 
@@ -91,7 +91,7 @@ namespace DrillingRig.Commands.AinSettings {
 		/// <summary>
 		/// Порог компенсации напряжения DC за счет потока
 		/// </summary>
-		short UmodThr { get; }
+		double UmodThr { get; }
 
 		short EmdecDfdt { get; }
 		short TextMax { get; }
