@@ -7,6 +7,9 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage
 	/// </summary>
 	interface IEngineSettingsStorage
 	{
+		/// <summary>
+		/// Сохранённые ранее настройки двигателя
+		/// </summary>
 		IEngineSettings EngineSettings { get; }
 	}
 }

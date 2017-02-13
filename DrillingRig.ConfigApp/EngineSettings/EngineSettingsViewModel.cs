@@ -7,7 +7,7 @@ using DrillingRig.Commands.EngineSettings;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
+//using EngineSettingsSimple = DrillingRig.ConfigApp.AppControl.EngineSettingsStorage.EngineSettingsSimple;
 
 namespace DrillingRig.ConfigApp.EngineSettings {
 	class EngineSettingsViewModel : ViewModelBase {

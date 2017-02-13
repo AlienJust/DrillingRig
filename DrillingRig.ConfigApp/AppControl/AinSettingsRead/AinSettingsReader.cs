@@ -30,8 +30,6 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 		}
 
 		public void ReadSettingsAsync(byte zeroBasedAinNumber, bool forceRead, Action<Exception, IAinSettings> callback) {
-			// чтение настроек производится только для первого АИН
-
 			if (forceRead == false) {
 				var settings = _ainSettingsStorageSettable.GetSettings(zeroBasedAinNumber);
 				if (settings != null) {
@@ -57,9 +55,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 							_notifyWorker.AddWork(() => FireEventAinSettingsReadComplete(zeroBasedAinNumber, ex, null));
 							_notifyWorker.AddWork(() => _ainSettingsStorageSettable.SetSettings(zeroBasedAinNumber, null));
 						}
-						catch (Exception ex) {
-							_logger.Log("Не удалось совершить обратный вызов после неудачного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
-							// TODO: log exception
+						catch {
+							_logger.Log("Не удалось совершить обратный вызов после неудачного чтения настроек (либо не удалось обnullить в хранилище) АИН" + (zeroBasedAinNumber + 1).ToString());
 						}
 						return;
 					}
@@ -75,9 +72,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 							_notifyWorker.AddWork(() => FireEventAinSettingsReadComplete(zeroBasedAinNumber, null, result));
 							_notifyWorker.AddWork(() => _ainSettingsStorageSettable.SetSettings(zeroBasedAinNumber, result));
 						}
-						catch (Exception ex) {
-							_logger.Log("Не удалось совершить обратный вызов после успешного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
-							// TODO: log exception
+						catch { 
+							_logger.Log("Не удалось совершить обратный вызов после успешного чтения настроек (либо не удалось сохранить настройки в хранилище) АИН" + (zeroBasedAinNumber + 1).ToString());
 						}
 
 					}
@@ -90,9 +86,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 							_notifyWorker.AddWork(() => FireEventAinSettingsReadComplete(zeroBasedAinNumber, ex, null));
 							_notifyWorker.AddWork(() => _ainSettingsStorageSettable.SetSettings(zeroBasedAinNumber, null));
 						}
-						catch (Exception ex) {
-							_logger.Log("Не удалось совершить обратный вызов после неудачного чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString());
-							// TODO: log exception
+						catch {
+							_logger.Log("Не удалось совершить обратный вызов после неудачного парсинга настроек (либо не удалось обnullить в хранилище) АИН " + (zeroBasedAinNumber + 1).ToString());
 						}
 					}
 				});

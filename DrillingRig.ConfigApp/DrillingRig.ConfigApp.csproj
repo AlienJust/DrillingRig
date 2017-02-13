@@ -202,7 +202,13 @@
     <Compile Include="AppControl\AinsCounter\AinsCounterThreadSafe.cs" />
     <Compile Include="AppControl\AinSettingsRead\IAinSettingsReadNotifyRaisable.cs" />
     <Compile Include="AppControl\AinSettingsStorage\AinSettingsStorageThreadSafe.cs" />
-    <Compile Include="AppControl\EngineSettingsStorage\IAinSettingsStorageUpdatedNotify.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\EngineSettingsReader.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\EngineSettingsPartWritable.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\EngineSettingsWritable.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\EngineSettingsStorageThreadSafe.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\IEngineSettingsPart.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\IEngineSettingsReader.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\IEngineSettingsStorageUpdatedNotify.cs" />
     <Compile Include="AppControl\EngineSettingsStorage\IEngineSettingsStorage.cs" />
     <Compile Include="AppControl\AinSettingsStorage\StoredAinSettingsUpdatedDelegate.cs" />
     <Compile Include="AppControl\AinSettingsStorage\IAinSettingsStorageUpdatedNotify.cs" />
@@ -211,7 +217,7 @@
     <Compile Include="AppControl\AinSettingsWrite\IainSettingsExtensions.cs" />
     <Compile Include="AppControl\Cycle\CycleThreadHolderThreadSafe.cs" />
     <Compile Include="AppControl\EngineSettingsStorage\IEngineSettingsStorageSettable.cs" />
-    <Compile Include="AppControl\EngineSettingsStorage\StoredAinSettingsUpdatedDelegate.cs" />
+    <Compile Include="AppControl\EngineSettingsStorage\StoredEngineSettingsUpdatedDelegate.cs" />
     <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
     <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
     <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabledRaisable.cs" />
