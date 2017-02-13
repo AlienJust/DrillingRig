@@ -1,85 +1,267 @@
-﻿<UserControl x:Class="DrillingRig.ConfigApp.EngineSettings.EngineSettingsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="500">
+﻿<UserControl
+	x:Class="DrillingRig.ConfigApp.EngineSettings.EngineSettingsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+	mc:Ignorable="d"
+	d:DesignHeight="400"
+	d:DesignWidth="500">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
 				<!-- Accent and AppTheme setting -->
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" />
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition Height="Auto"/>
+			<RowDefinition />
+			<RowDefinition
+				Height="Auto" />
 		</Grid.RowDefinitions>
 		<ScrollViewer>
-			<StackPanel Orientation="Vertical">
+			<StackPanel
+				Orientation="Vertical">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="3*"/>
-						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальная Мощность двигателя [Вт]"/>
-					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=Pnom, Mode=TwoWay}"/>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Номинальный ток двигателя, А" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Inom, Mode=TwoWay}" />
 				</Grid>
+
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="3*"/>
-						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="ГРАНИЦА ПЕРЕГРЕВА, [АМПЕР^2 *0.1сек]"/>
-					<xctk:DecimalUpDown Grid.Column="1" Value="{Binding Path=I2Tmax, Mode=TwoWay}"/>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Номинальная скорость двигателя, об/мин" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Nnom, Mode=TwoWay}" />
 				</Grid>
+
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="3*"/>
-						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный ток, при котором остывание равно нагреву (RMS) [А]"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Icontinious, Mode=TwoWay}"/>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Максимальная скорость двигателя, об/мин" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Nmax, Mode=TwoWay}" />
 				</Grid>
+
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="3*"/>
-						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Номинальный моментный ток [Ампер]"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=Mnom, Mode=TwoWay}"/>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Номинальная Мощность двигателя [кВт]" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Pnom, Mode=TwoWay}" />
 				</Grid>
+
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="3*"/>
-						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Grid.Column="0" VerticalAlignment="Center" Text="*0.1Гц Скорость вращения (электрическая) ниже нулевого предела (ZERO_SPEED)"/>
-					<xctk:IntegerUpDown Grid.Column="1" Value="{Binding Path=ZeroF, Mode=TwoWay}"/>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Косинус Фи, ед. измерения?" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=CosFi, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="КПД двигателя, %" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Eff, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Масса двигателя, кг" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Mass, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Кратность момента" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=MmM, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Высота двигателя, мм" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Height, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="ГРАНИЦА ПЕРЕГРЕВА, [АМПЕР^2 *0.1сек]" />
+					<xctk:DecimalUpDown
+						Grid.Column="1"
+						Value="{Binding Path=I2Tmax, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="Номинальный ток, при котором остывание равно нагреву (RMS) [А]" />
+					<xctk:IntegerUpDown
+						Grid.Column="1"
+						Value="{Binding Path=Icontinious, Mode=TwoWay}" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="*0.1Гц Скорость вращения (электрическая) ниже нулевого предела (ZERO_SPEED)" />
+					<xctk:IntegerUpDown
+						Grid.Column="1"
+						Value="{Binding Path=ZeroF, Mode=TwoWay}" />
 				</Grid>
 			</StackPanel>
 		</ScrollViewer>
-		<Grid Grid.Row="1">
+		<Grid
+			Grid.Row="1">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="0" Content="Импорт..." Command="{Binding Path=ImportSettingsCommand, Mode=OneTime}" Style="{DynamicResource SquareButtonStyle}" Margin="2,2,2,2"/>
-			<Button Grid.Column="1" Content="Экспорт..." Command="{Binding Path=ExportSettingsCommand, Mode=OneTime}" Style="{DynamicResource SquareButtonStyle}" Margin="2,2,2,2"/>
-			<Button Grid.Column="2" Content="Прочитать" Command="{Binding Path=ReadSettingsCommand, Mode=OneTime}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="2,2,2,2"/>
-			<Button Grid.Column="3" Content="Записать" Command="{Binding Path=WriteSettingsCommand, Mode=OneTime}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="2,2,2,2"/>
+			<Button
+				Grid.Column="0"
+				Content="Импорт..."
+				Command="{Binding Path=ImportSettingsCommand, Mode=OneTime}"
+				Style="{DynamicResource SquareButtonStyle}"
+				Margin="2,2,2,2" />
+			<Button
+				Grid.Column="1"
+				Content="Экспорт..."
+				Command="{Binding Path=ExportSettingsCommand, Mode=OneTime}"
+				Style="{DynamicResource SquareButtonStyle}"
+				Margin="2,2,2,2" />
+			<Button
+				Grid.Column="2"
+				Content="Прочитать"
+				Command="{Binding Path=ReadSettingsCommand, Mode=OneTime}"
+				Style="{StaticResource AccentedSquareButtonStyle}"
+				Margin="2,2,2,2" />
+			<Button
+				Grid.Column="3"
+				Content="Записать"
+				Command="{Binding Path=WriteSettingsCommand, Mode=OneTime}"
+				Style="{StaticResource AccentedSquareButtonStyle}"
+				Margin="2,2,2,2" />
 		</Grid>
 	</Grid>
 </UserControl>

@@ -16,13 +16,20 @@ namespace DrillingRig.Commands.EngineSettings {
 		public string Name => "Запись настроек двигателя";
 
 		public byte[] Serialize() {
-			var settingsSerialized = new byte[14];
+			var settingsSerialized = new byte[28]; // including KS
+			settingsSerialized.SerializeUshortLowFirst(0, _settings.Inom);
+			settingsSerialized.SerializeUshortLowFirst(2, _settings.Nnom);
+			settingsSerialized.SerializeUshortLowFirst(4, _settings.Nmax);
+			settingsSerialized.SerializeUshortLowFirst(6, _settings.Pnom);
+			settingsSerialized.SerializeUshortLowFirst(8, _settings.CosFi);
+			settingsSerialized.SerializeUshortLowFirst(10, _settings.Eff);
+			settingsSerialized.SerializeUshortLowFirst(12, _settings.Mass);
+			settingsSerialized.SerializeUshortLowFirst(14, _settings.MmM);
+			settingsSerialized.SerializeUshortLowFirst(16, _settings.Height);
 
-			settingsSerialized.SerializeUintLowFirst(0, _settings.I2Tmax);
-			settingsSerialized.SerializeUintLowFirst(4, _settings.Pnom);
-			settingsSerialized.SerializeUshortLowFirst(8, _settings.Icontinious);
-			settingsSerialized.SerializeUshortLowFirst(10, _settings.Mnom);
-			settingsSerialized.SerializeUshortLowFirst(12, _settings.ZeroF);
+			settingsSerialized.SerializeUintLowFirst(18, _settings.I2Tmax);
+			settingsSerialized.SerializeUshortLowFirst(22, _settings.Icontinious);
+			settingsSerialized.SerializeUshortLowFirst(24, _settings.ZeroF);
 			return settingsSerialized;
 		}
 
