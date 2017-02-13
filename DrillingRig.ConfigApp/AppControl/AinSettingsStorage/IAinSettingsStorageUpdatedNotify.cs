@@ -3,6 +3,6 @@
 	/// Сообщает о том, что настройки были обновлены
 	/// </summary>
 	interface IAinSettingsStorageUpdatedNotify {
-		event StoredSettingsUpdatedDelegate AinSettingsUpdated;
+		event StoredAinSettingsUpdatedDelegate AinSettingsUpdated;
 	}
 }

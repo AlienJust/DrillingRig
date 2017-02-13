@@ -27,6 +27,6 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsStorage {
 			eve?.Invoke(zeroBasedAinNumber, settings);
 		}
 
-		public event StoredSettingsUpdatedDelegate AinSettingsUpdated;
+		public event StoredAinSettingsUpdatedDelegate AinSettingsUpdated;
 	}
 }

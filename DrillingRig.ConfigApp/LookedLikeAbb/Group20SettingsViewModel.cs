@@ -47,6 +47,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Минимальный момент", "f0", -10000, 10000, null); // TODO: спросить Марата, в процентах или как задаётся момент.
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальный момент", "f0", -10000, 10000, null);
+
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000, null);
 			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000, null);
 			Parameter08Vm = new ParameterDoubleEditCheckViewModel("20.08. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000, null); // TODO: * 0.1 при приёме
