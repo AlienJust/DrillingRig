@@ -1,6 +1,7 @@
 ﻿using AlienJust.Support.Loggers.Contracts;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
+using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
@@ -9,13 +10,21 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 		private readonly IAinSettingsReader _ainSettingsReader;
 		private readonly IAinSettingsStorageSettable _ainSettingsStorageSettable;
 		private readonly ILogger _logger;
+		private readonly IEngineSettingsReader _engineSettingsReader;
+		private readonly IEngineSettingsStorageSettable _engineSettingsStorageSettable;
 		private readonly INotifySendingEnabled _sendingEnabledNotifier;
 
-		public AutoSettingsReader(INotifySendingEnabled sendingEnabledNotifier, IAinsCounter ainsCounter, IAinSettingsReader ainSettingsReader, IAinSettingsStorageSettable ainSettingsStorageSettable, ILogger logger) {
+		public AutoSettingsReader(INotifySendingEnabled sendingEnabledNotifier, 
+			IAinsCounter ainsCounter, IAinSettingsReader ainSettingsReader, IAinSettingsStorageSettable ainSettingsStorageSettable, 
+			ILogger logger, 
+			IEngineSettingsReader engineSettingsReader, IEngineSettingsStorageSettable engineSettingsStorageSettable) {
+
 			_ainsCounter = ainsCounter;
 			_ainSettingsReader = ainSettingsReader;
 			_ainSettingsStorageSettable = ainSettingsStorageSettable;
 			_logger = logger;
+			_engineSettingsReader = engineSettingsReader;
+			_engineSettingsStorageSettable = engineSettingsStorageSettable;
 			_sendingEnabledNotifier = sendingEnabledNotifier;
 
 			_ainsCounter.AinsCountInSystemHasBeenChanged += AinsCounterOnAinsCountInSystemHasBeenChanged; // TODO: unsubscribe
@@ -33,6 +42,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 				_ainSettingsStorageSettable.SetSettings(0, null);
 				_ainSettingsStorageSettable.SetSettings(1, null);
 				_ainSettingsStorageSettable.SetSettings(2, null);
+
+				_engineSettingsStorageSettable.SetSettings(null);
 			}
 		}
 
@@ -45,6 +56,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 				}
 				else _ainSettingsStorageSettable.SetSettings(i, null);
 			}
+
+			_engineSettingsReader.ReadSettingsAsync(true, (ex, settings) => { });
 		}
 	}
 }

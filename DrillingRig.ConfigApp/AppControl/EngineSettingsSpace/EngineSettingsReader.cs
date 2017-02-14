@@ -7,7 +7,7 @@ using DrillingRig.Commands.EngineSettings;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 
-namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage {
+namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 	class EngineSettingsReader : IEngineSettingsReader, IEngineSettingsReadNotifyRaisable {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;

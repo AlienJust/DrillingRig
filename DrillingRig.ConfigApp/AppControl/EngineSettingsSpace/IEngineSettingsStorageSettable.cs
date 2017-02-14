@@ -1,6 +1,6 @@
 using DrillingRig.Commands.EngineSettings;
 
-namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage
+namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace
 {
 	/// <summary>
 	/// Хранилище настроек двигателя с возможностью записи настроек в хранилище

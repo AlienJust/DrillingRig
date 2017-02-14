@@ -21,6 +21,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
+using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
@@ -37,6 +38,7 @@ using DrillingRig.ConfigApp.NewLook.OldLook;
 using DrillingRig.ConfigApp.NewLook.Settings;
 using DrillingRig.ConfigApp.NewLook.Telemetry;
 using Colors = AlienJust.Adaptation.WindowsPresentation.Converters.Colors;
+using IAinSettingsReadNotifyRaisable = DrillingRig.ConfigApp.AppControl.AinSettingsRead.IAinSettingsReadNotifyRaisable;
 
 namespace DrillingRig.ConfigApp {
 	internal class MainViewModel : ViewModelBase, ILinkContol {
@@ -82,12 +84,21 @@ namespace DrillingRig.ConfigApp {
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
 		private readonly IAinSettingsWriter _ainSettingsWriter;
 
+		private readonly IEngineSettingsReader _engineSettingsReader;
+		private readonly IEngineSettingsWriter _engineSettingsWriter;
+		private readonly IEngineSettingsReadNotify _engineSettingsReadNotify;
+		private readonly IEngineSettingsReadNotifyRaisable _engineSettingsReadNotifyRaisable;
+		private readonly IEngineSettingsStorage _engineSettingsStorage;
+		private readonly IEngineSettingsStorageSettable _engineSettingsStorageSettable;
+		private readonly IEngineSettingsStorageUpdatedNotify _engineSettingsStorageUpdatedNotify;
+
 		private AutoTimeSetter _autoTimeSetter;
 
 		public AinCommandAndCommonTelemetryViewModel AinCommandAndCommonTelemetryVm { get; }
 
 		private readonly IUserInterfaceRoot _uiRoot;
 		public readonly List<Color> _colors;
+		
 
 
 		public MnemonicChemeViewModel MnemonicChemeVm { get; }
@@ -97,7 +108,22 @@ namespace DrillingRig.ConfigApp {
 		public TelemetryViewModel TelemtryVm { get; }
 		public EngineAutoSetupViewModel EngineAutoSetupVm { get; }
 
-		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, IAinsCounterRaisable ainsCounterRaisable, ICycleThreadHolder cycleThreadHolder, IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, ReadCycleModel bsEthernetReadCycleModel) {
+		public MainViewModel(IUserInterfaceRoot uiRoot, IWindowSystem windowSystem, List<Color> colors, 
+			ICommandSenderHostSettable commandSenderHostSettable, ITargetAddressHost targetAddressHost, 
+			IMultiLoggerWithStackTrace<int> debugLogger, ILoggerRegistrationPoint loggerRegistrationPoint, 
+			INotifySendingEnabledRaisable notifySendingEnabled, IParameterLogger paramLogger, 
+			IAinsCounterRaisable ainsCounterRaisable, 
+			ICycleThreadHolder cycleThreadHolder, 
+			IAinSettingsReader ainSettingsReader, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsWriter ainSettingsWriter, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, 
+			ReadCycleModel bsEthernetReadCycleModel,
+
+			IEngineSettingsReader engineSettingsReader,
+			IEngineSettingsWriter engineSettingsWriter,
+			IEngineSettingsReadNotify engineSettingsReadNotify,
+			IEngineSettingsReadNotifyRaisable engineSettingsReadNotifyRaisable,
+			IEngineSettingsStorage engineSettingsStorage,
+			IEngineSettingsStorageSettable engineSettingsStorageSettable,
+			IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify) {
 			_uiRoot = uiRoot;
 			_colors = colors;
 
@@ -139,6 +165,14 @@ namespace DrillingRig.ConfigApp {
 
 			var ainSettingsReadedWriter = new AinSettingsReaderWriter(_ainSettingsReader, _ainSettingsWriter);
 
+			_engineSettingsReader = engineSettingsReader;
+			_engineSettingsWriter = engineSettingsWriter;
+			_engineSettingsReadNotify = engineSettingsReadNotify;
+			_engineSettingsReadNotifyRaisable = engineSettingsReadNotifyRaisable;
+			_engineSettingsStorage = engineSettingsStorage;
+			_engineSettingsStorageSettable = engineSettingsStorageSettable;
+			_engineSettingsStorageUpdatedNotify = engineSettingsStorageUpdatedNotify;
+
 
 			AinCommandAndCommonTelemetryVm = new AinCommandAndCommonTelemetryViewModel(
 				new AinCommandAndMinimalCommonTelemetryViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0, ainSettingsStorage, storageUpdatedNotify),
@@ -148,7 +182,16 @@ namespace DrillingRig.ConfigApp {
 
 			TelemtryVm = new TelemetryViewModel(_uiRoot, _commandSenderHost, _targetAddressHost, _logger, _cycleThreadHolder, _ainsCounterRaisable, _paramLogger, _notifySendingEnabled);
 
-			SettingsVm = new SettingsViewModel(_uiRoot, _logger, ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsReadNotifyRaisable, ainSettingsStorage, ainSettingsStorageSettable, storageUpdatedNotify, _ainsCounterRaisable, _commandSenderHost, _targetAddressHost, _notifySendingEnabled); // TODO: can be moved to app.xaml.cs if needed
+			SettingsVm = new SettingsViewModel(_uiRoot, _logger, 
+				ainSettingsReadedWriter, _ainSettingsReadNotify, ainSettingsReadNotifyRaisable, ainSettingsStorage, ainSettingsStorageSettable, storageUpdatedNotify, _ainsCounterRaisable, 
+				_commandSenderHost, _targetAddressHost, _notifySendingEnabled,
+				_engineSettingsReader,
+			_engineSettingsWriter,
+			_engineSettingsReadNotify,
+			_engineSettingsReadNotifyRaisable,
+			_engineSettingsStorage,
+			_engineSettingsStorageSettable,
+			_engineSettingsStorageUpdatedNotify); // TODO: can be moved to app.xaml.cs if needed
 
 			ArchiveVm = new ArchivesViewModel(
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0),

@@ -1,4 +1,4 @@
-﻿namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage {
+﻿namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 	public class EngineSettingsPartWritable : IEngineSettingsPart {
 		public ushort? Inom { get; set; }
 		public ushort? Nnom { get; set; }

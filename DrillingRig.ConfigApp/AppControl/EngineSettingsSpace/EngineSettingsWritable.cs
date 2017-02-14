@@ -1,6 +1,6 @@
 ﻿using DrillingRig.Commands.EngineSettings;
 
-namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage {
+namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 	public class EngineSettingsWritable : IEngineSettings {
 		public ushort Inom { get; set; }
 		public ushort Nnom { get; set; }

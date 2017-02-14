@@ -1,4 +1,4 @@
-﻿namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage {
+﻿namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 	/// <summary>
 	/// Часть настроек двигателя (названия свойств сгенерированы на основе названий из кода Марата (нижний уровень)
 	/// </summary>

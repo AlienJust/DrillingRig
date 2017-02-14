@@ -3,11 +3,13 @@ using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.LookedLikeAbb;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings;
+using IAinSettingsReadNotifyRaisable = DrillingRig.ConfigApp.AppControl.AinSettingsRead.IAinSettingsReadNotifyRaisable;
 
 namespace DrillingRig.ConfigApp.NewLook.Settings {
 	class SettingsViewModel {
@@ -31,8 +33,31 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 
 		public ImportExportViewModel ImportExportVm { get; set; }
 
-		public SettingsViewModel(IUserInterfaceRoot userInterfaceRoot, ILogger logger, IAinSettingsReaderWriter ainSettingsReadedWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter, ICommandSenderHost commandSenderHost, ITargetAddressHost targetAddressHost, INotifySendingEnabled notifySendingEnabled) {
-			Group20SettingsVm = new Group20SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
+		public SettingsViewModel(
+			IUserInterfaceRoot userInterfaceRoot, 
+			ILogger logger, 
+			IAinSettingsReaderWriter ainSettingsReadedWriter, 
+			IAinSettingsReadNotify ainSettingsReadNotify, 
+			IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, 
+			IAinSettingsStorage ainSettingsStorage, 
+			IAinSettingsStorageSettable ainSettingsStorageSettable, 
+			IAinSettingsStorageUpdatedNotify storageUpdatedNotify, 
+			IAinsCounter ainsCounter, 
+			
+			ICommandSenderHost commandSenderHost, 
+			ITargetAddressHost targetAddressHost, 
+			INotifySendingEnabled notifySendingEnabled,
+
+			IEngineSettingsReader engineSettingsReader,
+			IEngineSettingsWriter engineSettingsWriter,
+			IEngineSettingsReadNotify engineSettingsReadNotify,
+			IEngineSettingsReadNotifyRaisable engineSettingsReadNotifyRaisable,
+			IEngineSettingsStorage engineSettingsStorage,
+			IEngineSettingsStorageSettable engineSettingsStorageSettable,
+			IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify) {
+
+			Group20SettingsVm = new Group20SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter,
+				engineSettingsReader, engineSettingsWriter, engineSettingsReadNotify, engineSettingsStorage, engineSettingsStorageUpdatedNotify);
 			Group22SettingsVm = new Group22SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group23SettingsVm = new Group23SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group24SettingsVm = new Group24SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
@@ -49,7 +74,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			Group106SettingsVm = new Group106SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group107SettingsVm = new Group107SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 
-			ImportExportVm = new ImportExportViewModel(ainSettingsStorageSettable, ainSettingsReadNotifyRaisable);
+			ImportExportVm = new ImportExportViewModel(ainSettingsStorageSettable, ainSettingsReadNotifyRaisable, engineSettingsStorageSettable, engineSettingsReadNotifyRaisable);
 		}
 	}
 }

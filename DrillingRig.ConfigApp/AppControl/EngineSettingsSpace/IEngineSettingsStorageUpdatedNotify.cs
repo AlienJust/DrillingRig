@@ -1,7 +1,7 @@
 ﻿using System;
 using DrillingRig.Commands.EngineSettings;
 
-namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage
+namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace
 {
 	/// <summary>
 	/// Сообщает о том, что настройки были обновлены

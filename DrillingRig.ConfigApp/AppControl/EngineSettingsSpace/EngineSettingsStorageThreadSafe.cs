@@ -1,6 +1,6 @@
 ﻿using DrillingRig.Commands.EngineSettings;
 
-namespace DrillingRig.ConfigApp.AppControl.EngineSettingsStorage {
+namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 	class EngineSettingsStorageThreadSafe : IEngineSettingsStorageSettable, IEngineSettingsStorageUpdatedNotify
 	{
 		private readonly object _engineSettingsSync;

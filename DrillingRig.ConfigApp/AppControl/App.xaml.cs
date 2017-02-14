@@ -17,6 +17,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
+using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
@@ -24,6 +25,7 @@ using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Chart;
 using DrillingRig.ConfigApp.LookedLikeAbb.Oscilloscope;
+using IAinSettingsReadNotifyRaisable = DrillingRig.ConfigApp.AppControl.AinSettingsRead.IAinSettingsReadNotifyRaisable;
 
 namespace DrillingRig.ConfigApp.AppControl {
 	public partial class App : Application {
@@ -64,6 +66,14 @@ namespace DrillingRig.ConfigApp.AppControl {
 		private IAinSettingsStorage _ainSettingsStorage;
 		private IAinSettingsStorageSettable _ainSettingsStorageSettable;
 		private IAinSettingsStorageUpdatedNotify _ainSettingsStorageUpdatedNotify;
+
+		private IEngineSettingsReader _engineSettingsReader;
+		private IEngineSettingsWriter _engineSettingsWriter;
+		private IEngineSettingsReadNotify _engineSettingsReadNotify;
+		private IEngineSettingsReadNotifyRaisable _engineSettingsReadNotifyRaisable;
+		private IEngineSettingsStorage _engineSettingsStorage;
+		private IEngineSettingsStorageSettable _engineSettingsStorageSettable;
+		private IEngineSettingsStorageUpdatedNotify _engineSettingsStorageUpdatedNotify;
 
 		private BsEthernetLogs.ReadCycleModel _bsEthernetLogsReadCycleModel;
 
@@ -191,8 +201,23 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 			_ainSettingsWriter = new AinSettingsWriter(_cmdSenderHost, _targetAddressHost, _ainsCounterRaisable, _ainSettingsReader);
 			_autoTimeSetter = new AutoTimeSetter(_cmdSenderHost, _notifySendingEnabled, _targetAddressHost, _commonLogger);
-			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _ainSettingsStorageSettable, _commonLogger);
+			
 
+			var engineSettingsStorage = new EngineSettingsStorageThreadSafe();
+			_engineSettingsStorage = engineSettingsStorage;
+			_engineSettingsStorageSettable = engineSettingsStorage;
+			_engineSettingsStorageUpdatedNotify = engineSettingsStorage;
+
+			var engineSettingsReader = new EngineSettingsReader(_cmdSenderHost, _targetAddressHost, _commonLogger, _engineSettingsStorageSettable, _debugLogger);
+			_engineSettingsReader = engineSettingsReader;
+			_engineSettingsReadNotify = engineSettingsReader;
+			_engineSettingsReadNotifyRaisable = engineSettingsReader;
+
+			_engineSettingsWriter = new EngineSettingsWriter(_cmdSenderHost, _targetAddressHost, _engineSettingsReader);
+
+
+			_autoSettingsReader = new AutoSettingsReader(_notifySendingEnabled, _ainsCounterRaisable, _ainSettingsReader, _ainSettingsStorageSettable, _commonLogger,
+				_engineSettingsReader, _engineSettingsStorageSettable);
 
 			// обнуление хранилища настроек при отключении
 			_notifySendingEnabled.SendingEnabledChanged += enabled => {
@@ -226,7 +251,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				var cmdWindow = new CommandWindow { DataContext = new CommandWindowViewModel(ainCommandAndCommonTelemetryVm) };
 				cmdWindow.Show();
 
-				closeChildWindowsActions.Add(()=> waitableNotifier.Notify(()=>cmdWindow.Close()));
+				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => cmdWindow.Close()));
 				cmdWindowWaiter.Set();
 				System.Windows.Threading.Dispatcher.Run();
 			});
@@ -250,7 +275,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => chartWindow.Close()));
 				chartWindowWaiter.Set();
 				System.Windows.Threading.Dispatcher.Run();
-				
+
 			});
 
 			chartWindowThread.SetApartmentState(ApartmentState.STA);
@@ -280,11 +305,10 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 
 			var bsEthernetLogWindowWaiter = new ManualResetEvent(false);
-			var bsEthernetLogWindowThread = new Thread(() =>
-			{
+			var bsEthernetLogWindowThread = new Thread(() => {
 				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var logWindow = new BsEthernetLogs.WindowView {DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _bsEthernetLogsReadCycleModel) };
+				var logWindow = new BsEthernetLogs.WindowView { DataContext = new BsEthernetLogs.WindowViewModel(uiRoot, _bsEthernetLogsReadCycleModel) };
 				logWindow.Show();
 
 				closeChildWindowsActions.Add(() => waitableNotifier.Notify(() => logWindow.Close()));
@@ -296,7 +320,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			bsEthernetLogWindowThread.Priority = ThreadPriority.BelowNormal;
 			bsEthernetLogWindowThread.Start();
 			bsEthernetLogWindowWaiter.WaitOne();
-			
+
 			var appThreadNotifier = new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 
 			_mainWindowCreationCompleteWaiter = new ManualResetEvent(false);
@@ -316,15 +340,22 @@ namespace DrillingRig.ConfigApp.AppControl {
 						_ainSettingsReader,
 						_ainSettingsReadNotify,
 						_ainSettingsReadNotifyRaisable,
-						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify, _bsEthernetLogsReadCycleModel);
+						_ainSettingsWriter, _ainSettingsStorage, _ainSettingsStorageSettable, _ainSettingsStorageUpdatedNotify, _bsEthernetLogsReadCycleModel,
 
-				var mainWindow = new MainWindow(appThreadNotifier, () =>
-					{
-						foreach (var closingAction in closeChildWindowsActions) {
-							closingAction.Invoke();
-						}
-						closeChildWindowsActions.Clear();
+						_engineSettingsReader,
+						_engineSettingsWriter,
+						_engineSettingsReadNotify,
+						_engineSettingsReadNotifyRaisable,
+						_engineSettingsStorage,
+						_engineSettingsStorageSettable,
+						_engineSettingsStorageUpdatedNotify);
+
+				var mainWindow = new MainWindow(appThreadNotifier, () => {
+					foreach (var closingAction in closeChildWindowsActions) {
+						closingAction.Invoke();
 					}
+					closeChildWindowsActions.Clear();
+				}
 				) { DataContext = mainViewModel };
 				mainWindow.Show();
 
