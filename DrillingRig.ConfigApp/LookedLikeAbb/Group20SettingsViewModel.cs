@@ -89,29 +89,30 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			UpdateEngineSettingsInUiThread(readInnerException, settings);
 		}
 
-		private bool IsWriteEnabled {
-			get {
-				bool resultForAin = false;
-				if (Parameter01Vm.CurrentValue.HasValue
+		private bool AnyAinParameterSetted => Parameter01Vm.CurrentValue.HasValue
 					|| Parameter02Vm.CurrentValue.HasValue
 					|| Parameter03Vm.CurrentValue.HasValue
 					|| Parameter04Vm.CurrentValue.HasValue
-					|| Parameter05Vm.CurrentValue.HasValue) {
+					|| Parameter05Vm.CurrentValue.HasValue;
+
+		private bool AnyEngineParameterSetted => Parameter06Vm.CurrentValue.HasValue
+					|| Parameter07Vm.CurrentValue.HasValue
+					|| Parameter08Vm.CurrentValue.HasValue;
+
+		private bool IsWriteEnabled {
+			get {
+				bool resultForAin = false;
+				if (AnyAinParameterSetted) {
 					resultForAin = true;
 					for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
-						var engineSettings = _ainSettingsStorage.GetSettings(i);
-						if (engineSettings == null) {
+						var curAinSettings = _ainSettingsStorage.GetSettings(i);
+						if (curAinSettings == null) {
 							resultForAin = false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
 							break;
 						}
 					}
 				}
-				bool resultForEngine = false;
-				if (Parameter06Vm.CurrentValue.HasValue
-					|| Parameter07Vm.CurrentValue.HasValue
-					|| Parameter08Vm.CurrentValue.HasValue) {
-					resultForEngine = _engineSettingsStorage.EngineSettings != null;
-				}
+				bool resultForEngine = AnyEngineParameterSetted && _engineSettingsStorage.EngineSettings != null;
 				return resultForAin || resultForEngine;
 			}
 		}
@@ -126,7 +127,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				
 				// А зачем отправлять команду. если ничего нет? :)
-				if (Parameter01Vm.CurrentValue.HasValue || Parameter02Vm.CurrentValue.HasValue || Parameter03Vm.CurrentValue.HasValue) {
+				if (AnyAinParameterSetted) {
 					var settingsPart = new AinSettingsPartWritable { Fmax = Parameter01Vm.CurrentValue, IoutMax = ConvertDoubleToShort(Parameter02Vm.CurrentValue), Fmin = Parameter03Vm.CurrentValue, };
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {
@@ -139,7 +140,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				}
 				
 				// А зачем отправлять команду. если ничего нет? :)
-				if (Parameter06Vm.CurrentValue.HasValue || Parameter07Vm.CurrentValue.HasValue || Parameter08Vm.CurrentValue.HasValue) {
+				if (AnyEngineParameterSetted) {
 					var settingsPart = new EngineSettingsPartWritable {
 						I2Tmax = ConvertDoubleToUint(Parameter06Vm.CurrentValue),
 						Icontinious = ConvertDoubleToUshort(Parameter07Vm.CurrentValue),
@@ -162,6 +163,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			// TODO: remove method from each group
 			try {
 				_ainSettingsReaderWriter.ReadSettingsAsync(0, true, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
+				_engineSettingsReader.ReadSettingsAsync(true, (ex, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);

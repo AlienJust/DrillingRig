@@ -3,11 +3,13 @@ using System.Linq;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
+using DrillingRig.Commands.EngineSettings;
 using DrillingRig.ConfigApp.AppControl.AinsCounter;
 using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
+using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
@@ -19,11 +21,18 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 	class Group99SettingsViewModel : ViewModelBase {
 		private readonly IUserInterfaceRoot _uiRoot;
 		private readonly ILogger _logger;
-		private readonly IAinSettingsReaderWriter _readerWriter;
+
+		private readonly IAinSettingsReaderWriter _ainSettingsReaderWriter;
 		private readonly IAinSettingsReadNotify _ainSettingsReadNotify;
-		private readonly IAinSettingsStorage _storage;
-		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
+		private readonly IAinSettingsStorage _ainSettingsStorage;
+		private readonly IAinSettingsStorageUpdatedNotify _ainSettingsStorageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
+
+		private readonly IEngineSettingsReader _engineSettingsReader;
+		private readonly IEngineSettingsWriter _engineSettingsWriter;
+		private readonly IEngineSettingsReadNotify _engineSettingsReadNotify;
+		private readonly IEngineSettingsStorage _engineSettingsStorage;
+		private readonly IEngineSettingsStorageUpdatedNotify _engineSettingsStorageUpdatedNotify;
 
 		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
@@ -42,14 +51,25 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group99SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
+		public Group99SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger,
+			IAinSettingsReaderWriter ainSettingsReaderWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify ainSettingsStorageUpdatedNotify, IAinsCounter ainsCounter,
+			IEngineSettingsReader engineSettingsReader, IEngineSettingsWriter engineSettingsWriter, IEngineSettingsReadNotify engineSettingsReadNotify, IEngineSettingsStorage engineSettingsStorage, IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify) {
 			_uiRoot = uiRoot;
 			_logger = logger;
-			_readerWriter = readerWriter;
+
+			_ainSettingsReaderWriter = ainSettingsReaderWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
-			_storage = storage;
-			_storageUpdatedNotify = storageUpdatedNotify;
+			_ainSettingsStorage = ainSettingsStorage;
+			_ainSettingsStorageUpdatedNotify = ainSettingsStorageUpdatedNotify;
 			_ainsCounter = ainsCounter;
+
+			_engineSettingsReader = engineSettingsReader;
+			_engineSettingsWriter = engineSettingsWriter;
+			_engineSettingsReadNotify = engineSettingsReadNotify;
+			_engineSettingsStorage = engineSettingsStorage;
+			_engineSettingsStorageUpdatedNotify = engineSettingsStorageUpdatedNotify;
+
+
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя, В", "f0", 0, 10000, null);
 			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f1", 0, 10000, null);
@@ -73,18 +93,47 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
 
 			_ainSettingsReadNotify.AinSettingsReadComplete += AinSettingsReadNotifyOnAinSettingsReadComplete;
-			_storageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
+			_ainSettingsStorageUpdatedNotify.AinSettingsUpdated += (zbAinNuber, settings) => {
+				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
+			};
+
+			_engineSettingsReadNotify.EngineSettingsReadComplete += EngineSettingsReadNotifyOnEngineSettingsReadComplete;
+			_engineSettingsStorageUpdatedNotify.EngineSettingsUpdated += settings => {
 				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
 			};
 		}
 
+		private bool AnyAinParameterSetted => Parameter01Vm.CurrentValue.HasValue
+
+					|| Parameter03Vm.CurrentValue.HasValue
+
+					|| Parameter07Vm.SelectedComboItem != null;
+
+		private bool AnyEngineParameterSetted => Parameter02Vm.CurrentValue.HasValue
+			|| Parameter04Vm.CurrentValue.HasValue
+			|| Parameter05Vm.CurrentValue.HasValue
+			|| Parameter06Vm.CurrentValue.HasValue
+			|| Parameter08Vm.CurrentValue.HasValue
+			|| Parameter09Vm.CurrentValue.HasValue
+			|| Parameter10Vm.CurrentValue.HasValue
+			|| Parameter11Vm.CurrentValue.HasValue
+			|| Parameter12Vm.CurrentValue.HasValue;
+
 		private bool IsWriteEnabled {
 			get {
-				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
-					var settings = _storage.GetSettings(i);
-					if (settings == null) return false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
+				bool resultForAin = false;
+				if (AnyAinParameterSetted) {
+					resultForAin = true;
+					for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i) {
+						var curAinSettings = _ainSettingsStorage.GetSettings(i);
+						if (curAinSettings == null) {
+							resultForAin = false; // TODO: по идее еще можно проверять AinLinkFault внутри настроек
+							break;
+						}
+					}
 				}
-				return true;
+				bool resultForEngine = AnyEngineParameterSetted && _engineSettingsStorage.EngineSettings != null;
+				return resultForAin || resultForEngine;
 			}
 		}
 
@@ -94,21 +143,45 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
+		private void EngineSettingsReadNotifyOnEngineSettingsReadComplete(Exception readInnerException, IEngineSettings settings) {
+			UpdateEngineSettingsInUiThread(readInnerException, settings);
+		}
+
 		private void WriteSettings() {
 			try {
-				var settingsPart = new AinSettingsPartWritable {
-					Unom = Parameter01Vm.CurrentValue,
-					Fnom = Parameter03Vm.CurrentValue
-				};
-				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
-					_uiRoot.Notifier.Notify(() => {
+				if (AnyAinParameterSetted) {
+					var settingsPart = new AinSettingsPartWritable {
+						Unom = Parameter01Vm.CurrentValue,
+						Fnom = Parameter03Vm.CurrentValue
+					};
+					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
+						_uiRoot.Notifier.Notify(() => {
+							if (exception != null) {
+								_logger.Log("Ошибка при записи настроек. " + exception.Message);
+							}
+							else _logger.Log("Группа настроек была успешно записана");
+						});
+					});
+				}
+				if (AnyEngineParameterSetted) {
+					var settingsPart = new EngineSettingsPartWritable {
+						Inom = ConvertDoubleToUshort(Parameter02Vm.CurrentValue),
+						Nnom = ConvertDoubleToUshort(Parameter04Vm.CurrentValue),
+						Nmax = ConvertDoubleToUshort(Parameter05Vm.CurrentValue),
+						Pnom = ConvertDoubleToUshort(Parameter06Vm.CurrentValue),
+						CosFi = ConvertDoubleToUshort(Parameter08Vm.CurrentValue),
+						Eff = ConvertDoubleToUshort(Parameter09Vm.CurrentValue),
+						Mass = ConvertDoubleToUshort(Parameter10Vm.CurrentValue),
+						MmM = ConvertDoubleToUshort(Parameter11Vm.CurrentValue),
+						Height = ConvertDoubleToUshort(Parameter12Vm.CurrentValue)
+					};
+					_engineSettingsWriter.WriteSettingsAsync(settingsPart, exception => {
 						if (exception != null) {
 							_logger.Log("Ошибка при записи настроек. " + exception.Message);
 						}
 						else _logger.Log("Группа настроек была успешно записана");
 					});
 				}
-					);
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось записать группу настроек. " + ex.Message);
@@ -117,7 +190,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_ainSettingsReaderWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_engineSettingsReader.ReadSettingsAsync(true, (ex, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
@@ -138,6 +212,40 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				int comboValue = (settings.Imcw & 0x0080) == 0x0080 ? 1 : 0;
 				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
 			});
+		}
+
+		private void UpdateEngineSettingsInUiThread(Exception readInnerException, IEngineSettings settings) {
+			_uiRoot.Notifier.Notify(() => {
+				if (readInnerException != null) {
+					//_logger.Log("Не удалось прочитать настройки АИН");
+					Parameter02Vm.CurrentValue = null;
+					Parameter04Vm.CurrentValue = null;
+					Parameter05Vm.CurrentValue = null;
+					Parameter06Vm.CurrentValue = null;
+					Parameter08Vm.CurrentValue = null;
+					Parameter09Vm.CurrentValue = null;
+					Parameter10Vm.CurrentValue = null;
+					Parameter11Vm.CurrentValue = null;
+					Parameter12Vm.CurrentValue = null;
+
+					return;
+				}
+
+				Parameter02Vm.CurrentValue = settings.Inom;
+				Parameter04Vm.CurrentValue = settings.Nnom;
+				Parameter05Vm.CurrentValue = settings.Nmax;
+				Parameter06Vm.CurrentValue = settings.Pnom;
+				Parameter08Vm.CurrentValue = settings.CosFi;
+				Parameter09Vm.CurrentValue = settings.Eff;
+				Parameter10Vm.CurrentValue = settings.Mass;
+				Parameter11Vm.CurrentValue = settings.MmM;
+				Parameter12Vm.CurrentValue = settings.Height;
+			});
+		}
+
+		private ushort? ConvertDoubleToUshort(double? value) {
+			if (!value.HasValue) return null;
+			return (ushort)value.Value;
 		}
 	}
 }
