@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
@@ -13,6 +14,7 @@ using DrillingRig.ConfigApp.AppControl.EngineSettingsSpace;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboIntEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
@@ -33,6 +35,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IEngineSettingsReadNotify _engineSettingsReadNotify;
 		private readonly IEngineSettingsStorage _engineSettingsStorage;
 		private readonly IEngineSettingsStorageUpdatedNotify _engineSettingsStorageUpdatedNotify;
+		private readonly ImcwParameterViewModel _imcwParameterVm;
 
 		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
@@ -53,7 +56,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public Group99SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger,
 			IAinSettingsReaderWriter ainSettingsReaderWriter, IAinSettingsReadNotify ainSettingsReadNotify, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify ainSettingsStorageUpdatedNotify, IAinsCounter ainsCounter,
-			IEngineSettingsReader engineSettingsReader, IEngineSettingsWriter engineSettingsWriter, IEngineSettingsReadNotify engineSettingsReadNotify, IEngineSettingsStorage engineSettingsStorage, IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify) {
+			IEngineSettingsReader engineSettingsReader, IEngineSettingsWriter engineSettingsWriter, IEngineSettingsReadNotify engineSettingsReadNotify, IEngineSettingsStorage engineSettingsStorage, IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify,
+			ImcwParameterViewModel imcwParameterVm) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
@@ -69,6 +73,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_engineSettingsStorage = engineSettingsStorage;
 			_engineSettingsStorageUpdatedNotify = engineSettingsStorageUpdatedNotify;
 
+			_imcwParameterVm = imcwParameterVm;
 
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя, В", "f0", 0, 10000, null);
@@ -83,6 +88,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					new ComboItemViewModel<int> {ComboText = "Скалярный", ComboValue = 0}
 					, new ComboItemViewModel<int> {ComboText = "Векторный", ComboValue = 1}
 				});
+			Parameter07Vm.PropertyChanged += Parameter07VmOnPropertyChanged;
+
+			_imcwParameterVm.PropertyChanged += ImcwParameterVmOnPropertyChanged;
+
 			Parameter08Vm = new ParameterDoubleEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0, null);
 			Parameter09Vm = new ParameterDoubleEditCheckViewModel("99.09. Кпд двигателя, %", "f2", 0, 100.0, null);
 			Parameter10Vm = new ParameterDoubleEditCheckViewModel("99.10. Масса двигателя, кг", "f2", 0, 10000, null);
@@ -101,6 +110,22 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_engineSettingsStorageUpdatedNotify.EngineSettingsUpdated += settings => {
 				_uiRoot.Notifier.Notify(() => WriteSettingsCmd.RaiseCanExecuteChanged());
 			};
+		}
+
+		private void ImcwParameterVmOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) {
+			if (propertyChangedEventArgs.PropertyName == "Bit13") {
+				if (_imcwParameterVm.Bit13.HasValue) {
+					Parameter07Vm.SelectedComboItem = _imcwParameterVm.Bit13.Value ? Parameter07Vm.ComboItems.First() : Parameter07Vm.ComboItems.Last();
+				}
+				else Parameter07Vm.SelectedComboItem = null;
+			}
+		}
+
+		private void Parameter07VmOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) {
+			if (propertyChangedEventArgs.PropertyName == "SelectedComboItem") {
+				if (Parameter07Vm.SelectedComboItem == null) _imcwParameterVm.Bit13 = null;
+				else _imcwParameterVm.Bit13 = Parameter07Vm.SelectedComboItem.ComboValue == 0;
+			}
 		}
 
 		private bool AnyAinParameterSetted => Parameter01Vm.CurrentValue.HasValue
@@ -152,7 +177,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				if (AnyAinParameterSetted) {
 					var settingsPart = new AinSettingsPartWritable {
 						Unom = Parameter01Vm.CurrentValue,
-						Fnom = Parameter03Vm.CurrentValue
+						Fnom = Parameter03Vm.CurrentValue,
+						Imcw = _imcwParameterVm.FullValue.HasValue? (short)_imcwParameterVm.FullValue.Value : (short?)null
 					};
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {
@@ -204,13 +230,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter03Vm.CurrentValue = null;
-					Parameter07Vm.SelectedComboItem = null;
+					//Parameter07Vm.SelectedComboItem = null;
 					return;
 				}
 				Parameter01Vm.CurrentValue = settings.Unom;
 				Parameter03Vm.CurrentValue = settings.Fnom;
-				int comboValue = (settings.Imcw & 0x0080) == 0x0080 ? 1 : 0;
-				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
+				//int comboValue = (settings.Imcw & 0x0080) == 0x0080 ? 1 : 0;
+				//Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
 			});
 		}
 

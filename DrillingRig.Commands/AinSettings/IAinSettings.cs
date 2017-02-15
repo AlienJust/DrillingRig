@@ -23,7 +23,7 @@ namespace DrillingRig.Commands.AinSettings {
 		short DacCh { get; }
 
 		short Imcw { get; }
-
+		
 		short Ia0 { get; }
 		short Ib0 { get; }
 		short Ic0 { get; }
