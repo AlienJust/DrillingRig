@@ -21,7 +21,7 @@
 		/// <summary>
 		/// Номинальная Мощность двигателя [кВт]
 		/// </summary>
-		ushort? Pnom { get; }
+		uint? Pnom { get; }
 
 		/// <summary>
 		/// Косинус Фи, ед. измерения?
