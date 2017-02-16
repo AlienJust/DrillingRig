@@ -18,7 +18,7 @@ namespace DrillingRig.Commands.EngineSettings {
 		public byte[] Serialize() {
 			var settingsSerialized = new byte[28];
 
-			settingsSerialized.SerializeUintLowFirst(0, _settings.Pnom);
+			settingsSerialized.SerializeUintLowFirst(0, (uint)(_settings.Pnom * 1000.0));
 			settingsSerialized.SerializeUintLowFirst(4, _settings.I2Tmax);
 			settingsSerialized.SerializeUshortLowFirst(8, _settings.Icontinious);
 
@@ -26,8 +26,8 @@ namespace DrillingRig.Commands.EngineSettings {
 			settingsSerialized.SerializeUshortLowFirst(12, _settings.Nnom);
 			settingsSerialized.SerializeUshortLowFirst(14, _settings.Nmax);
 			
-			settingsSerialized.SerializeUshortLowFirst(16, _settings.CosFi);
-			settingsSerialized.SerializeUshortLowFirst(18, _settings.Eff);
+			settingsSerialized.SerializeUshortLowFirst(16, (ushort)(_settings.CosFi * 100.0));
+			settingsSerialized.SerializeUshortLowFirst(18, (ushort)(_settings.Eff * 10.0));
 			settingsSerialized.SerializeUshortLowFirst(20, _settings.Mass);
 			settingsSerialized.SerializeUshortLowFirst(22, _settings.MmM);
 			settingsSerialized.SerializeUshortLowFirst(24, _settings.Height);

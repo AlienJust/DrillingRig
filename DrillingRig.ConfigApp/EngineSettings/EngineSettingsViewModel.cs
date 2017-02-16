@@ -24,9 +24,9 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		private ushort? _inom;
 		private ushort? _nnom;
 		private ushort? _nmax;
-		private uint? _pnom;
-		private ushort? _cosFi;
-		private ushort? _eff;
+		private double? _pnom;
+		private double? _cosFi;
+		private double? _eff;
 		private ushort? _mass;
 		private ushort? _mmM;
 		private ushort? _height;
@@ -218,17 +218,17 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 			set { if (_nmax != value) { _nmax = value; RaisePropertyChanged(() => Nmax); } }
 		}
 
-		public uint? Pnom {
+		public double? Pnom {
 			get { return _pnom; }
 			set { if (_pnom != value) { _pnom = value; RaisePropertyChanged(() => Pnom); } }
 		}
 
-		public ushort? CosFi {
+		public double? CosFi {
 			get { return _cosFi; }
 			set { if (_cosFi != value) { _cosFi = value; RaisePropertyChanged(() => CosFi); } }
 		}
 
-		public ushort? Eff {
+		public double? Eff {
 			get { return _eff; }
 			set { if (_eff != value) { _eff = value; RaisePropertyChanged(() => Eff); } }
 		}

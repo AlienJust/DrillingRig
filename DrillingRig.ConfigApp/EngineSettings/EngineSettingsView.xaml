@@ -98,7 +98,8 @@
 						Text="Номинальная Мощность двигателя [кВт]" />
 					<xctk:DecimalUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Pnom, Mode=TwoWay}" />
+						Value="{Binding Path=Pnom, Mode=TwoWay}"
+						FormatString="f3" />
 				</Grid>
 
 				<Grid>
@@ -111,10 +112,11 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="Косинус Фи, ед. измерения?" />
+						Text="CosФ" />
 					<xctk:DecimalUpDown
 						Grid.Column="1"
-						Value="{Binding Path=CosFi, Mode=TwoWay}" />
+						Value="{Binding Path=CosFi, Mode=TwoWay}"
+						FormatString="f2" />
 				</Grid>
 
 				<Grid>
@@ -130,7 +132,8 @@
 						Text="КПД двигателя, %" />
 					<xctk:DecimalUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Eff, Mode=TwoWay}" />
+						Value="{Binding Path=Eff, Mode=TwoWay}"
+						FormatString="f1" />
 				</Grid>
 
 				<Grid>
