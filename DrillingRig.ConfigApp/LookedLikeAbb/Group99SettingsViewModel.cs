@@ -74,11 +74,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 
 			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя, В", "f0", 0, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f1", 0, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f0", 0, 10000, null);
 			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f2", 8, 300, null);
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000, null); // TODO: продублировать в группе скроростей (21 вроде бы)
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f2", 0, 9000, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f3", 0, 9000, null);
 			Parameter07Vm = new ParameterComboEditableViewModel<int>("99.07. Режим управления двигателем",
 				new[]
 				{
@@ -90,10 +90,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_imcwParameterVm.PropertyChanged += ImcwParameterVmOnPropertyChanged;
 
 			Parameter08Vm = new ParameterDoubleEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0, null);
-			Parameter09Vm = new ParameterDoubleEditCheckViewModel("99.09. Кпд двигателя, %", "f2", 0, 100.0, null);
-			Parameter10Vm = new ParameterDoubleEditCheckViewModel("99.10. Масса двигателя, кг", "f2", 0, 10000, null);
-			Parameter11Vm = new ParameterDoubleEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f2", 0, 10000, null);
-			Parameter12Vm = new ParameterDoubleEditCheckViewModel("99.12. Конструктивная высота, мм", "f2", 0, 10000, null);
+			Parameter09Vm = new ParameterDoubleEditCheckViewModel("99.09. Кпд двигателя, %", "f1", 0, 100.0, null);
+			Parameter10Vm = new ParameterDoubleEditCheckViewModel("99.10. Масса двигателя, кг", "f0", 0, 10000, null);
+			Parameter11Vm = new ParameterDoubleEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f0", 0, 10000, null);
+			Parameter12Vm = new ParameterDoubleEditCheckViewModel("99.12. Конструктивная высота, мм", "f0", 0, 10000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -126,9 +126,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private bool AnyAinParameterSetted => Parameter01Vm.CurrentValue.HasValue
-
 					|| Parameter03Vm.CurrentValue.HasValue
-
 					|| Parameter07Vm.SelectedComboItem != null;
 
 		private bool AnyEngineParameterSetted => Parameter02Vm.CurrentValue.HasValue
