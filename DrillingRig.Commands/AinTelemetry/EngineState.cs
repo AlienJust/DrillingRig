@@ -51,6 +51,51 @@ namespace DrillingRig.Commands.AinTelemetry {
 		/// 30 Проведение процедуры определения параметров двигателя
 		/// </summary>
 		AciIdentifyExecution,
+
+		/// <summary>
+		/// 31 РЕЗЕРВ Завершение процедуры определения параметров двигателя
+		/// </summary>
+		AciIdentifyEnd,
+
+		/// <summary>
+		/// 32 ТРАМВАЙ. Отключен. На тормозе.
+		/// </summary>
+		TramStop,
+
+		/// <summary>
+		/// 33 ТРАМВАЙ. Двигатель намагничивается. На тормозе.
+		/// </summary>
+		TramMagnetizing,
+
+		/// <summary>
+		/// 34 ТРАМВАЙ. Разгон. Движение ВПЕРЕД.
+		/// </summary>
+		TramAccelerationForward,
+
+		/// <summary>
+		/// 35 ТРАМВАЙ. Движение без тяги. Движение ВПЕРЕД.
+		/// </summary>
+		TramMovingForward,
+
+		/// <summary>
+		/// 36 ТРАМВАЙ. Торможение. Движение ВПЕРЕД.
+		/// </summary>
+		TramDecelerationForward,
+
+		/// <summary>
+		/// 37 ТРАМВАЙ. Разгон. Движение НАЗАД.
+		/// </summary>
+		TramAccelerationBackward,
+
+		/// <summary>
+		/// 38 ТРАМВАЙ. Движение без тяги. Движение НАЗАД.
+		/// </summary>
+		TramMovingBackward,
+
+		/// <summary>
+		/// 39 ТРАМВАЙ. Торможение. Движение НАЗАД.
+		/// </summary>
+		TramDecelerationBackward
 	}
 
 	public static class EngineStateExtensions {
@@ -122,6 +167,24 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return 29;
 				case EngineState.AciIdentifyExecution:
 					return 30;
+				case EngineState.AciIdentifyEnd:
+					return 31;
+				case EngineState.TramStop:
+					return 32;
+				case EngineState.TramMagnetizing:
+					return 33;
+				case EngineState.TramAccelerationForward:
+					return 34;
+				case EngineState.TramMovingForward:
+					return 35;
+				case EngineState.TramDecelerationForward:
+					return 36;
+				case EngineState.TramAccelerationBackward:
+					return 37;
+				case EngineState.TramMovingBackward:
+					return 38;
+				case EngineState.TramDecelerationBackward:
+					return 39;
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -195,6 +258,24 @@ namespace DrillingRig.Commands.AinTelemetry {
 				case EngineState.AciIdentifyExecution:
 					return "ACI_IDENTIFY_EXECUTION";
 
+				case EngineState.AciIdentifyEnd:
+					return "ACI_IDENTIFY_END";
+				case EngineState.TramStop:
+					return "TRAM_STOP";
+				case EngineState.TramMagnetizing:
+					return "TRAM_MAGNETIZING";
+				case EngineState.TramAccelerationForward:
+					return "TRAM_ACCELERATION_FORWARD";
+				case EngineState.TramMovingForward:
+					return "TRAM_MOVING_FORWARD";
+				case EngineState.TramDecelerationForward:
+					return "TRAM_DECELERATION_FORWARD";
+				case EngineState.TramAccelerationBackward:
+					return "TRAM_ACCELERATION_BACKWARD";
+				case EngineState.TramMovingBackward:
+					return "TRAM_MOVING_BACKWARD";
+				case EngineState.TramDecelerationBackward:
+					return "TRAM_DECELERATION_BACKWARD";
 				default:
 					throw new Exception("Cannot convert such state to ushort");
 			}
@@ -268,7 +349,25 @@ namespace DrillingRig.Commands.AinTelemetry {
 					return EngineState.AciIdentifyStart;
 				case 30:
 					return EngineState.AciIdentifyExecution;
-
+				case 31:
+					return EngineState.AciIdentifyEnd;
+					
+				case 32:
+					return EngineState.TramStop;
+				case 33:
+					return EngineState.TramMagnetizing;
+				case 34:
+					return EngineState.TramAccelerationForward;
+				case 35:
+					return EngineState.TramMovingForward;
+				case 36:
+					return EngineState.TramDecelerationForward;
+				case 37:
+					return EngineState.TramAccelerationBackward;
+				case 38:
+					return EngineState.TramMovingBackward;
+				case 39:
+					return EngineState.TramDecelerationBackward;
 
 				default:
 					throw new Exception("Cannot get ushort " + value + " as " + typeof (EngineState).Name);
