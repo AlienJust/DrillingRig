@@ -29,6 +29,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandReset;
 		private readonly RelayCommand _sendAinCommandBits;
 
+		private readonly RelayCommand _cmdSub10FsetHz;
+		private readonly RelayCommand _cmdSub01FsetHz;
+		private readonly RelayCommand _cmdSetFsetHzToZero;
+		private readonly RelayCommand _cmdAdd01FsetHz;
+		private readonly RelayCommand _cmdAdd10FsetHz;
+
+
 		/// <summary>
 		/// Частота в оборотах в минуту, которую пользователь вводит через окно
 		/// </summary>
@@ -69,6 +76,23 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_sendAinCommandReset = new RelayCommand(SendAinCmdReset, () => IsSendingEnabled);
 			_sendAinCommandBits = new RelayCommand(SendAinCmdBits, () => IsSendingEnabled);
 
+
+			_cmdSub10FsetHz = new RelayCommand(() => {
+				if (FsetHz.HasValue) FsetHz -= 1;
+			}, () => IsSendingEnabled);
+			_cmdSub01FsetHz = new RelayCommand(() => {
+				if (FsetHz.HasValue) FsetHz -= 0.1;
+			}, () => IsSendingEnabled);
+			_cmdSetFsetHzToZero = new RelayCommand(() => FsetHz = 0.0, () => IsSendingEnabled);
+			_cmdAdd01FsetHz = new RelayCommand(() => {
+				if (FsetHz.HasValue) FsetHz += 0.1;
+			}, () => IsSendingEnabled);
+			_cmdAdd10FsetHz = new RelayCommand(() => {
+				if (FsetHz.HasValue) FsetHz += 1.0;
+			}, () => IsSendingEnabled);
+
+
+
 			_sendingEnabledControl.SendingEnabledChanged += sendingEnabled => { SendingEnabledControlOnSendingEnabledChanged(); };
 
 			_storageUpdatedNotify.AinSettingsUpdated += (ainNumber, settings) => {
@@ -77,6 +101,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
 					RaisePropertyChanged(() => FsetSmallChange);
+					RaisePropertyChanged(() => FsetSmallChangeOrOne);
 					RaisePropertyChanged(() => FsetMax);
 					RaisePropertyChanged(() => FsetMin);
 					RaisePropertyChanged(() => NegativeMaximumFreqSet);
@@ -98,6 +123,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				_sendAinCommandInching2.RaiseCanExecuteChanged();
 				_sendAinCommandReset.RaiseCanExecuteChanged();
 				_sendAinCommandBits.RaiseCanExecuteChanged();
+
+				_cmdSub10FsetHz.RaiseCanExecuteChanged();
+				_cmdSub01FsetHz.RaiseCanExecuteChanged();
+				_cmdSetFsetHzToZero.RaiseCanExecuteChanged();
+				_cmdAdd01FsetHz.RaiseCanExecuteChanged();
+				_cmdAdd10FsetHz.RaiseCanExecuteChanged();
+
 				RaisePropertyChanged(() => FsetHz);
 			});
 		}
@@ -266,10 +298,18 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
+		/// <summary>
+		/// Минимальное изменение числа оборотов, которое соответсвует изменению частоты на 0.1Гц, однако если оно меньше 1.0, то будет возвращена единичка
+		/// </summary>
+		public double? FsetSmallChangeOrOne => FsetSmallChange < 1.0 ? 1.0 : FsetSmallChange;
+
+		/// <summary>
+		/// Минимальное изменение числа оборотов, которое соответсвует изменению частоты на 0.1Гц
+		/// </summary>
 		public double? FsetSmallChange {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return 6.0 / ain1Settings?.Np * 10.0;
+				return 6.0 / ain1Settings?.Np;
 			}
 		}
 
@@ -385,20 +425,18 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public bool Remote { get; set; }
 
 		public ICommand SendAinCommandOff1 => _sendAinCommandOff1;
-
 		public ICommand SendAinCommandOff2 => _sendAinCommandOff2;
-
 		public ICommand SendAinCommandOff3 => _sendAinCommandOff3;
-
 		public ICommand SendAinCommandRun => _sendAinCommandRun;
-
-
 		public ICommand SendAinCommandInching1 => _sendAinCommandInching1;
-
 		public ICommand SendAinCommandInching2 => _sendAinCommandInching2;
-
-
 		public ICommand SendAinCommandReset => _sendAinCommandReset;
+
+		public ICommand CmdSub10FsetHz => _cmdSub10FsetHz;
+		public ICommand CmdSub01FsetHz => _cmdSub01FsetHz;
+		public ICommand CmdSetFsetHzToZero => _cmdSetFsetHzToZero;
+		public ICommand CmdAdd01FsetHz => _cmdAdd01FsetHz;
+		public ICommand CmdAdd10FsetHz => _cmdAdd10FsetHz;
 
 		public RelayCommand SendAinCommandBits => _sendAinCommandBits;
 
@@ -433,13 +471,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x40) != 0x00;
 
 
-
 		public double? MsetReceived => _telemetry?.Mset.HighFirstSignedValue;
-
 		public double? MMinReceived => _telemetry?.MMin.HighFirstSignedValue;
-
 		public double? MMaxReceived => _telemetry?.MMax.HighFirstSignedValue;
-
 		public double? Reserve3Received => _telemetry?.Reserve3.HighFirstSignedValue;
 	}
 }

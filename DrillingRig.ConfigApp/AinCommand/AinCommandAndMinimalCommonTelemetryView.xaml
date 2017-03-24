@@ -50,6 +50,8 @@
 					Height="Auto" />
 				<RowDefinition
 					Height="Auto" />
+				<RowDefinition
+					Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<Grid
@@ -102,10 +104,49 @@
 				Grid.Row="0"
 				StringFormat="f0"
 				Value="{Binding Path=Fset, Mode=TwoWay}"
-				Interval="{Binding Path=FsetSmallChange, Mode=OneWay}"
+				Interval="{Binding Path=FsetSmallChangeOrOne, Mode=OneWay}"
 				Maximum="{Binding Path=FsetMax, Mode=OneWay}"
 				Minimum="{Binding Path=FsetMin, Mode=OneWay}"
-				TrackMouseWheelWhenMouseOver="True" />
+				TrackMouseWheelWhenMouseOver="True">
+				<custom:NumericUpDown.ToolTip>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.ColumnSpan="2">Диапазон допустимых оборотов при такой макс. частотеи таком числе пар полюсов:</TextBlock>
+						<TextBlock
+							Margin="2,0,8,0"
+							Grid.Row="1"
+							Grid.Column="0"
+							Text="{Binding Path=FsetMin, Mode=OneWay, StringFormat=f2}" />
+						<TextBlock
+							Margin="2,0,2,0"
+							Grid.Row="1"
+							Grid.Column="1"
+							Text="{Binding Path=FsetMax, Mode=OneWay, StringFormat=f2}"
+							HorizontalAlignment="Right" />
+						<TextBlock
+							Grid.Row="2"
+							Grid.ColumnSpan="2"
+							Grid.Column="0">Изменение частоты на 0.1 Гц соответсвует изменению скорости на следующее число оборотов:</TextBlock>
+						<TextBlock
+							Margin="2,0,2,0"
+							Grid.Row="3"
+							Grid.Column="1"
+							Text="{Binding Path=FsetSmallChange, Mode=OneWay, StringFormat=f2}"
+							HorizontalAlignment="Right" />
+					</Grid>
+				</custom:NumericUpDown.ToolTip>
+			</custom:NumericUpDown>
 
 			<Grid
 				Grid.Row="1"
@@ -115,13 +156,7 @@
 					<ColumnDefinition
 						Width="Auto" />
 					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
 						Width="*" />
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="Auto" />
 					<ColumnDefinition
 						Width="Auto" />
 				</Grid.ColumnDefinitions>
@@ -129,12 +164,8 @@
 					Margin="2,0,2,0"
 					Grid.Column="0"
 					Text="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay, StringFormat=f2}" />
-				<TextBlock
-					Margin="2,0,2,0"
-					Grid.Column="1"
-					Text="{Binding Path=FsetMin, Mode=OneWay, StringFormat=f2}" />
 				<Slider
-					Grid.Column="2"
+					Grid.Column="1"
 					Minimum="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay}"
 					Maximum="{Binding Path=PositiveMaximumFreqSet, Mode=OneWay}"
 					Value="{Binding Path=FsetHz, Mode=TwoWay}"
@@ -145,19 +176,43 @@
 					TickPlacement="TopLeft" />
 				<TextBlock
 					Margin="2,0,2,0"
-					Grid.Column="3"
-					Text="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay, StringFormat=f2}" />
-				<TextBlock
-					Margin="2,0,2,0"
-					Grid.Column="4"
-					Text="{Binding Path=FsetMax, Mode=OneWay, StringFormat=f2}" />
-				<TextBlock
-					Margin="2,0,2,0"
-					Grid.Column="5"
-					Text="{Binding Path=FsetSmallChange, Mode=OneWay, StringFormat=f2}" />
+					Grid.Column="2"
+					Text="{Binding Path=PositiveMaximumFreqSet, Mode=OneWay, StringFormat=f2}" />
 			</Grid>
+
 			<Grid
 				Grid.Row="2"
+				Grid.ColumnSpan="2"
+				Grid.Column="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Button
+					Content="-1"
+					Command="{Binding Path=CmdSub10FsetHz, Mode=OneTime}" />
+				<Button
+					Grid.Column="1"
+					Content="-0.1"
+					Command="{Binding Path=CmdSub01FsetHz, Mode=OneTime}" />
+				<Button
+					Grid.Column="2"
+					Content="=0" Command="{Binding Path=CmdSetFsetHzToZero, Mode=OneTime}"/>
+				<Button
+					Grid.Column="3"
+					Content="+0.1"
+					Command="{Binding Path=CmdAdd01FsetHz, Mode=OneTime}" />
+				<Button
+					Grid.Column="4"
+					Content="+1"
+					Command="{Binding Path=CmdAdd10FsetHz, Mode=OneTime}" />
+			</Grid>
+
+			<Grid
+				Grid.Row="3"
 				Grid.Column="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -176,14 +231,14 @@
 			</Grid>
 			<xctk:IntegerUpDown
 				Grid.Column="1"
-				Grid.Row="2"
+				Grid.Row="3"
 				Value="{Binding Mset, Mode=TwoWay}"
 				Maximum="32767"
 				Minimum="-32768" />
 
 
 			<Grid
-				Grid.Row="3"
+				Grid.Row="4"
 				Grid.Column="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -203,14 +258,14 @@
 			</Grid>
 			<xctk:IntegerUpDown
 				Grid.Column="1"
-				Grid.Row="3"
+				Grid.Row="4"
 				Value="{Binding Set3, Mode=TwoWay}"
 				Maximum="32767"
 				Minimum="-32768" />
 
 
 			<Grid
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -230,14 +285,14 @@
 			</Grid>
 			<xctk:IntegerUpDown
 				Grid.Column="1"
-				Grid.Row="4"
+				Grid.Row="5"
 				Value="{Binding Mmin, Mode=TwoWay}"
 				Maximum="15000"
 				Minimum="-15000" />
 
 
 			<Grid
-				Grid.Row="5"
+				Grid.Row="6"
 				Grid.Column="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition
@@ -256,13 +311,13 @@
 			</Grid>
 			<xctk:IntegerUpDown
 				Grid.Column="1"
-				Grid.Row="5"
+				Grid.Row="6"
 				Value="{Binding Mmax, Mode=TwoWay}"
 				Maximum="15000"
 				Minimum="-15000" />
 
 			<Grid
-				Grid.Row="6"
+				Grid.Row="7"
 				Grid.Column="0"
 				Grid.ColumnSpan="2">
 				<Grid.ColumnDefinitions>
