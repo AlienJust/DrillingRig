@@ -29,7 +29,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private readonly RelayCommand _sendAinCommandReset;
 		private readonly RelayCommand _sendAinCommandBits;
 
-		private short? _fset;
+		/// <summary>
+		/// Частота в оборотах в минуту, которую пользователь вводит через окно
+		/// </summary>
+		private double? _fset;
 		private short _mset;
 		private short _set3;
 		private short _mmin;
@@ -76,6 +79,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 					RaisePropertyChanged(() => FsetSmallChange);
 					RaisePropertyChanged(() => FsetMax);
 					RaisePropertyChanged(() => FsetMin);
+					RaisePropertyChanged(() => NegativeMaximumFreqSet);
+					RaisePropertyChanged(() => PositiveMaximumFreqSet);
+					RaisePropertyChanged(() => TickFreqSet);
 				}
 			};
 		}
@@ -217,7 +223,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
-		public short? Fset {
+		/// <summary>
+		/// Частота в об/мин, перед отправкой преобразуется в дГц (0.1 Гц)
+		/// </summary>
+		public double? Fset {
 			get { return _fset; }
 			set {
 				if (_fset != value) {
@@ -238,7 +247,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			set {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && value != null) {
-					_fset = (short)Math.Round(value.Value * 6.0 / ain1Settings.Np * 10.0);
+					_fset = Math.Round(value.Value * 6.0 / ain1Settings.Np * 10.0);
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
 				}
@@ -253,19 +262,56 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				if (_telemetry == null) return null;
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 6.0 / ain1Settings?.Np;
+				return _telemetry.Fset.HighFirstSignedValue * 6.0 / ain1Settings?.Np; // полученная из телеметрии частота указана в 0.1Гц
 			}
 		}
 
 		public double? FsetSmallChange {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return 6.0 / ain1Settings?.Np;
+				return 6.0 / ain1Settings?.Np * 10.0;
 			}
 		}
 
-		public double? FsetMax => FsetSmallChange * 2000;
-		public double? FsetMin => FsetSmallChange * -2000;
+		/// <summary>
+		/// Положительное ограничение на скорость в герцах (20.01)
+		/// </summary>
+		public double? PositiveMaximumFreqSet {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				return ain1Settings?.Fmax;
+			}
+		}
+
+		public double? NegativeMaximumFreqSet {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				return -1.0 * ain1Settings?.Fmax;
+			}
+		}
+
+		public double? TickFreqSet => PositiveMaximumFreqSet / 5.0;
+
+		/// <summary>
+		/// Положительное ограничение на скорость в об/мин (20.01)
+		/// </summary>
+		public double? FsetMax {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+
+				return PositiveMaximumFreqSet * 6.0 / ain1Settings?.Np * 10.0;
+			}
+		}
+
+
+
+		public double? FsetMin {
+			get {
+				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+
+				return PositiveMaximumFreqSet * -6.0 / ain1Settings?.Np * 10.0;
+			}
+		}
 
 
 		public short Mset {

@@ -89,7 +89,7 @@
 					Orientation="Horizontal"
 					Grid.Column="1">
 					<TextBlock
-						Text="{Binding FsetReceived, Mode=OneWay}"
+						Text="{Binding FsetReceived, Mode=OneWay, StringFormat=f2}"
 						VerticalAlignment="Center" />
 					<TextBlock
 						Text=" об/мин "
@@ -100,25 +100,62 @@
 			<custom:NumericUpDown
 				Grid.Column="1"
 				Grid.Row="0"
+				StringFormat="f0"
 				Value="{Binding Path=Fset, Mode=TwoWay}"
 				Interval="{Binding Path=FsetSmallChange, Mode=OneWay}"
 				Maximum="{Binding Path=FsetMax, Mode=OneWay}"
 				Minimum="{Binding Path=FsetMin, Mode=OneWay}"
 				TrackMouseWheelWhenMouseOver="True" />
 
-			<Slider
+			<Grid
 				Grid.Row="1"
 				Grid.Column="0"
-				Grid.ColumnSpan="2"
-				Maximum="200"
-				Minimum="-200"
-				Value="{Binding FsetHz, Mode=TwoWay}"
-				TickFrequency="50"
-				LargeChange="1"
-				SmallChange="0.1"
-				custom:SliderHelper.EnableMouseWheel="MouseHover"
-				TickPlacement="TopLeft" />
-
+				Grid.ColumnSpan="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="*" />
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					Margin="2,0,2,0"
+					Grid.Column="0"
+					Text="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay, StringFormat=f2}" />
+				<TextBlock
+					Margin="2,0,2,0"
+					Grid.Column="1"
+					Text="{Binding Path=FsetMin, Mode=OneWay, StringFormat=f2}" />
+				<Slider
+					Grid.Column="2"
+					Minimum="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay}"
+					Maximum="{Binding Path=PositiveMaximumFreqSet, Mode=OneWay}"
+					Value="{Binding Path=FsetHz, Mode=TwoWay}"
+					TickFrequency="{Binding Path=TickFreqSet, Mode=OneWay}"
+					LargeChange="1"
+					SmallChange="0.1"
+					custom:SliderHelper.EnableMouseWheel="MouseHover"
+					TickPlacement="TopLeft" />
+				<TextBlock
+					Margin="2,0,2,0"
+					Grid.Column="3"
+					Text="{Binding Path=NegativeMaximumFreqSet, Mode=OneWay, StringFormat=f2}" />
+				<TextBlock
+					Margin="2,0,2,0"
+					Grid.Column="4"
+					Text="{Binding Path=FsetMax, Mode=OneWay, StringFormat=f2}" />
+				<TextBlock
+					Margin="2,0,2,0"
+					Grid.Column="5"
+					Text="{Binding Path=FsetSmallChange, Mode=OneWay, StringFormat=f2}" />
+			</Grid>
 			<Grid
 				Grid.Row="2"
 				Grid.Column="0">
