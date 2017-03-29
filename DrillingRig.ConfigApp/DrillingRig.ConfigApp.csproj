@@ -221,6 +221,7 @@
     <Compile Include="AppControl\Cycle\CycleThreadHolderThreadSafe.cs" />
     <Compile Include="AppControl\EngineSettingsSpace\IEngineSettingsStorageSettable.cs" />
     <Compile Include="AppControl\EngineSettingsSpace\StoredEngineSettingsUpdatedDelegate.cs" />
+    <Compile Include="AppControl\IWindowSystemModel.cs" />
     <Compile Include="AppControl\LoggerHost\ILoggerRegistrationPoint.cs" />
     <Compile Include="AppControl\LoggerHost\LoggerRegistrationPointThreadSafe.cs" />
     <Compile Include="AppControl\NotifySendingEnabled\INotifySendingEnabledRaisable.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="AppControl\SimpleUiRoot.cs" />
     <Compile Include="AppControl\TargetAddressHost\TargetAddressHostThreadSafe.cs" />
     <Compile Include="AppControl\TargetAddressHost\ITargetAddressHostSettable.cs" />
+    <Compile Include="AppControl\WindowSystemModel.cs" />
     <Compile Include="AutoTimeSetter.cs" />
     <Compile Include="AppControl\CommandSenderHost\CommandSenderHostThreadSafe.cs" />
     <Compile Include="AppControl\CommandSenderHost\ICommandSenderHostSettable.cs" />

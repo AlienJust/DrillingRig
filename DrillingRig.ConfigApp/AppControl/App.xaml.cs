@@ -78,7 +78,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 		private BsEthernetLogs.ReadCycleModel _bsEthernetLogsReadCycleModel;
 
 		private void App_OnStartup(object sender, StartupEventArgs e) {
-			var colors = new List<Color> {
+			var colorsForGraphics = new List<Color> {
 				Colors.LawnGreen,
 				Colors.Red,
 				Colors.Cyan,
@@ -266,7 +266,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			var chartWindowThread = new Thread(() => {
 				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var chartVm = new ChartViewModel(uiRoot, colors);
+				var chartVm = new ChartViewModel(uiRoot, colorsForGraphics);
 				_paramLoggerRegPoint.RegisterLoggegr(chartVm);
 
 				var chartWindow = new WindowChart { DataContext = new WindowChartViewModel(chartVm) };
@@ -289,7 +289,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 			var oscilloscopeWindowThread = new Thread(() => {
 				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
 				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var oscilloscopeWindow = new OscilloscopeWindow(colors) { DataContext = new OscilloscopeWindowSciVm() };
+				var oscilloscopeWindow = new OscilloscopeWindow(colorsForGraphics) { DataContext = new OscilloscopeWindowSciVm() };
 				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
 				oscilloscopeWindow.Show();
 
@@ -328,7 +328,7 @@ namespace DrillingRig.ConfigApp.AppControl {
 				var mainViewModel = new MainViewModel(
 						new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher)),
 						new WpfWindowSystem(),
-						colors,
+						colorsForGraphics,
 						_cmdSenderHostSettable,
 						_targetAddressHost,
 						_debugLogger,
@@ -369,81 +369,5 @@ namespace DrillingRig.ConfigApp.AppControl {
 
 			_mainWindowCreationCompleteWaiter.WaitOne(); // TODO: remove or not?
 		}
-	}
-
-	/// <summary>
-	/// Модель системы окон приложения
-	/// </summary>
-	class WindowSystemModel : IWindowSystemModel {
-		private readonly List<Color> _colors;
-		private readonly IParamLoggerRegistrationPoint _paramLoggerRegPoint;
-		private Action _oscilloscopeWindowCloseFunc;
-
-
-		public WindowSystemModel() {
-			var colors = new List<Color> {
-				Colors.LawnGreen,
-				Colors.Red,
-				Colors.Cyan,
-				Colors.Yellow,
-				Colors.Coral,
-				Colors.LightGreen,
-				Colors.HotPink,
-				Colors.DeepSkyBlue,
-				Colors.Gold,
-				Colors.Orange,
-				Colors.Violet,
-				Colors.White,
-				Colors.Fuchsia,
-				Colors.LightSkyBlue,
-				Colors.LightGray,
-				Colors.Khaki,
-				Colors.SpringGreen,
-				Colors.Tomato,
-				Colors.LightCyan,
-				Colors.Goldenrod,
-				Colors.SlateBlue,
-				Colors.Cornsilk,
-				Colors.MediumPurple,
-				Colors.RoyalBlue,
-				Colors.MediumVioletRed,
-				Colors.MediumTurquoise };
-		}
-		public void ShowOscilloscopeWindow() {
-			var oscilloscopeWindowWaiter = new ManualResetEvent(false);
-			var oscilloscopeWindowThread = new Thread(() => {
-				var waitableNotifier = new WpfUiNotifier(System.Windows.Threading.Dispatcher.CurrentDispatcher);
-				var uiRoot = new SimpleUiRoot(new WpfUiNotifierAsync(System.Windows.Threading.Dispatcher.CurrentDispatcher));
-				var oscilloscopeWindow = new OscilloscopeWindow(_colors) { DataContext = new OscilloscopeWindowSciVm() };
-				_paramLoggerRegPoint.RegisterLoggegr(oscilloscopeWindow);
-				oscilloscopeWindow.Show();
-
-				_oscilloscopeWindowCloseFunc = () => waitableNotifier.Notify(() => oscilloscopeWindow.Close());
-				oscilloscopeWindowWaiter.Set();
-				System.Windows.Threading.Dispatcher.Run();
-			});
-			oscilloscopeWindowThread.SetApartmentState(ApartmentState.STA);
-			oscilloscopeWindowThread.IsBackground = true;
-			oscilloscopeWindowThread.Priority = ThreadPriority.BelowNormal;
-			oscilloscopeWindowThread.Start();
-			oscilloscopeWindowWaiter.WaitOne();
-		}
-
-		public void HideOscilloscopeWindow() {
-			try {
-				_oscilloscopeWindowCloseFunc?.Invoke();
-			}
-			catch (Exception e) {
-				//Console.WriteLine(e);
-				//throw;
-				// TODO: log exception
-			}
-			_oscilloscopeWindowCloseFunc = null;
-		}
-	}
-
-	interface IWindowSystemModel {
-		void ShowOscilloscopeWindow();
-		void HideOscilloscopeWindow();
 	}
 }
