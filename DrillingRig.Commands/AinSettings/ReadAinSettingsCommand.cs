@@ -33,6 +33,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 
 			var bp52 = new BytesPair(replyWithoutAinNumber[104], replyWithoutAinNumber[105]);
+			Console.WriteLine("<<READ>> NPRM = " + bp52.First.ToString("X2") + bp52.Second.ToString("X2"));
 			var np = bp52.First & 0x1F;
 			var nimpFloorCode = (bp52.First & 0xE0) >> 5;
 			var fanMode = AinTelemetryFanWorkmodeExtensions.FromIoBits(bp52.Second & 0x03);
