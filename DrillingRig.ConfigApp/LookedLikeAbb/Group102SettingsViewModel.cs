@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AlienJust.Support.Loggers.Contracts;
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
@@ -7,6 +8,8 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboIntEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb {
@@ -25,6 +28,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterComboEditableViewModel<int> Parameter07Vm { get; }
+		public ParameterComboEditableViewModel<AinTelemetryFanWorkmode> Parameter08Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -43,8 +48,30 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора", "f6", -10000, 10000, null) { Increment = 0.000001 };
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null) { Increment = 0.000001 };
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -10000, 10000, null) { Increment = 0.0001 };
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", -10000, 10000, null);
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Степень чегото там", "f0", 0, 8, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", 0, 31, null);
+
+			Parameter07Vm = new ParameterComboEditableViewModel<int>("102.07. Число импульсов ДЧВ",
+				new[]
+				{
+					new ComboItemViewModel<int> {ComboText = "256", ComboValue = 0}
+					, new ComboItemViewModel<int> {ComboText = "512", ComboValue = 1}
+					, new ComboItemViewModel<int> {ComboText = "1024", ComboValue = 2}
+					, new ComboItemViewModel<int> {ComboText = "2048", ComboValue = 3}
+					, new ComboItemViewModel<int> {ComboText = "4096", ComboValue = 4}
+					, new ComboItemViewModel<int> {ComboText = "8192", ComboValue = 5}
+					, new ComboItemViewModel<int> {ComboText = "16384", ComboValue = 6}
+					, new ComboItemViewModel<int> {ComboText = "32768", ComboValue = 7}
+				});
+
+			Parameter08Vm = new ParameterComboEditableViewModel<AinTelemetryFanWorkmode>("102.08. Режим работы вентилятора",
+				new[]
+				{
+					new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.AllwaysOff.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.AllwaysOff}
+					, new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffTwoMinutesLaterAfterPwmOff.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffTwoMinutesLaterAfterPwmOff}
+					, new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffAfterPwmOffAndTempGoesDownBelow45C.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffAfterPwmOffAndTempGoesDownBelow45C}
+					, new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.AllwaysOn.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.AllwaysOn}
+				});
+
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -79,7 +106,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Lsl = Parameter03Vm.CurrentValue * 1000000.0,
 					Lrl = Parameter04Vm.CurrentValue,
 					Rs = Parameter05Vm.CurrentValue,
-					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue)
+					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue),
+					NimpFloorCode = Parameter07Vm.SelectedComboItem.ComboValue,
+					FanMode = Parameter08Vm.SelectedComboItem.ComboValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -120,6 +149,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter04Vm.CurrentValue = null;
 					Parameter05Vm.CurrentValue = null;
 					Parameter06Vm.CurrentValue = null;
+					Parameter07Vm.SelectedComboItem = null;
+					Parameter08Vm.SelectedComboItem = null;
 					return;
 				}
 
@@ -129,6 +160,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter04Vm.CurrentValue = settings.Lrl;
 				Parameter05Vm.CurrentValue = settings.Rs;
 				Parameter06Vm.CurrentValue = settings.Np;
+				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == settings.NimpFloorCode);
+				Parameter08Vm.SelectedComboItem = Parameter08Vm.ComboItems.First(ci => ci.ComboValue == settings.FanMode);
 			});
 		}
 	}

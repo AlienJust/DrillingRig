@@ -110,8 +110,8 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[102] = _settings.Reserved51.First;
 			settingsSerialized[103] = _settings.Reserved51.Second;
 
-			//var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | (_settings.FanMode.ToIoBits() << 8)));
-			var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (2 << 5) | (_settings.FanMode.ToIoBits() << 8)));
+			var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | (_settings.FanMode.ToIoBits() << 8)));
+			//var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (2 << 5) | (_settings.FanMode.ToIoBits() << 8)));
 			Console.WriteLine("<<WRITE>> NPRM = " + bp52.First.ToString("X2") + bp52.Second.ToString("X2"));
 
 			settingsSerialized[104] = bp52.First;
