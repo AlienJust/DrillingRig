@@ -44,6 +44,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null) { Increment = 0.000001 };
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -10000, 10000, null) { Increment = 0.0001 };
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", -10000, 10000, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Степень чегото там", "f0", 0, 8, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

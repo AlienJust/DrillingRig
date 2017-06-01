@@ -64,6 +64,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				Console.WriteLine(Parameter01Vm.CurrentValue);
 				var settingsPart = new AinSettingsPartWritable {
 					KpW = Parameter01Vm.CurrentValue,
 					KiW = Parameter02Vm.CurrentValue

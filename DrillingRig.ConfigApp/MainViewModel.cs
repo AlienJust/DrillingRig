@@ -317,7 +317,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public List<string> ComPortsAvailable {
-			get { return _comPortsAvailable; }
+			get => _comPortsAvailable;
 			set {
 				if (_comPortsAvailable != value) {
 					_comPortsAvailable = value;
@@ -327,7 +327,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public string SelectedComName {
-			get { return _selectedComName; }
+			get => _selectedComName;
 			set {
 				if (value != _selectedComName) {
 					_selectedComName = value;
@@ -352,7 +352,7 @@ namespace DrillingRig.ConfigApp {
 		public List<int> AinsCountInSystem { get; }
 
 		public int SelectedAinsCount {
-			get { return _ainsCounterRaisable.SelectedAinsCount; }
+			get => _ainsCounterRaisable.SelectedAinsCount;
 			set {
 				if (value != 1 && value != 2 && value != 3) throw new ArgumentOutOfRangeException("Поддерживаемое число блоков АИН в системе может быть только 1, 2 или 3, получено ошибочное число: " + value);
 				_ainsCounterRaisable.SetAinsCountAndRaiseChange(value);
@@ -361,7 +361,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public Colors Ain1StateColor {
-			get { return _ain1StateColor; }
+			get => _ain1StateColor;
 			set {
 				if (_ain1StateColor != value) {
 					_ain1StateColor = value;
@@ -371,7 +371,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public Colors Ain2StateColor {
-			get { return _ain2StateColor; }
+			get => _ain2StateColor;
 			set {
 				if (_ain2StateColor != value) {
 					_ain2StateColor = value;
@@ -381,7 +381,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public Colors Ain3StateColor {
-			get { return _ain3StateColor; }
+			get => _ain3StateColor;
 			set {
 				if (_ain3StateColor != value) {
 					_ain3StateColor = value;
@@ -391,7 +391,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public bool Ain1IsUsed {
-			get { return _ain1IsUsed; }
+			get => _ain1IsUsed;
 			set {
 				if (_ain1IsUsed != value) {
 					_ain1IsUsed = value;
@@ -401,7 +401,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public bool Ain2IsUsed {
-			get { return _ain2IsUsed; }
+			get => _ain2IsUsed;
 			set {
 				if (_ain2IsUsed != value) {
 					_ain2IsUsed = value;
@@ -411,7 +411,7 @@ namespace DrillingRig.ConfigApp {
 		}
 
 		public bool Ain3IsUsed {
-			get { return _ain3IsUsed; }
+			get => _ain3IsUsed;
 			set {
 				if (_ain3IsUsed != value) {
 					_ain3IsUsed = value;

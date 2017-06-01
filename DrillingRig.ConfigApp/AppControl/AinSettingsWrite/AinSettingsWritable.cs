@@ -74,6 +74,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public AinSettingsWritable(IAinSettings settings) {
 			KpW = settings.KpW;
 			KiW = settings.KiW;
+
 			FiNom = settings.FiNom;
 			Imax = settings.Imax;
 			UdcMax = settings.UdcMax;
@@ -94,6 +95,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			Lm = settings.Lm;
 			Lsl = settings.Lsl;
 			Lrl = settings.Lrl;
+
 			KpFi = settings.KpFi;
 			KiFi = settings.KiFi;
 			KpId = settings.KpId;
@@ -123,12 +125,16 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			EmdecDfdt = settings.EmdecDfdt;
 			TextMax = settings.TextMax;
 			ToHl = settings.ToHl;
+
 			Ain1LinkFault = settings.Ain1LinkFault;
 			Ain2LinkFault = settings.Ain2LinkFault;
 			Ain3LinkFault = settings.Ain3LinkFault;
 		}
 
 		public void ModifyFromPart(IAinSettingsPart part) {
+			if (part.KpW.HasValue) KpW = part.KpW.Value;
+			if (part.KiW.HasValue) KiW = part.KiW.Value;
+
 			if (part.FiNom.HasValue) FiNom = part.FiNom.Value;
 			if (part.Imax.HasValue) Imax = part.Imax.Value;
 			if (part.UdcMax.HasValue) UdcMax = part.UdcMax.Value;
@@ -149,6 +155,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (part.Lm.HasValue) Lm = part.Lm.Value;
 			if (part.Lsl.HasValue) Lsl = part.Lsl.Value;
 			if (part.Lrl.HasValue) Lrl = part.Lrl.Value;
+
 			if (part.KpFi.HasValue) KpFi = part.KpFi.Value;
 			if (part.KiFi.HasValue) KiFi = part.KiFi.Value;
 			if (part.KpId.HasValue) KpId = part.KpId.Value;

@@ -1,4 +1,5 @@
 using System;
+using AlienJust.Support.Reflection;
 using DrillingRig.Commands.AinSettings;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
@@ -17,59 +18,64 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					throw new Exception("При повторном чтении (для подтверждения записи) настройки были вычитаны, однако связь с АИН3 отсутсвовала (взведен флаг ошибки связи)");
 			}
 
-			if (settings.FiNom != settingsReReaded.FiNom) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FiNom)");
-			if (settings.Imax != settingsReReaded.Imax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Imax)");
-			if (settings.UdcMax != settingsReReaded.UdcMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UdcMax)");
-			if (settings.UdcMin != settingsReReaded.UdcMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UdcMin)");
-			if (settings.Fnom != settingsReReaded.Fnom) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fnom)");
-			if (settings.Fmax != settingsReReaded.Fmax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fmax)");
-			if (settings.DflLim != settingsReReaded.DflLim) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DflLim)");
-			if (settings.FlMinMin != settingsReReaded.FlMinMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FlMinMin)");
-			if (settings.IoutMax != settingsReReaded.IoutMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр IoutMax)");
-			if (settings.FiMin != settingsReReaded.FiMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FiMin)");
-			if (settings.DacCh != settingsReReaded.DacCh) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DacCh)");
-			if (settings.Imcw != settingsReReaded.Imcw) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Imcw)");
-			if (settings.Ia0 != settingsReReaded.Ia0) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ia0), пришло значение: " + settingsReReaded.Ia0 + ", а ожидалось: " + settings.Ia0);
-			if (settings.Ib0 != settingsReReaded.Ib0) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ib0), пришло значение: " + settingsReReaded.Ib0 + ", а ожидалось: " + settings.Ib0);
-			if (settings.Ic0 != settingsReReaded.Ic0) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Ic0), пришло значение: " + settingsReReaded.Ic0 + ", а ожидалось: " + settings.Ic0);
-			if (settings.Udc0 != settingsReReaded.Udc0) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Udc0), пришло значение: " + settingsReReaded.Udc0 + ", а ожидалось: " + settings.Udc0);
-			if (settings.TauR != settingsReReaded.TauR) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauR)");
-			if (settings.Lm != settingsReReaded.Lm) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Lm)");
-			if (settings.Lsl != settingsReReaded.Lsl) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Lsl)");
-			if (settings.Lrl != settingsReReaded.Lrl) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Lrl)");
-			if (settings.KpFi != settingsReReaded.KpFi) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KpFi)");
+			string paramsText = string.Empty;
 
-			//if (settings.KiFi != settingsReReaded.KiFi) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KiFi)");
-			if (settings.KiFi != settingsReReaded.KiFi) Console.WriteLine("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KiFi был " + settings.KiFi + ", а стал " + settingsReReaded.KiFi + ")");
+			if (settings.FiNom != settingsReReaded.FiNom) paramsText += $"{Environment.NewLine}параметр FiNom был {settings.FiNom}; стал {settingsReReaded.FiNom}";
+			if (settings.Imax != settingsReReaded.Imax) paramsText += $"{Environment.NewLine}параметр Imax был {settings.Imax}; стал {settingsReReaded.Imax}";
+			if (settings.UdcMax != settingsReReaded.UdcMax) paramsText += $"{Environment.NewLine}параметр UdcMax был {settings.UdcMax}; стал {settingsReReaded.UdcMax}";
+			if (settings.UdcMin != settingsReReaded.UdcMin) paramsText += $"{Environment.NewLine}параметр UdcMin был {settings.UdcMin}; стал {settingsReReaded.UdcMin}";
+			if (settings.Fnom != settingsReReaded.Fnom) paramsText += $"{Environment.NewLine}параметр Fnom был {settings.Fnom:f10}; стал {settingsReReaded.Fnom:f10}";
+			if (settings.Fmax != settingsReReaded.Fmax) paramsText += $"{Environment.NewLine}параметр Fmax был {settings.Fmax:f10}; стал {settingsReReaded.Fmax:f10}";
+			if (settings.DflLim != settingsReReaded.DflLim) paramsText += $"{Environment.NewLine}параметр DflLim был {settings.DflLim:f10}; стал {settingsReReaded.DflLim:f10}";
+			if (settings.FlMinMin != settingsReReaded.FlMinMin) paramsText += $"{Environment.NewLine}параметр FlMinMin был {settings.FlMinMin}; стал {settingsReReaded.FlMinMin}";
+			if (settings.IoutMax != settingsReReaded.IoutMax) paramsText += $"{Environment.NewLine}параметр IoutMax был {settings.IoutMax}; стал {settingsReReaded.IoutMax}";
+			if (settings.FiMin != settingsReReaded.FiMin) paramsText += $"{Environment.NewLine}параметр FiMin был {settings.FiMin}; стал {settingsReReaded.FiMin}";
+			if (settings.DacCh != settingsReReaded.DacCh) paramsText += $"{Environment.NewLine}параметр DacCh был {settings.DacCh}; стал {settingsReReaded.DacCh}";
+			if (settings.Imcw != settingsReReaded.Imcw) paramsText += $"{Environment.NewLine}параметр Imcw был {settings.Imcw}; стал {settingsReReaded.Imcw}";
+			if (settings.Ia0 != settingsReReaded.Ia0) paramsText += $"{Environment.NewLine}параметр Ia0 был {settings.Ia0}; стал {settingsReReaded.Ia0}";
+			if (settings.Ib0 != settingsReReaded.Ib0) paramsText += $"{Environment.NewLine}параметр Ib0 был {settings.Ib0}; стал {settingsReReaded.Ib0}";
+			if (settings.Ic0 != settingsReReaded.Ic0) paramsText += $"{Environment.NewLine}параметр Ic0 был {settings.Ic0}; стал {settingsReReaded.Ic0}";
+			if (settings.Udc0 != settingsReReaded.Udc0) paramsText += $"{Environment.NewLine}параметр Udc0 был {settings.Udc0}; стал {settingsReReaded.Udc0}";
+			if (settings.TauR != settingsReReaded.TauR) paramsText += $"{Environment.NewLine}параметр TauR был {settings.TauR:f10}; стал {settingsReReaded.TauR:f10}";
+			if (settings.Lm != settingsReReaded.Lm) paramsText += $"{Environment.NewLine}параметр Lm был {settings.Lm:f10}; стал {settingsReReaded.Lm:f10}";
+			if (settings.Lsl != settingsReReaded.Lsl) paramsText += $"{Environment.NewLine}параметр Lsl был {settings.Lsl:f10}; стал {settingsReReaded.Lsl:f10}";
+			if (settings.Lrl != settingsReReaded.Lrl) paramsText += $"{Environment.NewLine}параметр Lrl был {settings.Lrl:f10}; стал {settingsReReaded.Lrl:f10}";
 
-			if (settings.KpId != settingsReReaded.KpId) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KpId)");
-			if (settings.KiId != settingsReReaded.KiId) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KiId)");
-			if (settings.KpIq != settingsReReaded.KpIq) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KpIq)");
-			if (settings.KiIq != settingsReReaded.KiIq) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр KiIq)");
-			if (settings.AccDfDt != settingsReReaded.AccDfDt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр AccDfDt)");
-			if (settings.DecDfDt != settingsReReaded.DecDfDt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр DecDfDt)");
-			if (settings.Unom != settingsReReaded.Unom) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Unom)");
-			if (settings.TauFlLim != settingsReReaded.TauFlLim) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauFlLim)");
-			if (settings.Rs != settingsReReaded.Rs) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Rs)");
-			if (settings.Fmin != settingsReReaded.Fmin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Fmin)");
-			if (settings.TauM != settingsReReaded.TauM) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauM)");
-			if (settings.TauF != settingsReReaded.TauF) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauF)");
-			if (settings.TauFSet != settingsReReaded.TauFSet) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauFSet)");
-			if (settings.TauFi != settingsReReaded.TauFi) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TauFi)");
-			if (settings.IdSetMin != settingsReReaded.IdSetMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр IdSetMin)");
-			if (settings.IdSetMax != settingsReReaded.IdSetMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр IdSetMax)");
-			if (settings.UchMin != settingsReReaded.UchMin) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UchMin)");
-			if (settings.UchMax != settingsReReaded.UchMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UchMax)");
+			if (settings.KpFi != settingsReReaded.KpFi) paramsText += $"{Environment.NewLine}параметр KpFi был {settings.KpFi:f10}; стал {settingsReReaded.KpFi:f10}";
+			if (settings.KiFi != settingsReReaded.KiFi) paramsText += $"{Environment.NewLine}параметр KiFi был {settings.KiFi:f10}; стал {settingsReReaded.KiFi:f10}";
 
-			//if (settings.Np != settingsReReaded.Np) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np)");
-			if (settings.Np != settingsReReaded.Np) Console.WriteLine("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np был " + settings.Np + ", а стал " + settingsReReaded.Np + ")");
-			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр NimpFloorCode был " + settings.NimpFloorCode + ", а стал " + settingsReReaded.NimpFloorCode + ")");
-			if (settings.FanMode != settingsReReaded.FanMode) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр FanMode был " + settings.FanMode.ToIoBits() + ", а стал " + settingsReReaded.FanMode.ToIoBits() + ")");
+			if (settings.KpId != settingsReReaded.KpId) paramsText += $"{Environment.NewLine}параметр KpId был {settings.KpId:f10}; стал {settingsReReaded.KpId:f10}";
+			if (settings.KiId != settingsReReaded.KiId) paramsText += $"{Environment.NewLine}параметр KiId был {settings.KiId:f10}; стал {settingsReReaded.KiId:f10}";
+			if (settings.KpIq != settingsReReaded.KpIq) paramsText += $"{Environment.NewLine}параметр KpIq был {settings.KpIq:f10}; стал {settingsReReaded.KpIq:f10}";
+			if (settings.KiIq != settingsReReaded.KiIq) paramsText += $"{Environment.NewLine}параметр KiIq был {settings.KiIq:f10}; стал {settingsReReaded.KiIq:f10}";
 
-			if (settings.UmodThr != settingsReReaded.UmodThr) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр UmodThr)");
-			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр EmdecDfdt)");
-			if (settings.TextMax != settingsReReaded.TextMax) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр TextMax)");
-			if (settings.ToHl != settingsReReaded.ToHl) throw new Exception("При повторном чтении вычитанные настройки не совпали с записываемыми (параметр ToHl)");
+			if (settings.AccDfDt != settingsReReaded.AccDfDt) paramsText += $"{Environment.NewLine}параметр AccDfDt был {settings.AccDfDt}; стал {settingsReReaded.AccDfDt}";
+			if (settings.DecDfDt != settingsReReaded.DecDfDt) paramsText += $"{Environment.NewLine}параметр DecDfDt был {settings.DecDfDt}; стал {settingsReReaded.DecDfDt}";
+
+			if (settings.Unom != settingsReReaded.Unom) paramsText += $"{Environment.NewLine}параметр Unom был {settings.Unom:f10}; стал {settingsReReaded.Unom:f10}";
+			if (settings.TauFlLim != settingsReReaded.TauFlLim) paramsText += $"{Environment.NewLine}параметр TauFlLim был {settings.TauFlLim:f10}; стал {settingsReReaded.TauFlLim:f10}";
+			if (settings.Rs != settingsReReaded.Rs) paramsText += $"{Environment.NewLine}параметр Rs был {settings.Rs:f10}; стал {settingsReReaded.Rs:f10}";
+			if (settings.Fmin != settingsReReaded.Fmin) paramsText += $"{Environment.NewLine}параметр Fmin был {settings.Fmin:f10}; стал {settingsReReaded.Fmin:f10}";
+
+			if (settings.TauM != settingsReReaded.TauM) paramsText += $"{Environment.NewLine}параметр TauM был {settings.TauM}; стал {settingsReReaded.TauM}";
+			if (settings.TauF != settingsReReaded.TauF) paramsText += $"{Environment.NewLine}параметр TauF был {settings.TauF}; стал {settingsReReaded.TauF}";
+			if (settings.TauFSet != settingsReReaded.TauFSet) paramsText += $"{Environment.NewLine}параметр TauFSet был {settings.TauFSet}; стал {settingsReReaded.TauFSet}";
+			if (settings.TauFi != settingsReReaded.TauFi) paramsText += $"{Environment.NewLine}параметр TauFi был {settings.TauFi}; стал {settingsReReaded.TauFi}";
+			if (settings.IdSetMin != settingsReReaded.IdSetMin) paramsText += $"{Environment.NewLine}параметр IdSetMin был {settings.IdSetMin}; стал {settingsReReaded.IdSetMin}";
+			if (settings.IdSetMax != settingsReReaded.IdSetMax) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(()=>settings.IdSetMax)} был {settings.IdSetMax}; стал {settingsReReaded.IdSetMax}";
+			if (settings.UchMin != settingsReReaded.UchMin) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.UchMin)} был {settings.UchMin}; стал {settingsReReaded.UchMin}";
+			if (settings.UchMax != settingsReReaded.UchMax) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.UchMax)} был {settings.UchMax}; стал {settingsReReaded.UchMax}";
+
+			if (settings.Np != settingsReReaded.Np) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.Np)} был {settings.Np}; стал {settingsReReaded.Np}";
+			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.NimpFloorCode)} был {settings.NimpFloorCode}; стал {settingsReReaded.NimpFloorCode}";
+			if (settings.FanMode != settingsReReaded.FanMode) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.FanMode)} был {settings.FanMode.ToIoBits()}; стал {settingsReReaded.FanMode.ToIoBits()}";
+
+			if (settings.UmodThr != settingsReReaded.UmodThr) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.UmodThr)} был {settings.UmodThr:f10}; стал {settingsReReaded.UmodThr:f10}";
+			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.EmdecDfdt)} был {settings.EmdecDfdt}; стал {settingsReReaded.EmdecDfdt}";
+			if (settings.TextMax != settingsReReaded.TextMax) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.TextMax)} был {settings.TextMax}; стал {settingsReReaded.TextMax}";
+			if (settings.ToHl != settingsReReaded.ToHl) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.ToHl)} был {settings.ToHl}; стал {settingsReReaded.ToHl}";
+
+			if (paramsText != string.Empty) throw new Exception("Ошибка при сравнении имеющихся настроек и прочитанных заново настроек: " + paramsText);
 		}
 	}
 }

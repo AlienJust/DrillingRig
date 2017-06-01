@@ -39,107 +39,107 @@ namespace DrillingRig.Commands.AinSettings {
 			var fanMode = AinTelemetryFanWorkmodeExtensions.FromIoBits(bp52.Second & 0x03);
 
 			return new AinSettingsSimple(
-				new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
-				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
+				reserved00:new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
+				kpW: BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
 				// kiW
-				(replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0,
+				kiW: (replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0,
 
-				(short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
-				(short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
-				(short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
-				(short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
+				fiNom: (short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
+				imax: (short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
+				udcMax: (short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
+				udcMin: (short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
 				
 				// Fnom:
-				(replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)) / 10.0,
+				fnom: (replyWithoutAinNumber[16] + (replyWithoutAinNumber[17] <<8)) / 10.0,
 				// Fmax:
-				(replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
+				fmax: (replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
 				// DflLim:
-				(replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)) / 1000.0,
+				dflLim: (replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)) / 1000.0,
 
-				(short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
+				flMinMin: (short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
 
-				(short)(replyWithoutAinNumber[24] + (replyWithoutAinNumber[25] <<8)),
-				(short)(replyWithoutAinNumber[26] + (replyWithoutAinNumber[27] <<8)),
-				(short)(replyWithoutAinNumber[28] + (replyWithoutAinNumber[29] <<8)),
-				(short)(replyWithoutAinNumber[30] + (replyWithoutAinNumber[31] <<8)),
-				(short)(replyWithoutAinNumber[32] + (replyWithoutAinNumber[33] <<8)),
-				(short)(replyWithoutAinNumber[34] + (replyWithoutAinNumber[35] <<8)),
-				(short)(replyWithoutAinNumber[36] + (replyWithoutAinNumber[37] <<8)),
-				(short)(replyWithoutAinNumber[38] + (replyWithoutAinNumber[39] <<8)),
+				ioutMax: (short)(replyWithoutAinNumber[24] + (replyWithoutAinNumber[25] <<8)),
+				fiMin: (short)(replyWithoutAinNumber[26] + (replyWithoutAinNumber[27] <<8)),
+				dacCh: (short)(replyWithoutAinNumber[28] + (replyWithoutAinNumber[29] <<8)),
+				imcw: (short)(replyWithoutAinNumber[30] + (replyWithoutAinNumber[31] <<8)),
+				ia0: (short)(replyWithoutAinNumber[32] + (replyWithoutAinNumber[33] <<8)),
+				ib0: (short)(replyWithoutAinNumber[34] + (replyWithoutAinNumber[35] <<8)),
+				ic0: (short)(replyWithoutAinNumber[36] + (replyWithoutAinNumber[37] <<8)),
+				udc0: (short)(replyWithoutAinNumber[38] + (replyWithoutAinNumber[39] <<8)),
 
 				// TauR:
-				(replyWithoutAinNumber[40] + (replyWithoutAinNumber[41] <<8)) / 10000.0,
+				tauR: (replyWithoutAinNumber[40] + (replyWithoutAinNumber[41] <<8)) / 10000.0,
 				// Lm:
-				(replyWithoutAinNumber[42] + (replyWithoutAinNumber[43] <<8)) / 100000.0,
+				lm: (replyWithoutAinNumber[42] + (replyWithoutAinNumber[43] <<8)) / 100000.0,
 				// Lsl:
-				(replyWithoutAinNumber[44] + (replyWithoutAinNumber[45] <<8)) / 1000000.0,
+				lsl: (replyWithoutAinNumber[44] + (replyWithoutAinNumber[45] <<8)) / 1000000.0,
 				// Lrl:
-				(replyWithoutAinNumber[46] + (replyWithoutAinNumber[47] <<8)) / 1000000.0,
+				lrl: (replyWithoutAinNumber[46] + (replyWithoutAinNumber[47] <<8)) / 1000000.0,
 
 				// reserved 24:
-				new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),
+				reserved24: new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),
 
-				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51])),
+				kpFi: BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51])),
 				// kiFi:
-				(replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] <<8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24)) / 16777216.0, 
+				kiFi: (replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] <<8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24)) / 16777216.0, 
 
 				// reserved 28:
-				new BytesPair(replyWithoutAinNumber[56], replyWithoutAinNumber[57]),
+				reserved28: new BytesPair(replyWithoutAinNumber[56], replyWithoutAinNumber[57]),
 
 				// kpId:
-				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59])),
+				kpId: BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59])),
 				// kiId:
-				(replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] <<8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24)) / 16777216.0,
+				kiId: (replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] <<8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24)) / 16777216.0,
 
 				// reserverd 32:
-				new BytesPair(replyWithoutAinNumber[64], replyWithoutAinNumber[65]),
+				reserved32: new BytesPair(replyWithoutAinNumber[64], replyWithoutAinNumber[65]),
 
 				// kpIq:
-				BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67])),
+				kpIq: BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67])),
 				// kiIq:
-				(replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] <<8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24)) / 16777216.0,
+				kiIq: (replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] <<8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24)) / 16777216.0,
 
-				(short)(replyWithoutAinNumber[72] + (replyWithoutAinNumber[73] <<8)),
-				(short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),
+				accDfDt: (short)(replyWithoutAinNumber[72] + (replyWithoutAinNumber[73] <<8)),
+				decDfDt: (short)(replyWithoutAinNumber[74] + (replyWithoutAinNumber[75] <<8)),
 				// Unom:
-				(replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
+				unom: (replyWithoutAinNumber[76] + (replyWithoutAinNumber[77] <<8)) / Math.Sqrt(2.0),
 				// TauFlLim:
-				(replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)) / 1000.0,
+				tauFlLim: (replyWithoutAinNumber[78] + (replyWithoutAinNumber[79] << 8)) / 1000.0,
 				// Rs:
-				(replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)) / 10000.0,
+				rs: (replyWithoutAinNumber[80] + (replyWithoutAinNumber[81] <<8)) / 10000.0,
 				// fmin:
-				(replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)) / 10.0,
-				(short)(replyWithoutAinNumber[84] + (replyWithoutAinNumber[85] <<8)),
-				(short)(replyWithoutAinNumber[86] + (replyWithoutAinNumber[87] <<8)),
-				(short)(replyWithoutAinNumber[88] + (replyWithoutAinNumber[89] <<8)),
-				(short)(replyWithoutAinNumber[90] + (replyWithoutAinNumber[91] <<8)),
-				(short)(replyWithoutAinNumber[92] + (replyWithoutAinNumber[93] <<8)),
-				(short)(replyWithoutAinNumber[94] + (replyWithoutAinNumber[95] <<8)),
+				fmin: (replyWithoutAinNumber[82] + (replyWithoutAinNumber[83] <<8)) / 10.0,
+				tauM: (short)(replyWithoutAinNumber[84] + (replyWithoutAinNumber[85] <<8)),
+				tauF: (short)(replyWithoutAinNumber[86] + (replyWithoutAinNumber[87] <<8)),
+				tauFSet: (short)(replyWithoutAinNumber[88] + (replyWithoutAinNumber[89] <<8)),
+				tauFi: (short)(replyWithoutAinNumber[90] + (replyWithoutAinNumber[91] <<8)),
+				idSetMin: (short)(replyWithoutAinNumber[92] + (replyWithoutAinNumber[93] <<8)),
+				idSetMax: (short)(replyWithoutAinNumber[94] + (replyWithoutAinNumber[95] <<8)),
 
-				new BytesPair(replyWithoutAinNumber[96], replyWithoutAinNumber[97]),
-				new BytesPair(replyWithoutAinNumber[98], replyWithoutAinNumber[99]),
+				uchMin: new BytesPair(replyWithoutAinNumber[96], replyWithoutAinNumber[97]),
+				uchMax: new BytesPair(replyWithoutAinNumber[98], replyWithoutAinNumber[99]),
 				
 				// reserverd 50:
-				new BytesPair(replyWithoutAinNumber[100], replyWithoutAinNumber[101]),
+				reserved50: new BytesPair(replyWithoutAinNumber[100], replyWithoutAinNumber[101]),
 				
 				// reserverd 51:
-				new BytesPair(replyWithoutAinNumber[102], replyWithoutAinNumber[103]),
+				reserved51: new BytesPair(replyWithoutAinNumber[102], replyWithoutAinNumber[103]),
 				
 				// Param52 (np and others):
-				np,
-				nimpFloorCode,
-				fanMode,
+				np: np,
+				nimpFloorCode: nimpFloorCode,
+				fanMode: fanMode,
 
-				(replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)) / 1000.0,
+				umodThr: (replyWithoutAinNumber[106] + (replyWithoutAinNumber[107] << 8)) / 1000.0,
 
-				(short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
-				(short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
-				(short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8)),
+				emdecDfdt: (short)(replyWithoutAinNumber[108] + (replyWithoutAinNumber[109] <<8)),
+				textMax: (short)(replyWithoutAinNumber[110] + (replyWithoutAinNumber[111] <<8)),
+				toHl: (short)(replyWithoutAinNumber[112] + (replyWithoutAinNumber[113] <<8)),
 
 				// Status byte:
-				(replyWithoutAinNumber[114] & 0x01) == 0x01,
-				(replyWithoutAinNumber[114] & 0x02) == 0x02,
-				(replyWithoutAinNumber[114] & 0x04) == 0x04
+				ain1LinkFault: (replyWithoutAinNumber[114] & 0x01) == 0x01,
+				ain2LinkFault: (replyWithoutAinNumber[114] & 0x02) == 0x02,
+				ain3LinkFault: (replyWithoutAinNumber[114] & 0x04) == 0x04
 				);
 				
 		}
