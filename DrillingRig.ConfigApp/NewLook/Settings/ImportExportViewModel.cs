@@ -21,8 +21,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 		private readonly RelayCommand _loadCmd;
 		private readonly RelayCommand _saveCmd;
 
-		public ImportExportViewModel(IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable,
-			IEngineSettingsStorageSettable engineSettingsStorageSettable, IEngineSettingsReadNotifyRaisable engineSettingsReadNotifyRaisable) {
+		public ImportExportViewModel(IAinSettingsStorageSettable ainSettingsStorageSettable, IAinSettingsReadNotifyRaisable ainSettingsReadNotifyRaisable, IEngineSettingsStorageSettable engineSettingsStorageSettable, IEngineSettingsReadNotifyRaisable engineSettingsReadNotifyRaisable) {
 			_ainSettingsStorageSettable = ainSettingsStorageSettable;
 			_ainSettingsReadNotifyRaisable = ainSettingsReadNotifyRaisable;
 			_engineSettingsStorageSettable = engineSettingsStorageSettable;
@@ -120,35 +119,16 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 					var ain1LinkFault = bool.Parse(ainElement.Element("Ain1LinkFault").Value);
 					var ain2LinkFault = bool.Parse(ainElement.Element("Ain2LinkFault").Value);
 					var ain3LinkFault = bool.Parse(ainElement.Element("Ain3LinkFault").Value);
-					
-					
-					
-					
-					var setting = new AinSettingsSimple(reserved00, kpW, kiW, fiNom, imax, udcMax, udcMin, fnom, fmax, dflLim,
-						flMinMin, ioutMax, fiMin, dacCh, imcw, ia0, ib0, ic0, udc0, tauR, lm, lsl, lrl, reserved24, kpFi, kiFi, reserved28,
-						kpId, kiId, reserved32, kpIq, kiIq, accDfDt, decDfDt, unom, tauFlLim, rs, fmin, tauM, tauF, tauFSet, tauFi,
-						idSetMin, idSetMax, uchMin, uchMax, reserved50, reserved51, np, nimpFloorCode, fanMode, umodThr, emdecDfdt,
-						textMax, toHl, ain1LinkFault, ain2LinkFault, ain3LinkFault);
+
+
+					var setting = new AinSettingsSimple(reserved00, kpW, kiW, fiNom, imax, udcMax, udcMin, fnom, fmax, dflLim, flMinMin, ioutMax, fiMin, dacCh, imcw, ia0, ib0, ic0, udc0, tauR, lm, lsl, lrl, reserved24, kpFi, kiFi, reserved28, kpId, kiId, reserved32, kpIq, kiIq, accDfDt, decDfDt, unom, tauFlLim, rs, fmin, tauM, tauF, tauFSet, tauFi, idSetMin, idSetMax, uchMin, uchMax, reserved50, reserved51, np, nimpFloorCode, fanMode, umodThr, emdecDfdt, textMax, toHl, ain1LinkFault, ain2LinkFault, ain3LinkFault);
 					_ainSettingsStorageSettable.SetSettings(zbAinNumber, setting);
 					_ainSettingsReadNotifyRaisable.RaiseAinSettingsReadComplete(zbAinNumber, null, setting); // TODO: try catch real exception
 				}
 				var engineSettingsElement = rootElement.Element("EngineSettings");
 				if (engineSettingsElement != null) {
 					try {
-						var settings = new EngineSettingsSimple {
-							Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture),
-							Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture),
-							Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture),
-							Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture),
-							CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture),
-							Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture),
-							Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture),
-							MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture),
-							Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture),
-							I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture),
-							Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture),
-							ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)
-						};
+						var settings = new EngineSettingsSimple {Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture), Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture), Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture), Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture), CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture), Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture), Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture), MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture), Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture), I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture), Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture), ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)};
 					}
 					catch (Exception ex) {
 						Console.WriteLine(ex);
@@ -169,84 +149,13 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 				for (byte i = 0; i < 3; ++i) {
 					var curAinSettings = _ainSettingsStorageSettable.GetSettings(i);
 					if (curAinSettings != null) {
-						var element = new XElement("AinSettings", new XAttribute("Number", i),
-							new XElement("AccDfDt", curAinSettings.AccDfDt.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ain1LinkFault", curAinSettings.Ain1LinkFault.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ain2LinkFault", curAinSettings.Ain2LinkFault.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ain3LinkFault", curAinSettings.Ain3LinkFault.ToString(CultureInfo.InvariantCulture)),
-							new XElement("DacCh", curAinSettings.DacCh.ToString(CultureInfo.InvariantCulture)),
-							new XElement("DecDfDt", curAinSettings.DecDfDt.ToString(CultureInfo.InvariantCulture)),
-							new XElement("DflLim", curAinSettings.DflLim.ToString(CultureInfo.InvariantCulture)),
-							new XElement("EmdecDfdt", curAinSettings.EmdecDfdt.ToString(CultureInfo.InvariantCulture)),
-							new XElement("FanMode", curAinSettings.FanMode.ToIoBits().ToString(CultureInfo.InvariantCulture)),
-							new XElement("FiMin", curAinSettings.FiMin.ToString(CultureInfo.InvariantCulture)),
-							new XElement("FiNom", curAinSettings.FiNom.ToString(CultureInfo.InvariantCulture)),
-							new XElement("FlMinMin", curAinSettings.FlMinMin.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Fmax", curAinSettings.Fmax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Fmin", curAinSettings.Fmin.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Fnom", curAinSettings.Fnom.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ia0", curAinSettings.Ia0.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ib0", curAinSettings.Ib0.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Ic0", curAinSettings.Ic0.ToString(CultureInfo.InvariantCulture)),
-							new XElement("IdSetMax", curAinSettings.IdSetMax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("IdSetMin", curAinSettings.IdSetMin.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Imax", curAinSettings.Imax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Imcw", curAinSettings.Imcw.ToString(CultureInfo.InvariantCulture)),
-							new XElement("IoutMax", curAinSettings.IoutMax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KiFi", curAinSettings.KiFi.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KiId", curAinSettings.KiId.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KiIq", curAinSettings.KiIq.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KiW", curAinSettings.KiW.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KpFi", curAinSettings.KpFi.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KpId", curAinSettings.KpId.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KpIq", curAinSettings.KpIq.ToString(CultureInfo.InvariantCulture)),
-							new XElement("KpW", curAinSettings.KpW.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Lm", curAinSettings.Lm.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Lrl", curAinSettings.Lrl.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Lsl", curAinSettings.Lsl.ToString(CultureInfo.InvariantCulture)),
-							new XElement("NimpFloorCode", curAinSettings.NimpFloorCode.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Np", curAinSettings.Np.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Reserved00", curAinSettings.Reserved00),
-							new XElement("Reserved24", curAinSettings.Reserved24),
-							new XElement("Reserved28", curAinSettings.Reserved28),
-							new XElement("Reserved32", curAinSettings.Reserved32),
-							new XElement("Reserved50", curAinSettings.Reserved50),
-							new XElement("Reserved51", curAinSettings.Reserved51),
-							new XElement("Rs", curAinSettings.Rs.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauF", curAinSettings.TauF.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauFSet", curAinSettings.TauFSet.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauFi", curAinSettings.TauFi.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauFlLim", curAinSettings.TauFlLim.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauM", curAinSettings.TauM.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TauR", curAinSettings.TauR.ToString(CultureInfo.InvariantCulture)),
-							new XElement("TextMax", curAinSettings.TextMax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("ToHl", curAinSettings.ToHl.ToString(CultureInfo.InvariantCulture)),
-							new XElement("UchMax", curAinSettings.UchMax),
-							new XElement("UchMin", curAinSettings.UchMin),
-							new XElement("Udc0", curAinSettings.Udc0.ToString(CultureInfo.InvariantCulture)),
-							new XElement("UdcMax", curAinSettings.UdcMax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("UdcMin", curAinSettings.UdcMin.ToString(CultureInfo.InvariantCulture)),
-							new XElement("UmodThr", curAinSettings.UmodThr.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Unom", curAinSettings.Unom.ToString(CultureInfo.InvariantCulture))
-						);
+						var element = new XElement("AinSettings", new XAttribute("Number", i), new XElement("AccDfDt", curAinSettings.AccDfDt.ToString(CultureInfo.InvariantCulture)), new XElement("Ain1LinkFault", curAinSettings.Ain1LinkFault.ToString(CultureInfo.InvariantCulture)), new XElement("Ain2LinkFault", curAinSettings.Ain2LinkFault.ToString(CultureInfo.InvariantCulture)), new XElement("Ain3LinkFault", curAinSettings.Ain3LinkFault.ToString(CultureInfo.InvariantCulture)), new XElement("DacCh", curAinSettings.DacCh.ToString(CultureInfo.InvariantCulture)), new XElement("DecDfDt", curAinSettings.DecDfDt.ToString(CultureInfo.InvariantCulture)), new XElement("DflLim", curAinSettings.DflLim.ToString(CultureInfo.InvariantCulture)), new XElement("EmdecDfdt", curAinSettings.EmdecDfdt.ToString(CultureInfo.InvariantCulture)), new XElement("FanMode", curAinSettings.FanMode.ToIoBits().ToString(CultureInfo.InvariantCulture)), new XElement("FiMin", curAinSettings.FiMin.ToString(CultureInfo.InvariantCulture)), new XElement("FiNom", curAinSettings.FiNom.ToString(CultureInfo.InvariantCulture)), new XElement("FlMinMin", curAinSettings.FlMinMin.ToString(CultureInfo.InvariantCulture)), new XElement("Fmax", curAinSettings.Fmax.ToString(CultureInfo.InvariantCulture)), new XElement("Fmin", curAinSettings.Fmin.ToString(CultureInfo.InvariantCulture)), new XElement("Fnom", curAinSettings.Fnom.ToString(CultureInfo.InvariantCulture)), new XElement("Ia0", curAinSettings.Ia0.ToString(CultureInfo.InvariantCulture)), new XElement("Ib0", curAinSettings.Ib0.ToString(CultureInfo.InvariantCulture)), new XElement("Ic0", curAinSettings.Ic0.ToString(CultureInfo.InvariantCulture)), new XElement("IdSetMax", curAinSettings.IdSetMax.ToString(CultureInfo.InvariantCulture)), new XElement("IdSetMin", curAinSettings.IdSetMin.ToString(CultureInfo.InvariantCulture)), new XElement("Imax", curAinSettings.Imax.ToString(CultureInfo.InvariantCulture)), new XElement("Imcw", curAinSettings.Imcw.ToString(CultureInfo.InvariantCulture)), new XElement("IoutMax", curAinSettings.IoutMax.ToString(CultureInfo.InvariantCulture)), new XElement("KiFi", curAinSettings.KiFi.ToString(CultureInfo.InvariantCulture)), new XElement("KiId", curAinSettings.KiId.ToString(CultureInfo.InvariantCulture)), new XElement("KiIq", curAinSettings.KiIq.ToString(CultureInfo.InvariantCulture)), new XElement("KiW", curAinSettings.KiW.ToString(CultureInfo.InvariantCulture)), new XElement("KpFi", curAinSettings.KpFi.ToString(CultureInfo.InvariantCulture)), new XElement("KpId", curAinSettings.KpId.ToString(CultureInfo.InvariantCulture)), new XElement("KpIq", curAinSettings.KpIq.ToString(CultureInfo.InvariantCulture)), new XElement("KpW", curAinSettings.KpW.ToString(CultureInfo.InvariantCulture)), new XElement("Lm", curAinSettings.Lm.ToString(CultureInfo.InvariantCulture)), new XElement("Lrl", curAinSettings.Lrl.ToString(CultureInfo.InvariantCulture)), new XElement("Lsl", curAinSettings.Lsl.ToString(CultureInfo.InvariantCulture)), new XElement("NimpFloorCode", curAinSettings.NimpFloorCode.ToString(CultureInfo.InvariantCulture)), new XElement("Np", curAinSettings.Np.ToString(CultureInfo.InvariantCulture)), new XElement("Reserved00", curAinSettings.Reserved00), new XElement("Reserved24", curAinSettings.Reserved24), new XElement("Reserved28", curAinSettings.Reserved28), new XElement("Reserved32", curAinSettings.Reserved32), new XElement("Reserved50", curAinSettings.Reserved50), new XElement("Reserved51", curAinSettings.Reserved51), new XElement("Rs", curAinSettings.Rs.ToString(CultureInfo.InvariantCulture)), new XElement("TauF", curAinSettings.TauF.ToString(CultureInfo.InvariantCulture)), new XElement("TauFSet", curAinSettings.TauFSet.ToString(CultureInfo.InvariantCulture)), new XElement("TauFi", curAinSettings.TauFi.ToString(CultureInfo.InvariantCulture)), new XElement("TauFlLim", curAinSettings.TauFlLim.ToString(CultureInfo.InvariantCulture)), new XElement("TauM", curAinSettings.TauM.ToString(CultureInfo.InvariantCulture)), new XElement("TauR", curAinSettings.TauR.ToString(CultureInfo.InvariantCulture)), new XElement("TextMax", curAinSettings.TextMax.ToString(CultureInfo.InvariantCulture)), new XElement("ToHl", curAinSettings.ToHl.ToString(CultureInfo.InvariantCulture)), new XElement("UchMax", curAinSettings.UchMax), new XElement("UchMin", curAinSettings.UchMin), new XElement("Udc0", curAinSettings.Udc0.ToString(CultureInfo.InvariantCulture)), new XElement("UdcMax", curAinSettings.UdcMax.ToString(CultureInfo.InvariantCulture)), new XElement("UdcMin", curAinSettings.UdcMin.ToString(CultureInfo.InvariantCulture)), new XElement("UmodThr", curAinSettings.UmodThr.ToString(CultureInfo.InvariantCulture)), new XElement("Unom", curAinSettings.Unom.ToString(CultureInfo.InvariantCulture)));
 						rootElement.Add(element);
 					}
 				}
 				var engineSettings = _engineSettingsStorageSettable.EngineSettings;
 				if (engineSettings != null) {
-					var engineSettingsElement = new XElement("EngineSettings",
-						new XElement("Inom", engineSettings.Inom.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Nnom", engineSettings.Nnom.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Nmax", engineSettings.Nmax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Pnom", engineSettings.Pnom.ToString(CultureInfo.InvariantCulture)),
-							new XElement("CosFi", engineSettings.CosFi.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Eff", engineSettings.Eff.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Mass", engineSettings.Mass.ToString(CultureInfo.InvariantCulture)),
-							new XElement("MmM", engineSettings.MmM.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Height", engineSettings.Height.ToString(CultureInfo.InvariantCulture)),
-							new XElement("I2Tmax", engineSettings.I2Tmax.ToString(CultureInfo.InvariantCulture)),
-							new XElement("Icontinious", engineSettings.Icontinious.ToString(CultureInfo.InvariantCulture)),
-							new XElement("ZeroF", engineSettings.ZeroF.ToString(CultureInfo.InvariantCulture)));
+					var engineSettingsElement = new XElement("EngineSettings", new XElement("Inom", engineSettings.Inom.ToString(CultureInfo.InvariantCulture)), new XElement("Nnom", engineSettings.Nnom.ToString(CultureInfo.InvariantCulture)), new XElement("Nmax", engineSettings.Nmax.ToString(CultureInfo.InvariantCulture)), new XElement("Pnom", engineSettings.Pnom.ToString(CultureInfo.InvariantCulture)), new XElement("CosFi", engineSettings.CosFi.ToString(CultureInfo.InvariantCulture)), new XElement("Eff", engineSettings.Eff.ToString(CultureInfo.InvariantCulture)), new XElement("Mass", engineSettings.Mass.ToString(CultureInfo.InvariantCulture)), new XElement("MmM", engineSettings.MmM.ToString(CultureInfo.InvariantCulture)), new XElement("Height", engineSettings.Height.ToString(CultureInfo.InvariantCulture)), new XElement("I2Tmax", engineSettings.I2Tmax.ToString(CultureInfo.InvariantCulture)), new XElement("Icontinious", engineSettings.Icontinious.ToString(CultureInfo.InvariantCulture)), new XElement("ZeroF", engineSettings.ZeroF.ToString(CultureInfo.InvariantCulture)));
 					rootElement.Add(engineSettingsElement);
 				}
 				doc.Add(rootElement);
