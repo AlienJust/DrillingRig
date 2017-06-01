@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -133,23 +134,12 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 				}
 				var engineSettingsElement = rootElement.Element("EngineSettings");
 				if (engineSettingsElement != null) {
-
-					var settings = new EngineSettingsSimple {
-						Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture),
-						Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture),
-						Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture),
-						Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture),
-						CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture),
-						Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture),
-						Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture),
-						MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture),
-						Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture),
-
-						I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture),
-
-						Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture),
-						ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)
-					};
+					try {
+						var settings = new EngineSettingsSimple {Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture), Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture), Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture), Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture), CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture), Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture), Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture), MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture), Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture), I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture), Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture), ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)};
+					}
+					catch (Exception ex) {
+						Console.WriteLine(ex);
+					}
 				}
 			}
 		}

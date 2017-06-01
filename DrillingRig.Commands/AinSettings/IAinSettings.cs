@@ -84,6 +84,7 @@ namespace DrillingRig.Commands.AinSettings {
 		BytesPair Reserved51 { get; }
 
 		int Np { get; }
+		//
 		int NimpFloorCode { get; }
 		AinTelemetryFanWorkmode FanMode { get; }
 		
