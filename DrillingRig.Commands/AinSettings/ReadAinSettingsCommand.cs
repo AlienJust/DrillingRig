@@ -34,7 +34,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 			var bp52 = new BytesPair(replyWithoutAinNumber[104], replyWithoutAinNumber[105]);
 			var np = bp52.First & 0x1F;
-			var nimpFloorCode = bp52.First & 0xE0;
+			var nimpFloorCode = (bp52.First & 0xE0) >> 5;
 			var fanMode = AinTelemetryFanWorkmodeExtensions.FromIoBits(bp52.Second & 0x03);
 
 			return new AinSettingsSimple(
