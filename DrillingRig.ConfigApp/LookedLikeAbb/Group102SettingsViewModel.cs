@@ -160,8 +160,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter04Vm.CurrentValue = settings.Lrl;
 				Parameter05Vm.CurrentValue = settings.Rs;
 				Parameter06Vm.CurrentValue = settings.Np;
-				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == settings.NimpFloorCode);
-				Parameter08Vm.SelectedComboItem = Parameter08Vm.ComboItems.First(ci => ci.ComboValue == settings.FanMode);
+				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.FirstOrDefault(ci => ci.ComboValue == settings.NimpFloorCode);
+				Parameter08Vm.SelectedComboItem = Parameter08Vm.ComboItems.FirstOrDefault(ci => ci.ComboValue == settings.FanMode);
 			});
 		}
 	}
