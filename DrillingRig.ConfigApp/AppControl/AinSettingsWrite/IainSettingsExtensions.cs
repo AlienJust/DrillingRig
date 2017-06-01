@@ -62,9 +62,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (settings.UchMax != settingsReReaded.UchMax) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр UchMax)");
 
 			//if (settings.Np != settingsReReaded.Np) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np)");
-			if (settings.Np != settingsReReaded.Np) Console.WriteLine("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np)");
-			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр NimpFloorCode)");
-			if (settings.FanMode != settingsReReaded.FanMode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр FanMode)");
+			if (settings.Np != settingsReReaded.Np) Console.WriteLine("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр Np был " + settings.Np + ", а стал " + settingsReReaded.Np + ")");
+			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр NimpFloorCode был " + settings.NimpFloorCode + ", а стал " + settingsReReaded.NimpFloorCode + ")");
+			if (settings.FanMode != settingsReReaded.FanMode) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр FanMode был " + settings.FanMode.ToIoBits() + ", а стал " + settingsReReaded.FanMode.ToIoBits() + ")");
 
 			if (settings.UmodThr != settingsReReaded.UmodThr) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр UmodThr)");
 			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) throw new Exception("ѕри повторном чтении вычитанные настройки не совпали с записываемыми (параметр EmdecDfdt)");
