@@ -8,16 +8,16 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public double KpW { get; set; }
 		public double KiW { get; set; }
 
-		public short FiNom { get; set; }
+		public double FiNom { get; set; }
 		public short Imax { get; set; }
 		public short UdcMax { get; set; }
 		public short UdcMin { get; set; }
 		public double Fnom { get; set; }
 		public double Fmax { get; set; }
 		public double DflLim { get; set; }
-		public short FlMinMin { get; set; }
+		public double FlMinMin { get; set; }
 		public short IoutMax { get; set; }
-		public short FiMin { get; set; }
+		public double FiMin { get; set; }
 		public short DacCh { get; set; }
 		public short Imcw { get; set; }
 		public short Ia0 { get; set; }

@@ -7,7 +7,7 @@ namespace DrillingRig.Commands.AinSettings {
 			double kpW,
 			double kiW,
 
-			short fiNom,
+			double fiNom,
 			short imax,
 			short udcMax,
 			short udcMin,
@@ -15,10 +15,10 @@ namespace DrillingRig.Commands.AinSettings {
 			double fmax,
 
 			double dflLim,
-			short flMinMin,
+			double flMinMin,
 
 			short ioutMax,
-			short fiMin,
+			double fiMin,
 			short dacCh,
 			short imcw,
 			short ia0,
@@ -151,7 +151,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public double KpW { get; }
 		public double KiW { get; }
 
-		public short FiNom { get; }
+		public double FiNom { get; }
 
 		public short Imax { get; }
 
@@ -163,11 +163,11 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public double DflLim { get; }
 
-		public short FlMinMin { get; }
+		public double FlMinMin { get; }
 
 		public short IoutMax { get; }
 
-		public short FiMin { get; }
+		public double FiMin { get; }
 
 		public short DacCh { get; }
 

@@ -36,6 +36,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter07Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter09Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter10Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter11Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -70,6 +73,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000, null);
 			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000, null);
 			Parameter08Vm = new ParameterDoubleEditCheckViewModel("20.08. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000, null); // TODO: * 0.1 при приёме
+			Parameter09Vm = new ParameterDoubleEditCheckViewModel("20.09. Максимальный ток (амплитуда) для защиты", "f0", -1000, 1000, null);
+			Parameter10Vm = new ParameterDoubleEditCheckViewModel("20.10. Максимальное напряжение шины DC для защиты", "f0", -1000, 1000, null);
+			Parameter11Vm = new ParameterDoubleEditCheckViewModel("20.11. Минимальное напряжение шины DC", "f0", -1000, 1000, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -90,10 +96,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private bool AnyAinParameterSetted => Parameter01Vm.CurrentValue.HasValue
-					|| Parameter02Vm.CurrentValue.HasValue
-					|| Parameter03Vm.CurrentValue.HasValue
-					|| Parameter04Vm.CurrentValue.HasValue
-					|| Parameter05Vm.CurrentValue.HasValue;
+			|| Parameter02Vm.CurrentValue.HasValue
+			|| Parameter03Vm.CurrentValue.HasValue
+			|| Parameter04Vm.CurrentValue.HasValue
+			|| Parameter05Vm.CurrentValue.HasValue
+			|| Parameter09Vm.CurrentValue.HasValue
+			|| Parameter10Vm.CurrentValue.HasValue
+			|| Parameter10Vm.CurrentValue.HasValue;
 
 		private bool AnyEngineParameterSetted => Parameter06Vm.CurrentValue.HasValue
 					|| Parameter07Vm.CurrentValue.HasValue
@@ -125,10 +134,16 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
-				
 				// А зачем отправлять команду. если ничего нет? :)
 				if (AnyAinParameterSetted) {
-					var settingsPart = new AinSettingsPartWritable { Fmax = Parameter01Vm.CurrentValue, IoutMax = ConvertDoubleToShort(Parameter02Vm.CurrentValue), Fmin = Parameter03Vm.CurrentValue, };
+					var settingsPart = new AinSettingsPartWritable {
+						Fmax = Parameter01Vm.CurrentValue,
+						IoutMax = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+						Fmin = Parameter03Vm.CurrentValue,
+						Imax = (short)Parameter09Vm.CurrentValue,
+						UdcMin = (short)Parameter10Vm.CurrentValue,
+						UdcMax = (short)Parameter11Vm.CurrentValue,
+					};
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {
 							if (exception != null) {
@@ -138,7 +153,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						});
 					});
 				}
-				
+
 				// А зачем отправлять команду. если ничего нет? :)
 				if (AnyEngineParameterSetted) {
 					var settingsPart = new EngineSettingsPartWritable {
@@ -195,15 +210,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter03Vm.CurrentValue = null;
 					Parameter04Vm.CurrentValue = null;
 					Parameter05Vm.CurrentValue = null;
+					Parameter09Vm.CurrentValue = null;
+					Parameter10Vm.CurrentValue = null;
+					Parameter11Vm.CurrentValue = null;
 					return;
 				}
 
 				Parameter01Vm.CurrentValue = settings.Fmax;
 				Parameter02Vm.CurrentValue = settings.IoutMax;
 				Parameter03Vm.CurrentValue = settings.Fmin;
-
 				//Parameter05Vm.CurrentValue = settings.Fmax;
 				//Parameter06Vm.CurrentValue = settings.Fmin;
+				Parameter09Vm.CurrentValue = settings.Imax;
+				Parameter10Vm.CurrentValue = settings.UdcMin;
+				Parameter11Vm.CurrentValue = settings.UdcMax;
 			});
 		}
 

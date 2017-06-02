@@ -25,18 +25,18 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private double? _kpW;
 		private double? _kiW;
 
-		private short? _fiNom;
+		private double? _fiNom;
 		private short? _imax;
 		private short? _udcMax;
 		private short? _udcMin;
 		private double? _fnom;
 		private double? _fmax;
 
-		private double? _empty10; // DflLim
-		private short? _empty11; // FlMinMin
+		private double? _dflLim; // DflLim
+		private double? _flMinMin; // FlMinMin
 
 		private short? _ioutMax;
-		private short? _fiMin;
+		private double? _fiMin;
 		private short? _dacCh;
 		private short? _imcw;
 
@@ -61,7 +61,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private short? _decDfDt;
 		private double? _unom;
 
-		private double? _empty39; // tauflim
+		private double? _tauFlLim; // tauflim
 
 		private double? _rs;
 		private double? _fmin;
@@ -111,8 +111,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			Fnom = null;// 8
 			Fmax = null; // 9
 
-			Empty10 = null; // 10
-			Empty11 = null; // 11
+			DflLim = null; // 10
+			FlMinMin = null; // 11
 
 			IoutMax = null; //12
 			FiMin = null; // 13
@@ -140,7 +140,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			DecDfDt = null; // 36
 			Unom = null; // 37
 
-			Empty39 = null; // 38
+			TauFlLim = null; // 38
 
 			Rs = null; // 
 			Fmin = null; // 
@@ -195,8 +195,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					UdcMin.Value,
 					Fnom.Value,
 					Fmax.Value,
-					Empty10.Value,
-					Empty11.Value,
+					DflLim.Value,
+					FlMinMin.Value,
 					IoutMax.Value,
 					FiMin.Value,
 					DacCh.Value,
@@ -221,7 +221,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					AccDfDt.Value,
 					DecDfDt.Value,
 					Unom.Value,
-					Empty39.Value,
+					TauFlLim.Value,
 					Rs.Value,
 					Fmin.Value,
 					TauM.Value,
@@ -323,8 +323,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									UdcMin = result.UdcMin;
 									Fnom = result.Fnom;
 									Fmax = result.Fmax;
-									Empty10 = result.DflLim;
-									Empty11 = result.FlMinMin;
+									DflLim = result.DflLim;
+									FlMinMin = result.FlMinMin;
 									IoutMax = result.IoutMax;
 									FiMin = result.FiMin;
 									DacCh = result.DacCh;
@@ -346,7 +346,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									AccDfDt = result.AccDfDt;
 									DecDfDt = result.DecDfDt;
 									Unom = result.Unom;
-									Empty39 = result.TauFlLim;
+									TauFlLim = result.TauFlLim;
 									Rs = result.Rs;
 									Fmin = result.Fmin;
 									TauM = result.TauM;
@@ -395,238 +395,236 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		public ICommand ExportSettingsCommand { get; }
 
 		public double? KpW {
-			get { return _kpW; }
+			get => _kpW;
 			set { if (_kpW != value) { _kpW = value; RaisePropertyChanged(() => KpW); } }
 		}
 
 		public double? KiW {
-			get { return _kiW; }
+			get => _kiW;
 			set { if (_kiW != value) { _kiW = value; RaisePropertyChanged(() => KiW); } }
 		}
 
-		public short? FiNom {
-			get { return _fiNom; }
+		public double? FiNom {
+			get => _fiNom;
 			set { if (_fiNom != value) { _fiNom = value; RaisePropertyChanged(() => FiNom); } }
 		}
 
 		public short? Imax {
-			get { return _imax; }
+			get => _imax;
 			set { if (_imax != value) { _imax = value; RaisePropertyChanged(() => Imax); } }
 		}
 
 		public short? UdcMax {
-			get { return _udcMax; }
+			get => _udcMax;
 			set { if (_udcMax != value) { _udcMax = value; RaisePropertyChanged(() => UdcMax); } }
 		}
 
 		public short? UdcMin {
-			get { return _udcMin; }
+			get => _udcMin;
 			set { if (_udcMin != value) { _udcMin = value; RaisePropertyChanged(() => UdcMin); } }
 		}
 
 		public double? Fnom {
-			get { return _fnom; }
+			get => _fnom;
 			set { if (_fnom != value) { _fnom = value; RaisePropertyChanged(() => Fnom); } }
 		}
 
 		public double? Fmax {
-			get { return _fmax; }
+			get => _fmax;
 			set { if (_fmax != value) { _fmax = value; RaisePropertyChanged(() => Fmax); } }
 		}
 
-		public double? Empty10
+		public double? DflLim
 		{
-			get { return _empty10; }
-			set { if (_empty10 != value) { _empty10 = value; RaisePropertyChanged(() => Empty10); } }
+			get => _dflLim;
+			set { if (_dflLim != value) { _dflLim = value; RaisePropertyChanged(() => DflLim); } }
 		}
 
-		public short? Empty11
-		{
-			get { return _empty11; }
-			set { if (_empty11 != value) { _empty11 = value; RaisePropertyChanged(() => Empty11); } }
+		public double? FlMinMin {
+			get => _flMinMin;
+			set { if (_flMinMin != value) { _flMinMin = value; RaisePropertyChanged(() => FlMinMin); } }
 		}
 
 		public short? IoutMax {
-			get { return _ioutMax; }
+			get => _ioutMax;
 			set { if (_ioutMax != value) { _ioutMax = value; RaisePropertyChanged(() => IoutMax); } }
 		}
 
-		public short? FiMin {
-			get { return _fiMin; }
+		public double? FiMin {
+			get => _fiMin;
 			set { if (_fiMin != value) { _fiMin = value; RaisePropertyChanged(() => FiMin); } }
 		}
 
 		public short? DacCh {
-			get { return _dacCh; }
+			get => _dacCh;
 			set { if (_dacCh != value) { _dacCh = value; RaisePropertyChanged(() => DacCh); } }
 		}
 
 		public short? Imcw {
-			get { return _imcw; }
+			get => _imcw;
 			set { if (_imcw != value) { _imcw = value; RaisePropertyChanged(() => Imcw); } }
 		}
 
 		public short? Ia0 {
-			get { return _ia0; }
+			get => _ia0;
 			set { if (_ia0 != value) { _ia0 = value; RaisePropertyChanged(() => Ia0); } }
 		}
 
 		public short? Ib0 {
-			get { return _ib0; }
+			get => _ib0;
 			set { if (_ib0 != value) { _ib0 = value; RaisePropertyChanged(() => Ib0); } }
 		}
 
 		public short? Ic0 {
-			get { return _ic0; }
+			get => _ic0;
 			set { if (_ic0 != value) { _ic0 = value; RaisePropertyChanged(() => Ic0); } }
 		}
 
 		public short? Udc0 {
-			get { return _udc0; }
+			get => _udc0;
 			set { if (_udc0 != value) { _udc0 = value; RaisePropertyChanged(() => Udc0); } }
 		}
 
 		public double? TauR {
-			get { return _tauR; }
+			get => _tauR;
 			set { if (_tauR != value) { _tauR = value; RaisePropertyChanged(() => TauR); } }
 		}
 		public double? Lm {
-			get { return _lm; }
+			get => _lm;
 			set { if (_lm != value) { _lm = value; RaisePropertyChanged(() => Lm); } }
 		}
 		public double? Lsl {
-			get { return _lsl; }
+			get => _lsl;
 			set { if (_lsl != value) { _lsl = value; RaisePropertyChanged(() => Lsl); } }
 		}
 		public double? Lrl {
-			get { return _lrl; }
+			get => _lrl;
 			set { if (_lrl != value) { _lrl = value; RaisePropertyChanged(() => Lrl); } }
 		}
 
 		public double? KpFi {
-			get { return _kpFi; }
+			get => _kpFi;
 			set { if (_kpFi != value) { _kpFi = value; RaisePropertyChanged(() => KpFi); } }
 		}
 
 		public double? KiFi {
-			get { return _kiFi; }
+			get => _kiFi;
 			set { if (_kiFi != value) { _kiFi = value; RaisePropertyChanged(() => KiFi); } }
 		}
 
 		public double? KpId {
-			get { return _kpId; }
+			get => _kpId;
 			set { if (_kpId != value) { _kpId = value; RaisePropertyChanged(() => KpId); } }
 		}
 
 		public double? KiId {
-			get { return _kiId; }
+			get => _kiId;
 			set { if (_kiId != value) { _kiId = value; RaisePropertyChanged(() => KiId); } }
 		}
 
 		public double? KpIq {
-			get { return _kpIq; }
+			get => _kpIq;
 			set { if (_kpIq != value) { _kpIq = value; RaisePropertyChanged(() => KpIq); } }
 		}
 
 		public double? KiIq {
-			get { return _kiIq; }
+			get => _kiIq;
 			set { if (_kiIq != value) { _kiIq = value; RaisePropertyChanged(() => KiIq); } }
 		}
 
 		public short? AccDfDt {
-			get { return _accDfDt; }
+			get => _accDfDt;
 			set { if (_accDfDt != value) { _accDfDt = value; RaisePropertyChanged(() => AccDfDt); } }
 		}
 
 		public short? DecDfDt {
-			get { return _decDfDt; }
+			get => _decDfDt;
 			set { if (_decDfDt != value) { _decDfDt = value; RaisePropertyChanged(() => DecDfDt); } }
 		}
 
 		public double? Unom {
-			get { return _unom; }
+			get => _unom;
 			set { if (_unom != value) { _unom = value; RaisePropertyChanged(() => Unom); } }
 		}
 
-		public double? Empty39
+		public double? TauFlLim
 		{
-			get { return _empty39; }
-			set { if (_empty39 != value) { _empty39 = value; RaisePropertyChanged(() => Empty39); } }
+			get => _tauFlLim;
+			set { if (_tauFlLim != value) { _tauFlLim = value; RaisePropertyChanged(() => TauFlLim); } }
 		}
 
 		public double? Rs {
-			get { return _rs; }
+			get => _rs;
 			set { if (_rs != value) { _rs = value; RaisePropertyChanged(() => Rs); } }
 		}
 
 		public double? Fmin {
-			get { return _fmin; }
+			get => _fmin;
 			set { if (_fmin != value) { _fmin = value; RaisePropertyChanged(() => Fmin); } }
 		}
 
 		public short? TauM {
-			get { return _tauM; }
+			get => _tauM;
 			set { if (_tauM != value) { _tauM = value; RaisePropertyChanged(() => TauM); } }
 		}
 
 		public short? TauF {
-			get { return _tauF; }
+			get => _tauF;
 			set { if (_tauF != value) { _tauF = value; RaisePropertyChanged(() => TauF); } }
 		}
 
 		public short? TauFSet {
-			get { return _tauFSet; }
+			get => _tauFSet;
 			set { if (_tauFSet != value) { _tauFSet = value; RaisePropertyChanged(() => TauFSet); } }
 		}
 
 		public short? TauFi {
-			get { return _tauFi; }
+			get => _tauFi;
 			set { if (_tauFi != value) { _tauFi = value; RaisePropertyChanged(() => TauFi); } }
 		}
 
 		public short? IdSetMin {
-			get { return _idSetMin; }
+			get => _idSetMin;
 			set { if (_idSetMin != value) { _idSetMin = value; RaisePropertyChanged(() => IdSetMin); } }
 		}
 
 		public short? IdSetMax {
-			get { return _idSetMax; }
+			get => _idSetMax;
 			set { if (_idSetMax != value) { _idSetMax = value; RaisePropertyChanged(() => IdSetMax); } }
 		}
 
 		public short? UchMin {
-			get { return _uchMin; }
+			get => _uchMin;
 			set { if (_uchMin != value) { _uchMin = value; RaisePropertyChanged(() => UchMin); } }
 		}
 
 		public short? UchMax {
-			get { return _uchMax; }
+			get => _uchMax;
 			set { if (_uchMax != value) { _uchMax = value; RaisePropertyChanged(() => UchMax); } }
 		}
 
 		public short? Np {
-			get { return _np; }
+			get => _np;
 			set { if (_np != value) { _np = value; RaisePropertyChanged(() => Np); } }
 		}
 
-		public double? Empty53
-		{
-			get { return _empty53; }
+		public double? Empty53 {
+			get => _empty53;
 			set { if (_empty53 != value) { _empty53 = value; RaisePropertyChanged(() => Empty53); } }
 		}
 
 		public short? EmdecDfdt {
-			get { return _emdecDfdt; }
+			get => _emdecDfdt;
 			set { if (_emdecDfdt != value) { _emdecDfdt = value; RaisePropertyChanged(() => EmdecDfdt); } }
 		}
 
 		public short? TextMax {
-			get { return _textMax; }
+			get => _textMax;
 			set { if (_textMax != value) { _textMax = value; RaisePropertyChanged(() => TextMax); } }
 		}
 
 		public short? ToHl {
-			get { return _toHl; }
+			get => _toHl;
 			set { if (_toHl != value) { _toHl = value; RaisePropertyChanged(() => ToHl); } }
 		}
 	}

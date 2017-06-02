@@ -14,6 +14,10 @@
 			<RowDefinition />
 			<RowDefinition
 				Height="Auto" />
+			<RowDefinition
+				Height="Auto" />
+			<RowDefinition
+				Height="Auto" />
 		</Grid.RowDefinitions>
 		<ScrollViewer>
 			<StackPanel
@@ -24,20 +28,50 @@
 					DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 					DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}" />
+
+				<Border
+					BorderBrush="DarkRed"
+					BorderThickness="1">
+					<StackPanel
+						Orientation="Vertical">
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}" />
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
+					</StackPanel>
+				</Border>
+
+				<Border
+					BorderBrush="Blue"
+					BorderThickness="1">
+					<StackPanel
+						Orientation="Vertical">
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
+					</StackPanel>
+				</Border>
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-					DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}" />
+					DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-					DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
+					DataContext="{Binding Path=Parameter10Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-					DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-					DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-					DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
+					DataContext="{Binding Path=Parameter11Vm, Mode=OneTime}" />
 			</StackPanel>
 		</ScrollViewer>
+		<TextBlock
+			Grid.Row="1"
+			Text="Нереализованые параметры"
+			Foreground="DarkRed" />
+		<TextBlock
+			Grid.Row="2"
+			Text="Параметры команды &quot;Настройки двигателя&quot;"
+			Foreground="Blue" />
 		<Grid
-			Grid.Row="1">
+			Grid.Row="3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />

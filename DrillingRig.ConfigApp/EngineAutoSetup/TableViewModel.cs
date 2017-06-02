@@ -10,7 +10,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private double? _rr; // rs/2
 		private double? _lslAndLrl;
 		private double? _lm;
-		private short? _flNom;
+		private double? _flNom;
 		private double? _j;
 		private double? _tr;
 		private double? _roverL;
@@ -37,7 +37,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public void Update(IEngineTestResult testResult, IAinSettings settings, float f0) {
 			// TODO: define what to do if some method param value is null
 			Rs = settings?.Rs;
-			
+
 			LslAndLrl = settings?.Lrl;
 			Lm = settings?.Lm;
 			FlNom = settings?.FiNom;
@@ -60,7 +60,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				SpeedTi = 1.0 / (settings.KiW * f0);
 			}
 			SpeedKi = settings?.KiW;
-			
+
 
 			if (testResult != null) {
 				Rr = (short)testResult.Rr;
@@ -78,7 +78,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 			else {
 				Rr = (short?)(settings?.Rs / 2);
-				J = settings == null? 1 : (short?)null;
+				J = settings == null ? 1 : (short?)null;
 				RoverL = settings == null ? 0 : (short?)null;
 			}
 		}
@@ -123,8 +123,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public short? FlNom {
-			get { return _flNom; }
+		public double? FlNom {
+			get => _flNom;
 			set {
 				if (_flNom != value) {
 					_flNom = value;

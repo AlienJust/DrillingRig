@@ -27,7 +27,7 @@ namespace DrillingRig.Commands.AinSettings {
 			Console.WriteLine("_settings.KpW SERIALIZED = " + bpKpW);
 
 			settingsSerialized.SerializeIntLowFirst(4, (int)(_settings.KiW * 16777216.0));
-			settingsSerialized.SerializeShortLowFirst(8, _settings.FiNom);
+			settingsSerialized.SerializeShortLowFirst(8, (short)(_settings.FiNom * 1000.0));
 			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
 			settingsSerialized.SerializeShortLowFirst(12, _settings.UdcMax);
 			settingsSerialized.SerializeShortLowFirst(14, _settings.UdcMin);
@@ -36,10 +36,10 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeUshortLowFirst(18, (ushort)(_settings.Fmax * 10.0));
 
 			settingsSerialized.SerializeShortLowFirst(20, (short)(_settings.DflLim * 1000.0));
-			settingsSerialized.SerializeShortLowFirst(22, _settings.FlMinMin);
+			settingsSerialized.SerializeShortLowFirst(22, (short)(_settings.FlMinMin * 1000.0));
 
 			settingsSerialized.SerializeShortLowFirst(24, _settings.IoutMax);
-			settingsSerialized.SerializeShortLowFirst(26, _settings.FiMin);
+			settingsSerialized.SerializeShortLowFirst(26, (short)(_settings.FiMin * 1000.0));
 			settingsSerialized.SerializeShortLowFirst(28, _settings.DacCh);
 			settingsSerialized.SerializeShortLowFirst(30, _settings.Imcw);
 			settingsSerialized.SerializeShortLowFirst(32, _settings.Ia0);

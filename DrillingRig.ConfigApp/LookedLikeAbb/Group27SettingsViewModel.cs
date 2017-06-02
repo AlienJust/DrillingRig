@@ -21,6 +21,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -34,8 +38,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("27.01. Поток без ослабления поля", "f3", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("27.02. Минимальный поток с ослаблением поля", "f3", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("27.01. Поток без ослабления поля", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("27.02. Минимальный поток с ослаблением поля", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("27.03. Максимально возможная компенсация потока", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала)", "f3", -32.768, 32.767, null) {Increment = 0.001};
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока", "f3", -32.768, 32.767, null) { Increment = 0.001 };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -65,8 +73,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					FiNom = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 1000.0),
-					FiMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 1000.0),
+					FiNom = Parameter01Vm.CurrentValue,
+					FiMin = Parameter02Vm.CurrentValue,
+					DflLim = (short)Parameter03Vm.CurrentValue,
+					FlMinMin = Parameter04Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -92,22 +102,25 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
-		}
-
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
 					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter02Vm.CurrentValue = null;
+					Parameter03Vm.CurrentValue = null;
+					Parameter04Vm.CurrentValue = null;
+					Parameter05Vm.CurrentValue = null;
+					Parameter06Vm.CurrentValue = null;
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.FiNom * 0.001;
-				Parameter02Vm.CurrentValue = settings.FiMin * 0.001;
+				Parameter01Vm.CurrentValue = settings.FiNom;
+				Parameter02Vm.CurrentValue = settings.FiMin;
+				Parameter03Vm.CurrentValue = settings.DflLim;
+				Parameter04Vm.CurrentValue = settings.FlMinMin;
+				Parameter05Vm.CurrentValue = settings.TauFlLim;
+				Parameter06Vm.CurrentValue = settings.UmodThr;
 			});
 		}
 	}

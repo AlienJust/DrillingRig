@@ -44,7 +44,7 @@ namespace DrillingRig.Commands.AinSettings {
 				// kiW
 				kiW: (replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] <<8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0,
 
-				fiNom: (short)(replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)),
+				fiNom: (replyWithoutAinNumber[8] + (replyWithoutAinNumber[9] <<8)) / 1000.0,
 				imax: (short)(replyWithoutAinNumber[10] + (replyWithoutAinNumber[11] <<8)),
 				udcMax: (short)(replyWithoutAinNumber[12] + (replyWithoutAinNumber[13] <<8)),
 				udcMin: (short)(replyWithoutAinNumber[14] + (replyWithoutAinNumber[15] <<8)),
@@ -55,11 +55,10 @@ namespace DrillingRig.Commands.AinSettings {
 				fmax: (replyWithoutAinNumber[18] + (replyWithoutAinNumber[19] <<8)) / 10.0,
 				// DflLim:
 				dflLim: (replyWithoutAinNumber[20] + (replyWithoutAinNumber[21] << 8)) / 1000.0,
-
-				flMinMin: (short)(replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)),
+				flMinMin: (replyWithoutAinNumber[22] + (replyWithoutAinNumber[23] << 8)) / 1000.0,
 
 				ioutMax: (short)(replyWithoutAinNumber[24] + (replyWithoutAinNumber[25] <<8)),
-				fiMin: (short)(replyWithoutAinNumber[26] + (replyWithoutAinNumber[27] <<8)),
+				fiMin: (replyWithoutAinNumber[26] + (replyWithoutAinNumber[27] <<8)) / 1000.0,
 				dacCh: (short)(replyWithoutAinNumber[28] + (replyWithoutAinNumber[29] <<8)),
 				imcw: (short)(replyWithoutAinNumber[30] + (replyWithoutAinNumber[31] <<8)),
 				ia0: (short)(replyWithoutAinNumber[32] + (replyWithoutAinNumber[33] <<8)),
