@@ -225,13 +225,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					//_logger.Log("Не удалось прочитать настройки АИН");
 					Parameter01Vm.CurrentValue = null;
 					Parameter03Vm.CurrentValue = null;
-					//Parameter07Vm.SelectedComboItem = null;
+					//Parameter08Vm.SelectedComboItem = null;
 					return;
 				}
 				Parameter01Vm.CurrentValue = settings.Unom;
 				Parameter03Vm.CurrentValue = settings.Fnom;
 				//int comboValue = (settings.Imcw & 0x0080) == 0x0080 ? 1 : 0;
-				//Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
+				//Parameter08Vm.SelectedComboItem = Parameter08Vm.ComboItems.First(ci => ci.ComboValue == comboValue);
 			});
 		}
 
