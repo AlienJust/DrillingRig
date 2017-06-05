@@ -31,14 +31,17 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter10Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter11Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter07Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter09Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
 		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter07Vm { get; }
+
+		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter09Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter10Vm { get; }
+
+		public ParameterDoubleEditCheckViewModel Parameter11Vm { get; }
+		public ParameterDoubleEditCheckViewModel Parameter12Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -70,13 +73,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Максимальный ток (амплитуда) для защиты", "f0", -1000, 1000, null);
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальное напряжение шины DC для защиты", "f0", -1000, 1000, null);
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Минимальное напряжение шины DC", "f0", -1000, 1000, null);
+			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Порог защиты по внешней температуре", "f0", -32768, 32767, null);
 
-			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000, null);
-			Parameter08Vm = new ParameterDoubleEditCheckViewModel("20.08. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000, null);
-			Parameter09Vm = new ParameterDoubleEditCheckViewModel("20.09. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000, null);
-			
-			Parameter10Vm = new ParameterDoubleEditCheckViewModel("20.10. Минимальный момент", "f0", -10000, 10000, null); // TODO: WTF?
-			Parameter11Vm = new ParameterDoubleEditCheckViewModel("20.11. Максимальный момент", "f0", -10000, 10000, null); // TODO: WTF?
+
+			Parameter08Vm = new ParameterDoubleEditCheckViewModel("20.08. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000, null);
+			Parameter09Vm = new ParameterDoubleEditCheckViewModel("20.09. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000, null);
+			Parameter10Vm = new ParameterDoubleEditCheckViewModel("20.10. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000, null);
+
+			Parameter11Vm = new ParameterDoubleEditCheckViewModel("20.11. Минимальный момент", "f0", -10000, 10000, null); // TODO: WTF?
+			Parameter12Vm = new ParameterDoubleEditCheckViewModel("20.12. Максимальный момент", "f0", -10000, 10000, null); // TODO: WTF?
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -101,9 +106,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			|| Parameter03Vm.CurrentValue.HasValue
 			|| Parameter04Vm.CurrentValue.HasValue
 			|| Parameter05Vm.CurrentValue.HasValue
-			|| Parameter06Vm.CurrentValue.HasValue;
+			|| Parameter06Vm.CurrentValue.HasValue
+			|| Parameter07Vm.CurrentValue.HasValue;
 
-		private bool AnyEngineParameterSetted => Parameter07Vm.CurrentValue.HasValue || Parameter08Vm.CurrentValue.HasValue || Parameter09Vm.CurrentValue.HasValue;
+		private bool AnyEngineParameterSetted => Parameter08Vm.CurrentValue.HasValue || Parameter09Vm.CurrentValue.HasValue || Parameter10Vm.CurrentValue.HasValue;
 
 		private bool IsWriteEnabled {
 			get {
@@ -140,6 +146,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						Imax = (short)Parameter04Vm.CurrentValue,
 						UdcMin = (short)Parameter05Vm.CurrentValue,
 						UdcMax = (short)Parameter06Vm.CurrentValue,
+						TextMax = (short)Parameter07Vm.CurrentValue
 					};
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {
@@ -154,9 +161,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				// А зачем отправлять команду. если ничего нет? :)
 				if (AnyEngineParameterSetted) {
 					var settingsPart = new EngineSettingsPartWritable {
-						I2Tmax = ConvertDoubleToUint(Parameter07Vm.CurrentValue),
-						Icontinious = ConvertDoubleToUshort(Parameter08Vm.CurrentValue),
-						ZeroF = ConvertDoubleToUshort(Parameter09Vm.CurrentValue)
+						I2Tmax = ConvertDoubleToUint(Parameter08Vm.CurrentValue),
+						Icontinious = ConvertDoubleToUshort(Parameter09Vm.CurrentValue),
+						ZeroF = ConvertDoubleToUshort(Parameter10Vm.CurrentValue)
 					};
 					_engineSettingsWriter.WriteSettingsAsync(settingsPart, exception => {
 						if (exception != null) {
@@ -186,15 +193,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot.Notifier.Notify(() => {
 				if (readInnerException != null) {
 					//_logger.Log("Не удалось прочитать настройки АИН");
-					Parameter07Vm.CurrentValue = null;
 					Parameter08Vm.CurrentValue = null;
 					Parameter09Vm.CurrentValue = null;
+					Parameter10Vm.CurrentValue = null;
 					return;
 				}
 
-				Parameter07Vm.CurrentValue = settings.I2Tmax;
-				Parameter08Vm.CurrentValue = settings.Icontinious;
-				Parameter09Vm.CurrentValue = settings.ZeroF;
+				Parameter08Vm.CurrentValue = settings.I2Tmax;
+				Parameter09Vm.CurrentValue = settings.Icontinious;
+				Parameter10Vm.CurrentValue = settings.ZeroF;
 			});
 		}
 
@@ -205,11 +212,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter01Vm.CurrentValue = null;
 					Parameter02Vm.CurrentValue = null;
 					Parameter03Vm.CurrentValue = null;
-					Parameter10Vm.CurrentValue = null;
-					Parameter11Vm.CurrentValue = null;
 					Parameter04Vm.CurrentValue = null;
 					Parameter05Vm.CurrentValue = null;
 					Parameter06Vm.CurrentValue = null;
+					Parameter07Vm.CurrentValue = null;
 					return;
 				}
 
@@ -219,6 +225,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter04Vm.CurrentValue = settings.Imax;
 				Parameter05Vm.CurrentValue = settings.UdcMin;
 				Parameter06Vm.CurrentValue = settings.UdcMax;
+				Parameter07Vm.CurrentValue = settings.TextMax;
 			});
 		}
 

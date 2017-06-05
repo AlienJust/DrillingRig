@@ -36,17 +36,19 @@
 					DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
 				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 					DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
+				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
 				<Border
 					BorderBrush="Blue"
 					BorderThickness="1">
 					<StackPanel
 						Orientation="Vertical">
 						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-							DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
-						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 							DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
 						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 							DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}" />
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter10Vm, Mode=OneTime}" />
 					</StackPanel>
 				</Border>
 				<Border
@@ -55,9 +57,9 @@
 					<StackPanel
 						Orientation="Vertical">
 						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
-							DataContext="{Binding Path=Parameter10Vm, Mode=OneTime}" />
-						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
 							DataContext="{Binding Path=Parameter11Vm, Mode=OneTime}" />
+						<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+							DataContext="{Binding Path=Parameter12Vm, Mode=OneTime}" />
 					</StackPanel>
 				</Border>
 			</StackPanel>
