@@ -9,8 +9,7 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 
-namespace DrillingRig.ConfigApp.AinsSettings
-{
+namespace DrillingRig.ConfigApp.AinsSettings {
 	class AinSettingsViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
@@ -22,6 +21,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private readonly RelayCommand _readSettingsCommand;
 		private readonly RelayCommand _writeSettingsCommand;
 
+		private ushort? _reserved00;
 		private double? _kpW;
 		private double? _kiW;
 
@@ -50,10 +50,15 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		private double? _lsl;
 		private double? _lrl;
 
+		private ushort? _reserved24;
 		private double? _kpFi;
 		private double? _kiFi;
+
+		private ushort? _reserved28;
 		private double? _kpId;
 		private double? _kiId;
+
+		private ushort? _reserved32;
 		private double? _kpIq;
 		private double? _kiIq;
 
@@ -75,9 +80,15 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private short? _uchMin;
 		private short? _uchMax;
-		private short? _np;
 
-		private double? _empty53; // UmodThr
+		private ushort? _reserved50;
+		private ushort? _reserved51;
+
+		private short? _np;
+		private int? _nimpFloorCode;
+		private int? _fanMode;
+
+		private double? _umodThr; // UmodThr
 
 		private short? _emdecDfdt;
 		private short? _textMax;
@@ -85,8 +96,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		private readonly byte _zeroBasedAinNumber;
 
-		public AinSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber)
-		{
+		public AinSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -101,8 +111,8 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			ImportSettingsCommand = new RelayCommand(ImportSettings);
 			ExportSettingsCommand = new RelayCommand(ExportSettings);
 
-
-			KpW = null; // 0 1
+			Reserved00 = null; // 0
+			KpW = null; // 1
 			KiW = null; // 2 3
 			FiNom = null; // 4
 			Imax = null; // 5
@@ -129,39 +139,50 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			Lsl = null; // 22
 			Lrl = null; // 23
 
-			KpFi = null; // 24
-			KiFi = null; // 26
-			KpId = null; // 28
-			KiId = null; // 30
-			KpIq = null; // 32
-			KiIq = null; // 34
+			Reserved24 = null; // 24
+			KpFi = null; // 25
+			KiFi = null; // 26-27
 
-			AccDfDt = null; // 35
-			DecDfDt = null; // 36
-			Unom = null; // 37
+			Reserved28 = null; // 28
+			KpId = null; // 29
+			KiId = null; // 30-31
 
-			TauFlLim = null; // 38
+			Reserved32 = null; // 32
+			KpIq = null; // 33
+			KiIq = null; // 34-35
 
-			Rs = null; // 
-			Fmin = null; // 
-			TauM = null; // 
-			TauF = null; // 
-			TauFSet = null; // 
-			TauFi = null; // 
-			IdSetMin = null; // 
-			IdSetMax = null; // 
+			AccDfDt = null; // 36
+			DecDfDt = null; // 37
+			Unom = null; // 38
 
-			UchMin = null; // 
-			UchMax = null; // 
-			Np = null; // 
+			TauFlLim = null; // 39
 
-			Empty53 = null;
+			Rs = null; // 40
+			Fmin = null; // 41
+			TauM = null; // 42
+			TauF = null; // 43
+			TauFSet = null; // 44
+			TauFi = null; // 45
+			IdSetMin = null; // 46
+			IdSetMax = null; // 47
 
-			EmdecDfdt = null;
-			TextMax = null;
-			ToHl = null;
+			UchMin = null; // 48
+			UchMax = null; // 49
 
-			
+			Reserved50 = null; // 50
+			Reserved51 = null; // 51
+
+			Np = null; // 52.0-4
+			NimpFloorCode = null; // 52.5-7
+			FanMode = null; //52.8-15
+
+			UmodThr = null; // 53
+
+			EmdecDfdt = null; // 54
+			TextMax = null; // 55
+			ToHl = null; // 56
+
+
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 		}
 
@@ -185,67 +206,66 @@ namespace DrillingRig.ConfigApp.AinsSettings
 				_logger.Log("Подготовка к записи настроек АИН");
 				IAinSettings ainSettings;
 				try {
-				ainSettings = new AinSettingsSimple(
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					KpW.Value,
-					KiW.Value,
-					FiNom.Value,
-					Imax.Value,
-					UdcMax.Value,
-					UdcMin.Value,
-					Fnom.Value,
-					Fmax.Value,
-					DflLim.Value,
-					FlMinMin.Value,
-					IoutMax.Value,
-					FiMin.Value,
-					DacCh.Value,
-					Imcw.Value,
-					Ia0.Value,
-					Ib0.Value,
-					Ic0.Value,
-					Udc0.Value,
-					TauR.Value,
-					Lm.Value,
-					Lsl.Value,
-					Lrl.Value,
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					KpFi.Value,
-					KiFi.Value,
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					KpId.Value,
-					KiId.Value,
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					KpIq.Value,
-					KiIq.Value,
-					AccDfDt.Value,
-					DecDfDt.Value,
-					Unom.Value,
-					TauFlLim.Value,
-					Rs.Value,
-					Fmin.Value,
-					TauM.Value,
-					TauF.Value,
-					TauFSet.Value,
-					TauFi.Value,
-					IdSetMin.Value,
-					IdSetMax.Value,
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(UchMin.Value / 65536.0)),
-					BytesPair.FromSignedShortLowFirst(0), // TODO:
-					BytesPair.FromSignedShortLowFirst((short)(UchMax.Value / 65536.0)),
-					Np.Value,
-					
-					0, // TODO: NimpFloorCode
-					AinTelemetryFanWorkmode.AllwaysOff, // TODO: FanMode
-					
-					Empty53.Value,
-					EmdecDfdt.Value,
-					TextMax.Value,
-					ToHl.Value, false, false, false);
+					ainSettings = new AinSettingsSimple(
+						BytesPair.FromUnsignedShortLowFirst(Reserved00.Value),
+						KpW.Value,
+						KiW.Value,
+						FiNom.Value,
+						Imax.Value,
+						UdcMax.Value,
+						UdcMin.Value,
+						Fnom.Value,
+						Fmax.Value,
+						DflLim.Value,
+						FlMinMin.Value,
+						IoutMax.Value,
+						FiMin.Value,
+						DacCh.Value,
+						Imcw.Value,
+						Ia0.Value,
+						Ib0.Value,
+						Ic0.Value,
+						Udc0.Value,
+						TauR.Value,
+						Lm.Value,
+						Lsl.Value,
+						Lrl.Value,
+						BytesPair.FromUnsignedShortLowFirst(Reserved24.Value),
+						KpFi.Value,
+						KiFi.Value,
+						BytesPair.FromUnsignedShortLowFirst(Reserved28.Value),
+						KpId.Value,
+						KiId.Value,
+						BytesPair.FromUnsignedShortLowFirst(Reserved32.Value),
+						KpIq.Value,
+						KiIq.Value,
+						AccDfDt.Value,
+						DecDfDt.Value,
+						Unom.Value,
+						TauFlLim.Value,
+						Rs.Value,
+						Fmin.Value,
+						TauM.Value,
+						TauF.Value,
+						TauFSet.Value,
+						TauFi.Value,
+						IdSetMin.Value,
+						IdSetMax.Value,
+						BytesPair.FromSignedShortLowFirst((short)(UchMin.Value / 65536.0)),
+						BytesPair.FromSignedShortLowFirst((short)(UchMax.Value / 65536.0)),
+						BytesPair.FromUnsignedShortLowFirst(Reserved50.Value),
+						BytesPair.FromUnsignedShortLowFirst(Reserved51.Value),
+						
+						Np.Value,
+						NimpFloorCode.Value,
+						AinTelemetryFanWorkmodeExtensions.FromIoBits(FanMode.Value),
+
+						UmodThr.Value,
+						EmdecDfdt.Value,
+						TextMax.Value,
+						ToHl.Value, false, false, false);
 				}
-				catch (Exception ex)
-				{
+				catch (Exception ex) {
 					throw new Exception("убедитесь, что все значения настроек заполнены", ex);
 				}
 				var cmd = new WriteAinSettingsCommand(_zeroBasedAinNumber, ainSettings);
@@ -255,17 +275,13 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
 							}
 
-							try
-							{
+							try {
 								var result = cmd.GetResult(bytes);
 								if (result) {
 									_logger.Log("Настройки АИН" + (_zeroBasedAinNumber + 1) + " успешно записаны");
@@ -274,14 +290,12 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									throw new Exception("странно, флаг записи результата = False");
 								}
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
@@ -292,8 +306,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		}
 
 		private void ReadSettings() {
-			try
-			{
+			try {
 				_logger.Log("Подготовка к чтению настроек АИН");
 
 				var cmd = new ReadAinSettingsCommand(_zeroBasedAinNumber);
@@ -303,18 +316,16 @@ namespace DrillingRig.ConfigApp.AinsSettings
 					_targerAddressHost.TargetAddress
 					, cmd
 					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("ошибка при передаче данных: " + exception.Message, exception);
 							}
 
 							try {
 								var result = cmd.GetResult(bytes);
 								_userInterfaceRoot.Notifier.Notify(() => {
+									Reserved00 = result.Reserved00.LowFirstUnsignedValue;
 									KpW = result.KpW;
 									KiW = result.KiW;
 									FiNom = result.FiNom;
@@ -337,10 +348,13 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									Lm = result.Lm;
 									Lsl = result.Lsl;
 									Lrl = result.Lrl;
+									Reserved24 = result.Reserved24.LowFirstUnsignedValue;
 									KpFi = result.KpFi;
 									KiFi = result.KiFi;
+									Reserved28 = result.Reserved28.LowFirstUnsignedValue;
 									KpId = result.KpId;
 									KiId = result.KiId;
+									Reserved32 = result.Reserved32.LowFirstUnsignedValue;
 									KpIq = result.KpIq;
 									KiIq = result.KiIq;
 									AccDfDt = result.AccDfDt;
@@ -357,30 +371,32 @@ namespace DrillingRig.ConfigApp.AinsSettings
 									IdSetMax = result.IdSetMax;
 									UchMin = result.UchMin.LowFirstSignedValue;
 									UchMax = result.UchMax.LowFirstSignedValue;
-									Np = (short)result.Np;
-									// TODO: nimp, fanmode
 
-									Empty53 = result.UmodThr;
+									Reserved50 = result.Reserved50.LowFirstUnsignedValue;
+									Reserved51 = result.Reserved51.LowFirstUnsignedValue;
+
+									Np = (short)result.Np;
+									NimpFloorCode = result.NimpFloorCode;
+									FanMode = result.FanMode.ToIoBits();
+
+									UmodThr = result.UmodThr;
 									EmdecDfdt = result.EmdecDfdt;
 									TextMax = result.TextMax;
 									ToHl = result.ToHl;
 								});
 								_logger.Log("Настройки АИН" + (_zeroBasedAinNumber + 1) + " успешно прочитаны");
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду чтения настроек БС-Ethernet в очередь: " + ex.Message);
 			}
 		}
@@ -394,10 +410,18 @@ namespace DrillingRig.ConfigApp.AinsSettings
 
 		public ICommand ExportSettingsCommand { get; }
 
+
+
+		public ushort? Reserved00 {
+			get => _reserved00;
+			set { if (_reserved00 != value) { _reserved00 = value; RaisePropertyChanged(() => Reserved00); } }
+		}
+
 		public double? KpW {
 			get => _kpW;
 			set { if (_kpW != value) { _kpW = value; RaisePropertyChanged(() => KpW); } }
 		}
+
 
 		public double? KiW {
 			get => _kiW;
@@ -434,8 +458,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_fmax != value) { _fmax = value; RaisePropertyChanged(() => Fmax); } }
 		}
 
-		public double? DflLim
-		{
+		public double? DflLim {
 			get => _dflLim;
 			set { if (_dflLim != value) { _dflLim = value; RaisePropertyChanged(() => DflLim); } }
 		}
@@ -502,6 +525,12 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_lrl != value) { _lrl = value; RaisePropertyChanged(() => Lrl); } }
 		}
 
+
+		public ushort? Reserved24 {
+			get => _reserved24;
+			set { if (_reserved24 != value) { _reserved24 = value; RaisePropertyChanged(() => Reserved24); } }
+		}
+
 		public double? KpFi {
 			get => _kpFi;
 			set { if (_kpFi != value) { _kpFi = value; RaisePropertyChanged(() => KpFi); } }
@@ -512,6 +541,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_kiFi != value) { _kiFi = value; RaisePropertyChanged(() => KiFi); } }
 		}
 
+		public ushort? Reserved28 {
+			get => _reserved28;
+			set { if (_reserved28 != value) { _reserved28 = value; RaisePropertyChanged(() => Reserved28); } }
+		}
+
 		public double? KpId {
 			get => _kpId;
 			set { if (_kpId != value) { _kpId = value; RaisePropertyChanged(() => KpId); } }
@@ -520,6 +554,11 @@ namespace DrillingRig.ConfigApp.AinsSettings
 		public double? KiId {
 			get => _kiId;
 			set { if (_kiId != value) { _kiId = value; RaisePropertyChanged(() => KiId); } }
+		}
+
+		public ushort? Reserved32 {
+			get => _reserved32;
+			set { if (_reserved32 != value) { _reserved32 = value; RaisePropertyChanged(() => Reserved32); } }
 		}
 
 		public double? KpIq {
@@ -547,8 +586,7 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_unom != value) { _unom = value; RaisePropertyChanged(() => Unom); } }
 		}
 
-		public double? TauFlLim
-		{
+		public double? TauFlLim {
 			get => _tauFlLim;
 			set { if (_tauFlLim != value) { _tauFlLim = value; RaisePropertyChanged(() => TauFlLim); } }
 		}
@@ -603,14 +641,33 @@ namespace DrillingRig.ConfigApp.AinsSettings
 			set { if (_uchMax != value) { _uchMax = value; RaisePropertyChanged(() => UchMax); } }
 		}
 
+		public ushort? Reserved50 {
+			get => _reserved50;
+			set { if (_reserved50 != value) { _reserved50 = value; RaisePropertyChanged(() => Reserved50); } }
+		}
+		public ushort? Reserved51 {
+			get => _reserved51;
+			set { if (_reserved51 != value) { _reserved51 = value; RaisePropertyChanged(() => Reserved51); } }
+		}
+
 		public short? Np {
 			get => _np;
 			set { if (_np != value) { _np = value; RaisePropertyChanged(() => Np); } }
 		}
 
-		public double? Empty53 {
-			get => _empty53;
-			set { if (_empty53 != value) { _empty53 = value; RaisePropertyChanged(() => Empty53); } }
+		public int? NimpFloorCode {
+			get => _nimpFloorCode;
+			set { if (_nimpFloorCode != value) { _nimpFloorCode = value; RaisePropertyChanged(() => NimpFloorCode); } }
+		}
+
+		public int? FanMode {
+			get => _fanMode;
+			set { if (_fanMode != value) { _fanMode = value; RaisePropertyChanged(() => FanMode); } }
+		}
+
+		public double? UmodThr {
+			get => _umodThr;
+			set { if (_umodThr != value) { _umodThr = value; RaisePropertyChanged(() => UmodThr); } }
 		}
 
 		public short? EmdecDfdt {
