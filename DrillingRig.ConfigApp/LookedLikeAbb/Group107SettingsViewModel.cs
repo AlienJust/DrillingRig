@@ -26,11 +26,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
 
-		public Group107SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, /*IAinSettingsReadNotify ainSettingsReadNotify,*/ IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
+		public Group107SettingsViewModel(IUserInterfaceRoot uiRoot, ILogger logger, IAinSettingsReaderWriter readerWriter, IAinSettingsStorage storage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify, IAinsCounter ainsCounter) {
 			_uiRoot = uiRoot;
 			_logger = logger;
 			_readerWriter = readerWriter;
-			//_ainSettingsReadNotify = ainSettingsReadNotify;
 			_storage = storage;
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;

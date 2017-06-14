@@ -109,7 +109,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public ushort? FullValue {
-			get { return _fullValue; }
+			get => _fullValue;
 			set {
 				if (_fullValue != value) {
 					_fullValue = value;
@@ -154,7 +154,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public bool? Bit00 {
-			get { return _bit00; }
+			get => _bit00;
 			set {
 				if (_bit00 != value) {
 					_bit00 = value;
@@ -164,7 +164,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit01 {
-			get { return _bit01; }
+			get => _bit01;
 			set {
 				if (_bit01 != value) {
 					_bit01 = value;
@@ -174,7 +174,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit02 {
-			get { return _bit02; }
+			get => _bit02;
 			set {
 				if (_bit02 != value) {
 					_bit02 = value;
@@ -184,7 +184,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit03 {
-			get { return _bit03; }
+			get => _bit03;
 			set {
 				if (_bit03 != value) {
 					_bit03 = value;
@@ -194,7 +194,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit04 {
-			get { return _bit04; }
+			get => _bit04;
 			set {
 				if (_bit04 != value) {
 					_bit04 = value;
@@ -204,7 +204,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit05 {
-			get { return _bit05; }
+			get => _bit05;
 			set {
 				if (_bit05 != value) {
 					_bit05 = value;
@@ -214,7 +214,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit06 {
-			get { return _bit06; }
+			get => _bit06;
 			set {
 				if (_bit06 != value) {
 					_bit06 = value;
@@ -224,7 +224,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit07 {
-			get { return _bit07; }
+			get => _bit07;
 			set {
 				if (_bit07 != value) {
 					_bit07 = value;
@@ -234,7 +234,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit12 {
-			get { return _bit12; }
+			get => _bit12;
 			set {
 				if (_bit12 != value) {
 					_bit12 = value;
@@ -244,7 +244,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 			}
 		}
 		public bool? Bit13 {
-			get { return _bit13; }
+			get => _bit13;
 			set {
 				if (_bit13 != value) {
 					_bit13 = value;
@@ -255,7 +255,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public bool? Bit14 {
-			get { return _bit14; }
+			get => _bit14;
 			set {
 				if (_bit14 != value) {
 					_bit14 = value;
@@ -266,7 +266,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public bool? Bit15 {
-			get { return _bit15; }
+			get => _bit15;
 			set {
 				if (_bit15 != value) {
 					_bit15 = value;
@@ -277,7 +277,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public string SelectedBit0809Vm {
-			get { return _selectedBit0809Vm; }
+			get => _selectedBit0809Vm;
 			set {
 				if (_selectedBit0809Vm != value) {
 					_selectedBit0809Vm = value;
@@ -288,7 +288,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings.ImvcParameter {
 		}
 
 		public string SelectedBit1011Vm {
-			get { return _selectedBit1011Vm; }
+			get => _selectedBit1011Vm;
 			set {
 				if (_selectedBit1011Vm != value) {
 					_selectedBit1011Vm = value;

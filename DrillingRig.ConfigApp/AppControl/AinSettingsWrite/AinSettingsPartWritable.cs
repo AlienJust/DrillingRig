@@ -15,8 +15,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public double? FlMinMin { get; set; }
 		public short? IoutMax { get; set; }
 		public double? FiMin { get; set; }
-		public short? DacCh { get; set; }
-		public short? Imcw { get; set; }
+		public ushort? DacCh { get; set; }
+		public ushort? Imcw { get; set; }
 		public short? Ia0 { get; set; }
 		public short? Ib0 { get; set; }
 		public short? Ic0 { get; set; }
@@ -33,16 +33,16 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public double? KiId { get; set; }
 		public double? KpIq { get; set; }
 		public double? KiIq { get; set; }
-		public short? AccDfDt { get; set; }
-		public short? DecDfDt { get; set; }
+		public double? AccDfDt { get; set; }
+		public double? DecDfDt { get; set; }
 		public double? Unom { get; set; }
 		public double? TauFlLim { get; set; }
 		public double? Rs { get; set; }
 		public double? Fmin { get; set; }
-		public short? TauM { get; set; }
-		public short? TauF { get; set; }
-		public short? TauFSet { get; set; }
-		public short? TauFi { get; set; }
+		public double? TauM { get; set; }
+		public double? TauF { get; set; }
+		public double? TauFSet { get; set; }
+		public double? TauFi { get; set; }
 		public short? IdSetMin { get; set; }
 		public short? IdSetMax { get; set; }
 		public BytesPair? UchMin { get; set; }
@@ -53,7 +53,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public AinTelemetryFanWorkmode? FanMode { get; set; }
 
 		public double? UmodThr { get; set; }
-		public short? EmdecDfdt { get; set; }
+		public double? EmdecDfdt { get; set; }
 		public short? TextMax { get; set; }
 		public short? ToHl { get; set; }
 

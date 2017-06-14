@@ -35,9 +35,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("22.01. Темп нарастания частоты для задатчика интенсивности", "f1", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("22.02. Темп спада частоты для задатчика интенсивности", "f1", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("22.03. Темп спада частоты при аварийном останове привода", "f1", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("22.01. Темп нарастания частоты для задатчика интенсивности, Гц/с", "f1", -3276.7, 3276.7, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("22.02. Темп спада частоты для задатчика интенсивности, Гц/с", "f1", -3276.8, 3276.7, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("22.03. Темп спада частоты при аварийном останове привода, Гц/с", "f1", -3276.8, 3276.7, null);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -67,9 +67,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					AccDfDt = ConvertDoubleToShort(Parameter01Vm.CurrentValue * 10.0),
-					DecDfDt = ConvertDoubleToShort(Parameter02Vm.CurrentValue * 10.0),
-					EmdecDfdt = ConvertDoubleToShort(Parameter03Vm.CurrentValue * 10.0)
+					AccDfDt = Parameter01Vm.CurrentValue,
+					DecDfDt = Parameter02Vm.CurrentValue,
+					EmdecDfdt = Parameter03Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -95,11 +95,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short)value.Value;
-		}
-
 		private void UpdateSettingsInUiThread(Exception readInnerException, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (readInnerException != null) {
@@ -110,9 +105,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.AccDfDt * 0.1;
-				Parameter02Vm.CurrentValue = settings.DecDfDt * 0.1;
-				Parameter03Vm.CurrentValue = settings.EmdecDfdt * 0.1;
+				Parameter01Vm.CurrentValue = settings.AccDfDt;
+				Parameter02Vm.CurrentValue = settings.DecDfDt;
+				Parameter03Vm.CurrentValue = settings.EmdecDfdt;
 			});
 		}
 	}

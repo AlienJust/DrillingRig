@@ -18,14 +18,14 @@ namespace DrillingRig.Commands.AinSettings {
 		public static BytesPair ConvertDoubleToBytesPairQ8(double value)
 		{
 			var iValue = (int)(value * 16777216.0);
-			var shortValue = (short)(iValue >> 16);
-			return BytesPair.FromSignedShortLowFirst(shortValue);
+			var ushortValue = (ushort)(iValue >> 16);
+			return BytesPair.FromUnsignedShortLowFirst(ushortValue);
 		}
 
 		public static double ConvertBytesPairToDoubleQ8(BytesPair value)
 		{
-			var shortValue = value.LowFirstSignedValue;
-			var iValue = shortValue << 16;
+			var ushortValue = value.LowFirstUnsignedValue;
+			var iValue = ushortValue << 16;
 			return iValue / 16777216.0;
 		}
 	}

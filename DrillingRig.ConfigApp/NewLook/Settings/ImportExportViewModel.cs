@@ -60,8 +60,8 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 
 					var ioutMax = short.Parse(ainElement.Element("IoutMax").Value, CultureInfo.InvariantCulture);
 					var fiMin = short.Parse(ainElement.Element("FiMin").Value, CultureInfo.InvariantCulture);
-					var dacCh = short.Parse(ainElement.Element("DacCh").Value, CultureInfo.InvariantCulture);
-					var imcw = short.Parse(ainElement.Element("Imcw").Value, CultureInfo.InvariantCulture);
+					var dacCh = ushort.Parse(ainElement.Element("DacCh").Value, CultureInfo.InvariantCulture);
+					var imcw = ushort.Parse(ainElement.Element("Imcw").Value, CultureInfo.InvariantCulture);
 					var ia0 = short.Parse(ainElement.Element("Ia0").Value, CultureInfo.InvariantCulture);
 					var ib0 = short.Parse(ainElement.Element("Ib0").Value, CultureInfo.InvariantCulture);
 					var ic0 = short.Parse(ainElement.Element("Ic0").Value, CultureInfo.InvariantCulture);

@@ -147,9 +147,9 @@
 		<TabItem Header="103. Фильры в обратной связи" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 			<lookedLikeAbb:Group103SettingsView DataContext="{Binding Path=Group103SettingsVm, Mode=OneTime}"/>
 		</TabItem>
-		<TabItem Header="104. Регулятор компенсации потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
+		<!--<TabItem Header="104. Регулятор компенсации потока" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 			<lookedLikeAbb:Group104SettingsView DataContext="{Binding Path=Group104SettingsVm, Mode=OneTime}"/>
-		</TabItem>
+		</TabItem>-->
 		<TabItem Header="105. Калибровка каналов измерения" Style="{StaticResource AzureTabItem}" BorderBrush="RoyalBlue">
 			<lookedLikeAbb:Group105SettingsView DataContext="{Binding Path=Group105SettingsVm, Mode=OneTime}"/>
 		</TabItem>

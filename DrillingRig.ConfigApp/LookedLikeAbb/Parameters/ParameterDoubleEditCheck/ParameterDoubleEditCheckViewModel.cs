@@ -1,4 +1,5 @@
-﻿using AlienJust.Support.ModelViewViewModel;
+﻿using System;
+using AlienJust.Support.ModelViewViewModel;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck {
 	class ParameterDoubleEditCheckViewModel : ViewModelBase, ICheckableParameter {
@@ -23,26 +24,23 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditChec
 		}
 
 
-		public double? CurrentValue
-		{
-			get { return _currentValue; }
-			set
-			{
-				if (_currentValue != value) {
+		public double? CurrentValue {
+			get => _currentValue;
+			set {
+				if (_currentValue != value)
+				{
 					_currentValue = value;
 					RaisePropertyChanged(() => CurrentValue);
 				}
 			}
 		}
 
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
+		public bool IsChecked {
+			get => _isChecked;
+			set {
 				if (value != _isChecked) {
 					_isChecked = value;
-					RaisePropertyChanged(()=>IsChecked);
+					RaisePropertyChanged(() => IsChecked);
 				}
 			}
 		}

@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 	mc:Ignorable="d"
-	d:DesignHeight="1000"
+	d:DesignHeight="1200"
 	d:DesignWidth="600">
 	<UserControl.Resources>
 	</UserControl.Resources>
@@ -47,10 +47,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="1. KP_w_Q8 - Проп. коэф. регулятора скорости" />
+						Text="1. (24.01) KP_w_Q8 - Проп. коэф. регулятора скорости" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KpW, Mode=TwoWay}" />
+						Value="{Binding Path=KpW, Mode=TwoWay}"
+						FormatString="f8"
+						Increment="0.00390625"
+						Minimum="-128.0"
+						Maximum="127.99609375" />
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -62,10 +66,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="2-3. KI_w - Интегральный коэф. регулятора скорости" />
+						Text="2-3. (24.02) KI_w - Интегральный коэф. регулятора скорости" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KiW, Mode=TwoWay}" />
+						Value="{Binding Path=KiW, Mode=TwoWay}"
+						FormatString="f6"
+						Increment="0.000001"
+						Minimum="-128.0"
+						Maximum="128.0" />
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -77,10 +85,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="4. FInom - Поток без ослабления поля" />
+						Text="4. (27.01) FInom - Поток без ослабления поля, мВб" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=FiNom, Mode=TwoWay}" />
+						Value="{Binding Path=FiNom, Mode=TwoWay}"
+						Increment="0.001"
+						FormatString="f3"
+						Minimum="-32.768"
+						Maximum="32.767" />
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -92,10 +104,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="5. Imax - Максимальный ток (амплитуда) для защиты" />
+						Text="5. (20.04) Imax - Максимальный ток (амплитуда) для защиты, А" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Imax, Mode=TwoWay}" />
+						Value="{Binding Path=Imax, Mode=TwoWay}"
+						Minimum="-32768"
+						Maximum="32767" />
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -107,10 +121,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="6. Udc_max - Максимальное напряжение шины DC для защиты" />
+						Text="6. (20.05) Udc_max - Максимальное напряжение шины DC для защиты, В" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
-						Value="{Binding Path=UdcMax, Mode=TwoWay}" />
+						Value="{Binding Path=UdcMax, Mode=TwoWay}"
+						Minimum="-32768"
+						Maximum="32767" />
 				</Grid>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -122,10 +138,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="7. Udc_min - Минимальное напряжение шины DC" />
+						Text="7. (20.06) Udc_min - Минимальное напряжение шины DC, В" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
-						Value="{Binding Path=UdcMin, Mode=TwoWay}" />
+						Value="{Binding Path=UdcMin, Mode=TwoWay}"
+						Minimum="-32768"
+						Maximum="32767" />
 				</Grid>
 
 				<Grid>
@@ -138,7 +156,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="8. Fnom - Номинальная частота (электрическая), Гц (шаг 0.1 Гц)" />
+						Text="8. (99.03) Fnom - Номинальная частота (электрическая), Гц" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
 						Value="{Binding Path=Fnom, Mode=TwoWay}"
@@ -158,10 +176,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="9. Fmax - Максимальная частота (электрическая)" />
+						Text="9. (20.01) Fmax - Максимальная частота (электрическая), Гц" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Fmax, Mode=TwoWay}" />
+						Value="{Binding Path=Fmax, Mode=TwoWay}"
+						Increment="0.1"
+						Maximum="3276.7"
+						Minimum="-3276.8"
+						FormatString="f1" />
 				</Grid>
 
 				<Grid>
@@ -174,10 +196,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="10. dFI_lim - Максимально возможная компенсация потока" />
+						Text="10. (27.03) dFI_lim - Максимально возможная компенсация потока, мВб" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=DflLim, Mode=TwoWay}" />
+						Value="{Binding Path=DflLim, Mode=TwoWay}"
+						Maximum="32.767"
+						Minimum="-32.768"
+						FormatString="f3"
+						Increment="0.001" />
 				</Grid>
 
 				<Grid>
@@ -190,10 +216,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="11. FImin_min - Минимальный возможный поток (коэф. от номинала)" />
+						Text="11. (27.04) FImin_min - Минимальный возможный поток (коэф. от номинала), мВб" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=FlMinMin, Mode=TwoWay}" />
+						Value="{Binding Path=FlMinMin, Mode=TwoWay}"
+						Maximum="32.767"
+						Minimum="-32.768"
+						FormatString="f3"
+						Increment="0.001" />
 				</Grid>
 
 				<Grid>
@@ -206,10 +236,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="12. Iout_max - Ограничение тока (амплитуда)" />
+						Text="12. (20.02) Iout_max - Ограничение тока (амплитуда), А" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
-						Value="{Binding Path=IoutMax, Mode=TwoWay}" />
+						Value="{Binding Path=IoutMax, Mode=TwoWay}"
+						Maximum="32767"
+						Minimum="-32768" />
 				</Grid>
 
 				<Grid>
@@ -222,10 +254,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="13. FImin - Минимальный поток с ослаблением поля" />
+						Text="13. (27.02) FImin - Минимальный поток с ослаблением поля, мВб" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=FiMin, Mode=TwoWay}" />
+						Value="{Binding Path=FiMin, Mode=TwoWay}"
+						Maximum="32.767"
+						Minimum="-32.768"
+						FormatString="f3"
+						Increment="0.001" />
 				</Grid>
 
 				<Grid>
@@ -238,10 +274,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="14. DACCH - Каналы ЦАП" />
-					<xctk:ShortUpDown
+						Text="14. (106.01) DACCH - Каналы ЦАП" />
+					<xctk:IntegerUpDown
 						Grid.Column="1"
-						Value="{Binding Path=DacCh, Mode=TwoWay}" />
+						Value="{Binding Path=DacCh, Mode=TwoWay}"
+						Maximum="65535"
+						Minimum="0"
+						FormatString="X4" />
 				</Grid>
 
 				<Grid>
@@ -254,10 +293,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="15. IMCW - Внутреннее слово режимов" />
-					<xctk:ShortUpDown
+						Text="15. (106.02) IMCW - Внутреннее слово режимов" />
+					<xctk:IntegerUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Imcw, Mode=TwoWay}" />
+						Value="{Binding Path=Imcw, Mode=TwoWay}"
+						Maximum="65535"
+						Minimum="0"
+						FormatString="X4" />
 				</Grid>
 
 				<Grid>
@@ -270,7 +312,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="16. Ia0 - Калибровка нуля тока фазы A" />
+						Text="16. (105.01) Ia0 - Калибровка нуля тока фазы A" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=Ia0, Mode=TwoWay}" />
@@ -286,7 +328,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="17. Ib0 - Калибровка нуля тока фазы B" />
+						Text="17. (105.02) Ib0 - Калибровка нуля тока фазы B" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=Ib0, Mode=TwoWay}" />
@@ -302,7 +344,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="18. Ic0 - Калибровка нуля тока фазы C" />
+						Text="18. (105.03) Ic0 - Калибровка нуля тока фазы C" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=Ic0, Mode=TwoWay}" />
@@ -318,8 +360,8 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="19. Udc0 - Калибровка нуля напряжения шины DC" />
-					<xctk:IntegerUpDown
+						Text="19. (105.04) Udc0 - Калибровка нуля напряжения шины DC" />
+					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=Udc0, Mode=TwoWay}" />
 				</Grid>
@@ -334,10 +376,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="20. Tau_r - Постоянная времени ротора" />
+						Text="20. (102.01) Tau_r - Постоянная времени ротора, мс" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauR, Mode=TwoWay}" />
+						Value="{Binding Path=TauR, Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -350,10 +396,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="21. Lm - Индуктивность намагничивания" />
+						Text="21. (102.02) Lm - Индуктивность намагничивания, мкГн" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Lm, Mode=TwoWay}" />
+						Value="{Binding Path=Lm, Mode=TwoWay}"
+						Minimum="-0.32768"
+						Maximum="0.32767"
+						Increment="0.00001" />
 				</Grid>
 
 				<Grid>
@@ -366,10 +415,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="22. Lsl - Индуктивность рассеяния статора" />
+						Text="22. (102.03) Lsl - Индуктивность рассеяния статора, мкГн" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Lsl, Mode=TwoWay}" />
+						Value="{Binding Path=Lsl, Mode=TwoWay}"
+						Minimum="-0.032768"
+						Maximum="0.032767"
+						Increment="0.000001" />
 				</Grid>
 
 				<Grid>
@@ -382,10 +434,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="23. Lrl - Индуктивность рассеяния ротора " />
+						Text="23. (102.04) Lrl - Индуктивность рассеяния ротора, мкГн" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Lrl, Mode=TwoWay}" />
+						Value="{Binding Path=Lrl, Mode=TwoWay}"
+						Minimum="-0.032768"
+						Maximum="0.032767"
+						Increment="0.000001" />
 				</Grid>
 
 				<Grid>
@@ -417,10 +472,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="25. KP_FI_Q8 - Проп. коэф. регулятора потока" />
+						Text="25. (101.01) KP_FI_Q8 - Проп. коэф. регулятора потока" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KpFi, Mode=TwoWay}" />
+						Value="{Binding Path=KpFi, Mode=TwoWay}"
+						FormatString="f8"
+						Increment="0.00390625"
+						Minimum="-128.0"
+						Maximum="127.99609375" />
 				</Grid>
 
 				<Grid>
@@ -433,10 +492,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="26-27. KI_FI - Интегральный коэф. регулятора потока" />
+						Text="26-27. (101.02) KI_FI - Интегральный коэф. регулятора потока" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KiFi, Mode=TwoWay}" />
+						Value="{Binding Path=KiFi, Mode=TwoWay}"
+						FormatString="f6"
+						Increment="0.000001"
+						Minimum="-128.0"
+						Maximum="128.0" />
 				</Grid>
 
 				<Grid>
@@ -468,10 +531,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="29. KP_ID_Q8 - Пропорциональный коэф. регулятора тока D" />
+						Text="29. (100.01) KP_ID_Q8 - Проп. коэф. регулятора тока D" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KpId, Mode=TwoWay}" />
+						Value="{Binding Path=KpId, Mode=TwoWay}"
+						FormatString="f8"
+						Increment="0.00390625"
+						Minimum="-128.0"
+						Maximum="127.99609375" />
 				</Grid>
 
 				<Grid>
@@ -484,10 +551,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="30-31. KI_ID - Интегральный коэф. регулятора тока D" />
+						Text="30-31. (100.02) KI_ID - Интегральный коэф. регулятора тока D" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KiId, Mode=TwoWay}" />
+						Value="{Binding Path=KiId, Mode=TwoWay}"
+						FormatString="f6"
+						Increment="0.000001"
+						Minimum="-128.0"
+						Maximum="128.0" />
 				</Grid>
 
 				<Grid>
@@ -519,10 +590,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="33. KP_IQ_Q8 - Проп. коэф. регулятора тока Q" />
+						Text="33. (100.03) KP_IQ_Q8 - Проп. коэф. регулятора тока Q" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KpIq, Mode=TwoWay}" />
+						Value="{Binding Path=KpIq, Mode=TwoWay}"
+						FormatString="f8"
+						Increment="0.00390625"
+						Minimum="-128.0"
+						Maximum="127.99609375" />
 				</Grid>
 
 				<Grid>
@@ -535,10 +610,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="34-35. KI_IQ - Интегральный коэф. регулятора тока Q" />
+						Text="34-35. (100.04) KI_IQ - Интегральный коэф. регулятора тока Q" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=KiIq, Mode=TwoWay}" />
+						Value="{Binding Path=KiIq, Mode=TwoWay}"
+						FormatString="f6"
+						Increment="0.000001"
+						Minimum="-128.0"
+						Maximum="127.0" />
 				</Grid>
 
 				<Grid>
@@ -551,42 +630,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="36. ACC_Df_dt - Темп нарастания частоты для задатчика интенсивности" />
-					<xctk:ShortUpDown
-						Grid.Column="1"
-						Value="{Binding Path=AccDfDt, Mode=TwoWay}" />
-				</Grid>
-
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="3*" />
-						<ColumnDefinition
-							Width="1*" />
-					</Grid.ColumnDefinitions>
-					<TextBlock
-						Grid.Column="0"
-						VerticalAlignment="Center"
-						Text="37. DEC_Df_dt - Темп спада частоты для задатчика интенсивности" />
-					<xctk:ShortUpDown
-						Grid.Column="1"
-						Value="{Binding Path=DecDfDt, Mode=TwoWay}" />
-				</Grid>
-
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="3*" />
-						<ColumnDefinition
-							Width="1*" />
-					</Grid.ColumnDefinitions>
-					<TextBlock
-						Grid.Column="0"
-						VerticalAlignment="Center"
-						Text="38.Unom - Номинальное напряжение АД" />
+						Text="36. (22.01) ACC_Df_dt - Темп нарастания частоты для задатчика интенсивности, Гц/с" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Unom, Mode=TwoWay}" />
+						Value="{Binding Path=AccDfDt, Mode=TwoWay}"
+						FormatString="f1"
+						Increment="0.1"
+						Minimum="-3276.8"
+						Maximum="3276.7" />
 				</Grid>
 
 				<Grid>
@@ -599,10 +650,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="39. Tau_FIlim - Постоянная времени регулятора компенсации напр-я" />
+						Text="37. (22.02) DEC_Df_dt - Темп спада частоты для задатчика интенсивности, Гц/с" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauFlLim, Mode=TwoWay}" />
+						Value="{Binding Path=DecDfDt, Mode=TwoWay}"
+						FormatString="f1"
+						Increment="0.1"
+						Minimum="-3276.8"
+						Maximum="3276.7" />
 				</Grid>
 
 				<Grid>
@@ -615,10 +670,32 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="40. Rs - Активное сопротивление статора" />
+						Text="38. (99.01) Unom - Номинальное напряжение АД, В" />
+					<xctk:IntegerUpDown
+						Grid.Column="1"
+						Value="{Binding Path=UnomD, Mode=TwoWay}"
+						Maximum="32767"
+						Minimum="-32768" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="39. (27.05) Tau_FIlim - Постоянная времени регулятора компенсации напр-я, мс" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Rs, Mode=TwoWay}" />
+						Value="{Binding Path=TauFlLim, Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -631,10 +708,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="41. Fmin - Минимальная частота (электрическая)" />
+						Text="40. (102.05) Rs - Активное сопротивление статора, Ом" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Fmin, Mode=TwoWay}" />
+						Value="{Binding Path=Rs, Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -647,10 +728,13 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="42. Tau_M - Постоянная времени фильтра момента" />
-					<xctk:ShortUpDown
+						Text="41. (20.03) Fmin - Минимальная частота (электрическая), Гц" />
+					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauM, Mode=TwoWay}" />
+						Value="{Binding Path=Fmin, Mode=TwoWay}"
+						FormatString="f1"
+						Maximum="3276.7"
+						Minimum="-3276.8" />
 				</Grid>
 
 				<Grid>
@@ -663,10 +747,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="43. Tau_F - Постоянная времени фильтра частоты" />
-					<xctk:ShortUpDown
+						Text="42. (103.01) Tau_M - Постоянная времени фильтра момента, мс" />
+					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauF , Mode=TwoWay}" />
+						Value="{Binding Path=TauM, Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -679,10 +767,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="44. Tau_F_set - Постоянная времени фильтра уставки частоты" />
-					<xctk:ShortUpDown
+						Text="43. (103.02) Tau_F - Постоянная времени фильтра частоты, мс" />
+					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauFSet , Mode=TwoWay}" />
+						Value="{Binding Path=TauF , Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -695,10 +787,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="45. Tau_FI - Постоянная времени фильтра потока" />
-					<xctk:ShortUpDown
+						Text="44. (103.03) Tau_F_set - Постоянная времени фильтра уставки частоты, мс" />
+					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=TauFi, Mode=TwoWay}" />
+						Value="{Binding Path=TauFSet , Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
 				</Grid>
 
 				<Grid>
@@ -711,7 +807,27 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="46. IDset_min - Ограничение выхода регулятора потока мин" />
+						Text="45. (103.04) Tau_FI - Постоянная времени фильтра потока, мс" />
+					<xctk:DoubleUpDown
+						Grid.Column="1"
+						Value="{Binding Path=TauFi, Mode=TwoWay}"
+						FormatString="f4"
+						Minimum="-3.2768"
+						Maximum="3.2767"
+						Increment="0.0001" />
+				</Grid>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="46. (101.03) IDset_min - Ограничение выхода регулятора потока мин" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=IdSetMin, Mode=TwoWay}" />
@@ -727,7 +843,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="47. IDset_max - Ограничение выхода регулятора потока макс" />
+						Text="47. (101.04) IDset_max - Ограничение выхода регулятора потока макс" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=IdSetMax , Mode=TwoWay}" />
@@ -743,7 +859,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="48. Uch_min - В режиме чоппера нижний порог напряжения" />
+						Text="48. (107.01) Uch_min - В режиме чоппера нижний порог напряжения, В" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=UchMin , Mode=TwoWay}" />
@@ -759,7 +875,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="49. Uch_max - В режиме чоппера верхний порог напряжения" />
+						Text="49. (107.02) Uch_max - В режиме чоппера верхний порог напряжения, В" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=UchMax, Mode=TwoWay}" />
@@ -813,10 +929,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="52.0-4. Np - Число пар полюсов (не путать с числом полюсов) АД" />
+						Text="52.0-4. (102.06) Np - Число пар полюсов (не путать с числом полюсов) АД" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
-						Value="{Binding Path=Np, Mode=TwoWay}" />
+						Value="{Binding Path=Np, Mode=TwoWay}"
+						Minimum="0"
+						Maximum="31" />
 				</Grid>
 
 				<Grid>
@@ -829,10 +947,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="52.5-7. NimpFloorCode - Код числа импульсов ДЧВ" />
+						Text="52.5-7. (102.07) NimpFloorCode - Код числа импульсов ДЧВ" />
 					<xctk:IntegerUpDown
 						Grid.Column="1"
-						Value="{Binding Path=NimpFloorCode, Mode=TwoWay}" />
+						Value="{Binding Path=NimpFloorCode, Mode=TwoWay}"
+						Minimum="0"
+						Maximum="7" />
 				</Grid>
 
 				<Grid>
@@ -845,10 +965,12 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="52.8-9. FanMode - Режим работы вентилятора" />
+						Text="52.8-9. (102.8) FanMode - Режим работы вентилятора" />
 					<xctk:IntegerUpDown
 						Grid.Column="1"
-						Value="{Binding Path=FanMode, Mode=TwoWay}" Minimum="0" Maximum="3"/>
+						Value="{Binding Path=FanMode, Mode=TwoWay}"
+						Minimum="0"
+						Maximum="3" />
 				</Grid>
 
 
@@ -862,10 +984,14 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="53. u_mod_thr - Порог компенсации напряжения DC за счет потока" />
+						Text="53. (27.06) u_mod_thr - Порог компенсации напряжения DC за счет потока, В" />
 					<xctk:DoubleUpDown
 						Grid.Column="1"
-						Value="{Binding Path=UmodThr, Mode=TwoWay}" />
+						Value="{Binding Path=UmodThr, Mode=TwoWay}"
+						FormatString="f3"
+						Minimum="-32.768"
+						Maximum="32.767"
+						Increment="0.001" />
 				</Grid>
 
 				<Grid>
@@ -878,7 +1004,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="54. EMDEC_Dfdt - Темп спада частоты при аварийном останове привода" />
+						Text="54. (22.03) EMDEC_Dfdt - Темп спада частоты при аварийном останове привода, Гц/с" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=EmdecDfdt , Mode=TwoWay}" />
@@ -894,7 +1020,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="55. Text_max - Порог защиты по внешней температуре" />
+						Text="55. (20.07) Text_max - Порог защиты по внешней температуре" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=TextMax , Mode=TwoWay}" />
@@ -910,7 +1036,7 @@
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="56. TO_HL - Таймаут по системной линии связи" />
+						Text="56. (106.03) TO_HL - Таймаут по системной линии связи (*16.67мкс)" />
 					<xctk:ShortUpDown
 						Grid.Column="1"
 						Value="{Binding Path=ToHl , Mode=TwoWay}" />

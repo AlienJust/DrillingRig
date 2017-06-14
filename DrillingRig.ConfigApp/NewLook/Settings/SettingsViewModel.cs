@@ -27,7 +27,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 		public Group101SettingsViewModel Group101SettingsVm { get; }
 		public Group102SettingsViewModel Group102SettingsVm { get; }
 		public Group103SettingsViewModel Group103SettingsVm { get; }
-		public Group104SettingsViewModel Group104SettingsVm { get; }
+		//public Group104SettingsViewModel Group104SettingsVm { get; }
 		public Group105SettingsViewModel Group105SettingsVm { get; }
 		public Group106SettingsViewModel Group106SettingsVm { get; }
 		public Group107SettingsViewModel Group107SettingsVm { get; }
@@ -77,7 +77,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			Group101SettingsVm = new Group101SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group102SettingsVm = new Group102SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group103SettingsVm = new Group103SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
-			Group104SettingsVm = new Group104SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
+			//Group104SettingsVm = new Group104SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group105SettingsVm = new Group105SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 			Group106SettingsVm = new Group106SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter, imcwParamViewModel);
 			Group107SettingsVm = new Group107SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);

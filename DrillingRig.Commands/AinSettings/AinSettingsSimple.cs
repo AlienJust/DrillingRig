@@ -19,8 +19,8 @@ namespace DrillingRig.Commands.AinSettings {
 
 			short ioutMax,
 			double fiMin,
-			short dacCh,
-			short imcw,
+			ushort dacCh,
+			ushort imcw,
 			short ia0,
 			short ib0,
 			short ic0,
@@ -45,18 +45,20 @@ namespace DrillingRig.Commands.AinSettings {
 			double kpIq,
 			double kiIq,
 
-			short accDfDt,
-			short decDfDt,
+			double accDfDt,
+			double decDfDt,
 			double unom,
 
 			double tauFlLim,
 
 			double rs,
 			double fmin,
-			short tauM,
-			short tauF,
-			short tauFSet,
-			short tauFi,
+
+			double tauM,
+			double tauF,
+			double tauFSet,
+			double tauFi,
+
 			short idSetMin,
 			short idSetMax,
 			BytesPair uchMin,
@@ -71,7 +73,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 			double umodThr,
 
-			short emdecDfdt,
+			double emdecDfdt,
 			short textMax,
 			short toHl, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault) {
 
@@ -169,9 +171,8 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public double FiMin { get; }
 
-		public short DacCh { get; }
-
-		public short Imcw { get; }
+		public ushort DacCh { get; }
+		public ushort Imcw { get; }
 
 		public short Ia0 { get; }
 		public short Ib0 { get; }
@@ -199,9 +200,8 @@ namespace DrillingRig.Commands.AinSettings {
 		public double KpIq { get; }
 		public double KiIq { get; }
 
-		public short AccDfDt { get; }
-
-		public short DecDfDt { get; }
+		public double AccDfDt { get; }
+		public double DecDfDt { get; }
 
 		public double Unom { get; }
 
@@ -211,16 +211,12 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public double Fmin { get; }
 
-		public short TauM { get; }
-
-		public short TauF { get; }
-
-		public short TauFSet { get; }
-
-		public short TauFi { get; }
+		public double TauM { get; }
+		public double TauF { get; }
+		public double TauFSet { get; }
+		public double TauFi { get; }
 
 		public short IdSetMin { get; }
-
 		public short IdSetMax { get; }
 
 		public BytesPair UchMin { get; }
@@ -235,7 +231,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public double UmodThr { get; }
 
-		public short EmdecDfdt { get; }
+		public double EmdecDfdt { get; }
 
 		public short TextMax { get; }
 

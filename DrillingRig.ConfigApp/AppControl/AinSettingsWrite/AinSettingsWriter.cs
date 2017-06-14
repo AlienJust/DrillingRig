@@ -49,7 +49,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 				var settingsForAin1 = new AinSettingsWritable(readedAin1Settings);
 				settingsForAin1.ModifyFromPart(settingsPart);
-				settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xFCFF); // биты 8 и 9 занулены, ведущий
+				settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw & 0xFCFF); // биты 8 и 9 занулены, ведущий
 				settingsForAin1.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin1Settings.Ia0, Ib0 = readedAin1Settings.Ib0, Ic0 = readedAin1Settings.Ic0, Udc0 = readedAin1Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
 
 
@@ -57,7 +57,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					// Когда в системе один блок АИН
 					// TODO: проверить наличие связи с АИН1
 
-					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,10 и 11 занулены, одиночая работа
+					settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,10 и 11 занулены, одиночая работа
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
 					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
@@ -96,8 +96,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					// Когда в системе два блока АИН
 					// TODO: проверить наличие связи с АИНами
 
-					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,11 занулены, два АИНа в системе
-					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0400); // бит 10 взведен, два АИНа в системе
+					settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw & 0xF0FF); // биты 8,9,11 занулены, два АИНа в системе
+					settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw | 0x0400); // бит 10 взведен, два АИНа в системе
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
 					sender.SendCommandAsync(
@@ -141,8 +141,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									settingsForAin2.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
 									settingsForAin2.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin2Settings.Ia0, Ib0 = readedAin2Settings.Ib0, Ic0 = readedAin2Settings.Ic0, Udc0 = readedAin2Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
 
-									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,11 занулены, ведомый 1
-									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0500); // биты 8,10 взведены,, ведомый 1
+									settingsForAin2.Imcw = (ushort)(settingsForAin2.Imcw & 0xF0FF); // биты 9,11 занулены, ведомый 1
+									settingsForAin2.Imcw = (ushort)(settingsForAin2.Imcw | 0x0500); // биты 8,10 взведены,, ведомый 1
 
 									var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
 									sender.SendCommandAsync(
@@ -186,8 +186,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					// Когда в системе три блока АИН
 					// TODO: проверить наличие связи с АИНами
 
-					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw & 0xF0FF); // биты 8.9.10 занулены, три АИНа в системе
-					settingsForAin1.Imcw = (short)(settingsForAin1.Imcw | 0x0800); // бит 11 взведен, три АИНа в системе
+					settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw & 0xF0FF); // биты 8.9.10 занулены, три АИНа в системе
+					settingsForAin1.Imcw = (ushort)(settingsForAin1.Imcw | 0x0800); // бит 11 взведен, три АИНа в системе
 
 					var writeAin1SettingsCmd = new WriteAinSettingsCommand(0, settingsForAin1);
 					sender.SendCommandAsync(
@@ -230,8 +230,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									var settingsForAin2 = new AinSettingsWritable(readedAin1Settings);
 									settingsForAin2.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
 									settingsForAin2.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin2Settings.Ia0, Ib0 = readedAin2Settings.Ib0, Ic0 = readedAin2Settings.Ic0, Udc0 = readedAin2Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
-									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw & 0xF0FF); // биты 9,10 занулены, ведомый 1
-									settingsForAin2.Imcw = (short)(settingsForAin2.Imcw | 0x0900); // биты 8,11 взведены, ведомый 1
+									settingsForAin2.Imcw = (ushort)(settingsForAin2.Imcw & 0xF0FF); // биты 9,10 занулены, ведомый 1
+									settingsForAin2.Imcw = (ushort)(settingsForAin2.Imcw | 0x0900); // биты 8,11 взведены, ведомый 1
 
 									var writeAin2SettingsCmd = new WriteAinSettingsCommand(1, settingsForAin2);
 									sender.SendCommandAsync(
@@ -274,8 +274,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 													var settingsForAin3 = new AinSettingsWritable(readedAin1Settings);
 													settingsForAin3.ModifyFromPart(settingsPart); // Модификация настроек значениями, введёнными пользователем
 													settingsForAin3.ModifyFromPart(new AinSettingsPartWritable { Ia0 = readedAin3Settings.Ia0, Ib0 = readedAin3Settings.Ib0, Ic0 = readedAin3Settings.Ic0, Udc0 = readedAin3Settings.Udc0 }); // Эти параметры всегда должны оставаться неизменными
-													settingsForAin3.Imcw = (short)(settingsForAin3.Imcw & 0xF0FF); // биты 8,10 занулены, ведомый 2
-													settingsForAin3.Imcw = (short)(settingsForAin3.Imcw | 0x0A00); // биты 9,11 взведены, ведомый 2
+													settingsForAin3.Imcw = (ushort)(settingsForAin3.Imcw & 0xF0FF); // биты 8,10 занулены, ведомый 2
+													settingsForAin3.Imcw = (ushort)(settingsForAin3.Imcw | 0x0A00); // биты 9,11 взведены, ведомый 2
 
 													var writeAin3SettingsCmd = new WriteAinSettingsCommand(2, settingsForAin3);
 													sender.SendCommandAsync(

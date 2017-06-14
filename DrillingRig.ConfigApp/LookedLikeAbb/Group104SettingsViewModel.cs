@@ -19,10 +19,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		//public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		//public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		//public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		//public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -36,10 +36,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("104.01. Максимально возможная компенсация потока", "f3", -10000, 10000, null) {Increment = 0.1};
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("104.02. Минимальный возможный поток (в % от номинала)", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("104.03. Постоянная времени регулятора компенсации потока", "f3", -10000, 10000, null) { Increment = 0.1 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("104.04. Порог компенсации напряжения DC за счет потока", "f3", -10000, 10000, null) { Increment = 0.1 };
+			//Parameter01Vm = new ParameterDoubleEditCheckViewModel("104.01. Максимально возможная компенсация потока", "f3", -10000, 10000, null) {Increment = 0.1};
+			//Parameter02Vm = new ParameterDoubleEditCheckViewModel("104.02. Минимальный возможный поток (в % от номинала)", "f0", -10000, 10000, null);
+			//Parameter03Vm = new ParameterDoubleEditCheckViewModel("104.03. Постоянная времени регулятора компенсации напр-я, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
+			//Parameter04Vm = new ParameterDoubleEditCheckViewModel("104.04. Порог компенсации напряжения DC за счет потока", "f3", -10000, 10000, null) { Increment = 0.1 };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -69,10 +69,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					DflLim = Parameter01Vm.CurrentValue,
-					FlMinMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					TauFlLim = Parameter03Vm.CurrentValue,
-					UmodThr = Parameter04Vm.CurrentValue
+					//DflLim = Parameter01Vm.CurrentValue,
+					//FlMinMin = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
+					//TauFlLim = Parameter03Vm.CurrentValue,
+					//UmodThr = Parameter04Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -98,26 +98,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
-		}
-
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {
 			_uiRoot.Notifier.Notify(() => {
 				if (exception != null) {
 					//_logger.Log("Не удалось прочитать настройки АИН");
-					Parameter01Vm.CurrentValue = null;
-					Parameter02Vm.CurrentValue = null;
-					Parameter03Vm.CurrentValue = null;
-					Parameter04Vm.CurrentValue = null;
+					//Parameter01Vm.CurrentValue = null;
+					//Parameter02Vm.CurrentValue = null;
+					//Parameter03Vm.CurrentValue = null;
+					//Parameter04Vm.CurrentValue = null;
 					return;
 				}
 
-				Parameter01Vm.CurrentValue = settings.DflLim;
-				Parameter02Vm.CurrentValue = settings.FlMinMin;
-				Parameter03Vm.CurrentValue = settings.TauFlLim;
-				Parameter04Vm.CurrentValue = settings.UmodThr;
+				//Parameter01Vm.CurrentValue = settings.DflLim;
+				//Parameter02Vm.CurrentValue = settings.FlMinMin;
+				//Parameter03Vm.CurrentValue = settings.TauFlLim;
+				//Parameter04Vm.CurrentValue = settings.UmodThr;
 			});
 		}
 	}

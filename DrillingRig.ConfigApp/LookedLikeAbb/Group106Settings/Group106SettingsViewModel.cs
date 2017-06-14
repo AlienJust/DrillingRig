@@ -33,7 +33,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			_readerWriter = readerWriter;
 			_ainSettingsReadNotify = ainSettingsReadNotify;
 
-			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", -10000, 10000, null);
+			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", 0, 65535, null);
 			Parameter02Vm = imcwParameterVm;
 			Parameter03Vm = new ParameterDoubleEditCheckViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
 
@@ -52,8 +52,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					DacCh = (short)Parameter01Vm.CurrentValue.Value,
-					Imcw = (short)Parameter02Vm.FullValue.Value,
+					DacCh = (ushort)Parameter01Vm.CurrentValue.Value,
+					Imcw = (ushort)Parameter02Vm.FullValue.Value,
 					ToHl = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {

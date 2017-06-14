@@ -38,12 +38,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("27.01. Поток без ослабления поля", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("27.02. Минимальный поток с ослаблением поля", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("27.03. Максимально возможная компенсация потока", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала)", "f3", -32.768, 32.767, null) {Increment = 0.001};
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("27.01. Поток без ослабления поля, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("27.02. Минимальный поток с ослаблением поля, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("27.03. Максимально возможная компенсация потока, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768, 32.767, null) {Increment = 0.001};
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я, мс", "f3", -3.2768, 3.2767, null) { Increment = 0.0001 };
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока, В", "f3", -32.768, 32.767, null) { Increment = 0.001 };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

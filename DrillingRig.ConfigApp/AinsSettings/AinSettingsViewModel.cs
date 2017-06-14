@@ -37,8 +37,8 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 
 		private short? _ioutMax;
 		private double? _fiMin;
-		private short? _dacCh;
-		private short? _imcw;
+		private ushort? _dacCh;
+		private ushort? _imcw;
 
 		private short? _ia0;
 		private short? _ib0;
@@ -62,19 +62,21 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		private double? _kpIq;
 		private double? _kiIq;
 
-		private short? _accDfDt;
-		private short? _decDfDt;
+		private double? _accDfDt;
+		private double? _decDfDt;
 		private double? _unom;
+		private int? _unomd;
 
 		private double? _tauFlLim; // tauflim
 
 		private double? _rs;
 		private double? _fmin;
 
-		private short? _tauM;
-		private short? _tauF;
-		private short? _tauFSet;
-		private short? _tauFi;
+		private double? _tauM;
+		private double? _tauF;
+		private double? _tauFSet;
+		private double? _tauFi;
+
 		private short? _idSetMin;
 		private short? _idSetMax;
 
@@ -90,7 +92,8 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 
 		private double? _umodThr; // UmodThr
 
-		private short? _emdecDfdt;
+		private double? _emdecDfdt;
+
 		private short? _textMax;
 		private short? _toHl;
 
@@ -154,15 +157,18 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			AccDfDt = null; // 36
 			DecDfDt = null; // 37
 			Unom = null; // 38
+			UnomD = null;
 
 			TauFlLim = null; // 39
 
 			Rs = null; // 40
 			Fmin = null; // 41
+
 			TauM = null; // 42
 			TauF = null; // 43
 			TauFSet = null; // 44
 			TauFi = null; // 45
+
 			IdSetMin = null; // 46
 			IdSetMax = null; // 47
 
@@ -255,7 +261,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 						BytesPair.FromSignedShortLowFirst((short)(UchMax.Value / 65536.0)),
 						BytesPair.FromUnsignedShortLowFirst(Reserved50.Value),
 						BytesPair.FromUnsignedShortLowFirst(Reserved51.Value),
-						
+
 						Np.Value,
 						NimpFloorCode.Value,
 						AinTelemetryFanWorkmodeExtensions.FromIoBits(FanMode.Value),
@@ -478,12 +484,12 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_fiMin != value) { _fiMin = value; RaisePropertyChanged(() => FiMin); } }
 		}
 
-		public short? DacCh {
+		public ushort? DacCh {
 			get => _dacCh;
 			set { if (_dacCh != value) { _dacCh = value; RaisePropertyChanged(() => DacCh); } }
 		}
 
-		public short? Imcw {
+		public ushort? Imcw {
 			get => _imcw;
 			set { if (_imcw != value) { _imcw = value; RaisePropertyChanged(() => Imcw); } }
 		}
@@ -571,19 +577,51 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_kiIq != value) { _kiIq = value; RaisePropertyChanged(() => KiIq); } }
 		}
 
-		public short? AccDfDt {
+		public double? AccDfDt {
 			get => _accDfDt;
 			set { if (_accDfDt != value) { _accDfDt = value; RaisePropertyChanged(() => AccDfDt); } }
 		}
 
-		public short? DecDfDt {
+		public double? DecDfDt {
 			get => _decDfDt;
 			set { if (_decDfDt != value) { _decDfDt = value; RaisePropertyChanged(() => DecDfDt); } }
 		}
 
 		public double? Unom {
 			get => _unom;
-			set { if (_unom != value) { _unom = value; RaisePropertyChanged(() => Unom); } }
+			set {
+				if (_unom != value) {
+					if (value == null) {
+						_unom = null;
+						_unomd = null;
+					}
+					else {
+						_unom = value;
+						_unomd = (int)Math.Round(_unom.Value * Math.Sqrt(2.0));
+					}
+					RaisePropertyChanged(() => Unom);
+					RaisePropertyChanged(() => UnomD);
+
+				}
+			}
+		}
+
+		public int? UnomD {
+			get => _unomd;
+			set {
+				if (_unomd != value) {
+					if (value == null) {
+						_unom = null;
+						_unomd = null;
+					}
+					else {
+						_unomd = value;
+						_unom = value / Math.Sqrt(2.0);
+					}
+					RaisePropertyChanged(() => Unom);
+					RaisePropertyChanged(() => Unom);
+				}
+			}
 		}
 
 		public double? TauFlLim {
@@ -601,22 +639,22 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_fmin != value) { _fmin = value; RaisePropertyChanged(() => Fmin); } }
 		}
 
-		public short? TauM {
+		public double? TauM {
 			get => _tauM;
 			set { if (_tauM != value) { _tauM = value; RaisePropertyChanged(() => TauM); } }
 		}
 
-		public short? TauF {
+		public double? TauF {
 			get => _tauF;
 			set { if (_tauF != value) { _tauF = value; RaisePropertyChanged(() => TauF); } }
 		}
 
-		public short? TauFSet {
+		public double? TauFSet {
 			get => _tauFSet;
 			set { if (_tauFSet != value) { _tauFSet = value; RaisePropertyChanged(() => TauFSet); } }
 		}
 
-		public short? TauFi {
+		public double? TauFi {
 			get => _tauFi;
 			set { if (_tauFi != value) { _tauFi = value; RaisePropertyChanged(() => TauFi); } }
 		}
@@ -670,7 +708,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_umodThr != value) { _umodThr = value; RaisePropertyChanged(() => UmodThr); } }
 		}
 
-		public short? EmdecDfdt {
+		public double? EmdecDfdt {
 			get => _emdecDfdt;
 			set { if (_emdecDfdt != value) { _emdecDfdt = value; RaisePropertyChanged(() => EmdecDfdt); } }
 		}

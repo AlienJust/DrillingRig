@@ -65,14 +65,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_engineSettingsStorage = engineSettingsStorage;
 			_engineSettingsStorageUpdatedNotify = engineSettingsStorageUpdatedNotify;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("20.01. Максимальная частота", "f1", -10000, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("20.01. Максимальная частота, Гц", "f1", 0, 6553.5, null);
 
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("20.02. Ограничение тока (амплитутда)", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("20.03. Минимальная частота (электрическая)", "f1", -10000, 10000, null);
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("20.02. Ограничение тока (амплитутда), А", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("20.03. Минимальная частота (электрическая), Гц", "f1", -3276.8, 3276.7, null);
 
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Максимальный ток (амплитуда) для защиты", "f0", -1000, 1000, null);
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальное напряжение шины DC для защиты", "f0", -1000, 1000, null);
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Минимальное напряжение шины DC", "f0", -1000, 1000, null);
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("20.04. Максимальный ток (амплитуда) для защиты, А", "f0", -32768, 32767, null);
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("20.05. Максимальное напряжение шины DC для защиты, В", "f0", -1000, 1000, null);
+			Parameter06Vm = new ParameterDoubleEditCheckViewModel("20.06. Минимальное напряжение шины DC, В", "f0", -1000, 1000, null);
 			Parameter07Vm = new ParameterDoubleEditCheckViewModel("20.07. Порог защиты по внешней температуре", "f0", -32768, 32767, null);
 
 

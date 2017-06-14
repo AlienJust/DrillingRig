@@ -40,8 +40,10 @@ namespace DrillingRig.Commands.AinSettings {
 
 			settingsSerialized.SerializeShortLowFirst(24, _settings.IoutMax);
 			settingsSerialized.SerializeShortLowFirst(26, (short)(_settings.FiMin * 1000.0));
-			settingsSerialized.SerializeShortLowFirst(28, _settings.DacCh);
-			settingsSerialized.SerializeShortLowFirst(30, _settings.Imcw);
+
+			settingsSerialized.SerializeUshortLowFirst(28, _settings.DacCh);
+			settingsSerialized.SerializeUshortLowFirst(30, _settings.Imcw);
+
 			settingsSerialized.SerializeShortLowFirst(32, _settings.Ia0);
 			settingsSerialized.SerializeShortLowFirst(34, _settings.Ib0);
 			settingsSerialized.SerializeShortLowFirst(36, _settings.Ic0);
@@ -80,19 +82,19 @@ namespace DrillingRig.Commands.AinSettings {
 
 			settingsSerialized.SerializeIntLowFirst(68, (int)(_settings.KiIq * 16777216.0));
 
-			settingsSerialized.SerializeShortLowFirst(72, _settings.AccDfDt);
-			settingsSerialized.SerializeShortLowFirst(74, _settings.DecDfDt);
+			settingsSerialized.SerializeShortLowFirst(72, (short)(_settings.AccDfDt * 10.0));
+			settingsSerialized.SerializeShortLowFirst(74, (short)(_settings.DecDfDt * 10.0));
 			settingsSerialized.SerializeUshortLowFirst(76, (ushort) Math.Round(_settings.Unom * Math.Sqrt(2.0)));
 
-			settingsSerialized.SerializeShortLowFirst(78, (short)(_settings.TauFlLim * 1000.0));
+			settingsSerialized.SerializeShortLowFirst(78, (short)(_settings.TauFlLim * 10000.0));
 
 			settingsSerialized.SerializeUshortLowFirst(80, (ushort)(_settings.Rs * 10000.0));
 
 			settingsSerialized.SerializeUshortLowFirst(82, (ushort)(_settings.Fmin * 10.0));
-			settingsSerialized.SerializeShortLowFirst(84, _settings.TauM);
-			settingsSerialized.SerializeShortLowFirst(86, _settings.TauF);
-			settingsSerialized.SerializeShortLowFirst(88, _settings.TauFSet);
-			settingsSerialized.SerializeShortLowFirst(90, _settings.TauFi);
+			settingsSerialized.SerializeShortLowFirst(84, (short)(_settings.TauM * 10000.0));
+			settingsSerialized.SerializeShortLowFirst(86, (short)(_settings.TauF * 10000.0));
+			settingsSerialized.SerializeShortLowFirst(88, (short)(_settings.TauFSet * 10000.0));
+			settingsSerialized.SerializeShortLowFirst(90, (short)(_settings.TauFi * 10000.0));
 			settingsSerialized.SerializeShortLowFirst(92, _settings.IdSetMin);
 			settingsSerialized.SerializeShortLowFirst(94, _settings.IdSetMax);
 
@@ -111,14 +113,12 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[103] = _settings.Reserved51.Second;
 
 			var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() &0x03) << 8)));
-			//var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (2 << 5) | (_settings.FanMode.ToIoBits() << 8)));
-			Console.WriteLine("<<WRITE>> NPRM = " + bp52.First.ToString("X2") + bp52.Second.ToString("X2"));
 
 			settingsSerialized[104] = bp52.First;
 			settingsSerialized[105] = bp52.Second;
 
 			settingsSerialized.SerializeShortLowFirst(106, (short)(_settings.UmodThr * 1000.0));
-			settingsSerialized.SerializeShortLowFirst(108, _settings.EmdecDfdt);
+			settingsSerialized.SerializeShortLowFirst(108, (short)(_settings.EmdecDfdt * 10.0));
 			settingsSerialized.SerializeShortLowFirst(110, _settings.TextMax);
 			settingsSerialized.SerializeShortLowFirst(112, _settings.ToHl);
 

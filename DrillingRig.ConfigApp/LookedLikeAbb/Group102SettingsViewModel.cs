@@ -43,11 +43,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("102.01. Постоянная времени ротора", "f4", -10000, 10000, null) { Increment = 0.0001 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("102.02. Индуктивность намагничивания", "f5", -10000, 10000, null) { Increment = 0.00001 };
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора", "f6", -10000, 10000, null) { Increment = 0.000001 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора", "f6", -10000, 10000, null) { Increment = 0.000001 };
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -10000, 10000, null) { Increment = 0.0001 };
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("102.01. Постоянная времени ротора, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
+			Parameter02Vm = new ParameterDoubleEditCheckViewModel("102.02. Индуктивность намагничивания, мкГн", "f5", -0.32768, 0.32767, null) { Increment = 0.00001 };
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора, мкГн", "f6", -0.032768, 0.032768, null) { Increment = 0.000001 };
+			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора, мкГн", "f6", -0.032768, 0.032768, null) { Increment = 0.000001 };
+			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", 0, 31, null);
 
 			Parameter07Vm = new ParameterComboEditableViewModel<int>("102.07. Число импульсов ДЧВ",

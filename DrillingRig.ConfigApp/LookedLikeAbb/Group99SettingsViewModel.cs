@@ -73,9 +73,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_imcwParameterVm = imcwParameterVm;
 
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя, В", "f0", 0, 10000, null);
+			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя (действующее), В", "f0", 0, 10000, null);
 			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f0", 0, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f2", 8, 300, null);
+			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f1", 8, 300, null);
 			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
 			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000, null); // TODO: продублировать в группе скроростей (21 вроде бы)
 			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f3", 0, 9000, null);
@@ -173,7 +173,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					var settingsPart = new AinSettingsPartWritable {
 						Unom = Parameter01Vm.CurrentValue,
 						Fnom = Parameter03Vm.CurrentValue,
-						Imcw = _imcwParameterVm.FullValue.HasValue? (short)_imcwParameterVm.FullValue.Value : (short?)null
+						Imcw = _imcwParameterVm.FullValue.HasValue? (ushort)_imcwParameterVm.FullValue.Value : (ushort?)null
 					};
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {

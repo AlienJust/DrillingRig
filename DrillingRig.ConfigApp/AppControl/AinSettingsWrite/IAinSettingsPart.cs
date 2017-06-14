@@ -20,9 +20,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 		short? IoutMax { get; }
 		double? FiMin { get; }
-		short? DacCh { get; }
 
-		short? Imcw { get; }
+		ushort? DacCh { get; }
+		ushort? Imcw { get; }
 
 		short? Ia0 { get; }
 		short? Ib0 { get; }
@@ -44,8 +44,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		double? KpIq { get; }
 		double? KiIq { get; }
 
-		short? AccDfDt { get; }
-		short? DecDfDt { get; }
+		double? AccDfDt { get; }
+		double? DecDfDt { get; }
 
 		double? Unom { get; }
 
@@ -54,10 +54,10 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		double? Rs { get; }
 		double? Fmin { get; }
 
-		short? TauM { get; }
-		short? TauF { get; }
-		short? TauFSet { get; }
-		short? TauFi { get; }
+		double? TauM { get; }
+		double? TauF { get; }
+		double? TauFSet { get; }
+		double? TauFi { get; }
 
 		short? IdSetMin { get; }
 		short? IdSetMax { get; }
@@ -73,7 +73,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 		double? UmodThr { get; }
 
-		short? EmdecDfdt { get; }
+		double? EmdecDfdt { get; }
 		short? TextMax { get; }
 		short? ToHl { get; }
 
