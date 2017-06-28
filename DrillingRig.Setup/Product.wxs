@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Id="*" Name="$(var.SolutionName)" Language="1033" Version="1.0.0.3" Manufacturer="Horizont LTD" UpgradeCode="769995e1-7836-43d6-a159-641b07197302">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+    
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    </Condition>
+
+  <Feature Id="ProductFeature" Title="DrillingRig.Setup" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="DrillingRig" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <Component Id="DrillingRig.ConfigApp.exe" Guid="668AD9CF-1BB2-458C-BA74-71511DE9B539">
+        <File Source="$(var.DrillingRig.ConfigApp.TargetPath)" />
+      </Component>
+      <Component Id="Abt.Controls.SciChart.Wpf.2.2.dll" Guid="2D30DE74-0F52-4AE0-878F-DFCA9339B39F">
+        <File Source="$(var.DrillingRig.ConfigApp.TargetDir)\Abt.Controls.SciChart.Wpf.2.2.dll" />
+      </Component>
+      <Component Id="aci_identify.ini" Guid="0ABD6A15-8C10-4DA8-A3F5-DF3438AFF72A">
+        <File Source="$(var.DrillingRig.ConfigApp.TargetDir)\aci_identify.ini" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

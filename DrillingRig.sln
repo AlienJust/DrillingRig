@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25807.0
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands.Contracts", "DrillingRig.Commands.Contracts\DrillingRig.Commands.Contracts.csproj", "{C812C14E-BBDB-445A-BEC7-5703CBBD094E}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.Commands", "DrillingRig.Commands\DrillingRig.Commands.csproj", "{316042FC-F3D0-491F-8998-8ACFCBFFA908}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrillingRig.CommandSenders.TestCommandSender", "DrillingRig.CommandSenders.TestCommandSender\DrillingRig.CommandSenders.TestCommandSender.csproj", "{490F02E4-3826-4FE8-8E98-405271E18C5E}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DrillingRig.Setup", "DrillingRig.Setup\DrillingRig.Setup.wixproj", "{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,13 @@ Global
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|x86.ActiveCfg = Release|x86
 		{490F02E4-3826-4FE8-8E98-405271E18C5E}.Release|x86.Build.0 = Release|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Debug|x86.ActiveCfg = Debug|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Debug|x86.Build.0 = Debug|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Release|Any CPU.ActiveCfg = Release|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Release|Any CPU.Build.0 = Release|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Release|x86.ActiveCfg = Release|x86
+		{0936C4CF-284C-4C66-8BBA-6FFC9CA8A416}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
