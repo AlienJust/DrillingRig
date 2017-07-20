@@ -48,7 +48,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 					var kpW = double.Parse(ainElement.Element("KpW").Value, CultureInfo.InvariantCulture);
 					var kiW = double.Parse(ainElement.Element("KiW").Value, CultureInfo.InvariantCulture);
 
-					var fiNom = short.Parse(ainElement.Element("FiNom").Value, CultureInfo.InvariantCulture);
+					var fiNom = double.Parse(ainElement.Element("FiNom").Value, CultureInfo.InvariantCulture);
 					var imax = short.Parse(ainElement.Element("Imax").Value, CultureInfo.InvariantCulture);
 					var udcMax = short.Parse(ainElement.Element("UdcMax").Value, CultureInfo.InvariantCulture);
 					var udcMin = short.Parse(ainElement.Element("UdcMin").Value, CultureInfo.InvariantCulture);
@@ -56,10 +56,10 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 					var fmax = double.Parse(ainElement.Element("Fmax").Value, CultureInfo.InvariantCulture);
 
 					var dflLim = double.Parse(ainElement.Element("DflLim").Value, CultureInfo.InvariantCulture);
-					var flMinMin = short.Parse(ainElement.Element("FlMinMin").Value, CultureInfo.InvariantCulture);
+					var flMinMin = double.Parse(ainElement.Element("FlMinMin").Value, CultureInfo.InvariantCulture);
 
 					var ioutMax = short.Parse(ainElement.Element("IoutMax").Value, CultureInfo.InvariantCulture);
-					var fiMin = short.Parse(ainElement.Element("FiMin").Value, CultureInfo.InvariantCulture);
+					var fiMin = double.Parse(ainElement.Element("FiMin").Value, CultureInfo.InvariantCulture);
 					var dacCh = ushort.Parse(ainElement.Element("DacCh").Value, CultureInfo.InvariantCulture);
 					var imcw = ushort.Parse(ainElement.Element("Imcw").Value, CultureInfo.InvariantCulture);
 					var ia0 = short.Parse(ainElement.Element("Ia0").Value, CultureInfo.InvariantCulture);
@@ -94,10 +94,10 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 
 					var rs = double.Parse(ainElement.Element("Rs").Value, CultureInfo.InvariantCulture);
 					var fmin = double.Parse(ainElement.Element("Fmin").Value, CultureInfo.InvariantCulture);
-					var tauM = short.Parse(ainElement.Element("TauM").Value, CultureInfo.InvariantCulture);
-					var tauF = short.Parse(ainElement.Element("TauF").Value, CultureInfo.InvariantCulture);
-					var tauFSet = short.Parse(ainElement.Element("TauFSet").Value, CultureInfo.InvariantCulture);
-					var tauFi = short.Parse(ainElement.Element("TauFi").Value, CultureInfo.InvariantCulture);
+					var tauM = double.Parse(ainElement.Element("TauM").Value, CultureInfo.InvariantCulture);
+					var tauF = double.Parse(ainElement.Element("TauF").Value, CultureInfo.InvariantCulture);
+					var tauFSet = double.Parse(ainElement.Element("TauFSet").Value, CultureInfo.InvariantCulture);
+					var tauFi = double.Parse(ainElement.Element("TauFi").Value, CultureInfo.InvariantCulture);
 					var idSetMin = short.Parse(ainElement.Element("IdSetMin").Value, CultureInfo.InvariantCulture);
 					var idSetMax = short.Parse(ainElement.Element("IdSetMax").Value, CultureInfo.InvariantCulture);
 					var uchMin = BytesPair.Parse(ainElement.Element("UchMin").Value);
@@ -112,7 +112,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 
 					var umodThr = double.Parse(ainElement.Element("UmodThr").Value, CultureInfo.InvariantCulture);
 
-					var emdecDfdt = short.Parse(ainElement.Element("EmdecDfdt").Value, CultureInfo.InvariantCulture);
+					var emdecDfdt = double.Parse(ainElement.Element("EmdecDfdt").Value, CultureInfo.InvariantCulture);
 
 					var textMax = short.Parse(ainElement.Element("TextMax").Value, CultureInfo.InvariantCulture);
 					var toHl = short.Parse(ainElement.Element("ToHl").Value, CultureInfo.InvariantCulture);
