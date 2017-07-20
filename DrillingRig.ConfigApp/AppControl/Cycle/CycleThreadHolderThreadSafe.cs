@@ -7,7 +7,7 @@ namespace DrillingRig.ConfigApp.AppControl.Cycle {
 	class CycleThreadHolderThreadSafe : ICycleThreadHolder {
 		private readonly object _cyclePartsSync;
 		private readonly List<ICyclePart> _cycleParts;
-		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action> _backWorker; // TODO: use it tto stop worker on app close
+		private readonly SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action> _backWorker; // TODO: use it to stop worker on app close
 
 		public CycleThreadHolderThreadSafe() {
 			// циклический опрос
@@ -24,13 +24,13 @@ namespace DrillingRig.ConfigApp.AppControl.Cycle {
 						if (!cyclePart.Cancel) {
 							try {
 								cyclePart.InCycleAction();
-								Thread.Sleep(10);
+								Thread.Sleep(20);
 							}
 							catch {
-								Thread.Sleep(10);
+								Thread.Sleep(20);
 							}
 						}
-						else Thread.Sleep(5);
+						else Thread.Sleep(10);
 					}
 				}
 			}

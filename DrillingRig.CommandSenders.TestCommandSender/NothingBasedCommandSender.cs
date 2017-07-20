@@ -30,7 +30,8 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 				_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
 				_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
 
-				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
+				//Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
+				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds)); // sleeping for full timeout :)
 				Exception exception = null;
 				byte[] reply;
 				try

@@ -23,7 +23,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 			_ainsCountSyncObject = new object();
 
-			_writeSettingsTimeout = TimeSpan.FromMilliseconds(200.0);
+			_writeSettingsTimeout = TimeSpan.FromMilliseconds(300.0);
 		}
 
 		private int AinsCountThreadSafe {
@@ -128,7 +128,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-
+								System.Threading.Thread.Sleep(300);
 
 								// Читаем настройки АИН №2 перед записью (из хранилища, или нет - неважно)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
@@ -218,7 +218,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-
+								System.Threading.Thread.Sleep(300);
 
 								// читаем настройки АИН2 (если нет в хранилище)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
@@ -262,7 +262,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 													return;
 												}
 
-
+												System.Threading.Thread.Sleep(300);
 
 												// читаем настройки АИН3 (если нет в хранилище):
 												_ainSettingsReader.ReadSettingsAsync(2, false, (readSettings3Exception, readedAin3Settings) => {

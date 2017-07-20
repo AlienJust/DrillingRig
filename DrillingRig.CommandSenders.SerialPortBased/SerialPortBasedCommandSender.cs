@@ -22,7 +22,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 		public SerialPortBasedCommandSender(IWorker<Action> backWorker, IStoppableWorker stoppableBackWorker, SerialPort openedPort, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_debugLogger = debugLogger;
 			_serialPort = openedPort;
-			_portExtender = new SerialPortExtender(_serialPort, s=>_debugLogger.GetLogger(3).Log(s, new StackTrace(true)));
+			_portExtender = new SerialPortExtenderNoLogWaitTimeout(_serialPort);
 			_backWorker = backWorker;
 			_backWorkerStoppable = stoppableBackWorker;
 
