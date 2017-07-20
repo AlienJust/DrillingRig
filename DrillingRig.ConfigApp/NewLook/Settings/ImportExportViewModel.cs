@@ -86,8 +86,8 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 					var kpIq = double.Parse(ainElement.Element("KpIq").Value, CultureInfo.InvariantCulture);
 					var kiIq = double.Parse(ainElement.Element("KiIq").Value, CultureInfo.InvariantCulture);
 
-					var accDfDt = short.Parse(ainElement.Element("AccDfDt").Value, CultureInfo.InvariantCulture);
-					var decDfDt = short.Parse(ainElement.Element("DecDfDt").Value, CultureInfo.InvariantCulture);
+					var accDfDt = double.Parse(ainElement.Element("AccDfDt").Value, CultureInfo.InvariantCulture);
+					var decDfDt = double.Parse(ainElement.Element("DecDfDt").Value, CultureInfo.InvariantCulture);
 					var unom = double.Parse(ainElement.Element("Unom").Value, CultureInfo.InvariantCulture);
 
 					var tauFlLim = double.Parse(ainElement.Element("TauFlLim").Value, CultureInfo.InvariantCulture);
@@ -128,7 +128,23 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 				var engineSettingsElement = rootElement.Element("EngineSettings");
 				if (engineSettingsElement != null) {
 					try {
-						var settings = new EngineSettingsSimple {Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture), Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture), Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture), Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture), CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture), Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture), Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture), MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture), Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture), I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture), Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture), ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)};
+						var settings = new EngineSettingsSimple
+						{
+							Inom = ushort.Parse(engineSettingsElement.Element("Inom").Value, CultureInfo.InvariantCulture),
+							Nnom = ushort.Parse(engineSettingsElement.Element("Nnom").Value, CultureInfo.InvariantCulture),
+							Nmax = ushort.Parse(engineSettingsElement.Element("Nmax").Value, CultureInfo.InvariantCulture),
+							Pnom = double.Parse(engineSettingsElement.Element("Pnom").Value, CultureInfo.InvariantCulture),
+							CosFi = double.Parse(engineSettingsElement.Element("CosFi").Value, CultureInfo.InvariantCulture),
+							Eff = double.Parse(engineSettingsElement.Element("Eff").Value, CultureInfo.InvariantCulture),
+							Mass = ushort.Parse(engineSettingsElement.Element("Mass").Value, CultureInfo.InvariantCulture),
+							MmM = ushort.Parse(engineSettingsElement.Element("MmM").Value, CultureInfo.InvariantCulture),
+							Height = ushort.Parse(engineSettingsElement.Element("Height").Value, CultureInfo.InvariantCulture),
+							I2Tmax = uint.Parse(engineSettingsElement.Element("I2Tmax").Value, CultureInfo.InvariantCulture),
+							Icontinious = ushort.Parse(engineSettingsElement.Element("Icontinious").Value, CultureInfo.InvariantCulture),
+							ZeroF = ushort.Parse(engineSettingsElement.Element("ZeroF").Value, CultureInfo.InvariantCulture)
+						};
+						_engineSettingsStorageSettable.SetSettings(settings);
+						_engineSettingsReadNotifyRaisable.RaiseEngineSettingsReadComplete(null,settings);
 					}
 					catch (Exception ex) {
 						Console.WriteLine(ex);
