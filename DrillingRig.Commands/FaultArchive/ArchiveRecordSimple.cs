@@ -31,7 +31,7 @@ namespace DrillingRig.Commands.FaultArchive {
 
 		public IArchiveRecord Build() {
 			var receivedCrc = new Crc16(_bytesToBuild[12], _bytesToBuild[13]);
-			var crcMustBe = MathExtensions.Crc16(_bytesToBuild, 0, _bytesToBuild.Count - 2);
+			var crcMustBe = MathExtensions.GetCrc16FromIlist(_bytesToBuild, 0, _bytesToBuild.Count - 2);
 			bool isCrcCorrect = receivedCrc.High == crcMustBe.High && receivedCrc.Low == crcMustBe.Low;
 			return new ArchiveRecordSimple {
 				Second = _bytesToBuild[0],
