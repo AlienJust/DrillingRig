@@ -144,7 +144,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void UpdateTelemetry(ITelemetry01 telemetry) {
-			const int maxErrors = 3;
+			const int maxErrors = 1;
 			if (telemetry == null && _errorCounts < maxErrors) return;
 
 			Parameter01Vm.CurrentValue = telemetry?.We;

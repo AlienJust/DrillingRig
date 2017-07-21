@@ -69,9 +69,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 								return;
 							}
 
-							// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+							// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 							// а затем БС-Ethernet успел их вычитать из АИН.
-							System.Threading.Thread.Sleep(300);
+							System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, true, (exceptionReRead1, settings1ReReaded) => {
@@ -110,9 +110,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 								return;
 							}
 
-							// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+							// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 							// а затем БС-Ethernet успел их вычитать из АИН.
-							System.Threading.Thread.Sleep(300);
+							System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, true, (exceptionReRead1, settings1ReReaded) => {
@@ -128,7 +128,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-								System.Threading.Thread.Sleep(300);
+								System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 								// Читаем настройки АИН №2 перед записью (из хранилища, или нет - неважно)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
@@ -155,9 +155,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 												return;
 											}
 
-											// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+											// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 											// а затем БС-Ethernet успел их вычитать из АИН.
-											System.Threading.Thread.Sleep(300);
+											System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 											// Проверка записи настроек АИН2 путем их повторного чтения
 											_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
@@ -200,9 +200,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 								return;
 							}
 
-							// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+							// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 							// а затем БС-Ethernet успел их вычитать из АИН.
-							System.Threading.Thread.Sleep(300);
+							System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 							// Проверка записи настроек АИН1 путем их повторного чтения
 							_ainSettingsReader.ReadSettingsAsync(0, true, (exceptionReRead1, settings1ReReaded) => {
@@ -218,7 +218,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									return;
 								}
 
-								System.Threading.Thread.Sleep(300);
+								System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 								// читаем настройки АИН2 (если нет в хранилище)
 								_ainSettingsReader.ReadSettingsAsync(1, false, (readSettings2Exception, readedAin2Settings) => {
@@ -244,9 +244,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 												return;
 											}
 
-											// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+											// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 											// а затем БС-Ethernet успел их вычитать из АИН.
-											System.Threading.Thread.Sleep(300);
+											System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 											// Проверка записи настроек АИН2 путем их повторного чтения:
 											_ainSettingsReader.ReadSettingsAsync(1, true, (exceptionReRead2, settings2ReReaded) => {
@@ -262,7 +262,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 													return;
 												}
 
-												System.Threading.Thread.Sleep(300);
+												System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 												// читаем настройки АИН3 (если нет в хранилище):
 												_ainSettingsReader.ReadSettingsAsync(2, false, (readSettings3Exception, readedAin3Settings) => {
@@ -284,9 +284,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 														_writeSettingsTimeout,
 														(sendException3, replyBytes3) => {
 
-															// Пауза 300 мс для того, чтобы АИН успел записать новые данные в EEPROM,
+															// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,
 															// а затем БС-Ethernet успел их вычитать из АИН.
-															System.Threading.Thread.Sleep(300);
+															System.Threading.Thread.Sleep(_writeSettingsTimeout);
 
 															// Проверка записи настроек АИН3 путем их повторного чтения:
 															_ainSettingsReader.ReadSettingsAsync(2, true, (exceptionReRead3, settings3ReReaded) => {
