@@ -22,7 +22,8 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 		public SerialPortBasedCommandSender(IWorker<Action> backWorker, IStoppableWorker stoppableBackWorker, SerialPort openedPort, IMultiLoggerWithStackTrace<int> debugLogger) {
 			_debugLogger = debugLogger;
 			_serialPort = openedPort;
-			_portExtender = new SerialPortExtenderNoLogReadTimeout(_serialPort);
+
+			_portExtender = new SerialPortExtender(_serialPort, s => _debugLogger.GetLogger(3).Log(s, null), s => _debugLogger.GetLogger(2).Log(s, null));
 			_backWorker = backWorker;
 			_backWorkerStoppable = stoppableBackWorker;
 
@@ -47,27 +48,46 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 					sendBytes[sendBytes.Length - 2] = sendCrc.Low;
 					sendBytes[sendBytes.Length - 1] = sendCrc.High;
 
-					_portExtender.WriteBytes(sendBytes, 0, sendBytes.Length);
-					var replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, timeout, true); // + 4 bytes are: addr, cmd, crc, crc
-
-					// length is checked in port extender
-					if (replyBytes[0] != address) {
-						throw new Exception("Address is wrong");
+					const int maxAttemptsCount = 2;
+					byte[] replyBytes = null;
+					Exception lastException = null;
+					for (int i = 0; i < maxAttemptsCount; ++i) {
+						try {
+							_portExtender.WriteBytes(sendBytes, 0, sendBytes.Length);
+							replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, timeout, true); // + 4 bytes are: addr, cmd, crc, crc
+							lastException = null;
+							break;
+						}
+						catch (Exception ex) {
+							lastException = ex;
+							replyBytes = null;
+						}
 					}
-					if (replyBytes[1] != command.CommandCode) {
-						throw new Exception("Command code is wrong (" + replyBytes[1] + "), assumed the same as it was sended: " + command.CommandCode);
+					if (lastException != null) throw lastException;
+
+					if (replyBytes != null) {
+						// length is checked in port extender
+						if (replyBytes[0] != address) {
+							throw new Exception("Address is wrong");
+						}
+						if (replyBytes[1] != command.CommandCode) {
+							throw new Exception("Command code is wrong (" + replyBytes[1] + "), assumed the same as it was sended: " + command.CommandCode);
+						}
+						var crc = MathExtensions.Crc16(replyBytes.ToList(), 0, replyBytes.Length - 2);
+						if (crc.Low != replyBytes[replyBytes.Length - 2])
+							throw new Exception("Crc Low byte is wrong, assumed to be 0x" + crc.Low.ToString("x2") + " (" + crc.Low + " dec)");
+						if (crc.High != replyBytes[replyBytes.Length - 1])
+							throw new Exception("Crc High byte is wrong, assumed to be 0x" + crc.High.ToString("x2") + " (" + crc.High + " dec)");
+
+						resultBytes = new byte[replyBytes.Length - 4];
+						for (int i = 2; i < replyBytes.Length - 2; ++i)
+							resultBytes[i - 2] = replyBytes[i];
+
+						_debugLogger.GetLogger(4).Log("Reply: " + resultBytes.ToText(), new StackTrace());
 					}
-					var crc = MathExtensions.Crc16(replyBytes.ToList(), 0, replyBytes.Length - 2);
-					if (crc.Low != replyBytes[replyBytes.Length - 2])
-						throw new Exception("Crc Low byte is wrong, assumed to be 0x" + crc.Low.ToString("x2") + " (" + crc.Low + " dec)");
-					if (crc.High != replyBytes[replyBytes.Length - 1])
-						throw new Exception("Crc High byte is wrong, assumed to be 0x" + crc.High.ToString("x2") + " (" + crc.High + " dec)");
-
-					resultBytes = new byte[replyBytes.Length - 4];
-					for (int i = 2; i < replyBytes.Length - 2; ++i)
-						resultBytes[i - 2] = replyBytes[i];
-
-					_debugLogger.GetLogger(4).Log("Reply: " + resultBytes.ToText(), new StackTrace());
+					else {
+						throw new Exception("Внутренняя ошибка алгоритма, обратитесь к разработчикам");
+					}
 				}
 				catch (Exception ex) {
 					backgroundException = ex;

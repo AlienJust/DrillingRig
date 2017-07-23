@@ -64,6 +64,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Loggers.Contracts.dll</HintPath>
     </Reference>
+    <Reference Include="AlienJust.Support.Numeric, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AlienJust.Support.Numeric.dll</HintPath>
+    </Reference>
     <Reference Include="AlienJust.Support.Serial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\AlienJust.Support.Serial.dll</HintPath>

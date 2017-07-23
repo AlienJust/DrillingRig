@@ -291,7 +291,12 @@ namespace DrillingRig.ConfigApp {
 
 					var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("SerialPortBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 					var sender = new SerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+					//var silentSender = new SilentSerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+#if DEBUG
+					var silentSender = new SerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+#else
 					var silentSender = new SilentSerialPortBasedCommandSender(backWorker, backWorker, serialPort, _debugLogger);
+#endif
 					_commandSenderHostSettable.SetCommandSender(sender, silentSender);
 				}
 
