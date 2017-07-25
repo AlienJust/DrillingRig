@@ -256,10 +256,10 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		/// <summary>
-		/// Частота в об/мин, перед отправкой преобразуется в дГц (0.1 Гц)
+		/// Частота в об/мин, перед отправкой преобразуется электрическую с точностью до дГц (0.1 Гц), 0.1 Гц = 0.3 об/мин (когда две пары полюсов)
 		/// </summary>
 		public double? Fset {
-			get { return _fset; }
+			get => _fset;
 			set {
 				if (_fset != value) {
 					_fset = value;
@@ -273,13 +273,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && _fset.HasValue)
-					return (int)(_fset / 6.0 * ain1Settings.Np) / 10.0; // т.к. могу задавать частоту с точностью 1 дГц (0.1 Гц)
+					return (int)(_fset * ain1Settings.Np / 0.6) / 10.0; // т.к. могу задавать частоту с точностью 1 дГц (0.1 Гц) - происходит округление до ближайшего минимального значения кратного 0.1
 				return null;
 			}
 			set {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && value != null) {
-					_fset = Math.Round(value.Value * 6.0 / ain1Settings.Np * 10.0);
+					_fset = Math.Round(value.Value * 6.0 / ain1Settings.Np);
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
 				}
@@ -294,7 +294,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				if (_telemetry == null) return null;
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 6.0 / ain1Settings?.Np; // полученная из телеметрии частота указана в 0.1Гц
+				return _telemetry.Fset.HighFirstSignedValue * 0.6 / ain1Settings?.Np; // полученная из телеметрии частота указана в 0.1Гц
 			}
 		}
 
@@ -304,12 +304,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public double? FsetSmallChangeOrOne => FsetSmallChange < 1.0 ? 1.0 : FsetSmallChange;
 
 		/// <summary>
-		/// Минимальное изменение числа оборотов, которое соответсвует изменению частоты на 0.1Гц
+		/// Минимальное изменение числа оборотов/мин, которое соответсвует изменению частоты на 0.1Гц
 		/// </summary>
 		public double? FsetSmallChange {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return 6.0 / ain1Settings?.Np;
+				return 0.6 / ain1Settings?.Np;
 			}
 		}
 
@@ -339,7 +339,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 
-				return PositiveMaximumFreqSet * 6.0 / ain1Settings?.Np * 10.0;
+				return PositiveMaximumFreqSet * 6.0 / ain1Settings?.Np;
 			}
 		}
 
@@ -348,14 +348,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public double? FsetMin {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-
-				return PositiveMaximumFreqSet * -6.0 / ain1Settings?.Np * 10.0;
+				return PositiveMaximumFreqSet * -6.0 / ain1Settings?.Np;
 			}
 		}
 
 
 		public short Mset {
-			get { return _mset; }
+			get => _mset;
 			set {
 				if (_mset != value) {
 					_mset = value;
@@ -365,7 +364,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		public short Set3 {
-			get { return _set3; }
+			get => _set3;
 			set {
 				if (_set3 != value) {
 					_set3 = value;
@@ -375,7 +374,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		public short Mmin {
-			get { return _mmin; }
+			get => _mmin;
 			set {
 				if (_mmin != value) {
 					_mmin = value;
@@ -386,7 +385,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		}
 
 		public short Mmax {
-			get { return _mmax; }
+			get => _mmax;
 			set {
 				if (_mmax != value) {
 					_mmax = value;
@@ -398,7 +397,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public short? MMinMaxAbs {
 			get {
-				if ((_mmin < 0 && _mmax > 0 && _mmin + _mmax == 0) || (_mmin == 0 && _mmax == 0)) {
+				if (_mmin < 0 && _mmax > 0 && _mmin + _mmax == 0 || _mmin == 0 && _mmax == 0) {
 					return _mmax;
 				}
 				return null;
