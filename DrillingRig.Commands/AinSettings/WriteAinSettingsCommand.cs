@@ -21,7 +21,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[0] = _settings.Reserved00.First;
 			settingsSerialized[1] = _settings.Reserved00.Second;
 			Console.WriteLine("_settings.KpW = " + _settings.KpW.ToString("f10"));
-			var bpKpW = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpW);
+			var bpKpW = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpW);
 			settingsSerialized[2] = bpKpW.First;
 			settingsSerialized[3] = bpKpW.Second;
 			Console.WriteLine("_settings.KpW SERIALIZED = " + bpKpW);

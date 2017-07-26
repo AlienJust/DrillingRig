@@ -23,7 +23,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private double? _fluxTi;
 		private double? _fluxKi;
 
-		private double? _speedKp;
+		private decimal? _speedKp;
 		private double? _speedTi;
 		private double? _speedKi;
 
@@ -222,8 +222,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 
-		public double? SpeedKp {
-			get { return _speedKp; }
+		public decimal? SpeedKp {
+			get => _speedKp;
 			set {
 				if (_speedKp != value) {
 					_speedKp = value;

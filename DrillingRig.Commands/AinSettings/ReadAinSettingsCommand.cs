@@ -36,7 +36,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 			return new AinSettingsSimple(
 				reserved00: new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
-				kpW: BytesPairToDoubleQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
+				kpW: BytesPairToDecimalQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
 				// kiW
 				kiW: (replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] << 8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0,
 

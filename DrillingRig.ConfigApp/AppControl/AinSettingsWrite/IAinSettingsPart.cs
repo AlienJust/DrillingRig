@@ -3,7 +3,7 @@ using DrillingRig.Commands.AinSettings;
 
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	interface IAinSettingsPart {
-		double? KpW { get; }
+		decimal? KpW { get; }
 		double? KiW { get; }
 
 		double? FiNom { get; }

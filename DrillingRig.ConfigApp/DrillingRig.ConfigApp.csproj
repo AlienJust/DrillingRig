@@ -449,6 +449,10 @@
       <DependentUpon>ParameterComboEditableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterComboEditable\ParameterComboEditableViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDecimalEditCheckViewModel.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDecimalEditCheckView.xaml.cs">
+      <DependentUpon>ParameterDecimalEditCheckView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LookedLikeAbb\Parameters\ParameterDoubleEdit\ParameterDoubleEditView.xaml.cs">
       <DependentUpon>ParameterDoubleEditView.xaml</DependentUpon>
     </Compile>
@@ -735,6 +739,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterComboEditable\ParameterComboEditableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterDoubleEditCheck\ParameterDecimalEditCheckView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -45,7 +45,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 					var curAinSettings = new AinSettingsPartWritable();
 
 					var reserved00 = BytesPair.Parse(ainElement.Element("Reserved00").Value);
-					var kpW = double.Parse(ainElement.Element("KpW").Value, CultureInfo.InvariantCulture);
+					var kpW = decimal.Parse(ainElement.Element("KpW").Value, CultureInfo.InvariantCulture);
 					var kiW = double.Parse(ainElement.Element("KiW").Value, CultureInfo.InvariantCulture);
 
 					var fiNom = double.Parse(ainElement.Element("FiNom").Value, CultureInfo.InvariantCulture);

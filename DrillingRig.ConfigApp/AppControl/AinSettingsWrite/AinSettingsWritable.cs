@@ -5,7 +5,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	class AinSettingsWritable : IAinSettings {
 		public BytesPair Reserved00 { get; set; }
 
-		public double KpW { get; set; }
+		public decimal KpW { get; set; }
 		public double KiW { get; set; }
 
 		public double FiNom { get; set; }

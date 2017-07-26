@@ -4,7 +4,7 @@ namespace DrillingRig.Commands.AinSettings {
 	public class AinSettingsSimple : IAinSettings {
 		public AinSettingsSimple(
 			BytesPair reserved00,
-			double kpW,
+			decimal kpW,
 			double kiW,
 
 			double fiNom,
@@ -150,7 +150,7 @@ namespace DrillingRig.Commands.AinSettings {
 		}
 		public BytesPair Reserved00 { get; }
 
-		public double KpW { get; }
+		public decimal KpW { get; }
 		public double KiW { get; }
 
 		public double FiNom { get; }

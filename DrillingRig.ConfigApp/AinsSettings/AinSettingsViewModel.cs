@@ -22,7 +22,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		private readonly RelayCommand _writeSettingsCommand;
 
 		private ushort? _reserved00;
-		private double? _kpW;
+		private decimal? _kpW;
 		private double? _kiW;
 
 		private double? _fiNom;
@@ -423,7 +423,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_reserved00 != value) { _reserved00 = value; RaisePropertyChanged(() => Reserved00); } }
 		}
 
-		public double? KpW {
+		public decimal? KpW {
 			get => _kpW;
 			set { if (_kpW != value) { _kpW = value; RaisePropertyChanged(() => KpW); } }
 		}

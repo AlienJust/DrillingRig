@@ -5,7 +5,7 @@ namespace DrillingRig.Commands.AinSettings {
 	public interface IAinSettings {
 		BytesPair Reserved00 { get; }
 
-		double KpW { get; }
+		decimal KpW { get; }
 		double KiW { get; }
 
 		double FiNom { get; }

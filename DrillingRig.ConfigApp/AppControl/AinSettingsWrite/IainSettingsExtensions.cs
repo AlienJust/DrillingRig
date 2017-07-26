@@ -20,6 +20,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 			string paramsText = string.Empty;
 
+			if (settings.KpW != settingsReReaded.KpW) paramsText += $"{Environment.NewLine}параметр KpW был {settings.KpW}; стал {settingsReReaded.KpW}";
+
 			if (settings.FiNom != settingsReReaded.FiNom) paramsText += $"{Environment.NewLine}параметр FiNom был {settings.FiNom}; стал {settingsReReaded.FiNom}";
 			if (settings.Imax != settingsReReaded.Imax) paramsText += $"{Environment.NewLine}параметр Imax был {settings.Imax}; стал {settingsReReaded.Imax}";
 			if (settings.UdcMax != settingsReReaded.UdcMax) paramsText += $"{Environment.NewLine}параметр UdcMax был {settings.UdcMax}; стал {settingsReReaded.UdcMax}";
