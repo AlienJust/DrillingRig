@@ -30,6 +30,10 @@ namespace DrillingRig.Commands.RtuModbus.CommonTelemetry {
 		public BytesPair Mcw { get; }
 		public BytesPair Msw { get; }
 		public BytesPair Asw { get; }
+
+		/// <summary>
+		/// теперь ЦМР = 0.01Гц вместо 0.1Гц
+		/// </summary>
 		public BytesPair Fset { get; }
 		public BytesPair Mset { get; }
 		public BytesPair Reserve3 { get; }

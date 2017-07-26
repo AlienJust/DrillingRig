@@ -237,7 +237,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 							}
 
 							try {
-								var result = cmd.GetResult(bytes); // result is unused but GetResult can throw exception
+								cmd.GetResult(bytes); // result is unused but GetResult can throw exception
 								_logger.Log("Команда для АИН была отправлена, получен хороший ответ");
 							}
 							catch (Exception exx) {
@@ -273,13 +273,13 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && _fset.HasValue)
-					return (int)(_fset * ain1Settings.Np / 0.6) / 10.0; // т.к. могу задавать частоту с точностью 1 дГц (0.1 Гц) - происходит округление до ближайшего минимального значения кратного 0.1
+					return (int)(_fset * ain1Settings.Np / 0.6) / 100.0; // т.к. могу задавать частоту с точностью 1 сГц (0.01 Гц) - происходит округление до ближайшего минимального значения кратного 0.01
 				return null;
 			}
 			set {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && value != null) {
-					_fset = Math.Round(value.Value * 6.0 / ain1Settings.Np);
+					_fset = Math.Round(value.Value * 60.0 / ain1Settings.Np);
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
 				}
@@ -294,17 +294,17 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				if (_telemetry == null) return null;
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 0.6 / ain1Settings?.Np; // полученная из телеметрии частота указана в 0.1Гц
+				return _telemetry.Fset.HighFirstSignedValue * 0.6 / ain1Settings?.Np; // полученная из телеметрии электрическая частота указана в 0.01Гц
 			}
 		}
 
 		/// <summary>
-		/// Минимальное изменение числа оборотов, которое соответсвует изменению частоты на 0.1Гц, однако если оно меньше 1.0, то будет возвращена единичка
+		/// Минимальное изменение числа оборотов, которое соответсвует изменению частоты на 0.01Гц, однако если оно меньше 1.0, то будет возвращена единичка
 		/// </summary>
 		public double? FsetSmallChangeOrOne => FsetSmallChange < 1.0 ? 1.0 : FsetSmallChange;
 
 		/// <summary>
-		/// Минимальное изменение числа оборотов/мин, которое соответсвует изменению частоты на 0.1Гц
+		/// Минимальное изменение числа оборотов/мин, которое соответсвует изменению частоты на 0.01Гц
 		/// </summary>
 		public double? FsetSmallChange {
 			get {
@@ -339,7 +339,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 
-				return PositiveMaximumFreqSet * 6.0 / ain1Settings?.Np;
+				return PositiveMaximumFreqSet * 60.0 / ain1Settings?.Np;
 			}
 		}
 
@@ -348,7 +348,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public double? FsetMin {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return PositiveMaximumFreqSet * -6.0 / ain1Settings?.Np;
+				return PositiveMaximumFreqSet * -60.0 / ain1Settings?.Np;
 			}
 		}
 

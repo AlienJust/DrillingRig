@@ -11,7 +11,7 @@ namespace DrillingRig.Commands.AinTelemetry {
 		double RotationFriquencyCalculated { get; }
 
 		/// <summary>
-		///Uout, Коэффициент модуляции ШИМ
+		/// Uout, Коэффициент модуляции ШИМ
 		/// </summary>
 		double PwmModulationCoefficient { get; }
 
