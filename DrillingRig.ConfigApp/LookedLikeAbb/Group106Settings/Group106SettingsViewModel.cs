@@ -20,7 +20,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 
 		public ParameterHexEditableViewModel Parameter01Vm { get; }
 		public ImcwParameterViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -35,7 +35,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 
 			Parameter01Vm = new ParameterHexEditableViewModel("106.01. Каналы ЦАП", "X4", 0, 65535, null);
 			Parameter02Vm = imcwParameterVm;
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("106.03. Таймаут по системной линии связи", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => true); // TODO: read only when connected to COM
@@ -53,8 +53,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					DacCh = (ushort)Parameter01Vm.CurrentValue.Value,
-					Imcw = (ushort)Parameter02Vm.FullValue.Value,
-					ToHl = ConvertDoubleToShort(Parameter03Vm.CurrentValue)
+					Imcw = Parameter02Vm.FullValue.Value,
+					ToHl = ConvertDecimalToShort(Parameter03Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -80,7 +80,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Group106Settings {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertDecimalToShort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (short)value.Value;
 		}

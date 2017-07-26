@@ -14,8 +14,8 @@
 		</Grid.RowDefinitions>
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

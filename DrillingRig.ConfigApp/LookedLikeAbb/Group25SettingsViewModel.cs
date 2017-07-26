@@ -19,7 +19,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -33,7 +33,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("25.01. Уставка моментного тока", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("25.01. Уставка моментного тока", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -87,11 +87,6 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
 			}
-		}
-
-		private short? ConvertDoubleToShort(double? value) {
-			if (!value.HasValue) return null;
-			return (short) value.Value;
 		}
 
 		private void UpdateSettingsInUiThread(Exception exception, IAinSettings settings) {

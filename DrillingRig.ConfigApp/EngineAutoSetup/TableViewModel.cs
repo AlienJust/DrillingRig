@@ -6,26 +6,26 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
 		public string Header { get; }
 
-		private double? _rs;
+		private decimal? _rs;
 		private double? _rr; // rs/2
-		private double? _lslAndLrl;
-		private double? _lm;
-		private double? _flNom;
+		private decimal? _lslAndLrl;
+		private decimal? _lm;
+		private decimal? _flNom;
 		private double? _j;
-		private double? _tr;
+		private decimal? _tr;
 		private double? _roverL;
 
-		private double? _idIqKp;
-		private double? _idIqTi;
-		private double? _idIqKi;
+		private decimal? _idIqKp;
+		private decimal? _idIqTi;
+		private decimal? _idIqKi;
 
-		private double? _fluxKp;
-		private double? _fluxTi;
-		private double? _fluxKi;
+		private decimal? _fluxKp;
+		private decimal? _fluxTi;
+		private decimal? _fluxKi;
 
 		private decimal? _speedKp;
-		private double? _speedTi;
-		private double? _speedKi;
+		private decimal? _speedTi;
+		private decimal? _speedKi;
 
 		public TableViewModel(string header) {
 			Header = header;
@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		/// <summary>
 		/// Not thread safe!
 		/// </summary>
-		public void Update(IEngineTestResult testResult, IAinSettings settings, float f0) {
+		public void Update(IEngineTestResult testResult, IAinSettings settings, decimal f0) {
 			// TODO: define what to do if some method param value is null
 			Rs = settings?.Rs;
 
@@ -45,19 +45,19 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 			IdIqKp = settings?.KpId; // для асинхронника Kp ID = Kp IQ
 			if (settings != null) {
-				IdIqTi = 1.0 / (settings.KiId * f0);
+				IdIqTi = 1.0m / (settings.KiId * f0);
 			}
 			IdIqKi = settings?.KiId;
 
 			FluxKp = settings?.KpFi;
 			if (settings != null) {
-				FluxTi = 1.0 / (settings.KiFi * f0);
+				FluxTi = 1.0m / (settings.KiFi * f0);
 			}
 			FluxKi = settings?.KiFi;
 
 			SpeedKp = settings?.KpW;
 			if (settings != null) {
-				SpeedTi = 1.0 / (settings.KiW * f0);
+				SpeedTi = 1.0m / (settings.KiW * f0);
 			}
 			SpeedKi = settings?.KiW;
 
@@ -83,8 +83,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public double? Rs {
-			get { return _rs; }
+		public decimal? Rs {
+			get => _rs;
 			set {
 				if (_rs != value) {
 					_rs = value;
@@ -94,7 +94,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		public double? Rr {
-			get { return _rr; }
+			get => _rr;
 			set {
 				if (_rr != value) {
 					_rr = value;
@@ -103,8 +103,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public double? LslAndLrl {
-			get { return _lslAndLrl; }
+		public decimal? LslAndLrl {
+			get => _lslAndLrl;
 			set {
 				if (_lslAndLrl != value) {
 					_lslAndLrl = value;
@@ -113,8 +113,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public double? Lm {
-			get { return _lm; }
+		public decimal? Lm {
+			get => _lm;
 			set {
 				if (_lm != value) {
 				}
@@ -123,7 +123,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public double? FlNom {
+		public decimal? FlNom {
 			get => _flNom;
 			set {
 				if (_flNom != value) {
@@ -134,7 +134,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		public double? J {
-			get { return _j; }
+			get => _j;
 			set {
 				if (_j != value) {
 					_j = value;
@@ -143,8 +143,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			}
 		}
 
-		public double? Tr {
-			get { return _tr; }
+		public decimal? Tr {
+			get => _tr;
 			set {
 				if (_tr != value) {
 					_tr = value;
@@ -164,8 +164,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 
-		public double? IdIqKp {
-			get { return _idIqKp; }
+		public decimal? IdIqKp {
+			get => _idIqKp;
 			set {
 				if (_idIqKp != value) {
 					_idIqKp = value;
@@ -173,8 +173,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? IdIqTi {
-			get { return _idIqTi; }
+		public decimal? IdIqTi {
+			get => _idIqTi;
 			set {
 				if (_idIqTi != value) {
 					_idIqTi = value;
@@ -182,8 +182,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? IdIqKi {
-			get { return _idIqKi; }
+		public decimal? IdIqKi {
+			get => _idIqKi;
 			set {
 				if (_idIqKi != value) {
 					_idIqKi = value;
@@ -193,8 +193,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 
-		public double? FluxKp {
-			get { return _fluxKp; }
+		public decimal? FluxKp {
+			get => _fluxKp;
 			set {
 				if (_fluxKp != value) {
 					_fluxKp = value;
@@ -202,8 +202,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? FluxTi {
-			get { return _fluxTi; }
+		public decimal? FluxTi {
+			get => _fluxTi;
 			set {
 				if (_fluxTi != value) {
 					_fluxTi = value;
@@ -211,8 +211,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? FluxKi {
-			get { return _fluxKi; }
+		public decimal? FluxKi {
+			get => _fluxKi;
 			set {
 				if (_fluxKi != value) {
 					_fluxKi = value;
@@ -231,8 +231,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? SpeedTi {
-			get { return _speedTi; }
+		public decimal? SpeedTi {
+			get => _speedTi;
 			set {
 				if (_speedTi != value) {
 					_speedTi = value;
@@ -240,8 +240,8 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				}
 			}
 		}
-		public double? SpeedKi {
-			get { return _speedKi; }
+		public decimal? SpeedKi {
+			get => _speedKi;
 			set {
 				if (_speedKi != value) {
 					_speedKi = value;

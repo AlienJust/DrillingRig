@@ -11,7 +11,6 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.BsEthernetLogs;
-using DrillingRig.ConfigApp.LookedLikeAbb.EngingeTest;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class EngineAutoSetupViewModel : ViewModelBase {
@@ -173,7 +172,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 						}
 
 						_logger.Log(exception != null ? "Не удалось прочитать настройки АИН №1 после тестирования двигателя" : "Настройки АИН №1 успешно прочитаны после тестирования двигателя");
-						_uiRoot.Notifier.Notify(() => { RightTable.Update(testResult, settings, _engineTestParams.F0); });
+						_uiRoot.Notifier.Notify(() => { RightTable.Update(testResult, settings, (decimal)_engineTestParams.F0); });
 					});
 				});
 		}
@@ -229,12 +228,12 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 				if (_needToUpdateLeftTable && settings != null) {
 					_uiRoot.Notifier.Notify(() => {
 						_needToUpdateLeftTable = false;
-						LeftTable.Update(null, settings, _engineTestParams.F0);
+						LeftTable.Update(null, settings, (decimal)_engineTestParams.F0);
 						LeftTable.J = 1;
 						LeftTable.RoverL = 0;
 					});
 				}
-				RightTable.Update(null, settings, _engineTestParams.F0);
+				RightTable.Update(null, settings, (decimal)_engineTestParams.F0);
 			}
 		}
 
@@ -251,7 +250,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		public ICommand LaunchAutoSetupCmd => _launchAutoSetupCmd;
 
 		public bool IsDcTestChecked {
-			get { return _isDcTestChecked; }
+			get => _isDcTestChecked;
 			set {
 				if (_isDcTestChecked != value) {
 					_isDcTestChecked = value; RaisePropertyChanged(() => IsDcTestChecked);
@@ -264,7 +263,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		public bool IsTrTestChecked {
-			get { return _isTrTestChecked; }
+			get => _isTrTestChecked;
 			set {
 				if (_isTrTestChecked != value) {
 					if (_isDcTestChecked) {
@@ -276,22 +275,22 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		}
 
 		public bool IsLeakTestChecked {
-			get { return _isLeakTestChecked; }
+			get => _isLeakTestChecked;
 			set { if (_isLeakTestChecked != value) { _isLeakTestChecked = value; RaisePropertyChanged(() => IsLeakTestChecked); } }
 		}
 
 		public bool IsXxTestChecked {
-			get { return _isXxTestChecked; }
+			get => _isXxTestChecked;
 			set { if (_isXxTestChecked != value) { _isXxTestChecked = value; RaisePropertyChanged(() => IsXxTestChecked); } }
 		}
 
 		public bool IsInertionTestChecked {
-			get { return _isInertionTestChecked; }
+			get => _isInertionTestChecked;
 			set { if (_isInertionTestChecked != value) { _isInertionTestChecked = value; RaisePropertyChanged(() => IsInertionTestChecked); } }
 		}
 
 		public string LastLogLineText {
-			get { return _lastLogLineText; }
+			get => _lastLogLineText;
 			set {
 				if (_lastLogLineText != value) {
 					_lastLogLineText = value;

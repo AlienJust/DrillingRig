@@ -4,7 +4,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
 	xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
 	mc:Ignorable="d"
 	d:DesignHeight="300"
@@ -21,7 +20,7 @@
 				<Border
 					BorderBrush="DarkRed"
 					BorderThickness="1">
-					<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 						DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
 				</Border>
 			</StackPanel>

@@ -19,10 +19,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -36,10 +36,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("103.01. Постоянная времени фильтра момента, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("103.02. Постоянная времени фильтра частоты, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("103.03. Постоянная времени фильтра уставки частоты, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("103.04. Постоянная времени фильтра потока, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("103.01. Постоянная времени фильтра момента, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("103.02. Постоянная времени фильтра частоты, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("103.03. Постоянная времени фильтра уставки частоты, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("103.04. Постоянная времени фильтра потока, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

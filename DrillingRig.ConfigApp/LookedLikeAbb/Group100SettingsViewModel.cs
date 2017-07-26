@@ -20,10 +20,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -37,11 +37,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f8", -128.0, 127.99609375, null) { Increment = 0.00390625 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -128.0, 128.0, null) { Increment = 0.000001 }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("100.01. Пропорциональный коэф. регулятора тока D", "f8", -128.0m, 127.99609375m) { Increment = 0.00390625m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("100.02. Интегральный коэф. регулятора тока D", "f6", -128.0m, 128.0m) { Increment = 0.000001m }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
 
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f8", -128.0, 127.99609375, null) { Increment = 0.00390625 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -128.0, 128.0, null) { Increment = 0.000001 }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("100.03. Пропорциональный коэф. регулятора тока Q", "f8", -128.0m, 127.99609375m) { Increment = 0.00390625m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("100.04. Интегральный коэф. регулятора тока Q", "f6", -128.0m, 128.0m) { Increment = 0.000001m }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
 
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM

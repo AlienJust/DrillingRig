@@ -6,18 +6,18 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public BytesPair Reserved00 { get; set; }
 
 		public decimal KpW { get; set; }
-		public double KiW { get; set; }
+		public decimal KiW { get; set; }
 
-		public double FiNom { get; set; }
+		public decimal FiNom { get; set; }
 		public short Imax { get; set; }
 		public short UdcMax { get; set; }
 		public short UdcMin { get; set; }
-		public double Fnom { get; set; }
-		public double Fmax { get; set; }
-		public double DflLim { get; set; }
-		public double FlMinMin { get; set; }
+		public decimal Fnom { get; set; }
+		public decimal Fmax { get; set; }
+		public decimal DflLim { get; set; }
+		public decimal FlMinMin { get; set; }
 		public short IoutMax { get; set; }
-		public double FiMin { get; set; }
+		public decimal FiMin { get; set; }
 		public ushort DacCh { get; set; }
 		public ushort Imcw { get; set; }
 		public short Ia0 { get; set; }
@@ -25,35 +25,35 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public short Ic0 { get; set; }
 		public short Udc0 { get; set; }
 
-		public double TauR { get; set; }
-		public double Lm { get; set; }
-		public double Lsl { get; set; }
-		public double Lrl { get; set; }
+		public decimal TauR { get; set; }
+		public decimal Lm { get; set; }
+		public decimal Lsl { get; set; }
+		public decimal Lrl { get; set; }
 
 		public BytesPair Reserved24 { get; set; }
-		public double KpFi { get; set; }
-		public double KiFi { get; set; }
+		public decimal KpFi { get; set; }
+		public decimal KiFi { get; set; }
 		public BytesPair Reserved28 { get; set; }
 
-		public double KpId { get; set; }
+		public decimal KpId { get; set; }
 
-		public double KiId { get; set; }
+		public decimal KiId { get; set; }
 		public BytesPair Reserved32 { get; set; }
 
-		public double KpIq { get; set; }
-		public double KiIq { get; set; }
+		public decimal KpIq { get; set; }
+		public decimal KiIq { get; set; }
 
-		public double AccDfDt { get; set; }
-		public double DecDfDt { get; set; }
-		public double Unom { get; set; }
-		public double TauFlLim { get; set; }
-		public double Rs { get; set; }
-		public double Fmin { get; set; }
+		public decimal AccDfDt { get; set; }
+		public decimal DecDfDt { get; set; }
+		public decimal Unom { get; set; }
+		public decimal TauFlLim { get; set; }
+		public decimal Rs { get; set; }
+		public decimal Fmin { get; set; }
 
-		public double TauM { get; set; }
-		public double TauF { get; set; }
-		public double TauFSet { get; set; }
-		public double TauFi { get; set; }
+		public decimal TauM { get; set; }
+		public decimal TauF { get; set; }
+		public decimal TauFSet { get; set; }
+		public decimal TauFi { get; set; }
 
 		public short IdSetMin { get; set; }
 		public short IdSetMax { get; set; }
@@ -68,8 +68,8 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public int NimpFloorCode { get; set; }
 		public AinTelemetryFanWorkmode FanMode { get; set; }
 
-		public double UmodThr { get; set; }
-		public double EmdecDfdt { get; set; }
+		public decimal UmodThr { get; set; }
+		public decimal EmdecDfdt { get; set; }
 		public short TextMax { get; set; }
 		public short ToHl { get; set; }
 

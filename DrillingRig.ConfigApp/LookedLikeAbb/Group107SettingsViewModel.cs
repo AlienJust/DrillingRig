@@ -20,8 +20,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -34,8 +34,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("107.01. В режиме чоппера нижний порог напряжения", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("107.02. В режиме чоппера верхний порог напряжения", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("107.01. В режиме чоппера нижний порог напряжения", "f0", -10000, 10000);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("107.02. В режиме чоппера верхний порог напряжения", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -67,8 +67,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
 					// TODO: null handling like in group 100 or 101 (q8)
-					UchMin = BytesPair.FromSignedShortLowFirst(ConvertDoubleToShort(Parameter01Vm.CurrentValue).Value),
-					UchMax = BytesPair.FromSignedShortLowFirst(ConvertDoubleToShort(Parameter02Vm.CurrentValue).Value),
+					UchMin = BytesPair.FromSignedShortLowFirst(ConvertDecimalToShort(Parameter01Vm.CurrentValue).Value),
+					UchMax = BytesPair.FromSignedShortLowFirst(ConvertDecimalToShort(Parameter02Vm.CurrentValue).Value),
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -94,7 +94,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertDecimalToShort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (short) value.Value;
 		}

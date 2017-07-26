@@ -26,20 +26,20 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[3] = bpKpW.Second;
 			Console.WriteLine("_settings.KpW SERIALIZED = " + bpKpW);
 
-			settingsSerialized.SerializeIntLowFirst(4, (int)(_settings.KiW * 16777216.0));
-			settingsSerialized.SerializeShortLowFirst(8, (short)(_settings.FiNom * 1000.0));
+			settingsSerialized.SerializeIntLowFirst(4, (int)(_settings.KiW * 16777216.0m));
+			settingsSerialized.SerializeShortLowFirst(8, (short)(_settings.FiNom * 1000.0m));
 			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
 			settingsSerialized.SerializeShortLowFirst(12, _settings.UdcMax);
 			settingsSerialized.SerializeShortLowFirst(14, _settings.UdcMin);
 
-			settingsSerialized.SerializeUshortLowFirst(16, (ushort)(_settings.Fnom * 10.0));
-			settingsSerialized.SerializeUshortLowFirst(18, (ushort)(_settings.Fmax * 10.0));
+			settingsSerialized.SerializeUshortLowFirst(16, (ushort)(_settings.Fnom * 10.0m));
+			settingsSerialized.SerializeUshortLowFirst(18, (ushort)(_settings.Fmax * 10.0m));
 
-			settingsSerialized.SerializeShortLowFirst(20, (short)(_settings.DflLim * 1000.0));
-			settingsSerialized.SerializeShortLowFirst(22, (short)(_settings.FlMinMin * 1000.0));
+			settingsSerialized.SerializeShortLowFirst(20, (short)(_settings.DflLim * 1000.0m));
+			settingsSerialized.SerializeShortLowFirst(22, (short)(_settings.FlMinMin * 1000.0m));
 
 			settingsSerialized.SerializeShortLowFirst(24, _settings.IoutMax);
-			settingsSerialized.SerializeShortLowFirst(26, (short)(_settings.FiMin * 1000.0));
+			settingsSerialized.SerializeShortLowFirst(26, (short)(_settings.FiMin * 1000.0m));
 
 			settingsSerialized.SerializeUshortLowFirst(28, _settings.DacCh);
 			settingsSerialized.SerializeUshortLowFirst(30, _settings.Imcw);
@@ -48,53 +48,53 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized.SerializeShortLowFirst(34, _settings.Ib0);
 			settingsSerialized.SerializeShortLowFirst(36, _settings.Ic0);
 			settingsSerialized.SerializeShortLowFirst(38, _settings.Udc0);
-			settingsSerialized.SerializeShortLowFirst(40, (short)(_settings.TauR * 10000.0));
-			settingsSerialized.SerializeShortLowFirst(42, (short)(_settings.Lm * 100000.0));
-			settingsSerialized.SerializeShortLowFirst(44, (short)(_settings.Lsl * 1000000.0));
-			settingsSerialized.SerializeShortLowFirst(46, (short)(_settings.Lrl * 1000000.0));
+			settingsSerialized.SerializeShortLowFirst(40, (short)(_settings.TauR * 10000.0m));
+			settingsSerialized.SerializeShortLowFirst(42, (short)(_settings.Lm * 100000.0m));
+			settingsSerialized.SerializeShortLowFirst(44, (short)(_settings.Lsl * 1000000.0m));
+			settingsSerialized.SerializeShortLowFirst(46, (short)(_settings.Lrl * 1000000.0m));
 
 			settingsSerialized[48] = _settings.Reserved24.First;
 			settingsSerialized[49] = _settings.Reserved24.Second;
 
-			var bpKpFi = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpFi);
+			var bpKpFi = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpFi);
 			settingsSerialized[50] = bpKpFi.First;
 			settingsSerialized[51] = bpKpFi.Second;
 
-			settingsSerialized.SerializeIntLowFirst(52, (int)(_settings.KiFi * 16777216.0));
+			settingsSerialized.SerializeIntLowFirst(52, (int)(_settings.KiFi * 16777216.0m));
 
 			settingsSerialized[56] = _settings.Reserved28.First;
 			settingsSerialized[57] = _settings.Reserved28.Second;
 
-			var bpKpId = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpId);
+			var bpKpId = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpId);
 			settingsSerialized[58] = bpKpId.First;
 			settingsSerialized[59] = bpKpId.Second;
 
-			settingsSerialized.SerializeIntLowFirst(60, (int)(_settings.KiId * 16777216.0));
+			settingsSerialized.SerializeIntLowFirst(60, (int)(_settings.KiId * 16777216.0m));
 
 
 			settingsSerialized[64] = _settings.Reserved32.First;
 			settingsSerialized[65] = _settings.Reserved32.Second;
 
 
-			var bpKpIq = BytesPairToDoubleQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpIq);
+			var bpKpIq = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpIq);
 			settingsSerialized[66] = bpKpIq.First;
 			settingsSerialized[67] = bpKpIq.Second;
 
-			settingsSerialized.SerializeIntLowFirst(68, (int)(_settings.KiIq * 16777216.0));
+			settingsSerialized.SerializeIntLowFirst(68, (int)(_settings.KiIq * 16777216.0m));
 
-			settingsSerialized.SerializeShortLowFirst(72, (short)(_settings.AccDfDt * 10.0));
-			settingsSerialized.SerializeShortLowFirst(74, (short)(_settings.DecDfDt * 10.0));
-			settingsSerialized.SerializeUshortLowFirst(76, (ushort) Math.Round(_settings.Unom * Math.Sqrt(2.0)));
+			settingsSerialized.SerializeShortLowFirst(72, (short)(_settings.AccDfDt * 10.0m));
+			settingsSerialized.SerializeShortLowFirst(74, (short)(_settings.DecDfDt * 10.0m));
+			settingsSerialized.SerializeUshortLowFirst(76, (ushort) Math.Round(_settings.Unom * (decimal)Math.Sqrt(2.0)));
 
-			settingsSerialized.SerializeShortLowFirst(78, (short)(_settings.TauFlLim * 10000.0));
+			settingsSerialized.SerializeShortLowFirst(78, (short)(_settings.TauFlLim * 10000.0m));
 
-			settingsSerialized.SerializeUshortLowFirst(80, (ushort)(_settings.Rs * 10000.0));
+			settingsSerialized.SerializeUshortLowFirst(80, (ushort)(_settings.Rs * 10000.0m));
 
-			settingsSerialized.SerializeUshortLowFirst(82, (ushort)(_settings.Fmin * 10.0));
-			settingsSerialized.SerializeShortLowFirst(84, (short)(_settings.TauM * 10000.0));
-			settingsSerialized.SerializeShortLowFirst(86, (short)(_settings.TauF * 10000.0));
-			settingsSerialized.SerializeShortLowFirst(88, (short)(_settings.TauFSet * 10000.0));
-			settingsSerialized.SerializeShortLowFirst(90, (short)(_settings.TauFi * 10000.0));
+			settingsSerialized.SerializeUshortLowFirst(82, (ushort)(_settings.Fmin * 10.0m));
+			settingsSerialized.SerializeShortLowFirst(84, (short)(_settings.TauM * 10000.0m));
+			settingsSerialized.SerializeShortLowFirst(86, (short)(_settings.TauF * 10000.0m));
+			settingsSerialized.SerializeShortLowFirst(88, (short)(_settings.TauFSet * 10000.0m));
+			settingsSerialized.SerializeShortLowFirst(90, (short)(_settings.TauFi * 10000.0m));
 			settingsSerialized.SerializeShortLowFirst(92, _settings.IdSetMin);
 			settingsSerialized.SerializeShortLowFirst(94, _settings.IdSetMax);
 
@@ -117,8 +117,8 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[104] = bp52.First;
 			settingsSerialized[105] = bp52.Second;
 
-			settingsSerialized.SerializeShortLowFirst(106, (short)(_settings.UmodThr * 1000.0));
-			settingsSerialized.SerializeShortLowFirst(108, (short)(_settings.EmdecDfdt * 10.0));
+			settingsSerialized.SerializeShortLowFirst(106, (short)(_settings.UmodThr * 1000.0m));
+			settingsSerialized.SerializeShortLowFirst(108, (short)(_settings.EmdecDfdt * 10.0m));
 			settingsSerialized.SerializeShortLowFirst(110, _settings.TextMax);
 			settingsSerialized.SerializeShortLowFirst(112, _settings.ToHl);
 

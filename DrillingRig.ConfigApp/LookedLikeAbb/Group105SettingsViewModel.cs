@@ -19,20 +19,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
 
-		public ParameterDoubleEditCheckViewModel Parameter101Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter102Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter103Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter104Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter101Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter102Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter103Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter104Vm { get; }
 
-		public ParameterDoubleEditCheckViewModel Parameter201Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter202Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter203Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter204Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter201Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter202Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter203Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter204Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -46,20 +46,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000);
 
-			Parameter101Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter102Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter103Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter104Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter101Vm = new ParameterDecimalEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000);
+			Parameter102Vm = new ParameterDecimalEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000);
+			Parameter103Vm = new ParameterDecimalEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000);
+			Parameter104Vm = new ParameterDecimalEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000);
 
-			Parameter201Vm = new ParameterDoubleEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000, null);
-			Parameter202Vm = new ParameterDoubleEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000, null);
-			Parameter203Vm = new ParameterDoubleEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000, null);
-			Parameter204Vm = new ParameterDoubleEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000, null);
+			Parameter201Vm = new ParameterDecimalEditCheckViewModel("105.01. Калибровка нуля тока фазы A", "f0", -10000, 10000);
+			Parameter202Vm = new ParameterDecimalEditCheckViewModel("105.02. Калибровка нуля тока фазы B", "f0", -10000, 10000);
+			Parameter203Vm = new ParameterDecimalEditCheckViewModel("105.03. Калибровка нуля тока фазы C", "f0", -10000, 10000);
+			Parameter204Vm = new ParameterDecimalEditCheckViewModel("105.04. Калибровка нуля напряжения шины DC", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -96,10 +96,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					Ia0 = ConvertDoubleToShort(Parameter01Vm.CurrentValue),
-					Ib0 = ConvertDoubleToShort(Parameter02Vm.CurrentValue),
-					Ic0 = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					Udc0 = ConvertDoubleToShort(Parameter04Vm.CurrentValue)
+					Ia0 = ConvertDecimalToShort(Parameter01Vm.CurrentValue),
+					Ib0 = ConvertDecimalToShort(Parameter02Vm.CurrentValue),
+					Ic0 = ConvertDecimalToShort(Parameter03Vm.CurrentValue),
+					Udc0 = ConvertDecimalToShort(Parameter04Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -126,7 +126,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertDecimalToShort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (short) value.Value;
 		}

@@ -24,9 +24,9 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		private ushort? _inom;
 		private ushort? _nnom;
 		private ushort? _nmax;
-		private double? _pnom;
-		private double? _cosFi;
-		private double? _eff;
+		private decimal? _pnom;
+		private decimal? _cosFi;
+		private decimal? _eff;
 		private ushort? _mass;
 		private ushort? _mmM;
 		private ushort? _height;
@@ -204,63 +204,63 @@ namespace DrillingRig.ConfigApp.EngineSettings {
 		public ICommand ExportSettingsCommand { get; }
 
 		public ushort? Inom {
-			get { return _inom; }
+			get => _inom;
 			set { if (_inom != value) { _inom = value; RaisePropertyChanged(() => Inom); } }
 		}
 
 		public ushort? Nnom {
-			get { return _nnom; }
+			get => _nnom;
 			set { if (_nnom != value) { _nnom = value; RaisePropertyChanged(() => Nnom); } }
 		}
 
 		public ushort? Nmax {
-			get { return _nmax; }
+			get => _nmax;
 			set { if (_nmax != value) { _nmax = value; RaisePropertyChanged(() => Nmax); } }
 		}
 
-		public double? Pnom {
-			get { return _pnom; }
+		public decimal? Pnom {
+			get => _pnom;
 			set { if (_pnom != value) { _pnom = value; RaisePropertyChanged(() => Pnom); } }
 		}
 
-		public double? CosFi {
-			get { return _cosFi; }
+		public decimal? CosFi {
+			get => _cosFi;
 			set { if (_cosFi != value) { _cosFi = value; RaisePropertyChanged(() => CosFi); } }
 		}
 
-		public double? Eff {
-			get { return _eff; }
+		public decimal? Eff {
+			get => _eff;
 			set { if (_eff != value) { _eff = value; RaisePropertyChanged(() => Eff); } }
 		}
 
 		public ushort? Mass {
-			get { return _mass; }
+			get => _mass;
 			set { if (_mass != value) { _mass = value; RaisePropertyChanged(() => Mass); } }
 		}
 
 		public ushort? MmM {
-			get { return _mmM; }
+			get => _mmM;
 			set { if (_mmM != value) { _mmM = value; RaisePropertyChanged(() => MmM); } }
 		}
 
 		public ushort? Height {
-			get { return _height; }
+			get => _height;
 			set { if (_height != value) { _height = value; RaisePropertyChanged(() => Height); } }
 		}
 
 
 		public uint? I2Tmax {
-			get { return _i2Tmax; }
+			get => _i2Tmax;
 			set { if (_i2Tmax != value) { _i2Tmax = value; RaisePropertyChanged(() => I2Tmax); } }
 		}
 		
 		public ushort? Icontinious {
-			get { return _icontinious; }
+			get => _icontinious;
 			set { if (_icontinious != value) { _icontinious = value; RaisePropertyChanged(() => Icontinious); } }
 		}
 		
 		public ushort? ZeroF {
-			get { return _zeroF; }
+			get => _zeroF;
 			set { if (_zeroF != value) { _zeroF = value; RaisePropertyChanged(() => ZeroF); } }
 		}
 	}

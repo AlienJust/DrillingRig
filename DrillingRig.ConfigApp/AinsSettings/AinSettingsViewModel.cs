@@ -23,20 +23,20 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 
 		private ushort? _reserved00;
 		private decimal? _kpW;
-		private double? _kiW;
+		private decimal? _kiW;
 
-		private double? _fiNom;
+		private decimal? _fiNom;
 		private short? _imax;
 		private short? _udcMax;
 		private short? _udcMin;
-		private double? _fnom;
-		private double? _fmax;
+		private decimal? _fnom;
+		private decimal? _fmax;
 
-		private double? _dflLim; // DflLim
-		private double? _flMinMin; // FlMinMin
+		private decimal? _dflLim; // DflLim
+		private decimal? _flMinMin; // FlMinMin
 
 		private short? _ioutMax;
-		private double? _fiMin;
+		private decimal? _fiMin;
 		private ushort? _dacCh;
 		private ushort? _imcw;
 
@@ -45,37 +45,37 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		private short? _ic0;
 		private short? _udc0;
 
-		private double? _tauR;
-		private double? _lm;
-		private double? _lsl;
-		private double? _lrl;
+		private decimal? _tauR;
+		private decimal? _lm;
+		private decimal? _lsl;
+		private decimal? _lrl;
 
 		private ushort? _reserved24;
-		private double? _kpFi;
-		private double? _kiFi;
+		private decimal? _kpFi;
+		private decimal? _kiFi;
 
 		private ushort? _reserved28;
-		private double? _kpId;
-		private double? _kiId;
+		private decimal? _kpId;
+		private decimal? _kiId;
 
 		private ushort? _reserved32;
-		private double? _kpIq;
-		private double? _kiIq;
+		private decimal? _kpIq;
+		private decimal? _kiIq;
 
-		private double? _accDfDt;
-		private double? _decDfDt;
-		private double? _unom;
+		private decimal? _accDfDt;
+		private decimal? _decDfDt;
+		private decimal? _unom;
 		private int? _unomd;
 
-		private double? _tauFlLim; // tauflim
+		private decimal? _tauFlLim; // tauflim
 
-		private double? _rs;
-		private double? _fmin;
+		private decimal? _rs;
+		private decimal? _fmin;
 
-		private double? _tauM;
-		private double? _tauF;
-		private double? _tauFSet;
-		private double? _tauFi;
+		private decimal? _tauM;
+		private decimal? _tauF;
+		private decimal? _tauFSet;
+		private decimal? _tauFi;
 
 		private short? _idSetMin;
 		private short? _idSetMax;
@@ -90,9 +90,9 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		private int? _nimpFloorCode;
 		private int? _fanMode;
 
-		private double? _umodThr; // UmodThr
+		private decimal? _umodThr; // UmodThr
 
-		private double? _emdecDfdt;
+		private decimal? _emdecDfdt;
 
 		private short? _textMax;
 		private short? _toHl;
@@ -429,12 +429,12 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		}
 
 
-		public double? KiW {
+		public decimal? KiW {
 			get => _kiW;
 			set { if (_kiW != value) { _kiW = value; RaisePropertyChanged(() => KiW); } }
 		}
 
-		public double? FiNom {
+		public decimal? FiNom {
 			get => _fiNom;
 			set { if (_fiNom != value) { _fiNom = value; RaisePropertyChanged(() => FiNom); } }
 		}
@@ -454,22 +454,22 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_udcMin != value) { _udcMin = value; RaisePropertyChanged(() => UdcMin); } }
 		}
 
-		public double? Fnom {
+		public decimal? Fnom {
 			get => _fnom;
 			set { if (_fnom != value) { _fnom = value; RaisePropertyChanged(() => Fnom); } }
 		}
 
-		public double? Fmax {
+		public decimal? Fmax {
 			get => _fmax;
 			set { if (_fmax != value) { _fmax = value; RaisePropertyChanged(() => Fmax); } }
 		}
 
-		public double? DflLim {
+		public decimal? DflLim {
 			get => _dflLim;
 			set { if (_dflLim != value) { _dflLim = value; RaisePropertyChanged(() => DflLim); } }
 		}
 
-		public double? FlMinMin {
+		public decimal? FlMinMin {
 			get => _flMinMin;
 			set { if (_flMinMin != value) { _flMinMin = value; RaisePropertyChanged(() => FlMinMin); } }
 		}
@@ -479,7 +479,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_ioutMax != value) { _ioutMax = value; RaisePropertyChanged(() => IoutMax); } }
 		}
 
-		public double? FiMin {
+		public decimal? FiMin {
 			get => _fiMin;
 			set { if (_fiMin != value) { _fiMin = value; RaisePropertyChanged(() => FiMin); } }
 		}
@@ -514,19 +514,19 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_udc0 != value) { _udc0 = value; RaisePropertyChanged(() => Udc0); } }
 		}
 
-		public double? TauR {
+		public decimal? TauR {
 			get => _tauR;
 			set { if (_tauR != value) { _tauR = value; RaisePropertyChanged(() => TauR); } }
 		}
-		public double? Lm {
+		public decimal? Lm {
 			get => _lm;
 			set { if (_lm != value) { _lm = value; RaisePropertyChanged(() => Lm); } }
 		}
-		public double? Lsl {
+		public decimal? Lsl {
 			get => _lsl;
 			set { if (_lsl != value) { _lsl = value; RaisePropertyChanged(() => Lsl); } }
 		}
-		public double? Lrl {
+		public decimal? Lrl {
 			get => _lrl;
 			set { if (_lrl != value) { _lrl = value; RaisePropertyChanged(() => Lrl); } }
 		}
@@ -537,12 +537,12 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_reserved24 != value) { _reserved24 = value; RaisePropertyChanged(() => Reserved24); } }
 		}
 
-		public double? KpFi {
+		public decimal? KpFi {
 			get => _kpFi;
 			set { if (_kpFi != value) { _kpFi = value; RaisePropertyChanged(() => KpFi); } }
 		}
 
-		public double? KiFi {
+		public decimal? KiFi {
 			get => _kiFi;
 			set { if (_kiFi != value) { _kiFi = value; RaisePropertyChanged(() => KiFi); } }
 		}
@@ -552,12 +552,12 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_reserved28 != value) { _reserved28 = value; RaisePropertyChanged(() => Reserved28); } }
 		}
 
-		public double? KpId {
+		public decimal? KpId {
 			get => _kpId;
 			set { if (_kpId != value) { _kpId = value; RaisePropertyChanged(() => KpId); } }
 		}
 
-		public double? KiId {
+		public decimal? KiId {
 			get => _kiId;
 			set { if (_kiId != value) { _kiId = value; RaisePropertyChanged(() => KiId); } }
 		}
@@ -567,27 +567,27 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_reserved32 != value) { _reserved32 = value; RaisePropertyChanged(() => Reserved32); } }
 		}
 
-		public double? KpIq {
+		public decimal? KpIq {
 			get => _kpIq;
 			set { if (_kpIq != value) { _kpIq = value; RaisePropertyChanged(() => KpIq); } }
 		}
 
-		public double? KiIq {
+		public decimal? KiIq {
 			get => _kiIq;
 			set { if (_kiIq != value) { _kiIq = value; RaisePropertyChanged(() => KiIq); } }
 		}
 
-		public double? AccDfDt {
+		public decimal? AccDfDt {
 			get => _accDfDt;
 			set { if (_accDfDt != value) { _accDfDt = value; RaisePropertyChanged(() => AccDfDt); } }
 		}
 
-		public double? DecDfDt {
+		public decimal? DecDfDt {
 			get => _decDfDt;
 			set { if (_decDfDt != value) { _decDfDt = value; RaisePropertyChanged(() => DecDfDt); } }
 		}
 
-		public double? Unom {
+		public decimal? Unom {
 			get => _unom;
 			set {
 				if (_unom != value) {
@@ -597,7 +597,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 					}
 					else {
 						_unom = value;
-						_unomd = (int)Math.Round(_unom.Value * Math.Sqrt(2.0));
+						_unomd = (int)Math.Round(_unom.Value * (decimal)Math.Sqrt(2.0));
 					}
 					RaisePropertyChanged(() => Unom);
 					RaisePropertyChanged(() => UnomD);
@@ -616,7 +616,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 					}
 					else {
 						_unomd = value;
-						_unom = value / Math.Sqrt(2.0);
+						_unom = value / (decimal)Math.Sqrt(2.0);
 					}
 					RaisePropertyChanged(() => Unom);
 					RaisePropertyChanged(() => Unom);
@@ -624,37 +624,37 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			}
 		}
 
-		public double? TauFlLim {
+		public decimal? TauFlLim {
 			get => _tauFlLim;
 			set { if (_tauFlLim != value) { _tauFlLim = value; RaisePropertyChanged(() => TauFlLim); } }
 		}
 
-		public double? Rs {
+		public decimal? Rs {
 			get => _rs;
 			set { if (_rs != value) { _rs = value; RaisePropertyChanged(() => Rs); } }
 		}
 
-		public double? Fmin {
+		public decimal? Fmin {
 			get => _fmin;
 			set { if (_fmin != value) { _fmin = value; RaisePropertyChanged(() => Fmin); } }
 		}
 
-		public double? TauM {
+		public decimal? TauM {
 			get => _tauM;
 			set { if (_tauM != value) { _tauM = value; RaisePropertyChanged(() => TauM); } }
 		}
 
-		public double? TauF {
+		public decimal? TauF {
 			get => _tauF;
 			set { if (_tauF != value) { _tauF = value; RaisePropertyChanged(() => TauF); } }
 		}
 
-		public double? TauFSet {
+		public decimal? TauFSet {
 			get => _tauFSet;
 			set { if (_tauFSet != value) { _tauFSet = value; RaisePropertyChanged(() => TauFSet); } }
 		}
 
-		public double? TauFi {
+		public decimal? TauFi {
 			get => _tauFi;
 			set { if (_tauFi != value) { _tauFi = value; RaisePropertyChanged(() => TauFi); } }
 		}
@@ -703,12 +703,12 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_fanMode != value) { _fanMode = value; RaisePropertyChanged(() => FanMode); } }
 		}
 
-		public double? UmodThr {
+		public decimal? UmodThr {
 			get => _umodThr;
 			set { if (_umodThr != value) { _umodThr = value; RaisePropertyChanged(() => UmodThr); } }
 		}
 
-		public double? EmdecDfdt {
+		public decimal? EmdecDfdt {
 			get => _emdecDfdt;
 			set { if (_emdecDfdt != value) { _emdecDfdt = value; RaisePropertyChanged(() => EmdecDfdt); } }
 		}

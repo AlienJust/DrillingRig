@@ -15,22 +15,22 @@
 		<ScrollViewer>
 			<StackPanel Orientation="Vertical">
 				<TextBlock Text="АИН1"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>
 
 				<TextBlock Text="АИН2"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter101Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter102Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter103Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter104Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter101Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter102Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter103Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter104Vm, Mode=OneTime}"/>
 
 				<TextBlock Text="АИН3"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter201Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter202Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter203Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter204Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter201Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter202Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter203Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter204Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

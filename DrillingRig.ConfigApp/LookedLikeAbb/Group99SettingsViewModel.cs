@@ -34,19 +34,19 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IEngineSettingsStorageUpdatedNotify _engineSettingsStorageUpdatedNotify;
 		private readonly ImcwParameterViewModel _imcwParameterVm;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter06Vm { get; }
 		public ParameterComboEditableViewModel<int> Parameter07Vm { get; }
 
-		public ParameterDoubleEditCheckViewModel Parameter08Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter09Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter10Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter11Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter12Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter08Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter09Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter10Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter11Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter12Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -73,12 +73,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_imcwParameterVm = imcwParameterVm;
 
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("99.01. Номинальное напряжение двигателя (действующее), В", "f0", 0, 10000, null);
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f0", 0, 10000, null);
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f1", 8, 300, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000, null);
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000, null); // TODO: продублировать в группе скроростей (21 вроде бы)
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f3", 0, 9000, null);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("99.01. Номинальное напряжение двигателя (действующее), В", "f0", 0, 10000);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f0", 0, 10000);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f1", 8, 300);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000);
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000);
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f3", 0, 9000);
 			Parameter07Vm = new ParameterComboEditableViewModel<int>("99.07. Режим управления двигателем",
 				new[]
 				{
@@ -89,11 +89,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			_imcwParameterVm.PropertyChanged += ImcwParameterVmOnPropertyChanged;
 
-			Parameter08Vm = new ParameterDoubleEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0, null);
-			Parameter09Vm = new ParameterDoubleEditCheckViewModel("99.09. Кпд двигателя, %", "f1", 0, 100.0, null);
-			Parameter10Vm = new ParameterDoubleEditCheckViewModel("99.10. Масса двигателя, кг", "f0", 0, 10000, null);
-			Parameter11Vm = new ParameterDoubleEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f0", 0, 10000, null);
-			Parameter12Vm = new ParameterDoubleEditCheckViewModel("99.12. Конструктивная высота, мм", "f0", 0, 10000, null);
+			Parameter08Vm = new ParameterDecimalEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0m);
+			Parameter09Vm = new ParameterDecimalEditCheckViewModel("99.09. Кпд двигателя, %", "f1", 0, 100.0m);
+			Parameter10Vm = new ParameterDecimalEditCheckViewModel("99.10. Масса двигателя, кг", "f0", 0, 10000);
+			Parameter11Vm = new ParameterDecimalEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f0", 0, 10000);
+			Parameter12Vm = new ParameterDecimalEditCheckViewModel("99.12. Конструктивная высота, мм", "f0", 0, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -186,15 +186,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				}
 				if (AnyEngineParameterSetted) {
 					var settingsPart = new EngineSettingsPartWritable {
-						Inom = ConvertDoubleToUshort(Parameter02Vm.CurrentValue),
-						Nnom = ConvertDoubleToUshort(Parameter04Vm.CurrentValue),
-						Nmax = ConvertDoubleToUshort(Parameter05Vm.CurrentValue),
-						Pnom = ConvertDoubleToUshort(Parameter06Vm.CurrentValue),
-						CosFi = ConvertDoubleToUshort(Parameter08Vm.CurrentValue),
-						Eff = ConvertDoubleToUshort(Parameter09Vm.CurrentValue),
-						Mass = ConvertDoubleToUshort(Parameter10Vm.CurrentValue),
-						MmM = ConvertDoubleToUshort(Parameter11Vm.CurrentValue),
-						Height = ConvertDoubleToUshort(Parameter12Vm.CurrentValue)
+						Inom = ConvertDecimalToUshort(Parameter02Vm.CurrentValue),
+						Nnom = ConvertDecimalToUshort(Parameter04Vm.CurrentValue),
+						Nmax = ConvertDecimalToUshort(Parameter05Vm.CurrentValue),
+						Pnom = ConvertDecimalToUshort(Parameter06Vm.CurrentValue),
+						CosFi = ConvertDecimalToUshort(Parameter08Vm.CurrentValue),
+						Eff = ConvertDecimalToUshort(Parameter09Vm.CurrentValue),
+						Mass = ConvertDecimalToUshort(Parameter10Vm.CurrentValue),
+						MmM = ConvertDecimalToUshort(Parameter11Vm.CurrentValue),
+						Height = ConvertDecimalToUshort(Parameter12Vm.CurrentValue)
 					};
 					_engineSettingsWriter.WriteSettingsAsync(settingsPart, exception => {
 						if (exception != null) {
@@ -264,7 +264,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			});
 		}
 
-		private ushort? ConvertDoubleToUshort(double? value) {
+		private ushort? ConvertDecimalToUshort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (ushort)value.Value;
 		}

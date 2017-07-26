@@ -19,12 +19,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter06Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -38,12 +38,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("27.01. Поток без ослабления поля, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("27.02. Минимальный поток с ослаблением поля, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("27.03. Максимально возможная компенсация потока, мВб", "f3", -32.768, 32.767, null) { Increment = 0.001 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768, 32.767, null) {Increment = 0.001};
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я, мс", "f3", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока, В", "f3", -32.768, 32.767, null) { Increment = 0.001 };
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("27.01. Поток без ослабления поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("27.02. Минимальный поток с ослаблением поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("27.03. Максимально возможная компенсация потока, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768m, 32.767m) {Increment = 0.001m };
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я, мс", "f3", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока, В", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

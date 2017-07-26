@@ -19,10 +19,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -36,11 +36,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("101.01. Пропорциональный коэф. регулятора потока", "f8", -128.0, 127.99609375, null) { Increment = 0.00390625 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -128.0, 128.0, null) { Increment = 0.000001 }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("101.01. Пропорциональный коэф. регулятора потока", "f8", -128.0m, 127.99609375m) { Increment = 0.00390625m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -128.0m, 128.0m) { Increment = 0.000001m }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
 
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000, null);
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("101.04. Ограничение выхода регулятора потока макс", "f0", -10000, 10000, null);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("101.04. Ограничение выхода регулятора потока макс", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
@@ -73,8 +73,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				var settingsPart = new AinSettingsPartWritable {
 					KpFi = Parameter01Vm.CurrentValue,
 					KiFi = Parameter02Vm.CurrentValue,
-					IdSetMin = ConvertDoubleToShort(Parameter03Vm.CurrentValue),
-					IdSetMax = ConvertDoubleToShort(Parameter04Vm.CurrentValue)
+					IdSetMin = ConvertDecimalToShort(Parameter03Vm.CurrentValue),
+					IdSetMax = ConvertDecimalToShort(Parameter04Vm.CurrentValue)
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
@@ -84,7 +84,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 						else _logger.Log("Группа настроек была успешно записана");
 					});
 				}
-					);
+				);
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось записать группу настроек. " + ex.Message);
@@ -100,7 +100,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertDecimalToShort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (short)value.Value;
 		}

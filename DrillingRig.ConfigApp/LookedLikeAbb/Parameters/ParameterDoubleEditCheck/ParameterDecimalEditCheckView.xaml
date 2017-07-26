@@ -21,7 +21,7 @@
 			<TextBlock
 				Grid.Column="0"
 				Text="{Binding Name, Mode=OneTime}" />
-			<xctk:DoubleUpDown
+			<xctk:DecimalUpDown
 				Grid.Column="1"
 				Value="{Binding Path=CurrentValue, Mode=TwoWay}"
 				Maximum="{Binding Path=MaximumValue, Mode=OneTime}"

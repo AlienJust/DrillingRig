@@ -18,17 +18,17 @@
 		<ScrollViewer>
 			<StackPanel
 				Orientation="Vertical">
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
 			</StackPanel>
 		</ScrollViewer>

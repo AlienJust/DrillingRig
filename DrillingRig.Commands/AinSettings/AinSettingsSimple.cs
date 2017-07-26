@@ -5,20 +5,20 @@ namespace DrillingRig.Commands.AinSettings {
 		public AinSettingsSimple(
 			BytesPair reserved00,
 			decimal kpW,
-			double kiW,
+			decimal kiW,
 
-			double fiNom,
+			decimal fiNom,
 			short imax,
 			short udcMax,
 			short udcMin,
-			double fnom,
-			double fmax,
+			decimal fnom,
+			decimal fmax,
 
-			double dflLim,
-			double flMinMin,
+			decimal dflLim,
+			decimal flMinMin,
 
 			short ioutMax,
-			double fiMin,
+			decimal fiMin,
 			ushort dacCh,
 			ushort imcw,
 			short ia0,
@@ -26,38 +26,38 @@ namespace DrillingRig.Commands.AinSettings {
 			short ic0,
 			short udc0,
 
-			double tauR,
-			double lm,
-			double lsl,
-			double lrl,
+			decimal tauR,
+			decimal lm,
+			decimal lsl,
+			decimal lrl,
 			BytesPair reserved24,
 
-			double kpFi,
-			double kiFi,
+			decimal kpFi,
+			decimal kiFi,
 
 			BytesPair reserved28,
 
-			double kpId,
-			double kiId,
+			decimal kpId,
+			decimal kiId,
 
 			BytesPair reserved32,
 
-			double kpIq,
-			double kiIq,
+			decimal kpIq,
+			decimal kiIq,
 
-			double accDfDt,
-			double decDfDt,
-			double unom,
+			decimal accDfDt,
+			decimal decDfDt,
+			decimal unom,
 
-			double tauFlLim,
+			decimal tauFlLim,
 
-			double rs,
-			double fmin,
+			decimal rs,
+			decimal fmin,
 
-			double tauM,
-			double tauF,
-			double tauFSet,
-			double tauFi,
+			decimal tauM,
+			decimal tauF,
+			decimal tauFSet,
+			decimal tauFi,
 
 			short idSetMin,
 			short idSetMax,
@@ -71,9 +71,9 @@ namespace DrillingRig.Commands.AinSettings {
 			int nimpFloorCode,
 			AinTelemetryFanWorkmode fanMode,
 
-			double umodThr,
+			decimal umodThr,
 
-			double emdecDfdt,
+			decimal emdecDfdt,
 			short textMax,
 			short toHl, bool ain1LinkFault, bool ain2LinkFault, bool ain3LinkFault) {
 
@@ -151,25 +151,25 @@ namespace DrillingRig.Commands.AinSettings {
 		public BytesPair Reserved00 { get; }
 
 		public decimal KpW { get; }
-		public double KiW { get; }
+		public decimal KiW { get; }
 
-		public double FiNom { get; }
+		public decimal FiNom { get; }
 
 		public short Imax { get; }
 
 		public short UdcMax { get; }
 		public short UdcMin { get; }
 
-		public double Fnom { get; }
-		public double Fmax { get; }
+		public decimal Fnom { get; }
+		public decimal Fmax { get; }
 
-		public double DflLim { get; }
+		public decimal DflLim { get; }
 
-		public double FlMinMin { get; }
+		public decimal FlMinMin { get; }
 
 		public short IoutMax { get; }
 
-		public double FiMin { get; }
+		public decimal FiMin { get; }
 
 		public ushort DacCh { get; }
 		public ushort Imcw { get; }
@@ -180,41 +180,41 @@ namespace DrillingRig.Commands.AinSettings {
 
 		public short Udc0 { get; }
 
-		public double TauR { get; }
-		public double Lm { get; }
-		public double Lsl { get; }
-		public double Lrl { get; }
+		public decimal TauR { get; }
+		public decimal Lm { get; }
+		public decimal Lsl { get; }
+		public decimal Lrl { get; }
 
 		public BytesPair Reserved24 { get; }
 
-		public double KpFi { get; }
-		public double KiFi { get; }
+		public decimal KpFi { get; }
+		public decimal KiFi { get; }
 
 		public BytesPair Reserved28 { get; }
 
-		public double KpId { get; }
-		public double KiId { get; }
+		public decimal KpId { get; }
+		public decimal KiId { get; }
 
 		public BytesPair Reserved32 { get; }
 
-		public double KpIq { get; }
-		public double KiIq { get; }
+		public decimal KpIq { get; }
+		public decimal KiIq { get; }
 
-		public double AccDfDt { get; }
-		public double DecDfDt { get; }
+		public decimal AccDfDt { get; }
+		public decimal DecDfDt { get; }
 
-		public double Unom { get; }
+		public decimal Unom { get; }
 
-		public double TauFlLim { get; }
+		public decimal TauFlLim { get; }
 
-		public double Rs { get; }
+		public decimal Rs { get; }
 
-		public double Fmin { get; }
+		public decimal Fmin { get; }
 
-		public double TauM { get; }
-		public double TauF { get; }
-		public double TauFSet { get; }
-		public double TauFi { get; }
+		public decimal TauM { get; }
+		public decimal TauF { get; }
+		public decimal TauFSet { get; }
+		public decimal TauFi { get; }
 
 		public short IdSetMin { get; }
 		public short IdSetMax { get; }
@@ -229,9 +229,9 @@ namespace DrillingRig.Commands.AinSettings {
 		public int NimpFloorCode { get; }
 		public AinTelemetryFanWorkmode FanMode { get; }
 
-		public double UmodThr { get; }
+		public decimal UmodThr { get; }
 
-		public double EmdecDfdt { get; }
+		public decimal EmdecDfdt { get; }
 
 		public short TextMax { get; }
 

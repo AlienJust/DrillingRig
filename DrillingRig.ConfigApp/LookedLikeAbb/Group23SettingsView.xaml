@@ -21,7 +21,7 @@
 				<Border
 					BorderBrush="DarkRed"
 					BorderThickness="1">
-					<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+					<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 						DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
 				</Border>
 			</StackPanel>

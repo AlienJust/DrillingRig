@@ -22,12 +22,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private readonly IAinSettingsStorageUpdatedNotify _storageUpdatedNotify;
 		private readonly IAinsCounter _ainsCounter;
 
-		public ParameterDoubleEditCheckViewModel Parameter01Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter02Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter03Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter04Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter05Vm { get; }
-		public ParameterDoubleEditCheckViewModel Parameter06Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter01Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter02Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter03Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter04Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter05Vm { get; }
+		public ParameterDecimalEditCheckViewModel Parameter06Vm { get; }
 		public ParameterComboEditableViewModel<int> Parameter07Vm { get; }
 		public ParameterComboEditableViewModel<AinTelemetryFanWorkmode> Parameter08Vm { get; }
 
@@ -43,12 +43,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleEditCheckViewModel("102.01. Постоянная времени ротора, мс", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter02Vm = new ParameterDoubleEditCheckViewModel("102.02. Индуктивность намагничивания, мкГн", "f5", -0.32768, 0.32767, null) { Increment = 0.00001 };
-			Parameter03Vm = new ParameterDoubleEditCheckViewModel("102.03. Индуктивность рассеяния статора, мкГн", "f6", -0.032768, 0.032768, null) { Increment = 0.000001 };
-			Parameter04Vm = new ParameterDoubleEditCheckViewModel("102.04. Индуктивность рассеяния ротора, мкГн", "f6", -0.032768, 0.032768, null) { Increment = 0.000001 };
-			Parameter05Vm = new ParameterDoubleEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -3.2768, 3.2767, null) { Increment = 0.0001 };
-			Parameter06Vm = new ParameterDoubleEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", 0, 31, null);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("102.01. Постоянная времени ротора, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("102.02. Индуктивность намагничивания, мкГн", "f5", -0.32768m, 0.32767m) { Increment = 0.00001m };
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("102.03. Индуктивность рассеяния статора, мкГн", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("102.04. Индуктивность рассеяния ротора, мкГн", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", 0, 31);
 
 			Parameter07Vm = new ParameterComboEditableViewModel<int>("102.07. Число импульсов ДЧВ",
 				new[]
@@ -101,12 +101,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				var settingsPart = new AinSettingsPartWritable {
-					TauR = Parameter01Vm.CurrentValue * 10000.0,
-					Lm = Parameter02Vm.CurrentValue * 100000.0,
-					Lsl = Parameter03Vm.CurrentValue * 1000000.0,
+					TauR = Parameter01Vm.CurrentValue,
+					Lm = Parameter02Vm.CurrentValue,
+					Lsl = Parameter03Vm.CurrentValue,
 					Lrl = Parameter04Vm.CurrentValue,
 					Rs = Parameter05Vm.CurrentValue,
-					Np = ConvertDoubleToShort(Parameter06Vm.CurrentValue),
+					Np = ConvertDecimalToShort(Parameter06Vm.CurrentValue),
 					NimpFloorCode = Parameter07Vm.SelectedComboItem.ComboValue,
 					FanMode = Parameter08Vm.SelectedComboItem.ComboValue
 				};
@@ -134,7 +134,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			}
 		}
 
-		private short? ConvertDoubleToShort(double? value) {
+		private short? ConvertDecimalToShort(decimal? value) {
 			if (!value.HasValue) return null;
 			return (short)value.Value;
 		}

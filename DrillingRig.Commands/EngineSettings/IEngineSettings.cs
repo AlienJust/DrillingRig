@@ -21,17 +21,17 @@
 		/// <summary>
 		/// Номинальная Мощность двигателя [кВт]
 		/// </summary>
-		double Pnom { get; }
+		decimal Pnom { get; }
 
 		/// <summary>
 		/// Косинус Фи, ед. измерения?
 		/// </summary>
-		double CosFi { get; }
+		decimal CosFi { get; }
 
 		/// <summary>
 		/// КПД двигателя, %
 		/// </summary>
-		double Eff { get; }
+		decimal Eff { get; }
 
 		/// <summary>
 		/// Масса двигателя, кг

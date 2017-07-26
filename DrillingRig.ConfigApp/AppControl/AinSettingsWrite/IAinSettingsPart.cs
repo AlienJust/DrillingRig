@@ -4,22 +4,22 @@ using DrillingRig.Commands.AinSettings;
 namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 	interface IAinSettingsPart {
 		decimal? KpW { get; }
-		double? KiW { get; }
+		decimal? KiW { get; }
 
-		double? FiNom { get; }
+		decimal? FiNom { get; }
 		short? Imax { get; }
 
 		short? UdcMax { get; }
 		short? UdcMin { get; }
 
-		double? Fnom { get; }
-		double? Fmax { get; }
+		decimal? Fnom { get; }
+		decimal? Fmax { get; }
 
-		double? DflLim { get; }
-		double? FlMinMin { get; }
+		decimal? DflLim { get; }
+		decimal? FlMinMin { get; }
 
 		short? IoutMax { get; }
-		double? FiMin { get; }
+		decimal? FiMin { get; }
 
 		ushort? DacCh { get; }
 		ushort? Imcw { get; }
@@ -30,34 +30,34 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 
 		short? Udc0 { get; }
 
-		double? TauR { get; }
-		double? Lm { get; }
-		double? Lsl { get; }
-		double? Lrl { get; }
+		decimal? TauR { get; }
+		decimal? Lm { get; }
+		decimal? Lsl { get; }
+		decimal? Lrl { get; }
 
-		double? KpFi { get; }
-		double? KiFi { get; }
+		decimal? KpFi { get; }
+		decimal? KiFi { get; }
 
-		double? KpId { get; }
-		double? KiId { get; }
+		decimal? KpId { get; }
+		decimal? KiId { get; }
 
-		double? KpIq { get; }
-		double? KiIq { get; }
+		decimal? KpIq { get; }
+		decimal? KiIq { get; }
 
-		double? AccDfDt { get; }
-		double? DecDfDt { get; }
+		decimal? AccDfDt { get; }
+		decimal? DecDfDt { get; }
 
-		double? Unom { get; }
+		decimal? Unom { get; }
 
-		double? TauFlLim { get; }
+		decimal? TauFlLim { get; }
 
-		double? Rs { get; }
-		double? Fmin { get; }
+		decimal? Rs { get; }
+		decimal? Fmin { get; }
 
-		double? TauM { get; }
-		double? TauF { get; }
-		double? TauFSet { get; }
-		double? TauFi { get; }
+		decimal? TauM { get; }
+		decimal? TauF { get; }
+		decimal? TauFSet { get; }
+		decimal? TauFi { get; }
 
 		short? IdSetMin { get; }
 		short? IdSetMax { get; }
@@ -71,9 +71,9 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		AinTelemetryFanWorkmode? FanMode { get; }
 
 
-		double? UmodThr { get; }
+		decimal? UmodThr { get; }
 
-		double? EmdecDfdt { get; }
+		decimal? EmdecDfdt { get; }
 		short? TextMax { get; }
 		short? ToHl { get; }
 

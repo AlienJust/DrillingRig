@@ -19,7 +19,7 @@
 			<StackPanel Orientation="Vertical">
 				<parameterHexadecimalEditable:ParameterHexadecimalEditableView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
 				<imvcParameter:ImcwParameterView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
 		<Grid Grid.Row="1">

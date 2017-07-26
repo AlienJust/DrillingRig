@@ -20,7 +20,7 @@
 				Orientation="Vertical">
 				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDoubleEditCheckView
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
 					DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
 			</StackPanel>
 		</ScrollViewer>

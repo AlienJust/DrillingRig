@@ -39,7 +39,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		/// <summary>
 		/// Частота в оборотах в минуту, которую пользователь вводит через окно
 		/// </summary>
-		private double? _fset;
+		private decimal? _fset;
 		private short _mset;
 		private short _set3;
 		private short _mmin;
@@ -81,14 +81,14 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				if (FsetHz.HasValue) FsetHz -= 1;
 			}, () => IsSendingEnabled);
 			_cmdSub01FsetHz = new RelayCommand(() => {
-				if (FsetHz.HasValue) FsetHz -= 0.1;
+				if (FsetHz.HasValue) FsetHz -= 0.1m;
 			}, () => IsSendingEnabled);
-			_cmdSetFsetHzToZero = new RelayCommand(() => FsetHz = 0.0, () => IsSendingEnabled);
+			_cmdSetFsetHzToZero = new RelayCommand(() => FsetHz = 0.0m, () => IsSendingEnabled);
 			_cmdAdd01FsetHz = new RelayCommand(() => {
-				if (FsetHz.HasValue) FsetHz += 0.1;
+				if (FsetHz.HasValue) FsetHz += 0.1m;
 			}, () => IsSendingEnabled);
 			_cmdAdd10FsetHz = new RelayCommand(() => {
-				if (FsetHz.HasValue) FsetHz += 1.0;
+				if (FsetHz.HasValue) FsetHz += 1.0m;
 			}, () => IsSendingEnabled);
 
 
@@ -222,7 +222,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				_logger.Log("Подготовка к отправке команды для АИН");
 				if (FsetHz == null)
 					throw new Exception("Нет настроек АИН1, необходимо их прочитать, чтобы знать число пар полюсов");
-				var fsetToSend = (short)(FsetHz.Value * 10.0);
+				var fsetToSend = (short)(FsetHz.Value * 10.0m);
 				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, fsetToSend, _mset, _set3, _mmin, _mmax);
 				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " +
 										ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
@@ -258,7 +258,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		/// <summary>
 		/// Частота в об/мин, перед отправкой преобразуется электрическую с точностью до дГц (0.1 Гц), 0.1 Гц = 0.3 об/мин (когда две пары полюсов)
 		/// </summary>
-		public double? Fset {
+		public decimal? Fset {
 			get => _fset;
 			set {
 				if (_fset != value) {
@@ -269,17 +269,17 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			}
 		}
 
-		public double? FsetHz {
+		public decimal? FsetHz {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && _fset.HasValue)
-					return (int)(_fset * ain1Settings.Np / 0.6) / 100.0; // т.к. могу задавать частоту с точностью 1 сГц (0.01 Гц) - происходит округление до ближайшего минимального значения кратного 0.01
+					return (int)(_fset * ain1Settings.Np / 0.6m) / 100.0m; // т.к. могу задавать частоту с точностью 1 сГц (0.01 Гц) - происходит округление до ближайшего минимального значения кратного 0.01
 				return null;
 			}
 			set {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && value != null) {
-					_fset = Math.Round(value.Value * 60.0 / ain1Settings.Np);
+					_fset = Math.Round(value.Value * 60.0m / ain1Settings.Np);
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
 				}
@@ -316,39 +316,39 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		/// <summary>
 		/// Положительное ограничение на скорость в герцах (20.01)
 		/// </summary>
-		public double? PositiveMaximumFreqSet {
+		public decimal? PositiveMaximumFreqSet {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				return ain1Settings?.Fmax;
 			}
 		}
 
-		public double? NegativeMaximumFreqSet {
+		public decimal? NegativeMaximumFreqSet {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return -1.0 * ain1Settings?.Fmax;
+				return -1.0m * ain1Settings?.Fmax;
 			}
 		}
 
-		public double? TickFreqSet => PositiveMaximumFreqSet / 5.0;
+		public decimal? TickFreqSet => PositiveMaximumFreqSet / 5.0m;
 
 		/// <summary>
 		/// Положительное ограничение на скорость в об/мин (20.01)
 		/// </summary>
-		public double? FsetMax {
+		public decimal? FsetMax {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 
-				return PositiveMaximumFreqSet * 60.0 / ain1Settings?.Np;
+				return PositiveMaximumFreqSet * 60.0m / ain1Settings?.Np;
 			}
 		}
 
 
 
-		public double? FsetMin {
+		public decimal? FsetMin {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return PositiveMaximumFreqSet * -60.0 / ain1Settings?.Np;
+				return PositiveMaximumFreqSet * -60.0m / ain1Settings?.Np;
 			}
 		}
 
