@@ -222,7 +222,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				_logger.Log("Подготовка к отправке команды для АИН");
 				if (FsetHz == null)
 					throw new Exception("Нет настроек АИН1, необходимо их прочитать, чтобы знать число пар полюсов");
-				var fsetToSend = (short)(FsetHz.Value * 10.0m);
+				var fsetToSend = (short)(FsetHz.Value * 100.0m);
 				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, fsetToSend, _mset, _set3, _mmin, _mmax);
 				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " +
 										ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
