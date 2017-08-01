@@ -62,7 +62,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
-						_writeSettingsTimeout,
+						_writeSettingsTimeout, 2,
 						(sendException, replyBytes) => {
 							if (sendException != null) {
 								callback(new Exception("Ошибка отправки команды записи настроек АИН1 - нет ответа от BsEthernet", sendException));
@@ -103,7 +103,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
-						_writeSettingsTimeout,
+						_writeSettingsTimeout, 2,
 						(sendException, replyBytes) => {
 							if (sendException != null) {
 								callback(new Exception("Ошибка отправки команды записи настроек АИН1 - нет ответа от BsEthernet", sendException));
@@ -148,7 +148,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									sender.SendCommandAsync(
 										_targerAddressHost.TargetAddress,
 										writeAin2SettingsCmd,
-										_writeSettingsTimeout,
+										_writeSettingsTimeout, 2,
 										(sendException2, replyBytes2) => {
 											if (sendException2 != null) {
 												callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
@@ -193,7 +193,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 					sender.SendCommandAsync(
 						_targerAddressHost.TargetAddress,
 						writeAin1SettingsCmd,
-						_writeSettingsTimeout,
+						_writeSettingsTimeout, 2,
 						(sendException, replyBytes) => {
 							if (sendException != null) {
 								callback(new Exception("Ошибка отправки команды записи настроек АИН1", sendException));
@@ -237,7 +237,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 									sender.SendCommandAsync(
 										_targerAddressHost.TargetAddress,
 										writeAin2SettingsCmd,
-										_writeSettingsTimeout,
+										_writeSettingsTimeout, 2,
 										(sendException2, replyBytes2) => {
 											if (sendException2 != null) {
 												callback(new Exception("Ошибка отправки команды записи настроек АИН2", sendException2));
@@ -281,7 +281,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 													sender.SendCommandAsync(
 														_targerAddressHost.TargetAddress,
 														writeAin3SettingsCmd,
-														_writeSettingsTimeout,
+														_writeSettingsTimeout, 2,
 														(sendException3, replyBytes3) => {
 
 															// Пауза _writeSettingsTimeout мс для того, чтобы АИН успел записать новые данные в EEPROM,

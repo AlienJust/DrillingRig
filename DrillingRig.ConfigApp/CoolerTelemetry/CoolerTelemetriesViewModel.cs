@@ -12,10 +12,8 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
-namespace DrillingRig.ConfigApp.CoolerTelemetry
-{
-	internal class CoolerTelemetriesViewModel : ViewModelBase
-	{
+namespace DrillingRig.ConfigApp.CoolerTelemetry {
+	internal class CoolerTelemetriesViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
 		private readonly IUserInterfaceRoot _userInterfaceRoot;
@@ -36,8 +34,7 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 		private bool _readingInProgress;
 
 
-		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger, IWindowSystem windowSystem)
-		{
+		public CoolerTelemetriesViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IMultiLoggerWithStackTrace<int> debugLogger, IWindowSystem windowSystem) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -56,14 +53,12 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 			_readingInProgress = false;
 		}
 
-		private void StopReading()
-		{
+		private void StopReading() {
 			Cancel = true;
 			_logger.Log("Взведен внутренний флаг прерывания циклического опроса");
 		}
 
-		private void ReadCycle()
-		{
+		private void ReadCycle() {
 			_logger.Log("Запуск циклического опроса телеметрии");
 			Cancel = false;
 			_readingInProgress = true;
@@ -71,38 +66,30 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 			_stopReadingCommand.RaiseCanExecuteChanged();
 
 
-			_backWorker.AddWork(() =>
-			{
-				try
-				{
+			_backWorker.AddWork(() => {
+				try {
 					var w8er = new ManualResetEvent(false);
-					while (!Cancel)
-					{
+					while (!Cancel) {
 						var cmd = new ReadCoolerTelemetryCommand();
 						_commandSenderHost.Sender.SendCommandAsync(
 							0x01,
 							cmd,
-							TimeSpan.FromSeconds(1.0),
-							(exception, bytes) =>
-							{
+							TimeSpan.FromSeconds(0.2), 2,
+							(exception, bytes) => {
 								ICoolerTelemetry coolerTelemetry = null;
-								try
-								{
-									if (exception != null)
-									{
+								try {
+									if (exception != null) {
 										throw new Exception("Произошла ошибка во время обмена", exception);
 									}
 									var result = cmd.GetResult(bytes);
 									coolerTelemetry = result;
 								}
-								catch (Exception ex)
-								{
+								catch (Exception ex) {
 									// TODO: log exception, null values
 									_logger.Log("Ошибка: " + ex.Message);
 									Console.WriteLine(ex);
 								}
-								finally
-								{
+								finally {
 									_userInterfaceRoot.Notifier.Notify(() => _coolerTelemetryVm.UpdateTelemetry(coolerTelemetry));
 									w8er.Set();
 								}
@@ -112,15 +99,12 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 						Thread.Sleep(300); // TODO: interval must be setted by user
 					}
 				}
-				catch (Exception ex)
-				{
+				catch (Exception ex) {
 					_logger.Log("Ошибка фонового потока очереди отправки: " + ex.Message);
 				}
-				finally
-				{
+				finally {
 					_logger.Log("Циклический опрос окончен");
-					_userInterfaceRoot.Notifier.Notify(() =>
-					{
+					_userInterfaceRoot.Notifier.Notify(() => {
 						_readingInProgress = false;
 						_readCycleCommand.RaiseCanExecuteChanged();
 						_stopReadingCommand.RaiseCanExecuteChanged();
@@ -129,34 +113,26 @@ namespace DrillingRig.ConfigApp.CoolerTelemetry
 			});
 		}
 
-		public CoolerTelemetryViewModel CoolerTelemetryVm
-		{
+		public CoolerTelemetryViewModel CoolerTelemetryVm {
 			get { return _coolerTelemetryVm; }
 		}
 
-		public ICommand ReadCycleCommand
-		{
+		public ICommand ReadCycleCommand {
 			get { return _readCycleCommand; }
 		}
 
-		public ICommand StopReadingCommand
-		{
+		public ICommand StopReadingCommand {
 			get { return _stopReadingCommand; }
 		}
 
-		private bool Cancel
-		{
-			get
-			{
-				lock (_syncCancel)
-				{
+		private bool Cancel {
+			get {
+				lock (_syncCancel) {
 					return _cancel;
 				}
 			}
-			set
-			{
-				lock (_syncCancel)
-				{
+			set {
+				lock (_syncCancel) {
 					_cancel = value;
 				}
 			}

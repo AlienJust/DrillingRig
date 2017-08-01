@@ -8,6 +8,7 @@ using DrillingRig.ConfigApp.AppControl.AinSettingsRead;
 using DrillingRig.ConfigApp.AppControl.AinSettingsStorage;
 using DrillingRig.ConfigApp.AppControl.AinSettingsWrite;
 using DrillingRig.ConfigApp.LookedLikeAbb.AinSettingsRw;
+using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanEditCheck;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboIntEditable;
 using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck;
@@ -30,6 +31,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public ParameterDecimalEditCheckViewModel Parameter06Vm { get; }
 		public ParameterComboEditableViewModel<int> Parameter07Vm { get; }
 		public ParameterComboEditableViewModel<AinTelemetryFanWorkmode> Parameter08Vm { get; }
+		public ParameterBooleanEditCheckViewModel Parameter09Vm { get; }
 
 		public RelayCommand ReadSettingsCmd { get; }
 		public RelayCommand WriteSettingsCmd { get; }
@@ -71,6 +73,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					, new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffAfterPwmOffAndTempGoesDownBelow45C.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.SwitchOnSyncToPwmSwtichOffAfterPwmOffAndTempGoesDownBelow45C}
 					, new ComboItemViewModel<AinTelemetryFanWorkmode> {ComboText = AinTelemetryFanWorkmode.AllwaysOn.ToHumanString(), ComboValue = AinTelemetryFanWorkmode.AllwaysOn}
 				});
+			Parameter09Vm = new ParameterBooleanEditCheckViewModel("102.09. Намагничивание постоянным током", "Нет", "Да");
 
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
@@ -108,14 +111,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Rs = Parameter05Vm.CurrentValue,
 					Np = ConvertDecimalToShort(Parameter06Vm.CurrentValue),
 					NimpFloorCode = Parameter07Vm.SelectedComboItem.ComboValue,
-					FanMode = Parameter08Vm.SelectedComboItem.ComboValue
+					FanMode = Parameter08Vm.SelectedComboItem.ComboValue,
+					DirectCurrentMagnetization = Parameter09Vm.Value
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
 					_uiRoot.Notifier.Notify(() => {
 						if (exception != null) {
-							_logger.Log("Ошибка при записи настроек. " + exception.Message);
+							_logger.Log("Ошибка при записи настроек АИН. " + exception.Message);
 						}
-						else _logger.Log("Группа настроек была успешно записана");
+						else _logger.Log("Группа настроек 102 была успешно записана");
 					});
 				}
 					);
@@ -151,6 +155,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					Parameter06Vm.CurrentValue = null;
 					Parameter07Vm.SelectedComboItem = null;
 					Parameter08Vm.SelectedComboItem = null;
+					Parameter09Vm.Value = null;
 					return;
 				}
 
@@ -162,6 +167,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 				Parameter06Vm.CurrentValue = settings.Np;
 				Parameter07Vm.SelectedComboItem = Parameter07Vm.ComboItems.FirstOrDefault(ci => ci.ComboValue == settings.NimpFloorCode);
 				Parameter08Vm.SelectedComboItem = Parameter08Vm.ComboItems.FirstOrDefault(ci => ci.ComboValue == settings.FanMode);
+				Parameter09Vm.Value = settings.DirectCurrentMagnetization;
 			});
 		}
 	}

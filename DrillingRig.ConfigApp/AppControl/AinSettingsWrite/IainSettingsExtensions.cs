@@ -72,6 +72,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (settings.Np != settingsReReaded.Np) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.Np)} был {settings.Np}; стал {settingsReReaded.Np}";
 			if (settings.NimpFloorCode != settingsReReaded.NimpFloorCode) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.NimpFloorCode)} был {settings.NimpFloorCode}; стал {settingsReReaded.NimpFloorCode}";
 			if (settings.FanMode != settingsReReaded.FanMode) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.FanMode)} был {settings.FanMode.ToIoBits()}; стал {settingsReReaded.FanMode.ToIoBits()}";
+			if (settings.DirectCurrentMagnetization != settingsReReaded.DirectCurrentMagnetization) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.DirectCurrentMagnetization)} был {settings.DirectCurrentMagnetization}; стал {settingsReReaded.DirectCurrentMagnetization}";
 
 			if (settings.UmodThr != settingsReReaded.UmodThr) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.UmodThr)} был {settings.UmodThr:f10}; стал {settingsReReaded.UmodThr:f10}";
 			if (settings.EmdecDfdt != settingsReReaded.EmdecDfdt) paramsText += $"{Environment.NewLine}параметр {ReflectedProperty.GetName(() => settings.EmdecDfdt)} был {settings.EmdecDfdt}; стал {settingsReReaded.EmdecDfdt}";

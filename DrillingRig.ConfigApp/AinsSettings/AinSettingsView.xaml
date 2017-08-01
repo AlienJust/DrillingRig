@@ -5,10 +5,34 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
 	mc:Ignorable="d"
 	d:DesignHeight="1200"
 	d:DesignWidth="600">
 	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary
+					Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ToggleSwitch.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style
+				x:Key="Custom.ToggleSwitch.Win10"
+				BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+				TargetType="{x:Type controls:ToggleSwitch}">
+				<Setter
+					Property="Padding"
+					Value="0 0 10 0" />
+				<Style.Triggers>
+					<Trigger
+						Property="ContentDirection"
+						Value="RightToLeft">
+						<Setter
+							Property="Padding"
+							Value="10 0 0 0" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -971,6 +995,23 @@
 						Value="{Binding Path=FanMode, Mode=TwoWay}"
 						Minimum="0"
 						Maximum="3" />
+				</Grid>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="3*" />
+						<ColumnDefinition
+							Width="1*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="52.11. (102.9) Намагничивание постоянным током" />
+					<controls:ToggleSwitch
+						Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+						Grid.Column="1"
+						IsChecked="{Binding Path=DirectCurrentMagnetization, Mode=TwoWay}" OffLabel="Нет" OnLabel="Да"
+						HorizontalAlignment="Right" />
 				</Grid>
 
 

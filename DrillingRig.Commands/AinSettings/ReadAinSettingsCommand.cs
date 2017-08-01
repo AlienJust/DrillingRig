@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AlienJust.Support.Collections;
+using AlienJust.Support.Numeric.Bits;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinSettings {
@@ -33,6 +34,7 @@ namespace DrillingRig.Commands.AinSettings {
 			var np = bp52.First & 0x1F;
 			var nimpFloorCode = (bp52.First & 0xE0) >> 5;
 			var fanMode = AinTelemetryFanWorkmodeExtensions.FromIoBits(bp52.Second & 0x03);
+			var directCurrentMagnetization = bp52.Second.GetBit(3);
 
 			return new AinSettingsSimple(
 				reserved00: new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
@@ -126,6 +128,7 @@ namespace DrillingRig.Commands.AinSettings {
 				np: np,
 				nimpFloorCode: nimpFloorCode,
 				fanMode: fanMode,
+				directCurrentMagnetization: directCurrentMagnetization,
 
 				umodThr: new BytesPair(replyWithoutAinNumber[106], replyWithoutAinNumber[107]).LowFirstSignedValue / 1000.0m,
 

@@ -14,8 +14,7 @@ using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
 using DrillingRig.ConfigApp.CommandSenderHost;
 
-namespace DrillingRig.ConfigApp.BsEthernetSettings
-{
+namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	class BsEthernetSettingsViewModel : ViewModelBase {
 		private readonly ICommandSenderHost _commandSenderHost;
 		private readonly ITargetAddressHost _targerAddressHost;
@@ -40,9 +39,8 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 
 		private readonly List<FtRoleViewModel> _ftRoles;
 		private FtRoleViewModel _selectedFtRole;
-		
-		public BsEthernetSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl)
-		{
+
+		public BsEthernetSettingsViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, IWindowSystem windowSystem, INotifySendingEnabled sendingEnabledControl) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -59,8 +57,8 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			_driveNumber = 0;
 			_addressCan = 0;
 			_ftRoles = new List<FtRoleViewModel> {
-				new FtRoleViewModel(FriquencyTransformerRole.Single), 
-				new FtRoleViewModel(FriquencyTransformerRole.Master), 
+				new FtRoleViewModel(FriquencyTransformerRole.Single),
+				new FtRoleViewModel(FriquencyTransformerRole.Master),
 				new FtRoleViewModel(FriquencyTransformerRole.Slave)
 			};
 			_selectedFtRole = _ftRoles.First();
@@ -70,7 +68,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 
 			_importSettingCommand = new RelayCommand(ImportSettings);
 			_exportSettingsCommand = new RelayCommand(ExportSettings);
-			
+
 			_sendingEnabledControl.SendingEnabledChanged += SendingEnabledControlOnSendingEnabledChanged;
 		}
 
@@ -86,12 +84,12 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				try {
 					var importer = new BsEthernetSettingsXmlWorker(dialogResult);
 					var settings = importer.ImportSettings();
-					
+
 					IpAddress = settings.IpAddress.ToString();
 					Mask = settings.Mask.ToString();
 					Gateway = settings.Gateway.ToString();
 					DnsServer = settings.DnsServer.ToString();
-					
+
 					var mac = settings.MacAddress.GetAddressBytes().Aggregate(string.Empty, (current, b) => current + (b.ToString("X2") + "."));
 					mac = mac.Substring(0, mac.Length - 1);
 					MacAddress = mac;
@@ -155,7 +153,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(0.2), 2
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -182,8 +180,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 		}
 
 		private void ReadSettings() {
-			try
-			{
+			try {
 				_logger.Log("Подготовка к чтению настроек БС-Ethernet");
 
 				var cmd = new ReadBsEthernetSettingsCommand();
@@ -192,13 +189,10 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() =>
-					{
-						try
-						{
-							if (exception != null)
-							{
+					, TimeSpan.FromSeconds(0.2), 2
+					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+						try {
+							if (exception != null) {
 								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
 							}
 
@@ -220,20 +214,17 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 								});
 								_logger.Log("Настройки БС-Ethernet успешно прочитаны");
 							}
-							catch (Exception exx)
-							{
+							catch (Exception exx) {
 								// TODO: log exception about error on answer parsing
 								throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
 							}
 						}
-						catch (Exception ex)
-						{
+						catch (Exception ex) {
 							_logger.Log(ex.Message);
 						}
 					}));
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду чтения настроек БС-Ethernet в очередь: " + ex.Message);
 			}
 		}
@@ -263,8 +254,9 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_gateway != value) {
 					_gateway = value;
-					RaisePropertyChanged(()=>Gateway);
-				} }
+					RaisePropertyChanged(() => Gateway);
+				}
+			}
 		}
 
 		public string DnsServer {
@@ -272,8 +264,9 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_dnsServer != value) {
 					_dnsServer = value;
-					RaisePropertyChanged(()=>DnsServer);
-				} }
+					RaisePropertyChanged(() => DnsServer);
+				}
+			}
 		}
 
 		public string MacAddress {
@@ -281,8 +274,9 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_macAddress != value) {
 					_macAddress = value;
-					RaisePropertyChanged(()=>MacAddress);
-				} }
+					RaisePropertyChanged(() => MacAddress);
+				}
+			}
 		}
 
 		public byte ModbusAddress {
@@ -290,8 +284,9 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_modbusAddress != value) {
 					_modbusAddress = value;
-					RaisePropertyChanged(()=>ModbusAddress);
-				} }
+					RaisePropertyChanged(() => ModbusAddress);
+				}
+			}
 		}
 
 		public byte DriveNumber {
@@ -316,8 +311,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			get { return _importSettingCommand; }
 		}
 
-		public ICommand ExportSettingCommand
-		{
+		public ICommand ExportSettingCommand {
 			get { return _exportSettingsCommand; }
 		}
 
@@ -326,14 +320,14 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_addressCan != value) {
 					_addressCan = value;
-					RaisePropertyChanged(()=>AddressCan);
+					RaisePropertyChanged(() => AddressCan);
 				}
 			}
 		}
 
 		public IEnumerable<FtRoleViewModel> FtRoles {
 			get {
-				return _ftRoles; 
+				return _ftRoles;
 			}
 		}
 
@@ -342,7 +336,7 @@ namespace DrillingRig.ConfigApp.BsEthernetSettings
 			set {
 				if (_selectedFtRole != value) {
 					_selectedFtRole = value;
-					RaisePropertyChanged(()=>SelectedFtRole);
+					RaisePropertyChanged(() => SelectedFtRole);
 					//Console.WriteLine("Selected role changed, now: " + _selectedFtRole.Text);
 				}
 			}

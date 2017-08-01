@@ -108,7 +108,7 @@ namespace DrillingRig.ConfigApp.AinTelemetry {
 			var waiter = new ManualResetEvent(false);
 
 			var cmdDebug = new ReadDebugInfoCommand();
-			_commandSenderHost.SilentSender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), (exception, bytes) => {
+			_commandSenderHost.SilentSender.SendCommandAsync(0x01, cmdDebug, TimeSpan.FromSeconds(0.1), 2, (exception, bytes) => {
 				try {
 					if (exception != null) {
 						throw new Exception("Произошла ошибка во время обмена", exception);

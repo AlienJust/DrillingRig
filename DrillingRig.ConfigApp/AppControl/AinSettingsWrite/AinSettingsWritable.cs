@@ -67,6 +67,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		public int Np { get; set; }
 		public int NimpFloorCode { get; set; }
 		public AinTelemetryFanWorkmode FanMode { get; set; }
+		public bool DirectCurrentMagnetization { get; set; }
 
 		public decimal UmodThr { get; set; }
 		public decimal EmdecDfdt { get; set; }
@@ -127,6 +128,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			Np = settings.Np;
 			NimpFloorCode = settings.NimpFloorCode;
 			FanMode = settings.FanMode;
+			DirectCurrentMagnetization = settings.DirectCurrentMagnetization;
 
 			UmodThr = settings.UmodThr;
 			EmdecDfdt = settings.EmdecDfdt;
@@ -187,6 +189,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (part.Np.HasValue) Np = part.Np.Value;
 			if (part.NimpFloorCode.HasValue) NimpFloorCode = part.NimpFloorCode.Value;
 			if (part.FanMode.HasValue) FanMode = part.FanMode.Value;
+			if (part.DirectCurrentMagnetization.HasValue) DirectCurrentMagnetization = part.DirectCurrentMagnetization.Value;
 
 			if (part.UmodThr.HasValue) UmodThr = part.UmodThr.Value;
 			if (part.EmdecDfdt.HasValue) EmdecDfdt = part.EmdecDfdt.Value;

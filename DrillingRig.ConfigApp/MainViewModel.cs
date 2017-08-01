@@ -191,7 +191,8 @@ namespace DrillingRig.ConfigApp {
 			_engineSettingsReadNotifyRaisable,
 			_engineSettingsStorage,
 			_engineSettingsStorageSettable,
-			_engineSettingsStorageUpdatedNotify); // TODO: can be moved to app.xaml.cs if needed
+			_engineSettingsStorageUpdatedNotify,
+			_debugLogger); // TODO: can be moved to app.xaml.cs if needed
 
 			ArchiveVm = new ArchivesViewModel(
 				new ArchiveViewModel(_commandSenderHost, _targetAddressHost, _uiRoot, _logger, _notifySendingEnabled, 0),

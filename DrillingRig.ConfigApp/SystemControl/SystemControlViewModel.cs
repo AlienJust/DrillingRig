@@ -10,7 +10,6 @@ using DrillingRig.ConfigApp.AinTelemetry;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.SystemControl {
 	internal class SystemControlViewModel : ViewModelBase, IDebugInformationShower {
@@ -63,7 +62,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1.0)
+					, TimeSpan.FromSeconds(1.0), 1
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -92,7 +91,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1.0)
+					, TimeSpan.FromSeconds(1.0), 1
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -123,7 +122,7 @@ namespace DrillingRig.ConfigApp.SystemControl {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(1), 1
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {

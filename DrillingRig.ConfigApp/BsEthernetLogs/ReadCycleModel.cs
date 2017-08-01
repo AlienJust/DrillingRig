@@ -33,7 +33,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 			_isStopFlagRaised = false;
 			_conditionsChangedWaiter = new ManualResetEventSlim(false);
 
-			_backgroundThread = new Thread(ReadLogsCycle) { Priority = ThreadPriority.BelowNormal, IsBackground = true};
+			_backgroundThread = new Thread(ReadLogsCycle) { Priority = ThreadPriority.BelowNormal, IsBackground = true };
 			_backgroundThread.Start();
 		}
 
@@ -49,7 +49,7 @@ namespace DrillingRig.ConfigApp.BsEthernetLogs {
 				_conditionsChangedWaiter.Wait();
 				if (!IsStopFlagRaised && IsReadCycleEnabled && _notifySendingEnabled.IsSendingEnabled) {
 					_commandSenderHost.SilentSender.SendCommandAsync(_targetAddressHost.TargetAddress, cmd,
-						timeout,
+						timeout, 2,
 						(exception, bytes) => {
 							try {
 								if (exception != null) throw exception;

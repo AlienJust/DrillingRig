@@ -63,7 +63,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb
 			try
 			{
 				_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress,
-				cmd, TimeSpan.FromSeconds(0.1),
+				cmd, TimeSpan.FromSeconds(0.1), 2,
 				(exception, bytes) =>
 				{
 					ITelemetry04 telemetry = null;

@@ -224,12 +224,11 @@ namespace DrillingRig.ConfigApp.AinCommand {
 					throw new Exception("Нет настроек АИН1, необходимо их прочитать, чтобы знать число пар полюсов");
 				var fsetToSend = (short)(FsetHz.Value * 100.0m);
 				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, fsetToSend, _mset, _set3, _mmin, _mmax);
-				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " +
-										ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
+				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(5)
+					, TimeSpan.FromSeconds(0.2), 2
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {

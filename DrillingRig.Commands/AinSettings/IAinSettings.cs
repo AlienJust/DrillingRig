@@ -83,10 +83,20 @@ namespace DrillingRig.Commands.AinSettings {
 		BytesPair Reserved50 { get; }
 		BytesPair Reserved51 { get; }
 
+		/// <summary>
+		/// Число пар полюсов
+		/// </summary>
 		int Np { get; }
+		
 		//
 		int NimpFloorCode { get; }
+
 		AinTelemetryFanWorkmode FanMode { get; }
+
+		/// <summary>
+		/// Намагничивание постоянным током
+		/// </summary>
+		bool DirectCurrentMagnetization { get; }
 
 
 		/// <summary>

@@ -55,7 +55,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			IEngineSettingsReadNotifyRaisable engineSettingsReadNotifyRaisable,
 			IEngineSettingsStorage engineSettingsStorage,
 			IEngineSettingsStorageSettable engineSettingsStorageSettable,
-			IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify) {
+			IEngineSettingsStorageUpdatedNotify engineSettingsStorageUpdatedNotify, IMultiLoggerWithStackTrace<int> debugLogger) {
 
 			Group20SettingsVm = new Group20SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter,
 				engineSettingsReader, engineSettingsWriter, engineSettingsReadNotify, engineSettingsStorage, engineSettingsStorageUpdatedNotify);
@@ -82,7 +82,7 @@ namespace DrillingRig.ConfigApp.NewLook.Settings {
 			Group106SettingsVm = new Group106SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, ainSettingsReadNotify, ainSettingsStorage, storageUpdatedNotify, ainsCounter, imcwParamViewModel);
 			Group107SettingsVm = new Group107SettingsViewModel(userInterfaceRoot, logger, ainSettingsReadedWriter, /*ainSettingsReadNotify, */ainSettingsStorage, storageUpdatedNotify, ainsCounter);
 
-			ImportExportVm = new ImportExportViewModel(ainSettingsStorageSettable, ainSettingsReadNotifyRaisable, engineSettingsStorageSettable, engineSettingsReadNotifyRaisable);
+			ImportExportVm = new ImportExportViewModel(ainSettingsStorageSettable, ainSettingsReadNotifyRaisable, engineSettingsStorageSettable, engineSettingsReadNotifyRaisable, debugLogger);
 		}
 	}
 }

@@ -24,32 +24,34 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			_backWorkerStoppable = stoppableBackWorker;
 		}
 
-		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
+		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, int maxAttemptsCount, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
-				var request = command.Serialize();
-				_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
-				_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
+				try {
+					var request = command.Serialize();
+					_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
+					_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
 
-				//Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
-				Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds)); // sleeping for full timeout :)
-				Exception exception = null;
-				byte[] reply;
-				try
-				{
-					var testCmd = command as IRrModbusCommandWithTestReply;
-					if (testCmd != null)
-					{
-						reply = testCmd.GetTestReply();
-						_debugLogger.GetLogger(4).Log("Test reply: " + reply.ToText(), new StackTrace(Thread.CurrentThread, true));
+					//Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
+					Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds)); // sleeping for full timeout :)
+					Exception exception = null;
+					byte[] reply;
+					try {
+						var testCmd = command as IRrModbusCommandWithTestReply;
+						if (testCmd != null) {
+							reply = testCmd.GetTestReply();
+							_debugLogger.GetLogger(4).Log("Test reply: " + reply.ToText(), new StackTrace(Thread.CurrentThread, true));
+						}
+						else throw new Exception("Cannot cast command to IRrModbusCommandWithTestReply");
 					}
-					else throw new Exception("Cannot cast command to IRrModbusCommandWithTestReply");
+					catch (Exception ex) {
+						exception = ex;
+						reply = null;
+					}
+					_uiNotifier.Notify(() => onComplete(exception, reply));
 				}
-				catch (Exception ex)
-				{
-					exception = ex;
-					reply = null;
+				catch (Exception ex) {
+					_debugLogger.GetLogger(2).Log("Ошибка при сериализации команды" + Environment.NewLine + ex, new StackTrace(Thread.CurrentThread, true));
 				}
-				_uiNotifier.Notify(()=>onComplete(exception, reply));
 			});
 		}
 
@@ -81,7 +83,7 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 			_backWorkerStoppable = stoppableBackWorker;
 		}
 
-		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
+		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, int maxAttemptsCount, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
 				command.Serialize();
 

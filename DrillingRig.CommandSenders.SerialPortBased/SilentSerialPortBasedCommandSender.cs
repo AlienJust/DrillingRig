@@ -27,7 +27,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 			//new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("SerialPortBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 		}
 
-		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, Action<Exception, byte[]> onComplete) {
+		public void SendCommandAsync(byte address, IRrModbusCommandWithReply command, TimeSpan timeout, int maxAttemptsCount, Action<Exception, byte[]> onComplete) {
 			_backWorker.AddWork(() => {
 				Exception backgroundException = null;
 				byte[] resultBytes = null;
@@ -43,13 +43,12 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 					sendBytes[sendBytes.Length - 2] = sendCrc.Low;
 					sendBytes[sendBytes.Length - 1] = sendCrc.High;
 
-					const int maxAttemptsCount = 2;
 					byte[] replyBytes = null;
 					Exception lastException = null;
 					for (int i = 0; i < maxAttemptsCount; ++i) {
 						try {
 							_portExtender.WriteBytes(sendBytes, 0, sendBytes.Length);
-							replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, timeout, true); // + 4 bytes are: addr, cmd, crc, crc
+							replyBytes = _portExtender.ReadBytes(command.ReplyLength + 4, timeout, true); // additional 4 bytes are: addr, cmd, crc, crc
 							lastException = null;
 							break;
 						}

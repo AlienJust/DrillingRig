@@ -134,7 +134,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			_logger.Log("Запуск тестирования двигателя (" + ((byte)testMask).ToString("X2") + ")");
 			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
 				cmd,
-				TimeSpan.FromMilliseconds(200),
+				TimeSpan.FromMilliseconds(200), 2,
 				(ex, reply) => {
 					if (ex != null) {
 						_logger.Log("Во время запуска тестирования произошли ошибки");
@@ -154,7 +154,7 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			var cmd = new EngineTestReadResultCommand();
 			_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress,
 				cmd,
-				TimeSpan.FromMilliseconds(200),
+				TimeSpan.FromMilliseconds(200), 2,
 				(ex, reply) => {
 					if (ex != null) {
 						_logger.Log("Ошибка при получении результатов тестирования");

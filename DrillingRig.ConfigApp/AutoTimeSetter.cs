@@ -27,7 +27,7 @@ namespace DrillingRig.ConfigApp {
 				var time = DateTime.Now;
 				var cmd = new SetTimeCommand(time);
 				_logger.Log("Отправка команды " + cmd.Name);
-				_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress, cmd, TimeSpan.FromMilliseconds(200.0), (e, r) => {
+				_commandSenderHost.Sender.SendCommandAsync(_targetAddressHost.TargetAddress, cmd, TimeSpan.FromMilliseconds(200.0), 2, (e, r) => {
 					try {
 						if (e != null) throw new Exception("Не удалось установить время, ошибка связи", e);
 						cmd.GetResult(r);

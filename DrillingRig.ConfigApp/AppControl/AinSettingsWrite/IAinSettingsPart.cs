@@ -69,7 +69,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 		int? Np { get; }
 		int? NimpFloorCode { get; }
 		AinTelemetryFanWorkmode? FanMode { get; }
-
+		bool? DirectCurrentMagnetization { get; }
 
 		decimal? UmodThr { get; }
 

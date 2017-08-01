@@ -7,6 +7,7 @@
 	xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
 	xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
 	xmlns:parameterComboEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable"
+	xmlns:parameterBooleanEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanEditCheck"
 	mc:Ignorable="d"
 	d:DesignHeight="300"
 	d:DesignWidth="300">
@@ -35,6 +36,9 @@
 					DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
 				<parameterComboEditable:ParameterComboEditableView
 					DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
+				<parameterBooleanEditCheck:ParameterBooleanEditCheckView
+					DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}" />
+				
 			</StackPanel>
 		</ScrollViewer>
 		<Grid

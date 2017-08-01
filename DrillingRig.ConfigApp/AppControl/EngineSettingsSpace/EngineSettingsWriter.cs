@@ -35,10 +35,10 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 				sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress,
 					writeAin1SettingsCmd,
-					_writeSettingsTimeout,
+					_writeSettingsTimeout, 2,
 					(sendException, replyBytes) => {
 						if (sendException != null) {
-							callback(new Exception("Ошибка отправки команды записи настроек АИН1 - нет ответа от BsEthernet", sendException));
+							callback(new Exception("Ошибка отправки команды записи настроек двигателя - нет ответа от BsEthernet", sendException));
 							return;
 						}
 

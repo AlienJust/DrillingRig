@@ -43,7 +43,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 			var readSettingsCmd = new ReadAinSettingsCommand(zeroBasedAinNumber);
 
 			_notifyWorker.AddWork(() => FireEventAinSettingsReadStarted(zeroBasedAinNumber));
-			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
+			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout, 2,
 				(sendException, replyBytes) => {
 					if (sendException != null) {
 						var errorMessage = "Произошла ошибка во время чтения настрок АИН" + (zeroBasedAinNumber + 1).ToString();

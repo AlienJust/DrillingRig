@@ -440,6 +440,10 @@
     <Compile Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindowVm.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\PanModifierOnPause.cs" />
     <Compile Include="LookedLikeAbb\Oscilloscope\PanModifierOnResume.cs" />
+    <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanEditCheck\ParameterBooleanEditCheckView.xaml.cs">
+      <DependentUpon>ParameterBooleanEditCheckView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanEditCheck\ParameterBooleanEditCheckViewModel.cs" />
     <Compile Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml.cs">
       <DependentUpon>ParameterBooleanReadonlyView.xaml</DependentUpon>
     </Compile>
@@ -733,6 +737,10 @@
     <Page Include="LookedLikeAbb\Oscilloscope\OscilloscopeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LookedLikeAbb\Parameters\ParameterBooleanEditCheck\ParameterBooleanEditCheckView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LookedLikeAbb\Parameters\ParameterBooleanReadonly\ParameterBooleanReadonlyView.xaml">
       <Generator>MSBuild:Compile</Generator>

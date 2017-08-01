@@ -89,6 +89,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 		private short? _np;
 		private int? _nimpFloorCode;
 		private int? _fanMode;
+		private bool? _directCurrentMagnetization;
 
 		private decimal? _umodThr; // UmodThr
 
@@ -265,6 +266,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 						Np.Value,
 						NimpFloorCode.Value,
 						AinTelemetryFanWorkmodeExtensions.FromIoBits(FanMode.Value),
+						DirectCurrentMagnetization.Value,
 
 						UmodThr.Value,
 						EmdecDfdt.Value,
@@ -280,7 +282,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(0.3), 2
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -321,7 +323,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 				_commandSenderHost.Sender.SendCommandAsync(
 					_targerAddressHost.TargetAddress
 					, cmd
-					, TimeSpan.FromSeconds(1)
+					, TimeSpan.FromSeconds(0.3), 2
 					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
 						try {
 							if (exception != null) {
@@ -384,6 +386,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 									Np = (short)result.Np;
 									NimpFloorCode = result.NimpFloorCode;
 									FanMode = result.FanMode.ToIoBits();
+									DirectCurrentMagnetization = result.DirectCurrentMagnetization;
 
 									UmodThr = result.UmodThr;
 									EmdecDfdt = result.EmdecDfdt;
@@ -703,6 +706,16 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			set { if (_fanMode != value) { _fanMode = value; RaisePropertyChanged(() => FanMode); } }
 		}
 
+		public bool? DirectCurrentMagnetization {
+			get => _directCurrentMagnetization;
+			set {
+				if (_directCurrentMagnetization != value) {
+					_directCurrentMagnetization = value;
+					RaisePropertyChanged(() => DirectCurrentMagnetization);
+				}
+			}
+		}
+
 		public decimal? UmodThr {
 			get => _umodThr;
 			set { if (_umodThr != value) { _umodThr = value; RaisePropertyChanged(() => UmodThr); } }
@@ -722,5 +735,7 @@ namespace DrillingRig.ConfigApp.AinsSettings {
 			get => _toHl;
 			set { if (_toHl != value) { _toHl = value; RaisePropertyChanged(() => ToHl); } }
 		}
+
+
 	}
 }

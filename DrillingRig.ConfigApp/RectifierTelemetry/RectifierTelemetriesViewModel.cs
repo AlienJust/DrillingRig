@@ -88,7 +88,7 @@ namespace DrillingRig.ConfigApp.RectifierTelemetry
 					_commandSenderHost.Sender.SendCommandAsync(
 						0x01,
 						cmd,
-						TimeSpan.FromSeconds(0.1),
+						TimeSpan.FromSeconds(0.1), 2,
 						(exception, bytes) => {
 							IList<IRectifierTelemetry> rectifierTelemetries = null;
 							try {

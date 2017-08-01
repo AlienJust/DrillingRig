@@ -1,5 +1,6 @@
 ﻿using System;
 using AlienJust.Support.Collections;
+using AlienJust.Support.Numeric.Bits;
 using DrillingRid.Commands.Contracts;
 
 namespace DrillingRig.Commands.AinSettings {
@@ -112,8 +113,9 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[102] = _settings.Reserved51.First;
 			settingsSerialized[103] = _settings.Reserved51.Second;
 
-			var bp52 = BytesPair.FromUnsignedShortLowFirst((ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() &0x03) << 8)));
-
+			var ushbp52 = (ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() &0x03) << 8));
+			ushbp52 = _settings.DirectCurrentMagnetization ? ushbp52.SetBit(11) : ushbp52.ResetBit(11);
+			var bp52 = BytesPair.FromUnsignedShortLowFirst(ushbp52);
 			settingsSerialized[104] = bp52.First;
 			settingsSerialized[105] = bp52.Second;
 

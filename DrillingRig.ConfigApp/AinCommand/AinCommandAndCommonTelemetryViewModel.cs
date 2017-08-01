@@ -46,7 +46,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadCommonTelemetryCommand();
 			_commandSenderHost.SilentSender.SendCommandAsync(_targerAddressHost.TargetAddress,
-				cmd, TimeSpan.FromSeconds(0.1),
+				cmd, TimeSpan.FromSeconds(0.1), 2,
 				(exception, bytes) => {
 					try {
 						if (exception != null) {

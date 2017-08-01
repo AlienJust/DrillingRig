@@ -46,7 +46,7 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 			var readSettingsCmd = new ReadEngineSettingsCommand();
 
 			_notifyWorker.AddWork(FireEventEngineSettingsReadStarted);
-			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout,
+			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout, 2,
 				(sendException, replyBytes) => {
 					if (sendException != null) {
 						var errorMessage = "Произошла ошибка во время чтения настрок двигателя";

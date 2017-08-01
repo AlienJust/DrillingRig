@@ -85,7 +85,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry09Command();
 			_commandSenderHost.SilentSender.SendCommandAsync(_targerAddressHost.TargetAddress,
-				cmd, TimeSpan.FromSeconds(0.1),
+				cmd, TimeSpan.FromSeconds(0.1), 2,
 				(exception, bytes) => {
 					ITelemetry09 telemetry = null;
 					try {

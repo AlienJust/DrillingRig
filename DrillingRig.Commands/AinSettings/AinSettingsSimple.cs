@@ -54,22 +54,15 @@ namespace DrillingRig.Commands.AinSettings {
 			decimal rs,
 			decimal fmin,
 
-			decimal tauM,
-			decimal tauF,
-			decimal tauFSet,
-			decimal tauFi,
+			decimal tauM, decimal tauF, decimal tauFSet, decimal tauFi,
 
-			short idSetMin,
-			short idSetMax,
-			BytesPair uchMin,
-			BytesPair uchMax,
+			short idSetMin, short idSetMax,
+			
+			BytesPair uchMin, BytesPair uchMax,
 
-			BytesPair reserved50,
-			BytesPair reserved51,
+			BytesPair reserved50, BytesPair reserved51,
 
-			int np,
-			int nimpFloorCode,
-			AinTelemetryFanWorkmode fanMode,
+			int np, int nimpFloorCode, AinTelemetryFanWorkmode fanMode, bool directCurrentMagnetization,
 
 			decimal umodThr,
 
@@ -80,10 +73,13 @@ namespace DrillingRig.Commands.AinSettings {
 			Reserved00 = reserved00;
 			KpW = kpW;
 			KiW = kiW;
+
 			FiNom = fiNom;
 			Imax = imax;
+
 			UdcMax = udcMax;
 			UdcMin = udcMin;
+
 			Fnom = fnom;
 			Fmax = fmax;
 
@@ -114,8 +110,10 @@ namespace DrillingRig.Commands.AinSettings {
 			Reserved32 = reserved32;
 			KpIq = kpIq;
 			KiIq = kiIq;
+
 			AccDfDt = accDfDt;
 			DecDfDt = decDfDt;
+
 			Unom = unom;
 
 			TauFlLim = tauFlLim;
@@ -126,8 +124,10 @@ namespace DrillingRig.Commands.AinSettings {
 			TauF = tauF;
 			TauFSet = tauFSet;
 			TauFi = tauFi;
+
 			IdSetMin = idSetMin;
 			IdSetMax = idSetMax;
+
 			UchMin = uchMin;
 			UchMax = uchMax;
 
@@ -137,6 +137,7 @@ namespace DrillingRig.Commands.AinSettings {
 			Np = np;
 			NimpFloorCode = nimpFloorCode;
 			FanMode = fanMode;
+			DirectCurrentMagnetization = directCurrentMagnetization;
 
 			UmodThr = umodThr;
 
@@ -228,6 +229,7 @@ namespace DrillingRig.Commands.AinSettings {
 		public int Np { get; }
 		public int NimpFloorCode { get; }
 		public AinTelemetryFanWorkmode FanMode { get; }
+		public bool DirectCurrentMagnetization { get; }
 
 		public decimal UmodThr { get; }
 
