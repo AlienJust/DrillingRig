@@ -27,6 +27,13 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[3] = bpKpW.Second;
 			Console.WriteLine("_settings.KpW SERIALIZED = " + bpKpW);
 
+			var ushbp52 = (ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() & 0x03) << 8));
+			Console.WriteLine("NPRM without DCM = " + ushbp52.ToString("X4"));
+			ushbp52 = _settings.DirectCurrentMagnetization ? ushbp52.SetBit(11) : ushbp52.ResetBit(11);
+			var bp52 = BytesPair.FromUnsignedShortLowFirst(ushbp52);
+			Console.WriteLine("NPRM = " + bp52);
+
+
 			settingsSerialized.SerializeIntLowFirst(4, (int)(_settings.KiW * 16777216.0m));
 			settingsSerialized.SerializeShortLowFirst(8, (short)(_settings.FiNom * 1000.0m));
 			settingsSerialized.SerializeShortLowFirst(10, _settings.Imax);
@@ -113,11 +120,11 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[102] = _settings.Reserved51.First;
 			settingsSerialized[103] = _settings.Reserved51.Second;
 
-			var ushbp52 = (ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() &0x03) << 8));
-			ushbp52 = _settings.DirectCurrentMagnetization ? ushbp52.SetBit(11) : ushbp52.ResetBit(11);
-			var bp52 = BytesPair.FromUnsignedShortLowFirst(ushbp52);
+			
+
 			settingsSerialized[104] = bp52.First;
 			settingsSerialized[105] = bp52.Second;
+			
 
 			settingsSerialized.SerializeShortLowFirst(106, (short)(_settings.UmodThr * 1000.0m));
 			settingsSerialized.SerializeShortLowFirst(108, (short)(_settings.EmdecDfdt * 10.0m));
