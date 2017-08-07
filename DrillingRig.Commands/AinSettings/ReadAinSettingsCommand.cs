@@ -38,7 +38,7 @@ namespace DrillingRig.Commands.AinSettings {
 
 			return new AinSettingsSimple(
 				reserved00: new BytesPair(replyWithoutAinNumber[0], replyWithoutAinNumber[1]),
-				kpW: BytesPairToDecimalQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
+				kpW: BytesPairToDecimalQ8Converter.ConvertBytesPairToDecimalQ8(new BytesPair(replyWithoutAinNumber[2], replyWithoutAinNumber[3])),
 				// kiW
 				kiW: (replyWithoutAinNumber[4] + (replyWithoutAinNumber[5] << 8) + (replyWithoutAinNumber[6] << 16) + (replyWithoutAinNumber[7] << 24)) / 16777216.0m,
 
@@ -78,7 +78,7 @@ namespace DrillingRig.Commands.AinSettings {
 				// reserved 24:
 				reserved24: new BytesPair(replyWithoutAinNumber[48], replyWithoutAinNumber[49]),
 
-				kpFi: BytesPairToDecimalQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51])),
+				kpFi: BytesPairToDecimalQ8Converter.ConvertBytesPairToDecimalQ8(new BytesPair(replyWithoutAinNumber[50], replyWithoutAinNumber[51])),
 				// kiFi:
 				kiFi: (replyWithoutAinNumber[52] + (replyWithoutAinNumber[53] << 8) + (replyWithoutAinNumber[54] << 16) + (replyWithoutAinNumber[55] << 24)) / 16777216.0m,
 
@@ -86,7 +86,7 @@ namespace DrillingRig.Commands.AinSettings {
 				reserved28: new BytesPair(replyWithoutAinNumber[56], replyWithoutAinNumber[57]),
 
 				// kpId:
-				kpId: BytesPairToDecimalQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59])),
+				kpId: BytesPairToDecimalQ8Converter.ConvertBytesPairToDecimalQ8(new BytesPair(replyWithoutAinNumber[58], replyWithoutAinNumber[59])),
 				// kiId:
 				kiId: (replyWithoutAinNumber[60] + (replyWithoutAinNumber[61] << 8) + (replyWithoutAinNumber[62] << 16) + (replyWithoutAinNumber[63] << 24)) / 16777216.0m,
 
@@ -94,7 +94,7 @@ namespace DrillingRig.Commands.AinSettings {
 				reserved32: new BytesPair(replyWithoutAinNumber[64], replyWithoutAinNumber[65]),
 
 				// kpIq:
-				kpIq: BytesPairToDecimalQ8Converter.ConvertBytesPairToDoubleQ8(new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67])),
+				kpIq: BytesPairToDecimalQ8Converter.ConvertBytesPairToDecimalQ8(new BytesPair(replyWithoutAinNumber[66], replyWithoutAinNumber[67])),
 				// kiIq:
 				kiIq: (replyWithoutAinNumber[68] + (replyWithoutAinNumber[69] << 8) + (replyWithoutAinNumber[70] << 16) + (replyWithoutAinNumber[71] << 24)) / 16777216.0m,
 

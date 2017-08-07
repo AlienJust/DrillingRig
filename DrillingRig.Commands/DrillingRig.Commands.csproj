@@ -68,6 +68,7 @@
     <Compile Include="AinSettings\AinSettingsSimple.cs" />
     <Compile Include="AinSettings\AinTelemetryFanWorkmode.cs" />
     <Compile Include="AinSettings\AinTelemetryFanWorkmodeExtensions.cs" />
+    <Compile Include="AinSettings\BytesPairToDecimalQ8Converter.cs" />
     <Compile Include="AinSettings\BytesPairToDoubleQ8Converter.cs" />
     <Compile Include="AinSettings\IAinSettings.cs" />
     <Compile Include="BsEthernetLogs\BsEthernetLogLineSimple.cs" />

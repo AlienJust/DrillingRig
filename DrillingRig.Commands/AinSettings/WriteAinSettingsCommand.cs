@@ -22,10 +22,11 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[0] = _settings.Reserved00.First;
 			settingsSerialized[1] = _settings.Reserved00.Second;
 			Console.WriteLine("_settings.KpW = " + _settings.KpW.ToString("f10"));
-			var bpKpW = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpW);
+			var bpKpW = BytesPairToDecimalQ8Converter.ConvertToBytesPairQ8(_settings.KpW);
 			settingsSerialized[2] = bpKpW.First;
 			settingsSerialized[3] = bpKpW.Second;
 			Console.WriteLine("_settings.KpW SERIALIZED = " + bpKpW);
+
 
 			var ushbp52 = (ushort)(_settings.Np | (_settings.NimpFloorCode << 5) | ((_settings.FanMode.ToIoBits() & 0x03) << 8));
 			Console.WriteLine("NPRM without DCM = " + ushbp52.ToString("X4"));
@@ -64,7 +65,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[48] = _settings.Reserved24.First;
 			settingsSerialized[49] = _settings.Reserved24.Second;
 
-			var bpKpFi = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpFi);
+			var bpKpFi = BytesPairToDecimalQ8Converter.ConvertToBytesPairQ8(_settings.KpFi);
 			settingsSerialized[50] = bpKpFi.First;
 			settingsSerialized[51] = bpKpFi.Second;
 
@@ -73,7 +74,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[56] = _settings.Reserved28.First;
 			settingsSerialized[57] = _settings.Reserved28.Second;
 
-			var bpKpId = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpId);
+			var bpKpId = BytesPairToDecimalQ8Converter.ConvertToBytesPairQ8(_settings.KpId);
 			settingsSerialized[58] = bpKpId.First;
 			settingsSerialized[59] = bpKpId.Second;
 
@@ -84,7 +85,7 @@ namespace DrillingRig.Commands.AinSettings {
 			settingsSerialized[65] = _settings.Reserved32.Second;
 
 
-			var bpKpIq = BytesPairToDecimalQ8Converter.ConvertDoubleToBytesPairQ8(_settings.KpIq);
+			var bpKpIq = BytesPairToDecimalQ8Converter.ConvertToBytesPairQ8(_settings.KpIq);
 			settingsSerialized[66] = bpKpIq.First;
 			settingsSerialized[67] = bpKpIq.Second;
 
