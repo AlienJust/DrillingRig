@@ -139,6 +139,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			try {
 				// А зачем отправлять команду. если ничего нет? :)
 				if (AnyAinParameterSetted) {
+					_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 					var settingsPart = new AinSettingsPartWritable {
 						Fmax = Parameter01Vm.CurrentValue,
 						IoutMax = ConvertDecimalToShort(Parameter02Vm.CurrentValue),
@@ -160,6 +161,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 				// А зачем отправлять команду. если ничего нет? :)
 				if (AnyEngineParameterSetted) {
+					_uiRoot.Notifier.Notify(() => { _logger.Log("Запись настроек двигателя..."); });
 					var settingsPart = new EngineSettingsPartWritable {
 						I2Tmax = ConvertDecimalToUint(Parameter08Vm.CurrentValue),
 						Icontinious = ConvertDecimalToUshort(Parameter09Vm.CurrentValue),
@@ -167,9 +169,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					};
 					_engineSettingsWriter.WriteSettingsAsync(settingsPart, exception => {
 						if (exception != null) {
-							_logger.Log("Ошибка при записи настроек. " + exception.Message);
+							_logger.Log("Ошибка при записи настроек двигателя. " + exception.Message);
 						}
-						else _logger.Log("Группа настроек была успешно записана");
+						else _logger.Log("Настройки двигателя были успешно записаны");
 					});
 				}
 			}

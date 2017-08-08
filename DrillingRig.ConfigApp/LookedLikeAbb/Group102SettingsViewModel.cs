@@ -103,6 +103,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 				var settingsPart = new AinSettingsPartWritable {
 					TauR = Parameter01Vm.CurrentValue,
 					Lm = Parameter02Vm.CurrentValue,

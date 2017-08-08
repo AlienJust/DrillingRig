@@ -70,6 +70,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 				var settingsPart = new AinSettingsPartWritable {
 					KpFi = Parameter01Vm.CurrentValue,
 					KiFi = Parameter02Vm.CurrentValue,

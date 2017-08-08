@@ -170,10 +170,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void WriteSettings() {
 			try {
 				if (AnyAinParameterSetted) {
+					_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 					var settingsPart = new AinSettingsPartWritable {
 						Unom = Parameter01Vm.CurrentValue,
 						Fnom = Parameter03Vm.CurrentValue,
-						Imcw = _imcwParameterVm.FullValue.HasValue? (ushort)_imcwParameterVm.FullValue.Value : (ushort?)null
+						//Imcw = _imcwParameterVm.FullValue.HasValue? (ushort)_imcwParameterVm.FullValue.Value : (ushort?)null
+						Imcw = _imcwParameterVm.FullValue
 					};
 					_ainSettingsReaderWriter.WriteSettingsAsync(settingsPart, exception => {
 						_uiRoot.Notifier.Notify(() => {
@@ -185,6 +187,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					});
 				}
 				if (AnyEngineParameterSetted) {
+					_uiRoot.Notifier.Notify(() => { _logger.Log("Запись настроек двигателя..."); });
 					var settingsPart = new EngineSettingsPartWritable {
 						Inom = ConvertDecimalToUshort(Parameter02Vm.CurrentValue),
 						Nnom = ConvertDecimalToUshort(Parameter04Vm.CurrentValue),
@@ -198,9 +201,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 					};
 					_engineSettingsWriter.WriteSettingsAsync(settingsPart, exception => {
 						if (exception != null) {
-							_logger.Log("Ошибка при записи настроек. " + exception.Message);
+							_logger.Log("Ошибка при записи настроек двигателя. " + exception.Message);
 						}
-						else _logger.Log("Группа настроек была успешно записана");
+						else _logger.Log("Настройки двигателя были успешно записаны");
 					});
 				}
 			}

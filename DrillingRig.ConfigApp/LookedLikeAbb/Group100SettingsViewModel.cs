@@ -71,6 +71,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 				var settingsPart = new AinSettingsPartWritable {
 					KpId = Parameter01Vm.CurrentValue,
 					KiId = Parameter02Vm.CurrentValue,

@@ -65,6 +65,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 				var settingsPart = new AinSettingsPartWritable {
 					// TODO: null handling like in group 100 or 101 (q8)
 					UchMin = BytesPair.FromSignedShortLowFirst(ConvertDecimalToShort(Parameter01Vm.CurrentValue).Value),

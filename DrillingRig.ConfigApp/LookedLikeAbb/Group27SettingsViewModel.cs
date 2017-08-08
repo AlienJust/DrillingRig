@@ -72,10 +72,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void WriteSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Запись группы настроек..."); });
 				var settingsPart = new AinSettingsPartWritable {
 					FiNom = Parameter01Vm.CurrentValue,
 					FiMin = Parameter02Vm.CurrentValue,
-					DflLim = (short)Parameter03Vm.CurrentValue,
+					DflLim = Parameter03Vm.CurrentValue,
 					FlMinMin = Parameter04Vm.CurrentValue
 				};
 				_readerWriter.WriteSettingsAsync(settingsPart, exception => {
