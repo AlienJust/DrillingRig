@@ -34,7 +34,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsWrite {
 			if (settings.IoutMax != settingsReReaded.IoutMax) paramsText += $"{Environment.NewLine}параметр IoutMax был {settings.IoutMax}; стал {settingsReReaded.IoutMax}";
 			if (settings.FiMin != settingsReReaded.FiMin) paramsText += $"{Environment.NewLine}параметр FiMin был {settings.FiMin}; стал {settingsReReaded.FiMin}";
 			if (settings.DacCh != settingsReReaded.DacCh) paramsText += $"{Environment.NewLine}параметр DacCh был {settings.DacCh}; стал {settingsReReaded.DacCh}";
-			if (settings.Imcw != settingsReReaded.Imcw) paramsText += $"{Environment.NewLine}параметр Imcw был {settings.Imcw}; стал {settingsReReaded.Imcw}";
+			if (settings.Imcw != settingsReReaded.Imcw) paramsText += $"{Environment.NewLine}параметр Imcw был 0x{settings.Imcw:X4}; стал 0x{settingsReReaded.Imcw:X4}";
 			if (settings.Ia0 != settingsReReaded.Ia0) paramsText += $"{Environment.NewLine}параметр Ia0 был {settings.Ia0}; стал {settingsReReaded.Ia0}";
 			if (settings.Ib0 != settingsReReaded.Ib0) paramsText += $"{Environment.NewLine}параметр Ib0 был {settings.Ib0}; стал {settingsReReaded.Ib0}";
 			if (settings.Ic0 != settingsReReaded.Ic0) paramsText += $"{Environment.NewLine}параметр Ic0 был {settings.Ic0}; стал {settingsReReaded.Ic0}";
