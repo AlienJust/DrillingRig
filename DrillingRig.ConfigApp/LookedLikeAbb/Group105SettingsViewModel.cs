@@ -82,6 +82,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		}
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
+			_uiRoot.Notifier.Notify(() => { _logger.Log("Группа настроек успешно прочитана"); });
 			if (zeroBasedAinNumber == 0) {
 				UpdateSettingsInUiThread(readInnerException, settings);
 			}
@@ -119,6 +120,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Чтение группы настроек..."); });
 				for (byte i = 0; i < _ainsCounter.SelectedAinsCount; ++i)
 					_readerWriter.ReadSettingsAsync(i, true, (exception, settings) => { });
 		}

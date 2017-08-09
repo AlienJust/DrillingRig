@@ -131,6 +131,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
 			if (zeroBasedAinNumber == 0) {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Группа настроек успешно прочитана"); });
 				UpdateAinSettingsInUiThread(readInnerException, settings);
 			}
 		}
@@ -183,7 +184,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		private void ReadSettings() {
 			// TODO: remove method from each group
 			try {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Чтение группы настроек..."); });
 				_ainSettingsReaderWriter.ReadSettingsAsync(0, true, (ex, settings) => { }); // empty action, because settings will be updated OnAinSettingsReadComplete
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Чтение настроек двигателя..."); });
 				_engineSettingsReader.ReadSettingsAsync(true, (ex, settings) => { });
 			}
 			catch (Exception ex) {

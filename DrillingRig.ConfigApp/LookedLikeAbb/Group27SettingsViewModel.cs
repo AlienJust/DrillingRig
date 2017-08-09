@@ -41,7 +41,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter01Vm = new ParameterDecimalEditCheckViewModel("27.01. Поток без ослабления поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 			Parameter02Vm = new ParameterDecimalEditCheckViewModel("27.02. Минимальный поток с ослаблением поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 			Parameter03Vm = new ParameterDecimalEditCheckViewModel("27.03. Максимально возможная компенсация потока, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768m, 32.767m) {Increment = 0.001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 			Parameter05Vm = new ParameterDecimalEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я, мс", "f3", -3.2768m, 3.2767m) { Increment = 0.0001m };
 			Parameter06Vm = new ParameterDecimalEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока, В", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 
@@ -66,6 +66,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void AinSettingsReadNotifyOnAinSettingsReadComplete(byte zeroBasedAinNumber, Exception readInnerException, IAinSettings settings) {
 			if (zeroBasedAinNumber == 0) {
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Группа настроек успешно прочитана"); });
 				UpdateSettingsInUiThread(readInnerException, settings);
 			}
 		}
@@ -96,7 +97,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 		private void ReadSettings() {
 			try {
-			_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
+				_uiRoot.Notifier.Notify(() => { _logger.Log("Чтение группы настроек..."); });
+				_readerWriter.ReadSettingsAsync(0, true, (exception, settings) => { });
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось прочитать группу настроек. " + ex.Message);
