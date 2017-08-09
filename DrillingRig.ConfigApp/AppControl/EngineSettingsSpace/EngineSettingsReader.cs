@@ -46,6 +46,7 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 			var readSettingsCmd = new ReadEngineSettingsCommand();
 
 			_notifyWorker.AddWork(FireEventEngineSettingsReadStarted);
+			_logger.Log("Чтение настроек двигателя...");
 			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout, 2,
 				(sendException, replyBytes) => {
 					if (sendException != null) {
@@ -70,6 +71,7 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 							_notifyWorker.AddWork(() => callback.Invoke(null, result));
 							_notifyWorker.AddWork(() => FireEventEngineSettingsReadComplete(null, result));
 							_notifyWorker.AddWork(() => _settingsStorageSettable.SetSettings(result));
+							_logger.Log("Настройки двигателя успешно прочитаны");
 						}
 						catch {
 							_logger.Log(
@@ -78,7 +80,7 @@ namespace DrillingRig.ConfigApp.AppControl.EngineSettingsSpace {
 					}
 					catch (Exception resultGetException) {
 						var errorMessage = "Ошибка во время разбора ответа на команду чтения настроек двигателя: " + resultGetException.Message;
-
+						_logger.Log(errorMessage);
 						try {
 							var ex = new Exception(errorMessage, resultGetException);
 							_notifyWorker.AddWork(() => callback.Invoke(ex, null));

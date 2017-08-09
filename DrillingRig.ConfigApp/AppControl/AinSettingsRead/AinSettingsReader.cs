@@ -31,17 +31,20 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 
 		public void ReadSettingsAsync(byte zeroBasedAinNumber, bool forceRead, Action<Exception, IAinSettings> callback) {
 			if (forceRead == false) {
+				// Берем настройки АИН из хранилища:
 				var settings = _ainSettingsStorageSettable.GetSettings(zeroBasedAinNumber);
 				if (settings != null) {
-					_notifyWorker.AddWork(() => callback.Invoke(null, settings));
+					_notifyWorker.AddWork(() => callback.Invoke(null, settings)); // TODO: callback fail unknown, use try -> invoke, catch -> log
 					return;
 				}
 			}
+
+			// Вычитываем настройки из порта:
 			var sender = _commandSenderHost.Sender;
 			if (sender == null) throw new NullReferenceException("Порт передачи данных не открыт");
 
 			var readSettingsCmd = new ReadAinSettingsCommand(zeroBasedAinNumber);
-
+			_logger.Log("Чтение настроек АИН " + (zeroBasedAinNumber + 1) + "...");
 			_notifyWorker.AddWork(() => FireEventAinSettingsReadStarted(zeroBasedAinNumber));
 			sender.SendCommandAsync(_targerAddressHost.TargetAddress, readSettingsCmd, _readSettingsTimeout, 2,
 				(sendException, replyBytes) => {
@@ -71,6 +74,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 							_notifyWorker.AddWork(() => callback.Invoke(null, result));
 							_notifyWorker.AddWork(() => FireEventAinSettingsReadComplete(zeroBasedAinNumber, null, result));
 							_notifyWorker.AddWork(() => _ainSettingsStorageSettable.SetSettings(zeroBasedAinNumber, result));
+							_logger.Log("Настройки АИН " + (zeroBasedAinNumber + 1) + " успешно прочитаны");
 						}
 						catch { 
 							_logger.Log("Не удалось совершить обратный вызов после успешного чтения настроек (либо не удалось сохранить настройки в хранилище) АИН" + (zeroBasedAinNumber + 1).ToString());
@@ -79,7 +83,7 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 					}
 					catch (Exception resultGetException) {
 						var errorMessage = "Ошибка во время разбора ответа на команду чтения настроек АИН" + (zeroBasedAinNumber + 1).ToString() + ": " + resultGetException.Message;
-
+						_logger.Log(errorMessage);
 						try {
 							var ex = new Exception(errorMessage, resultGetException);
 							_notifyWorker.AddWork(() => callback.Invoke(ex, null));
@@ -92,13 +96,14 @@ namespace DrillingRig.ConfigApp.AppControl.AinSettingsRead {
 					}
 				});
 		}
-		
 		private void FireEventAinSettingsReadComplete(byte zbAinNumber, Exception innerException, IAinSettings settings) {
+			
 			var eve = AinSettingsReadComplete;
 			eve?.Invoke(zbAinNumber, innerException, settings);
 		}
 
 		private void FireEventAinSettingsReadStarted(byte zbAinNumber) {
+
 			var eve = AinSettingsReadStarted;
 			eve?.Invoke(zbAinNumber);
 		}
