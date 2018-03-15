@@ -24,11 +24,11 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 	public static class FriquencyTransformerRoleExtension {
 		public static FriquencyTransformerRole FromByte(byte value) {
 			switch (value) {
-				case 0:
-					return FriquencyTransformerRole.Single;
 				case 1:
-					return FriquencyTransformerRole.Master;
+					return FriquencyTransformerRole.Single;
 				case 2:
+					return FriquencyTransformerRole.Master;
+				case 3:
 					return FriquencyTransformerRole.Slave;
 				default:
 					throw new Exception("Недопустимое значение байта: " + value);
@@ -38,11 +38,11 @@ namespace DrillingRig.Commands.BsEthernetSettings {
 		public static byte ToByte(this FriquencyTransformerRole value) {
 			switch (value) {
 				case FriquencyTransformerRole.Single:
-					return 0;
-				case FriquencyTransformerRole.Master:
 					return 1;
-				case FriquencyTransformerRole.Slave:
+				case FriquencyTransformerRole.Master:
 					return 2;
+				case FriquencyTransformerRole.Slave:
+					return 3;
 				default:
 					throw new Exception("Невозможно представить данную роль ПЧ как байт");
 			}

@@ -12,7 +12,6 @@ using DrillingRig.Commands.BsEthernetSettings;
 using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.NotifySendingEnabled;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 
 namespace DrillingRig.ConfigApp.BsEthernetSettings {
 	class BsEthernetSettingsViewModel : ViewModelBase {
