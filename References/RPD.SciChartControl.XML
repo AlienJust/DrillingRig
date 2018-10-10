@@ -21,36 +21,6 @@
             дипазона, а второе правую границу. После этого данные экспортируются и линию автоматически исчезают.
             </summary>
         </member>
-        <member name="T:RPD.SciChartControl.DefaultColors">
-            <summary>
-            Цвета используемые по-умолчанию.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.DefaultColors.ColorBrushes">
-            <summary>
-            Кисти цветов используемые по-умолчанию для отображения серий на графике.
-            </summary>
-        </member>
-        <member name="T:RPD.SciChartControl.Events.SeriesColorChangedEventArgs">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.Events.SeriesColorChangedEventArgs.Series">
-            <summary>
-            Серия у котой сменился цвет.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.Events.SeriesColorChangedEventArgs.Color">
-            <summary>
-            Новый цвет.
-            </summary>
-        </member>
-        <member name="T:RPD.SciChartControl.Events.SeriesColorChangedEventHandler">
-            <summary>
-            Представляет метод, который должен обрабатывать событие смены цвета серии на графике.
-            </summary>
-        </member>
         <member name="T:RPD.SciChartControl.ChartModifiers.ExportChartDataModifier.ViewModels.SelectedSeriesViewModel">
             <summary>
             Модель представления окна выбора серий для экспорта.
@@ -86,6 +56,46 @@
             Панорамирование при перетаскивании мышью и НЕ зажатом CTRL
             </summary>
         </member>
+        <member name="T:RPD.SciChartControl.DefaultColors">
+            <summary>
+            Цвета используемые по-умолчанию.
+            </summary>
+        </member>
+        <member name="P:RPD.SciChartControl.DefaultColors.ColorBrushes">
+            <summary>
+            Кисти цветов используемые по-умолчанию для отображения серий на графике.
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.DropDownButton">
+            <summary>
+            source taken from the website by Andrew Wilkinson
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.Events.SeriesColorChangedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:RPD.SciChartControl.Events.SeriesColorChangedEventArgs.Series">
+            <summary>
+            Серия у котой сменился цвет.
+            </summary>
+        </member>
+        <member name="P:RPD.SciChartControl.Events.SeriesColorChangedEventArgs.Color">
+            <summary>
+            Новый цвет.
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.Events.SeriesColorChangedEventHandler">
+            <summary>
+            Представляет метод, который должен обрабатывать событие смены цвета серии на графике.
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.Messages.ViewAction">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:RPD.SciChartControl.PointMetadata">
             <summary>
             Описание точки серии.
@@ -94,6 +104,11 @@
         <member name="F:RPD.SciChartControl.PointMetadata.DataPosition">
             <summary>
             Позиция точки в исходных данных.
+            </summary>
+        </member>
+        <member name="F:RPD.SciChartControl.PointMetadata.CmdData">
+            <summary>
+            Текст команды, которой принадлежит значение точки
             </summary>
         </member>
         <member name="F:RPD.SciChartControl.PointMetadata.IsValid">
@@ -108,79 +123,92 @@
             внутренние объекты, которые связаны с этой серией.
             </summary>
         </member>
+        <member name="P:RPD.SciChartControl.ISeriesAdditionalData.ChartSeries">
+            <summary>
+            Модель представления серии на графике.
+            </summary>
+        </member>
         <member name="M:RPD.SciChartControl.ISeriesAdditionalData.GetPointMetadata(System.Int32)">
             <summary>
             Возвращает данные точки. Используется для отображения позиции точки в исходных данных на графике.
             </summary>
             <param name="pointIndex">Номер точки</param>
         </member>
-        <member name="P:RPD.SciChartControl.ISeriesAdditionalData.ChartSeries">
+        <member name="F:RPD.SciChartControl.ViewModel.ChartControlViewModel._needToAdjustVisibleRangeForNewDiscreteSeries">
             <summary>
-            Модель представления серии на графике.
+            Признак того, что для только что добавленного дискретного графика нужно настроить видимый диапазон по оси Х.
             </summary>
         </member>
-        <member name="T:Abt.Controls.SciChart.Example.Data.DoubleSeries">
+        <member name="P:RPD.SciChartControl.ViewModel.ChartControlViewModel.AutoRange">
             <summary>
-            A data-structure to contain a list of X,Y double-precision points
+            Выставляет атоматический диапазон видимой области, если график пустой. Т.е. при появалении на 
+            графике первого сигнала область видимости будет автоматически растянута. При появлении послоедующих 
+            сигналов обл. видимости не будет меняться.
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.TimeData">
+        <member name="F:RPD.SciChartControl.ViewModel.ChartControlViewModel._mouseDownAxis">
             <summary>
-            Extracts the DateTime column of the PriceSeries as an array
+            Ось Y на которой была нажата мышь
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.OpenData">
+        <member name="E:RPD.SciChartControl.ViewModel.ChartControlViewModel.OnSeriesColorChanged">
             <summary>
-            Extracts the Open column of the PriceSeries as an array
+            Возникает при смене цвета серии на графике.
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.HighData">
+        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.FindAnalogOrDiscreteSeries(System.Func{Abt.Controls.SciChart.IChartSeriesViewModel,System.Boolean})">
             <summary>
-            Extracts the High column of the PriceSeries as an array
+            Ищет сначала аналоговый, а затем дискретный сигнал.
+            </summary>
+            <param name="predicate">Предикат</param>
+            <returns>Сигнал или null</returns>
+        </member>
+        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.IsYAxisNotEmpty(System.String)">
+            <summary>
+            На заданной оси Y находятся серии.
+            </summary>
+            <param name="axisId">Id оси Y</param>
+        </member>
+        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.AdjustNewSeriesProperties(System.Boolean,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Устанавливает настройки отображения серий такие же как на графике.
+            </summary>
+            <param name="isDiscreteSeries"> </param>
+            <param name="args">Новые серии.</param>
+        </member>
+        <member name="P:RPD.SciChartControl.ViewModel.IDiscreteChartSeriesViewModel.RenderableSeries">
+            <summary>
+            Содержит один единственный элемент IRpdChartSeriesViewModel.ChartSeries.RenderSeries. 
+            Используется для того-чтобы можно было прибиндится к модели представления из дискретного чарта.
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.LowData">
+        <member name="T:RPD.SciChartControl.ViewModel.IChartControlViewModel">
             <summary>
-            Extracts the Low column of the PriceSeries as an array
+            Модель представления чарта.
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.CloseData">
+        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.RpdAnalogSeriesViewModels">
             <summary>
-            Extracts the Close column of the PriceSeries as an array
+            Коллекция аналоговых графиков. Используется для хранения дополнительных данных связанных с графиком. 
+            В эту коллекцию автоматически добавляются новые элементы при появлении новых объектов в 
+            IChartControlViewModelRelatedProperties.AnalogSeries.
             </summary>
         </member>
-        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.VolumeData">
+        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.RpdDiscreteSeriesViewModels">
             <summary>
-            Extracts the Volume column of the PriceSeries as an array
+            Коллекция аналоговых графиков. Используется для хранения дополнительных данных связанных с графиком. 
+            В эту коллекцию автоматически добавляются новые элементы при появлении новых объектов в 
+            IChartControlViewModelRelatedProperties.DiscreteSeries.
             </summary>
         </member>
-        <member name="T:RPD.SciChartControl.HelpWindow">
+        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.YAxes">
             <summary>
-            Окно справки графика.
-            </summary>
-            <summary>
-            HelpWindow
+            Коллекция осей ординат. Должна содержать главную ось с Id == mainYAxis.
             </summary>
         </member>
-        <member name="M:RPD.SciChartControl.HelpWindow.InitializeComponent">
+        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.SharedXVisibleRange">
             <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:RPD.SciChartControl.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
+            Видимая область графика по оси X
             </summary>
         </member>
         <member name="T:RPD.SciChartControl.ViewModel.IChartControlViewModelRelatedProperties">
@@ -229,85 +257,9 @@
             Если true, то при включенном IsToZoomXAxisOnly при зуме высота графика по оси У будет растягиваться по максимуму
             </summary>
         </member>
-        <member name="T:RPD.SciChartControl.ViewModel.IChartControlViewModel">
-            <summary>
-            Модель представления чарта.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.RpdAnalogSeriesViewModels">
-            <summary>
-            Коллекция аналоговых графиков. Используется для хранения дополнительных данных связанных с графиком. 
-            В эту коллекцию автоматически добавляются новые элементы при появлении новых объектов в 
-            IChartControlViewModelRelatedProperties.AnalogSeries.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.RpdDiscreteSeriesViewModels">
-            <summary>
-            Коллекция аналоговых графиков. Используется для хранения дополнительных данных связанных с графиком. 
-            В эту коллекцию автоматически добавляются новые элементы при появлении новых объектов в 
-            IChartControlViewModelRelatedProperties.DiscreteSeries.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.YAxes">
-            <summary>
-            Коллекция осей ординат. Должна содержать главную ось с Id == mainYAxis.
-            </summary>
-        </member>
-        <member name="P:RPD.SciChartControl.ViewModel.IChartControlViewModel.SharedXVisibleRange">
-            <summary>
-            Видимая область графика по оси X
-            </summary>
-        </member>
-        <member name="F:RPD.SciChartControl.ViewModel.ChartControlViewModel._needToAdjustVisibleRangeForNewDiscreteSeries">
-            <summary>
-            Признак того, что для только что добавленного дискретного графика нужно настроить видимый диапазон по оси Х.
-            </summary>
-        </member>
-        <member name="F:RPD.SciChartControl.ViewModel.ChartControlViewModel._mouseDownAxis">
-            <summary>
-            Ось Y на которой была нажата мышь
-            </summary>
-        </member>
-        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.FindAnalogOrDiscreteSeries(System.Func{Abt.Controls.SciChart.IChartSeriesViewModel,System.Boolean})">
-            <summary>
-            Ищет сначала аналоговый, а затем дискретный сигнал.
-            </summary>
-            <param name="predicate">Предикат</param>
-            <returns>Сигнал или null</returns>
-        </member>
-        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.IsYAxisNotEmpty(System.String)">
-            <summary>
-            На заданной оси Y находятся серии.
-            </summary>
-            <param name="axisId">Id оси Y</param>
-        </member>
-        <member name="M:RPD.SciChartControl.ViewModel.ChartControlViewModel.AdjustNewSeriesProperties(System.Boolean,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
-            <summary>
-            Устанавливает настройки отображения серий такие же как на графике.
-            </summary>
-            <param name="isDiscreteSeries"> </param>
-            <param name="args">Новые серии.</param>
-        </member>
-        <member name="P:RPD.SciChartControl.ViewModel.ChartControlViewModel.AutoRange">
-            <summary>
-            Выставляет атоматический диапазон видимой области, если график пустой. Т.е. при появалении на 
-            графике первого сигнала область видимости будет автоматически растянута. При появлении послоедующих 
-            сигналов обл. видимости не будет меняться.
-            </summary>
-        </member>
-        <member name="E:RPD.SciChartControl.ViewModel.ChartControlViewModel.OnSeriesColorChanged">
-            <summary>
-            Возникает при смене цвета серии на графике.
-            </summary>
-        </member>
         <member name="T:RPD.SciChartControl.ViewModel.IRpdChartSeriesViewModel">
             <summary>
             Модель представления графиков. Содержит дополнительные данные, которы ассоциируются с ChartSeries.
-            </summary>
-        </member>
-        <member name="M:RPD.SciChartControl.ViewModel.IRpdChartSeriesViewModel.CloneDataSeriesIfNull">
-            <summary>
-            Создаёт копию данных серии.
             </summary>
         </member>
         <member name="P:RPD.SciChartControl.ViewModel.IRpdChartSeriesViewModel.OridinalDataSeries">
@@ -315,18 +267,43 @@
             Копия данных серии. Изначально null. Создаётся после вызова CloneDataSeriesIfNull().
             </summary>
         </member>
-        <member name="P:RPD.SciChartControl.ViewModel.IDiscreteChartSeriesViewModel.RenderableSeries">
+        <member name="M:RPD.SciChartControl.ViewModel.IRpdChartSeriesViewModel.CloneDataSeriesIfNull">
             <summary>
-            Содержит один единственный элемент IRpdChartSeriesViewModel.ChartSeries.RenderSeries. 
-            Используется для того-чтобы можно было прибиндится к модели представления из дискретного чарта.
+            Создаёт копию данных серии.
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.HelpWindow">
+            <summary>
+            Окно справки графика.
+            </summary>
+            <summary>
+            HelpWindow
+            </summary>
+        </member>
+        <member name="M:RPD.SciChartControl.HelpWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:RPD.SciChartControl.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:RPD.SciChartControl.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:RPD.SciChartControl.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="T:RPD.SciChartControl.Views.BookmarkNameView">
             <summary>
             Interaction logic for BookmarkNameView.xaml
-            </summary>
-            <summary>
-            BookmarkNameView
             </summary>
         </member>
         <member name="M:RPD.SciChartControl.Views.BookmarkNameView.InitializeComponent">
@@ -340,33 +317,6 @@
             </summary>
             <summary>
             ChartControl
-            </summary>
-        </member>
-        <member name="F:RPD.SciChartControl.Views.ChartControl.ViewModelPropertyName">
-            <summary>
-            Модель представления.
-            </summary>
-        </member>
-        <member name="M:RPD.SciChartControl.Views.ChartControl.SaveSettings(System.String)">
-            <summary>
-            Сохранить настойки графика. Сюда входят настройки, которые пользователь вручную изменил на панели инструментов.
-            </summary>
-            <param name="fileName">Файл настроек.</param>
-        </member>
-        <member name="M:RPD.SciChartControl.Views.ChartControl.LoadSettings(System.String)">
-            <summary>
-            Загрузить настойки графика. Сюда входят настройки, которые пользователь вручную изменил на панели инструментов.
-            </summary>
-            <param name="fileName">Файл настроек.</param>
-        </member>
-        <member name="M:RPD.SciChartControl.Views.ChartControl.CreateValueLabelAnnotation">
-            <summary>
-            Создаёт метку с текущим значением.
-            </summary>
-        </member>
-        <member name="M:RPD.SciChartControl.Views.ChartControl.InitializeComponent">
-            <summary>
-            InitializeComponent
             </summary>
         </member>
         <member name="E:RPD.SciChartControl.Views.ChartControl.SeriesColorChanged">
@@ -396,9 +346,76 @@
             одновременно с добавлением данных в AnalogSeries.
             </summary>
         </member>
+        <member name="F:RPD.SciChartControl.Views.ChartControl.ViewModelPropertyName">
+            <summary>
+            Модель представления.
+            </summary>
+        </member>
         <member name="P:RPD.SciChartControl.Views.ChartControl.Annotations">
             <summary>
-            Анотации.
+            Аннотации.
+            </summary>
+        </member>
+        <member name="M:RPD.SciChartControl.Views.ChartControl.#ctor">
+            <summary>
+            Creates new ChartControl
+            </summary>
+        </member>
+        <member name="M:RPD.SciChartControl.Views.ChartControl.SaveSettings(System.String)">
+            <summary>
+            Сохранить настойки графика. Сюда входят настройки, которые пользователь вручную изменил на панели инструментов.
+            </summary>
+            <param name="fileName">Файл настроек.</param>
+        </member>
+        <member name="M:RPD.SciChartControl.Views.ChartControl.LoadSettings(System.String)">
+            <summary>
+            Загрузить настойки графика. Сюда входят настройки, которые пользователь вручную изменил на панели инструментов.
+            </summary>
+            <param name="fileName">Файл настроек.</param>
+        </member>
+        <member name="M:RPD.SciChartControl.Views.ChartControl.CreateValueLabelAnnotation">
+            <summary>
+            Создаёт метку с текущим значением.
+            </summary>
+        </member>
+        <member name="M:RPD.SciChartControl.Views.ChartControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Abt.Controls.SciChart.Example.Data.DoubleSeries">
+            <summary>
+            A data-structure to contain a list of X,Y double-precision points
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.TimeData">
+            <summary>
+            Extracts the DateTime column of the PriceSeries as an array
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.OpenData">
+            <summary>
+            Extracts the Open column of the PriceSeries as an array
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.HighData">
+            <summary>
+            Extracts the High column of the PriceSeries as an array
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.LowData">
+            <summary>
+            Extracts the Low column of the PriceSeries as an array
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.CloseData">
+            <summary>
+            Extracts the Close column of the PriceSeries as an array
+            </summary>
+        </member>
+        <member name="P:Abt.Controls.SciChart.Example.Data.PriceSeries.VolumeData">
+            <summary>
+            Extracts the Volume column of the PriceSeries as an array
             </summary>
         </member>
         <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">

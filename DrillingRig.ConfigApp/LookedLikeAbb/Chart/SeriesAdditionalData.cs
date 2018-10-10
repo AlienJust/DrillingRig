@@ -11,7 +11,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Chart {
 		public IChartSeriesViewModel ChartSeries { get; set; }
 
 		public PointMetadata GetPointMetadata(int pointIndex) {
-			return new PointMetadata { DataPosition = (ulong)pointIndex, IsValid = true };
+			return new PointMetadata { DataPosition = pointIndex, IsValid = true };
 		}
 	}
 }
