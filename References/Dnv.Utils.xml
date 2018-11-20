@@ -144,17 +144,27 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Dnv.Utils.Messages.DialogMessage`1" -->
+        <member name="T:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult">
+            <summary>
+            Результат отображения диалога.
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.DialogResult">
+            <summary>
+            Результат вызова метода DialogType.ShowDialog();
+            </summary>
+        </member>
+        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.Dialog">
+            <summary>
+            Диалог. используется для извлечения результатов отображения (имя файла, папки, цвет и т.п.)
+            </summary>
+        </member>
         <member name="M:Dnv.Utils.Messages.DialogMessage`1.#ctor(System.Object,`0,System.Action{Dnv.Utils.Messages.DialogMessage{`0}.DialogMessageResult})">
             <summary>
             Конструктор.
             </summary>
             <param name="dialog">Сконфигурированный диалог</param>
             <param name="resultCallback">Колбэк, который будет вызван после показа диалога.</param>
-        </member>
-        <member name="M:Dnv.Utils.Messages.DialogMessage`1.ProcessResult">
-            <summary>
-            Обработать результат. Вызывается принимающей стороной.
-            </summary>
         </member>
         <member name="P:Dnv.Utils.Messages.DialogMessage`1.Dialog">
             <summary>
@@ -171,19 +181,9 @@
             Результат отображения диалога.
             </summary>
         </member>
-        <member name="T:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult">
+        <member name="M:Dnv.Utils.Messages.DialogMessage`1.ProcessResult">
             <summary>
-            Результат отображения диалога.
-            </summary>
-        </member>
-        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.DialogResult">
-            <summary>
-            Результат вызова метода DialogType.ShowDialog();
-            </summary>
-        </member>
-        <member name="P:Dnv.Utils.Messages.DialogMessage`1.DialogMessageResult.Dialog">
-            <summary>
-            Диалог. используется для извлечения результатов отображения (имя файла, папки, цвет и т.п.)
+            Обработать результат. Вызывается принимающей стороной.
             </summary>
         </member>
         <member name="T:Dnv.Utils.Messages.MessageBoxMessage">
@@ -196,14 +196,14 @@
             Обработать результат. Вызывается принимающей стороной.
             </summary>
         </member>
-        <member name="M:Dnv.Utils.Settings.IApplicationSettingsBase.Save">
-            <summary>
-            Save settings.
-            </summary>
-        </member>
         <member name="P:Dnv.Utils.Settings.IApplicationSettingsBase.IsFirstInitialization">
             <summary>
             First application run.
+            </summary>
+        </member>
+        <member name="M:Dnv.Utils.Settings.IApplicationSettingsBase.Save">
+            <summary>
+            Save settings.
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:Dnv.Utils.Settings.ApplicationSettingsBase.LocalApplicationDataPath" -->
