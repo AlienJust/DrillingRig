@@ -1,5 +1,4 @@
 ﻿using AlienJust.Support.ModelViewViewModel;
-using DrillingRig.ConfigApp.AppControl.LoggerHost;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly {
@@ -20,7 +19,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly
 		}
 
 		public double? CurrentValue {
-			get { return _currentValue; }
+			get => _currentValue;
 			set {
 				if (_currentValue != value) {
 					_currentValue = value;
@@ -36,7 +35,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly
 		public string FormattedValue => _currentValue?.ToString(Format) ?? "?";
 
 		public bool IsChecked {
-			get { return _isChecked; }
+			get => _isChecked;
 			set {
 				if (value != _isChecked) {
 					_isChecked = value;

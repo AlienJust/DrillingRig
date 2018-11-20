@@ -1,6 +1,8 @@
-﻿using AlienJust.Support.ModelViewViewModel;
+﻿using AlienJust.Support.Loggers.Contracts;
+using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.Commands.EngineTests;
+using System;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
@@ -26,9 +28,11 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 		private decimal? _speedKp;
 		private decimal? _speedTi;
 		private decimal? _speedKi;
+		private readonly ILogger _logger;
 
-		public TableViewModel(string header) {
+		public TableViewModel(string header, ILogger logger) {
 			Header = header;
+			_logger = logger;
 		}
 
 		/// <summary>
@@ -45,20 +49,32 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 			IdIqKp = settings?.KpId; // для асинхронника Kp ID = Kp IQ
 			if (settings != null) {
-				IdIqTi = 1.0m / (settings.KiId * f0);
+				if (settings.KiId == 0m) _logger.Log("Параметр KiId из настроек АИН равен 0, вычисление IdIqTi не будет осуществлено из-за деления на 0");
+				else if (f0 == 0m) _logger.Log("f0 равна 0, IdIqTi  не будет осуществлено из-за деления на 0");
+				else IdIqTi = 1.0m / (settings.KiId * f0);
 			}
+			else _logger.Log("Настройки АИН неизвестны (null), вычисление IdIqTi не будет осуществлено");
+
 			IdIqKi = settings?.KiId;
 
 			FluxKp = settings?.KpFi;
 			if (settings != null) {
-				FluxTi = 1.0m / (settings.KiFi * f0);
+				if (settings.KiFi == 0m) _logger.Log("Параметр KiFi из настроек АИН равен 0, вычисление FluxTi не будет осуществлено из-за деления на 0");
+				else if (f0 == 0m) _logger.Log("f0 is zero, FluxTi  не будет осуществлено из-за деления на 0");
+				else FluxTi = 1.0m / (settings.KiFi * f0);
 			}
+			else _logger.Log("Настройки АИН неизвестны (null), вычисление FluxTi не будет осуществлено");
+
 			FluxKi = settings?.KiFi;
 
 			SpeedKp = settings?.KpW;
 			if (settings != null) {
-				SpeedTi = 1.0m / (settings.KiW * f0);
+				if (settings.KiW == 0m) _logger.Log("Параметр KiW из настроек АИН равен 0, вычисление SpeedTi не будет осуществлено из-за деления на 0");
+				else if (f0 == 0m) _logger.Log("f0 is zero, SpeedTi  не будет осуществлено из-за деления на 0");
+				else SpeedTi = 1.0m / (settings.KiW * f0);
 			}
+			else _logger.Log("Настройки АИН неизвестны (null), вычисление SpeedTi не будет осуществлено");
+
 			SpeedKi = settings?.KiW;
 
 
@@ -69,10 +85,10 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 
 				// Берём дублирующиеся параметры из результатов только, если настройки не вычитаны
 				if (settings == null) {
-					Rs = (short)testResult.Rs;
+					Rs = testResult.Rs;
 					LslAndLrl = (short)testResult.Lsl;
 					Lm = (short)testResult.Lm;
-					FlNom = (short)testResult.FlNom;
+					FlNom = testResult.FlNom;
 					Tr = (short)testResult.TauR;
 				}
 			}
