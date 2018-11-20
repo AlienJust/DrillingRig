@@ -2,7 +2,6 @@
 using AlienJust.Support.ModelViewViewModel;
 using DrillingRig.Commands.AinSettings;
 using DrillingRig.Commands.EngineTests;
-using System;
 
 namespace DrillingRig.ConfigApp.EngineAutoSetup {
 	class TableViewModel : ViewModelBase {
