@@ -19,7 +19,6 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 
 			_debugLogger = debugLogger;
 			_uiNotifier = uiNotifier;
-			//var backWorker = new SingleThreadedRelayQueueWorkerProceedAllItemsBeforeStopNoLog<Action>("NbBackWorker", a => a(), ThreadPriority.BelowNormal, true, null);
 			_backWorker = backWorker;
 			_backWorkerStoppable = stoppableBackWorker;
 		}
@@ -30,14 +29,13 @@ namespace DrillingRig.CommandSenders.TestCommandSender {
 					var request = command.Serialize();
 					_debugLogger.GetLogger(4).Log("Command: " + command.Name, new StackTrace(Thread.CurrentThread, true));
 					_debugLogger.GetLogger(4).Log("Request: " + request.ToText(), new StackTrace(Thread.CurrentThread, true));
-
+					
 					//Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds/10.0)); // 1/10 of timeout waiting :)
 					Thread.Sleep(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds)); // sleeping for full timeout :)
 					Exception exception = null;
 					byte[] reply;
 					try {
-						var testCmd = command as IRrModbusCommandWithTestReply;
-						if (testCmd != null) {
+						if (command is IRrModbusCommandWithTestReply testCmd) {
 							reply = testCmd.GetTestReply();
 							_debugLogger.GetLogger(4).Log("Test reply: " + reply.ToText(), new StackTrace(Thread.CurrentThread, true));
 						}

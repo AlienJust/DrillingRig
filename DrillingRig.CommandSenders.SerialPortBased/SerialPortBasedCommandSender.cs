@@ -44,7 +44,8 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 					sendBytes[1] = command.CommandCode;
 					cmdBytes.CopyTo(sendBytes, 2);
 
-					var sendCrc = MathExtensions.Crc16ByDo(sendBytes.ToList(), 0, sendBytes.Length - 2);
+					
+					var sendCrc = MathExtensions.GetCrc16FromArray(sendBytes, 0, sendBytes.Length - 2);
 					sendBytes[sendBytes.Length - 2] = sendCrc.Low;
 					sendBytes[sendBytes.Length - 1] = sendCrc.High;
 
@@ -72,7 +73,7 @@ namespace DrillingRig.CommandSenders.SerialPortBased {
 						if (replyBytes[1] != command.CommandCode) {
 							throw new Exception("Command code is wrong (" + replyBytes[1] + "), assumed the same as it was sended: " + command.CommandCode);
 						}
-						var crc = MathExtensions.Crc16ByDo(replyBytes.ToList(), 0, replyBytes.Length - 2);
+						var crc = MathExtensions.GetCrc16FromArray(replyBytes, 0, replyBytes.Length - 2);
 						if (crc.Low != replyBytes[replyBytes.Length - 2])
 							throw new Exception("Crc Low byte is wrong, assumed to be 0x" + crc.Low.ToString("x2") + " (" + crc.Low + " dec)");
 						if (crc.High != replyBytes[replyBytes.Length - 1])
