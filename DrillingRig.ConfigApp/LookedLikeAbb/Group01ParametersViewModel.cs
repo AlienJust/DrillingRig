@@ -52,13 +52,13 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_logger = logger;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("01.01 Вычисленная частота вращения [об/мин]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("01.02 Частота вращения, измеренная ДЧВ [об/мин]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("01.03 Частота на ОС регулятора скорости после фильтра [об/мин]", "f0", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("01.01. Вычисленная скорость вращения двигателя [об/мин]", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("01.02. Скорость вращения двигателя, измеренная датчиком скорости [об/мин]", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("01.03. Отфильтрованная измеренная/вычисленная скорость в канале ОС [об/мин]", "f0", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("01.04 Измеренный ток двигателя [А]", "f0", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("01.04. Измеренный ток обмотки статора [A]", "f0", null, parameterLogger);
 
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("01.05 Вычисленное выходное напряжение на двигателе [В]", "f0", null, parameterLogger); // TODO: спросить Марата, в процентах или как задаётся момент.
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("01.05. Напряжение в звене постоянного тока [В]", "f0", null, parameterLogger); // TODO: спросить Марата, в процентах или как задаётся момент.
 			Parameter06Vm = new ParameterDoubleReadonlyViewModel("01.06 Напряжение шины DC [В]", "f0", null, parameterLogger);
 
 			Parameter07Vm = new ParameterDoubleReadonlyViewModel("01.07 Температура радиатора АИН1 [град С]", "f0", null, parameterLogger);
@@ -69,11 +69,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter11Vm = new ParameterDoubleReadonlyViewModel("01.11 Температура внешняя АИН2 [град С]", "f0", null, parameterLogger);
 			Parameter12Vm = new ParameterDoubleReadonlyViewModel("01.12 Температура внешняя АИН3 [град С]", "f0", null, parameterLogger);
 
-			Parameter13Vm = new ParameterDoubleReadonlyViewModel("01.13 Измеренный момент [Нм]", "f0", null, parameterLogger);
-			Parameter14Vm = new ParameterDoubleReadonlyViewModel("01.14 Измеренный момент после фильтра [Нм]", "f0", null, parameterLogger);
+			Parameter13Vm = new ParameterDoubleReadonlyViewModel("01.13. Измеренный момент на валу двигателя [Нм]", "f0", null, parameterLogger);
+			Parameter14Vm = new ParameterDoubleReadonlyViewModel("01.14. Отфильтрованный измеренный момент на валу двигателя [Нм]", "f0", null, parameterLogger);
 
-			Parameter15Vm = new ParameterDoubleReadonlyViewModel("01.15 Уставка моментного тока (Выход регулятора скорости) [%]", "f0", null, parameterLogger);
-			Parameter16Vm = new ParameterDoubleReadonlyViewModel("01.16 Мощность, подаваемая на двигатель", "f0", null, parameterLogger);
+			Parameter15Vm = new ParameterDoubleReadonlyViewModel("01.15. Задание моментного тока [%]", "f0", null, parameterLogger);
+			Parameter16Vm = new ParameterDoubleReadonlyViewModel("01.16. Мгновенная мощность на валу двигателя [кВт]", "f0", null, parameterLogger);
 
 			Parameter17Vm = new ParameterDoubleReadonlyViewModel("01.17 Состояние цифровых входов", "f0", null, parameterLogger);
 			Parameter18Vm = new ParameterDoubleReadonlyViewModel("01.18 Состояние релейных выходов", "f0", null, parameterLogger);
@@ -111,33 +111,32 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 		public void InCycleAction() {
 			var waiter = new ManualResetEvent(false);
 			var cmd = new ReadTelemetry01Command();
-			_commandSenderHost.SilentSender.SendCommandAsync(_targerAddressHost.TargetAddress,
-				cmd, TimeSpan.FromSeconds(0.1), 2,
-				(exception, bytes) => {
-					ITelemetry01 telemetry = null;
-					try {
-						if (exception != null) {
-							throw new Exception("Произошла ошибка во время обмена", exception);
-						}
-						var result = cmd.GetResult(bytes);
-						_errorCounts = 0;
-						telemetry = result;
+			_commandSenderHost.SilentSender.SendCommandAsync(_targerAddressHost.TargetAddress, cmd, TimeSpan.FromSeconds(0.1), 2, (exception, bytes) => {
+				ITelemetry01 telemetry = null;
+				try {
+					if (exception != null) {
+						throw new Exception("Произошла ошибка во время обмена", exception);
 					}
-					catch (Exception ex) {
-						_errorCounts++;
-						telemetry = null;
-						//_logger.Log("Ошибка: " + ex.Message);
-						//Console.WriteLine(ex);
-					}
-					finally {
-						_uiRoot.Notifier.Notify(() => {
-							// TODO: uipdate bu null if null obtains more than X times (3 for example)
-							
-							UpdateTelemetry(telemetry);
-						});
-						waiter.Set();
-					}
-				});
+
+					var result = cmd.GetResult(bytes);
+					_errorCounts = 0;
+					telemetry = result;
+				}
+				catch (Exception ex) {
+					_errorCounts++;
+					telemetry = null;
+					//_logger.Log("Ошибка: " + ex.Message);
+					//Console.WriteLine(ex);
+				}
+				finally {
+					_uiRoot.Notifier.Notify(() => {
+						// TODO: uipdate bu null if null obtains more than X times (3 for example)
+
+						UpdateTelemetry(telemetry);
+					});
+					waiter.Set();
+				}
+			});
 			waiter.WaitOne();
 			waiter.Reset();
 		}
@@ -156,7 +155,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter07Vm.CurrentValue = telemetry?.T1;
 			Parameter08Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.T2 : null;
 			Parameter09Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.T3 : null;
-			
+
 			Parameter10Vm.CurrentValue = telemetry?.Text1;
 			Parameter11Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 2 ? telemetry?.Text2 : null;
 			Parameter12Vm.CurrentValue = _ainsCounter.SelectedAinsCount >= 3 ? telemetry?.Text3 : null;

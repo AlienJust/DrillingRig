@@ -32,7 +32,7 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly
 			}
 		}
 
-		public string FormattedValue => _currentValue?.ToString(Format) ?? "?";
+		public string FormattedValue => _currentValue?.ToString(Format) ?? "-";
 
 		public bool IsChecked {
 			get => _isChecked;
