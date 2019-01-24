@@ -43,21 +43,21 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01 Выход задатчика интенсивности частоты [об/мин]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02 Выход задатчика интенсивности после фильтра [об/мин]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03 Уставка потока [%]", "f0", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("02.01. Скорость вращения двигателя на выходе задатчика интенсивности [об/мин]", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("02.02. Скорость вращения двигателя на выходе фильтра канала задания скорости [об/мин]", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("02.03. Заданный поток [%]", "f0", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04 Измеренный поток [%]", "f0", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("02.04. Измеренный поток [%]", "f0", null, parameterLogger);
 
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05 Измеренный поток после фильтра [%]", "f0", null, parameterLogger);
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06 Задание моментного тока [А]", "f0", null, parameterLogger);
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("02.05. Отфильтрованный измеренный поток [%]", "f0", null, parameterLogger);
+			Parameter06Vm = new ParameterDoubleReadonlyViewModel("02.06. Задание моментного тока [А]", "f0", null, parameterLogger);
 
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07 Задание тока возбуждения [А]", "f0", null, parameterLogger);
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("02.08 Пропорциональная часть регулятора тока D [А]", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09 Пропорциональная часть регулятора тока Q [А]", "f0", null, parameterLogger);
+			Parameter07Vm = new ParameterDoubleReadonlyViewModel("02.07. Задание тока намагничивания [А]", "f0", null, parameterLogger);
+			Parameter08Vm = new ParameterDoubleReadonlyViewModel("02.08. Пропорциональная часть регулятора тока D [А]", "f0", null, parameterLogger);
+			Parameter09Vm = new ParameterDoubleReadonlyViewModel("02.09. Пропорциональная часть регулятора тока Q [А]", "f0", null, parameterLogger);
 
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10 Пропорциональная часть регулятора скорости [об/мин]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11 Пропорциональная часть регулятора потока [%]", "f0", null, parameterLogger);
+			Parameter10Vm = new ParameterDoubleReadonlyViewModel("02.10. Пропорциональная часть регулятора скорости [об/мин]", "f0", null, parameterLogger);
+			Parameter11Vm = new ParameterDoubleReadonlyViewModel("02.11. Пропорциональная часть регулятора потока [%]", "f0", null, parameterLogger);
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);

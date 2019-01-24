@@ -119,10 +119,7 @@
 		<TabItem Header="03. Внутренние параметры" Style="{StaticResource AzureTabItem}">
 			<lookedLikeAbb:Group03ParametersView DataContext="{Binding Path=Group03ParametersVm, Mode=OneTime}"/>
 		</TabItem>
-		<TabItem Header="04. Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
-			<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
-		</TabItem>
-		<TabItem Header="07. Управляющие слова" Style="{StaticResource AzureTabItem}">
+		<TabItem Header="07. Слова управления" Style="{StaticResource AzureTabItem}">
 			<group07Parameters:Group07ParametersView DataContext="{Binding Path=Group07ParametersVm, Mode=OneTime}"/>
 		</TabItem>
 		<TabItem Header="08. Слова состояния" Style="{StaticResource AzureTabItem}">
@@ -132,6 +129,9 @@
 			<lookedLikeAbb:Group09ParametersView DataContext="{Binding Path=Group09ParametersVm, Mode=OneTime}"/>
 		</TabItem>
 		<TabItem Header="Сводка" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen"></TabItem>
+		<TabItem Header="Информация о прошивках" Style="{StaticResource AzureTabItem}" BorderBrush="LimeGreen">
+			<lookedLikeAbb:Group04ParametersView DataContext="{Binding Path=Group04ParametersVm, Mode=OneTime}"/>
+		</TabItem>
 	</TabControl>
 	</ScrollViewer>
 </UserControl>

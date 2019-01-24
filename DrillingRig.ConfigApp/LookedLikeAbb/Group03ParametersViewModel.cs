@@ -41,20 +41,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_uiRoot = uiRoot;
 			_logger = logger;
 
-			Parameter01Vm = new ParameterDoubleReadonlyViewModel("03.01 Коэффициент модуляции ШИМ [%]", "f0", null, parameterLogger);
-			Parameter02Vm = new ParameterDoubleReadonlyViewModel("03.02 Выход регулятора тока D [%]", "f0", null, parameterLogger);
-			Parameter03Vm = new ParameterDoubleReadonlyViewModel("03.03 Выход регулятора тока Q [%]", "f0", null, parameterLogger);
+			Parameter01Vm = new ParameterDoubleReadonlyViewModel("03.01. Коэффициент модуляции ШИМ [%]", "f0", null, parameterLogger);
+			Parameter02Vm = new ParameterDoubleReadonlyViewModel("03.02. Выход регулятора тока D [%]", "f0", null, parameterLogger);
+			Parameter03Vm = new ParameterDoubleReadonlyViewModel("03.03. Выход регулятора тока Q [%]", "f0", null, parameterLogger);
 
-			Parameter04Vm = new ParameterDoubleReadonlyViewModel("03.04 Измеренная составляющая тока D [%]", "f0", null, parameterLogger);
-			Parameter05Vm = new ParameterDoubleReadonlyViewModel("03.05 Измеренная составляющая тока Q [%]", "f0", null, parameterLogger);
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("03.06 Выход регулятора компенсатора вычислителя потока D [В]", "f0", null, parameterLogger);
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("03.07 Выход регулятора компенсатора вычислителя потока Q [В]", "f0", null, parameterLogger);
+			Parameter04Vm = new ParameterDoubleReadonlyViewModel("03.04. Измеренная составляющая тока D [%]", "f0", null, parameterLogger);
+			Parameter05Vm = new ParameterDoubleReadonlyViewModel("03.05. Измеренная составляющая тока Q [%]", "f0", null, parameterLogger);
+			Parameter06Vm = new ParameterDoubleReadonlyViewModel("03.06. Выход регулятора компенсатора вычислителя потока D [В]", "f0", null, parameterLogger);
+			Parameter07Vm = new ParameterDoubleReadonlyViewModel("03.07. Выход регулятора компенсатора вычислителя потока Q [В]", "f0", null, parameterLogger);
 
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("03.08 Вспомогательная ячейка №1 АИН1", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("03.09 Вспомогательная ячейка №2 АИН1", "f0", null, parameterLogger);
+			Parameter08Vm = new ParameterDoubleReadonlyViewModel("03.08. Вспомогательная ячейка №1 АИН1", "f0", null, parameterLogger);
+			Parameter09Vm = new ParameterDoubleReadonlyViewModel("03.09. Вспомогательная ячейка №2 АИН1", "f0", null, parameterLogger);
 
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("03.10 Вычисленное текущее значение теплового показателя двигателя [А^2*c]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("03.11 (Ведомый привод) Уставка моментного тока (Выход регулятора скорости) [%]", "f0", null, parameterLogger);
+			Parameter10Vm = new ParameterDoubleReadonlyViewModel("03.10. Вычисленное текущее значение теплового показателя двигателя [А^2*c]", "f0", null, parameterLogger);
+			Parameter11Vm = new ParameterDoubleReadonlyViewModel("03.11. (Ведомый привод) Уставка моментного тока (Выход регулятора скорости) [%]", "f0", null, parameterLogger);
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);

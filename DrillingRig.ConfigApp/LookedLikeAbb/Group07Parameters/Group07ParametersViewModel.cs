@@ -7,9 +7,7 @@ using DrillingRig.ConfigApp.AppControl.CommandSenderHost;
 using DrillingRig.ConfigApp.AppControl.Cycle;
 using DrillingRig.ConfigApp.AppControl.ParamLogger;
 using DrillingRig.ConfigApp.AppControl.TargetAddressHost;
-using DrillingRig.ConfigApp.CommandSenderHost;
 using DrillingRig.ConfigApp.LookedLikeAbb.Group07Parameters.McwParameter;
-using DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleReadonly;
 
 namespace DrillingRig.ConfigApp.LookedLikeAbb.Group07Parameters {
 	class Group07ParametersViewModel : ViewModelBase, ICyclePart {

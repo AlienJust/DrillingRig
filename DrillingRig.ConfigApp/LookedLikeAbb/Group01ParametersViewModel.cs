@@ -59,15 +59,15 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter04Vm = new ParameterDoubleReadonlyViewModel("01.04. Измеренный ток обмотки статора [A]", "f0", null, parameterLogger);
 
 			Parameter05Vm = new ParameterDoubleReadonlyViewModel("01.05. Напряжение в звене постоянного тока [В]", "f0", null, parameterLogger); // TODO: спросить Марата, в процентах или как задаётся момент.
-			Parameter06Vm = new ParameterDoubleReadonlyViewModel("01.06 Напряжение шины DC [В]", "f0", null, parameterLogger);
+			Parameter06Vm = new ParameterDoubleReadonlyViewModel("01.06. Напряжение шины DC [В]", "f0", null, parameterLogger);
 
-			Parameter07Vm = new ParameterDoubleReadonlyViewModel("01.07 Температура радиатора АИН1 [град С]", "f0", null, parameterLogger);
-			Parameter08Vm = new ParameterDoubleReadonlyViewModel("01.08 Температура радиатора АИН2 [град С]", "f0", null, parameterLogger);
-			Parameter09Vm = new ParameterDoubleReadonlyViewModel("01.09 Температура радиатора АИН3 [град С]", "f0", null, parameterLogger);
+			Parameter07Vm = new ParameterDoubleReadonlyViewModel("01.07. Температура радиатора АИН1 [град С]", "f0", null, parameterLogger);
+			Parameter08Vm = new ParameterDoubleReadonlyViewModel("01.08. Температура радиатора АИН2 [град С]", "f0", null, parameterLogger);
+			Parameter09Vm = new ParameterDoubleReadonlyViewModel("01.09. Температура радиатора АИН3 [град С]", "f0", null, parameterLogger);
 
-			Parameter10Vm = new ParameterDoubleReadonlyViewModel("01.10 Температура внешняя АИН1 [град С]", "f0", null, parameterLogger);
-			Parameter11Vm = new ParameterDoubleReadonlyViewModel("01.11 Температура внешняя АИН2 [град С]", "f0", null, parameterLogger);
-			Parameter12Vm = new ParameterDoubleReadonlyViewModel("01.12 Температура внешняя АИН3 [град С]", "f0", null, parameterLogger);
+			Parameter10Vm = new ParameterDoubleReadonlyViewModel("01.10. Температура внешняя АИН1 [град С]", "f0", null, parameterLogger);
+			Parameter11Vm = new ParameterDoubleReadonlyViewModel("01.11. Температура внешняя АИН2 [град С]", "f0", null, parameterLogger);
+			Parameter12Vm = new ParameterDoubleReadonlyViewModel("01.12. Температура внешняя АИН3 [град С]", "f0", null, parameterLogger);
 
 			Parameter13Vm = new ParameterDoubleReadonlyViewModel("01.13. Измеренный момент на валу двигателя [Нм]", "f0", null, parameterLogger);
 			Parameter14Vm = new ParameterDoubleReadonlyViewModel("01.14. Отфильтрованный измеренный момент на валу двигателя [Нм]", "f0", null, parameterLogger);
@@ -75,10 +75,10 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			Parameter15Vm = new ParameterDoubleReadonlyViewModel("01.15. Задание моментного тока [%]", "f0", null, parameterLogger);
 			Parameter16Vm = new ParameterDoubleReadonlyViewModel("01.16. Мгновенная мощность на валу двигателя [кВт]", "f0", null, parameterLogger);
 
-			Parameter17Vm = new ParameterDoubleReadonlyViewModel("01.17 Состояние цифровых входов", "f0", null, parameterLogger);
-			Parameter18Vm = new ParameterDoubleReadonlyViewModel("01.18 Состояние релейных выходов", "f0", null, parameterLogger);
+			Parameter17Vm = new ParameterDoubleReadonlyViewModel("01.17. Состояние цифровых входов", "f0", null, parameterLogger);
+			Parameter18Vm = new ParameterDoubleReadonlyViewModel("01.18. Состояние релейных выходов", "f0", null, parameterLogger);
 
-			Parameter19Vm = new ParameterDoubleReadonlyViewModel("01.19 Активный режим регулирования (Управление по скорости/Управление крутящим моментом)", "f0", null, parameterLogger); // (0 – регулятор скорости, 1 – внешний момент, 2 – их сумма, 3 - 0 )
+			Parameter19Vm = new ParameterDoubleReadonlyViewModel("01.19. Активный режим регулирования (Управление по скорости/Управление крутящим моментом)", "f0", null, parameterLogger); // (0 – регулятор скорости, 1 – внешний момент, 2 – их сумма, 3 - 0 )
 
 			ReadCycleCmd = new RelayCommand(ReadCycleFunc, () => !_readingInProgress); // TODO: check port opened
 			StopReadCycleCmd = new RelayCommand(StopReadingFunc, () => _readingInProgress);
