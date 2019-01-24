@@ -36,11 +36,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("101.01. Пропорциональный коэф. регулятора потока", "f8", -128.0m, 127.99609375m) { Increment = 0.00390625m };
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("101.02. Интегральный коэф. регулятора потока", "f6", -128.0m, 128.0m) { Increment = 0.000001m }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("101.01. Пропорциональный коэф. регулятора потока, Flux Kp", "f8", -128.0m, 127.99609375m) { Increment = 0.00390625m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("101.02. Интегральный коэф. регулятора потока, Flux Ki", "f6", -128.0m, 128.0m) { Increment = 0.000001m }; // min step = 1 / 16777216.0 = 0,000000059604644775390625
 
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("101.03. Ограничение выхода регулятора потока мин", "f0", -10000, 10000);
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("101.04. Ограничение выхода регулятора потока макс", "f0", -10000, 10000);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("101.03. Мин. ограничение выхода регулятора потока", "f0", -10000, 10000);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("101.04. Макс. ограничение выхода регулятора потока", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

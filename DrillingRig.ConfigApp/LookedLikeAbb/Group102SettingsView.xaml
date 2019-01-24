@@ -1,59 +1,29 @@
-﻿<UserControl
-	x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Group102SettingsView"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb"
-	xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck"
-	xmlns:parameterComboEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable"
-	xmlns:parameterBooleanEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanEditCheck"
-	mc:Ignorable="d"
-	d:DesignHeight="300"
-	d:DesignWidth="300">
+﻿<UserControl x:Class="DrillingRig.ConfigApp.LookedLikeAbb.Group102SettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:parameterDoubleEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterDoubleEditCheck" xmlns:parameterComboEditable="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterComboEditable" xmlns:parameterBooleanEditCheck="clr-namespace:DrillingRig.ConfigApp.LookedLikeAbb.Parameters.ParameterBooleanEditCheck" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition
-				Height="Auto" />
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<ScrollViewer>
-			<StackPanel
-				Orientation="Vertical">
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}" />
-				<parameterDoubleEditCheck:ParameterDecimalEditCheckView
-					DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}" />
-				<parameterComboEditable:ParameterComboEditableView
-					DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}" />
-				<parameterComboEditable:ParameterComboEditableView
-					DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}" />
-				<parameterBooleanEditCheck:ParameterBooleanEditCheckView
-					DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}" />
-				
+			<StackPanel Orientation="Vertical">
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter01Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter02Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter03Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter04Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter05Vm, Mode=OneTime}"/>
+				<parameterDoubleEditCheck:ParameterDecimalEditCheckView DataContext="{Binding Path=Parameter06Vm, Mode=OneTime}"/>
+				<parameterComboEditable:ParameterComboEditableView DataContext="{Binding Path=Parameter07Vm, Mode=OneTime}"/>
+				<parameterComboEditable:ParameterComboEditableView DataContext="{Binding Path=Parameter08Vm, Mode=OneTime}"/>
+				<parameterBooleanEditCheck:ParameterBooleanEditCheckView DataContext="{Binding Path=Parameter09Vm, Mode=OneTime}"/>
 			</StackPanel>
 		</ScrollViewer>
-		<Grid
-			Grid.Row="1">
+		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
+				<ColumnDefinition/>
+				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button
-				Content="Прочитать"
-				Command="{Binding Path=ReadSettingsCmd, Mode=OneTime}" />
-			<Button
-				Grid.Column="1"
-				Content="Записать"
-				Command="{Binding Path=WriteSettingsCmd, Mode=OneTime}" />
+			<Button Content="Прочитать" Command="{Binding Path=ReadSettingsCmd, Mode=OneTime}"/>
+			<Button Grid.Column="1" Content="Записать" Command="{Binding Path=WriteSettingsCmd, Mode=OneTime}"/>
 		</Grid>
 	</Grid>
 </UserControl>

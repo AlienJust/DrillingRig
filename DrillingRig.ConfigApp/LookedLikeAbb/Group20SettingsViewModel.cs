@@ -65,20 +65,20 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_engineSettingsStorage = engineSettingsStorage;
 			_engineSettingsStorageUpdatedNotify = engineSettingsStorageUpdatedNotify;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("20.01. Максимальная частота, Гц", "f1", 0, 6553.5m);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("20.01. Максимальная частота [Гц]", "f1", 0, 6553.5m);
 
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("20.02. Ограничение тока (амплитутда), А", "f0", -10000, 10000);
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("20.03. Минимальная частота (электрическая), Гц", "f1", -3276.8m, 3276.7m);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("20.02. Ограничение тока (амплитуда) [А]", "f0", -10000, 10000);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("20.03. Минимальная частота (электрическая) [Гц]", "f1", -3276.8m, 3276.7m);
 
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("20.04. Максимальный ток (амплитуда) для защиты, А", "f0", -32768, 32767);
-			Parameter05Vm = new ParameterDecimalEditCheckViewModel("20.05. Максимальное напряжение шины DC для защиты, В", "f0", -1000, 1000);
-			Parameter06Vm = new ParameterDecimalEditCheckViewModel("20.06. Минимальное напряжение шины DC, В", "f0", -1000, 1000);
-			Parameter07Vm = new ParameterDecimalEditCheckViewModel("20.07. Порог защиты по внешней температуре", "f0", -32768, 32767);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("20.04. Максимальный ток (амплитуда) для защиты [А]", "f0", -32768, 32767);
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("20.05. Максимальное напряжение шины DC для защиты [В]", "f0", -1000, 1000);
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("20.06. Минимальное напряжение шины DC [В]", "f0", -1000, 1000);
+			Parameter07Vm = new ParameterDecimalEditCheckViewModel("20.07. Порог защиты по внешней температуре [⁰С]", "f0", -32768, 32767);
 
 
-			Parameter08Vm = new ParameterDecimalEditCheckViewModel("20.08. Тепловая защита, граница перегрева, А² × 0.1сек", "f0", -10000, 10000);
-			Parameter09Vm = new ParameterDecimalEditCheckViewModel("20.09. Тепловая защита, номинальный ток, при котором остывание равно нагреву (RMS), А", "f0", -10000, 10000);
-			Parameter10Vm = new ParameterDecimalEditCheckViewModel("20.10. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED), Гц", "f0", -10000, 10000);
+			Parameter08Vm = new ParameterDecimalEditCheckViewModel("20.08. Тепловая защита: граница перегрева [А² × 0.1сек]", "f0", -10000, 10000);
+			Parameter09Vm = new ParameterDecimalEditCheckViewModel("20.09. Тепловая защита: I(RMS) [А]", "f0", -10000, 10000);
+			Parameter10Vm = new ParameterDecimalEditCheckViewModel("20.10. Скорость вращения двигателя (электрическая) ниже нулевого предела (ZERO_SPEED) [Гц]", "f0", -10000, 10000);
 
 			Parameter11Vm = new ParameterDecimalEditCheckViewModel("20.11. Минимальный момент", "f0", -10000, 10000); // TODO: WTF?
 			Parameter12Vm = new ParameterDecimalEditCheckViewModel("20.12. Максимальный момент", "f0", -10000, 10000); // TODO: WTF?

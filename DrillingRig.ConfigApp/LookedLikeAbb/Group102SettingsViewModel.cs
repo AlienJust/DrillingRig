@@ -45,14 +45,14 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("102.01. Постоянная времени ротора, мс", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("102.02. Индуктивность намагничивания, мкГн", "f5", -0.32768m, 0.32767m) { Increment = 0.00001m };
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("102.03. Индуктивность рассеяния статора, мкГн", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("102.04. Индуктивность рассеяния ротора, мкГн", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
-			Parameter05Vm = new ParameterDecimalEditCheckViewModel("102.05. Активное сопротивление статора", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
-			Parameter06Vm = new ParameterDecimalEditCheckViewModel("102.06. Число пар полюсов (не путать с числом полюсов) АД", "f0", 0, 31);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("102.01. Постоянная времени обмотки ротора, Tr [мс]", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("102.02. Индуктивность намагничивания, Lm [мкГн]", "f5", -0.32768m, 0.32767m) { Increment = 0.00001m };
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("102.03. Индуктивность рассеяния обмотки статора, Lsl [мкГн]", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("102.04. Индуктивность рассеяния обмотки ротора, Lrl [мкГн]", "f6", -0.032768m, 0.032768m) { Increment = 0.000001m };
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("102.05. Активное сопротивление обмотки статора, Rs [Ом]", "f4", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("102.06. Число пар полюсов", "f0", 0, 31);
 
-			Parameter07Vm = new ParameterComboEditableViewModel<int>("102.07. Число импульсов ДЧВ",
+			Parameter07Vm = new ParameterComboEditableViewModel<int>("102.07. Число импульсов датчика частоты вращения",
 				new[]
 				{
 					new ComboItemViewModel<int> {ComboText = "256", ComboValue = 0}

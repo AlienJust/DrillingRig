@@ -73,12 +73,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_imcwParameterVm = imcwParameterVm;
 
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("99.01. Номинальное напряжение двигателя (действующее), В", "f0", 0, 10000);
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("99.02. Номинальный ток двигателя, А", "f0", 0, 10000);
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("99.03. Номинальная частота двигателя, Гц", "f1", 8, 300);
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("99.04. Номинальная скорость двигателя, об/мин", "f0", 0, 18000);
-			Parameter05Vm = new ParameterDecimalEditCheckViewModel("99.05. Максимальная скорость двигателя, об/мин", "f0", 0, 18000);
-			Parameter06Vm = new ParameterDecimalEditCheckViewModel("99.06. Номинальная мощность двигателя, кВт", "f3", 0, 9000);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("99.01. Номинальное напряжение обмотки статора (действующее) [В]", "f0", 0, 10000);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("99.02. Номинальный ток обмотки статора [А]", "f0", 0, 10000);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("99.03. Номинальная частота напряжения питающей сети [Гц]", "f1", 8, 300);
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("99.04. Номинальная скорость вращения двигателя [об/мин]", "f0", 0, 18000);
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("99.05. Максимальная скорость вращения двигателя [об/мин]", "f0", 0, 18000);
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("99.06. Номинальная мощность на валу двигателя [кВт]", "f3", 0, 9000);
 			Parameter07Vm = new ParameterComboEditableViewModel<int>("99.07. Режим управления двигателем",
 				new[]
 				{
@@ -89,11 +89,11 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 
 			_imcwParameterVm.PropertyChanged += ImcwParameterVmOnPropertyChanged;
 
-			Parameter08Vm = new ParameterDecimalEditCheckViewModel("99.08. cos(φ)", "f2", 0, 1.0m);
-			Parameter09Vm = new ParameterDecimalEditCheckViewModel("99.09. Кпд двигателя, %", "f1", 0, 100.0m);
-			Parameter10Vm = new ParameterDecimalEditCheckViewModel("99.10. Масса двигателя, кг", "f0", 0, 10000);
-			Parameter11Vm = new ParameterDecimalEditCheckViewModel("99.11. Кратность момента (Mm/Mnom)", "f0", 0, 10000);
-			Parameter12Vm = new ParameterDecimalEditCheckViewModel("99.12. Конструктивная высота, мм", "f0", 0, 10000);
+			Parameter08Vm = new ParameterDecimalEditCheckViewModel("99.08. Номинальный коэффициент мощности cos(ϕ)", "f2", 0, 1.0m);
+			Parameter09Vm = new ParameterDecimalEditCheckViewModel("99.09. Номинальный КПД двигателя [%]", "f1", 0, 100.0m);
+			Parameter10Vm = new ParameterDecimalEditCheckViewModel("99.10. Масса двигателя [кг]", "f0", 0, 10000);
+			Parameter11Vm = new ParameterDecimalEditCheckViewModel("99.11. Кратность максимального момента (Mmax/Mnom)", "f0", 0, 10000);
+			Parameter12Vm = new ParameterDecimalEditCheckViewModel("99.12. Конструктивная высота [мм]", "f0", 0, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

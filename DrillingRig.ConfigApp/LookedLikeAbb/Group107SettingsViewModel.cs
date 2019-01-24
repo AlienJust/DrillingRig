@@ -34,8 +34,8 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("107.01. В режиме чоппера нижний порог напряжения", "f0", -10000, 10000);
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("107.02. В режиме чоппера верхний порог напряжения", "f0", -10000, 10000);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("107.01. Мин. напряжение в режиме чоппера", "f0", -10000, 10000);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("107.02. Макс. напряжение в режиме чоппера", "f0", -10000, 10000);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

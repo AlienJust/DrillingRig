@@ -35,9 +35,9 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("22.01. Темп нарастания частоты для задатчика интенсивности, Гц/с", "f1", -3276.7m, 3276.7m);
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("22.02. Темп спада частоты для задатчика интенсивности, Гц/с", "f1", -3276.8m, 3276.7m);
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("22.03. Темп спада частоты при аварийном останове привода, Гц/с", "f1", -3276.8m, 3276.7m);
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("22.01. Темп нарастания частоты задатчика интенсивности [Гц/с]", "f1", -3276.7m, 3276.7m);
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("22.02. Темп спада частоты задатчика интенсивности [Гц/с]", "f1", -3276.8m, 3276.7m);
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("22.03. Темп спада частоты при аварийном останове привода [Гц/с]", "f1", -3276.8m, 3276.7m);
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM

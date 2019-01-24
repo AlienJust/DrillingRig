@@ -38,12 +38,12 @@ namespace DrillingRig.ConfigApp.LookedLikeAbb {
 			_storageUpdatedNotify = storageUpdatedNotify;
 			_ainsCounter = ainsCounter;
 
-			Parameter01Vm = new ParameterDecimalEditCheckViewModel("27.01. Поток без ослабления поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
-			Parameter02Vm = new ParameterDecimalEditCheckViewModel("27.02. Минимальный поток с ослаблением поля, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
-			Parameter03Vm = new ParameterDecimalEditCheckViewModel("27.03. Максимально возможная компенсация потока, мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
-			Parameter04Vm = new ParameterDecimalEditCheckViewModel("27.04. Минимальный возможный поток (коэф. от номинала), мВб", "f3", -32.768m, 32.767m) { Increment = 0.001m };
-			Parameter05Vm = new ParameterDecimalEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напр-я, мс", "f3", -3.2768m, 3.2767m) { Increment = 0.0001m };
-			Parameter06Vm = new ParameterDecimalEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока, В", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter01Vm = new ParameterDecimalEditCheckViewModel("27.01. Номинальный поток без ослабления поля [мВб]", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter02Vm = new ParameterDecimalEditCheckViewModel("27.02. Минимальный поток с ослаблением поля [мВб]", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter03Vm = new ParameterDecimalEditCheckViewModel("27.03. Максимально возможная компенсация потока [мВб]", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter04Vm = new ParameterDecimalEditCheckViewModel("27.04. Минимально возможный поток (коэф. от номинального потока) [мВб]", "f3", -32.768m, 32.767m) { Increment = 0.001m };
+			Parameter05Vm = new ParameterDecimalEditCheckViewModel("27.05. Постоянная времени регулятора компенсации напряжения [мс]", "f3", -3.2768m, 3.2767m) { Increment = 0.0001m };
+			Parameter06Vm = new ParameterDecimalEditCheckViewModel("27.06. Порог компенсации напряжения DC за счет потока [В]", "f3", -32.768m, 32.767m) { Increment = 0.001m };
 
 			ReadSettingsCmd = new RelayCommand(ReadSettings, () => true); // TODO: read only when connected to COM
 			WriteSettingsCmd = new RelayCommand(WriteSettings, () => IsWriteEnabled); // TODO: read only when connected to COM
