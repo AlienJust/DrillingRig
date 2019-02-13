@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DrillingRig.ConfigApp")]
-[assembly: AssemblyCopyright("Copyright © HORIZONT LTD 2015-2018")]
+[assembly: AssemblyCopyright("Copyright © HORIZONT LTD 2015-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

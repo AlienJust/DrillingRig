@@ -40,6 +40,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		/// Частота в оборотах в минуту, которую пользователь вводит через окно
 		/// </summary>
 		private decimal? _fset;
+
 		private short _mset;
 		private short _set3;
 		private short _mmin;
@@ -47,10 +48,7 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		private ICommonTelemetry _telemetry;
 		private short? _mMinMaxAbs;
 
-		public AinCommandAndMinimalCommonTelemetryViewModel(ICommandSenderHost commandSenderHost,
-			ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger,
-			INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, IAinSettingsStorage ainSettingsStorage,
-			IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
+		public AinCommandAndMinimalCommonTelemetryViewModel(ICommandSenderHost commandSenderHost, ITargetAddressHost targerAddressHost, IUserInterfaceRoot userInterfaceRoot, ILogger logger, INotifySendingEnabled sendingEnabledControl, byte zeroBasedAinNumber, IAinSettingsStorage ainSettingsStorage, IAinSettingsStorageUpdatedNotify storageUpdatedNotify) {
 			_commandSenderHost = commandSenderHost;
 			_targerAddressHost = targerAddressHost;
 			_userInterfaceRoot = userInterfaceRoot;
@@ -90,7 +88,6 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			_cmdAdd10FsetHz = new RelayCommand(() => {
 				if (FsetHz.HasValue) FsetHz += 1.0m;
 			}, () => IsSendingEnabled);
-
 
 
 			_sendingEnabledControl.SendingEnabledChanged += sendingEnabled => { SendingEnabledControlOnSendingEnabledChanged(); };
@@ -222,32 +219,28 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				_logger.Log("Подготовка к отправке команды для АИН");
 				if (FsetHz == null)
 					throw new Exception("Нет настроек АИН1, необходимо их прочитать, чтобы знать число пар полюсов");
-				var fsetToSend = (short)(FsetHz.Value * 100.0m);
+				var fsetToSend = (short) (FsetHz.Value * 100.0m);
 				var cmd = new FirstAinCommand(_zeroBasedAinNumber, commandMode, fsetToSend, _mset, _set3, _mmin, _mmax);
 				_logger.Log("Команда для АИН поставлена в очередь, режим работы: " + ModeSetVariantForAinCommandExtensions.FromUshortToText(commandMode));
-				_commandSenderHost.Sender.SendCommandAsync(
-					_targerAddressHost.TargetAddress
-					, cmd
-					, TimeSpan.FromSeconds(0.2), 2
-					, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
-						try {
-							if (exception != null) {
-								throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
-							}
+				_commandSenderHost.Sender.SendCommandAsync(_targerAddressHost.TargetAddress, cmd, TimeSpan.FromSeconds(0.2), 2, (exception, bytes) => _userInterfaceRoot.Notifier.Notify(() => {
+					try {
+						if (exception != null) {
+							throw new Exception("Ошибка при передаче данных: " + exception.Message, exception);
+						}
 
-							try {
-								cmd.GetResult(bytes); // result is unused but GetResult can throw exception
-								_logger.Log("Команда для АИН была отправлена, получен хороший ответ");
-							}
-							catch (Exception exx) {
-								// TODO: log exception about error on answer parsing
-								throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
-							}
+						try {
+							cmd.GetResult(bytes); // result is unused but GetResult can throw exception
+							_logger.Log("Команда для АИН была отправлена, получен хороший ответ");
 						}
-						catch (Exception ex) {
-							_logger.Log(ex.Message);
+						catch (Exception exx) {
+							// TODO: log exception about error on answer parsing
+							throw new Exception("Ошибка при разборе ответа: " + exx.Message, exx);
 						}
-					}));
+					}
+					catch (Exception ex) {
+						_logger.Log(ex.Message);
+					}
+				}));
 			}
 			catch (Exception ex) {
 				_logger.Log("Не удалось поставить команду для АИН в очередь: " + ex.Message);
@@ -272,12 +265,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
 				if (ain1Settings != null && _fset.HasValue)
-					return (int)(_fset * ain1Settings.Np / 0.6m) / 100.0m; // т.к. могу задавать частоту с точностью 1 сГц (0.01 Гц) - происходит округление до ближайшего минимального значения кратного 0.01
+					return (int) (_fset * ain1Settings.Np / 0.6m) / 100.0m; // т.к. могу задавать частоту с точностью 1 сГц (0.01 Гц) - происходит округление до ближайшего минимального значения кратного 0.01
 				return null;
 			}
 			set {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				if (ain1Settings != null && value != null) {
+				if (ain1Settings != null && value != null && ain1Settings.Np != 0) {
 					_fset = Math.Round(value.Value * 60.0m / ain1Settings.Np);
 					RaisePropertyChanged(() => Fset);
 					RaisePropertyChanged(() => FsetHz);
@@ -293,7 +286,9 @@ namespace DrillingRig.ConfigApp.AinCommand {
 			get {
 				if (_telemetry == null) return null;
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return _telemetry.Fset.HighFirstSignedValue * 0.6 / ain1Settings?.Np; // полученная из телеметрии электрическая частота указана в 0.01Гц
+				if (ain1Settings != null && ain1Settings.Np != 0)
+					return _telemetry.Fset.HighFirstSignedValue * 0.6 / ain1Settings.Np; // полученная из телеметрии электрическая частота указана в 0.01Гц
+				return null;
 			}
 		}
 
@@ -308,7 +303,11 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public double? FsetSmallChange {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return 0.6 / ain1Settings?.Np;
+				if (ain1Settings != null && ain1Settings.Np != 0) {
+					return 0.6 / ain1Settings.Np;
+				}
+
+				return null;
 			}
 		}
 
@@ -337,17 +336,23 @@ namespace DrillingRig.ConfigApp.AinCommand {
 		public decimal? FsetMax {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
+				if (ain1Settings != null && ain1Settings.Np != 0) {
+					return PositiveMaximumFreqSet * 60.0m / ain1Settings.Np;
+				}
 
-				return PositiveMaximumFreqSet * 60.0m / ain1Settings?.Np;
+				return null;
 			}
 		}
-
 
 
 		public decimal? FsetMin {
 			get {
 				var ain1Settings = _ainSettingsStorage.GetSettings(0);
-				return PositiveMaximumFreqSet * -60.0m / ain1Settings?.Np;
+				if (ain1Settings != null && ain1Settings.Np != 0) {
+					return PositiveMaximumFreqSet * -60.0m / ain1Settings.Np;
+				}
+
+				return null;
 			}
 		}
 
@@ -399,11 +404,12 @@ namespace DrillingRig.ConfigApp.AinCommand {
 				if (_mmin < 0 && _mmax > 0 && _mmin + _mmax == 0 || _mmin == 0 && _mmax == 0) {
 					return _mmax;
 				}
+
 				return null;
 			}
 			set {
 				if (value.HasValue) {
-					Mmin = (short)-value.Value;
+					Mmin = (short) -value.Value;
 					Mmax = value.Value;
 				}
 			}
@@ -438,35 +444,35 @@ namespace DrillingRig.ConfigApp.AinCommand {
 
 		public RelayCommand SendAinCommandBits => _sendAinCommandBits;
 
-		public bool? McwReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x01) != 0x00;
-		public bool? McwReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x02) != 0x00;
-		public bool? McwReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x04) != 0x00;
-		public bool? McwReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x08) != 0x00;
-		public bool? McwReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x10) != 0x00;
-		public bool? McwReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x20) != 0x00;
-		public bool? McwReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x40) != 0x00;
-		public bool? McwReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.Second & 0x80) != 0x00;
-		public bool? McwReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x01) != 0x00;
-		public bool? McwReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x02) != 0x00;
-		public bool? McwReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Mcw.First & 0x04) != 0x00;
+		public bool? McwReceived0 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x01) != 0x00;
+		public bool? McwReceived1 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x02) != 0x00;
+		public bool? McwReceived2 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x04) != 0x00;
+		public bool? McwReceived3 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x08) != 0x00;
+		public bool? McwReceived4 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x10) != 0x00;
+		public bool? McwReceived5 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x20) != 0x00;
+		public bool? McwReceived6 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x40) != 0x00;
+		public bool? McwReceived7 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.Second & 0x80) != 0x00;
+		public bool? McwReceived8 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.First & 0x01) != 0x00;
+		public bool? McwReceived9 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.First & 0x02) != 0x00;
+		public bool? McwReceived10 => _telemetry == null ? (bool?) null : (_telemetry.Mcw.First & 0x04) != 0x00;
 
 
-		public bool? MswReceived0 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x01) != 0x00;
-		public bool? MswReceived1 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x02) != 0x00;
-		public bool? MswReceived2 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x04) != 0x00;
-		public bool? MswReceived3 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x08) != 0x00;
-		public bool? MswReceived4 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x10) != 0x00;
-		public bool? MswReceived5 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x20) != 0x00;
-		public bool? MswReceived6 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x40) != 0x00;
-		public bool? MswReceived7 => _telemetry == null ? (bool?)null : (_telemetry.Msw.Second & 0x80) != 0x00;
+		public bool? MswReceived0 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x01) != 0x00;
+		public bool? MswReceived1 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x02) != 0x00;
+		public bool? MswReceived2 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x04) != 0x00;
+		public bool? MswReceived3 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x08) != 0x00;
+		public bool? MswReceived4 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x10) != 0x00;
+		public bool? MswReceived5 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x20) != 0x00;
+		public bool? MswReceived6 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x40) != 0x00;
+		public bool? MswReceived7 => _telemetry == null ? (bool?) null : (_telemetry.Msw.Second & 0x80) != 0x00;
 
-		public bool? MswReceived8 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x01) != 0x00;
-		public bool? MswReceived9 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x02) != 0x00;
-		public bool? MswReceived10 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x04) != 0x00;
-		public bool? MswReceived11 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x08) != 0x00;
-		public bool? MswReceived12 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x10) != 0x00;
-		public bool? MswReceived13 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x20) != 0x00;
-		public bool? MswReceived14 => _telemetry == null ? (bool?)null : (_telemetry.Msw.First & 0x40) != 0x00;
+		public bool? MswReceived8 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x01) != 0x00;
+		public bool? MswReceived9 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x02) != 0x00;
+		public bool? MswReceived10 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x04) != 0x00;
+		public bool? MswReceived11 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x08) != 0x00;
+		public bool? MswReceived12 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x10) != 0x00;
+		public bool? MswReceived13 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x20) != 0x00;
+		public bool? MswReceived14 => _telemetry == null ? (bool?) null : (_telemetry.Msw.First & 0x40) != 0x00;
 
 
 		public double? MsetReceived => _telemetry?.Mset.HighFirstSignedValue;
