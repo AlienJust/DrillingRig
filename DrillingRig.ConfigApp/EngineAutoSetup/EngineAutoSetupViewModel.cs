@@ -227,10 +227,15 @@ namespace DrillingRig.ConfigApp.EngineAutoSetup {
 			if (zeroBasedAinNumber == 0) {
 				if (_needToUpdateLeftTable && settings != null) {
 					_uiRoot.Notifier.Notify(() => {
-						_needToUpdateLeftTable = false;
-						LeftTable.Update(null, settings, (decimal)_engineTestParams.F0);
-						LeftTable.J = 1;
-						LeftTable.RoverL = 0;
+						try {
+							_needToUpdateLeftTable = false;
+							LeftTable.Update(null, settings, (decimal)_engineTestParams.F0);
+							LeftTable.J = 1;
+							LeftTable.RoverL = 0;
+						}
+						catch (InvalidOperationException) {
+							_logger.Log("Ошибка обновления левой таблицы: похоже что настройки двигателя не были прочитаны.");
+						}
 					});
 				}
 				RightTable.Update(null, settings, (decimal)_engineTestParams.F0);
